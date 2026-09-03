@@ -70,7 +70,14 @@
     "status": "Available for FDE & AI engineering roles",
     "hud": {
       "location": "IRVINE → LOS ANGELES",
-      "system": "SYS · ONLINE",
+      "state": "STATE",
+      "online": "ONLINE",
+      "phases": {
+        "scatter": "SCATTER",
+        "lattice": "LATTICE",
+        "halo": "HALO"
+      },
+      "points": "WEBGL · {count, number} PTS",
       "build": "BUILD 2026.09",
       "render": "WEBGL · R3F"
     },

@@ -3,8 +3,9 @@
 import { ArrowDown } from "lucide-react";
 import { motion, useScroll, useTransform } from "motion/react";
 import { useTranslations } from "next-intl";
-import { useRef } from "react";
+import { useCallback, useRef, useState } from "react";
 import { HeroCanvas } from "@/components/three/hero-canvas";
+import type { Phase } from "@/components/three/hero-targets";
 import { ButtonLink } from "@/components/ui/button";
 import { Magnetic } from "@/components/ui/magnetic";
 
@@ -13,6 +14,11 @@ const ease = [0.16, 1, 0.3, 1] as const;
 export function Hero() {
   const t = useTranslations("Home");
   const ref = useRef<HTMLElement>(null);
+  // Live readout from the particle field; null until WebGL is up.
+  const [telemetry, setTelemetry] = useState<{ phase: Phase; count: number } | null>(null);
+  const onPhase = useCallback((phase: Phase, count: number) => {
+    setTelemetry({ phase, count });
+  }, []);
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start start", "end start"],
@@ -38,6 +44,7 @@ export function Hero() {
       <div className="pointer-events-none absolute inset-0 -z-10 lg:pointer-events-auto">
         <HeroCanvas
           progress={scrollYProgress}
+          onPhase={onPhase}
           className="absolute inset-x-0 top-[38%] h-[70vh] opacity-70 lg:inset-y-0 lg:left-auto lg:right-0 lg:h-full lg:w-[58%] lg:opacity-100"
         />
       </div>
@@ -53,8 +60,24 @@ export function Hero() {
             <span className="h-1.5 w-1.5 rounded-full bg-accent" />
             {t("hud.location")}
           </span>
-          <span>{t("hud.system")}</span>
-          <span>{t("hud.render")}</span>
+          <span className="inline-flex items-center gap-2">
+            {t("hud.state")}
+            <span className="text-fg/40">·</span>
+            {telemetry ? (
+              <motion.span
+                key={telemetry.phase}
+                className="inline-block text-accent"
+                initial={{ opacity: 0, y: 4 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, ease }}
+              >
+                {t(`hud.phases.${telemetry.phase}`)}
+              </motion.span>
+            ) : (
+              <span>{t("hud.online")}</span>
+            )}
+          </span>
+          <span>{telemetry ? t("hud.points", { count: telemetry.count }) : t("hud.render")}</span>
           <span>{t("hud.build")}</span>
         </div>
       </motion.div>

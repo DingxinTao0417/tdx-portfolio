@@ -70,7 +70,14 @@
     "status": "开放 FDE 与 AI 工程岗位机会",
     "hud": {
       "location": "尔湾 → 洛杉矶",
-      "system": "系统 · 在线",
+      "state": "状态",
+      "online": "在线",
+      "phases": {
+        "scatter": "噪声",
+        "lattice": "结构",
+        "halo": "运行"
+      },
+      "points": "WEBGL · {count, number} 点",
       "build": "构建 2026.09",
       "render": "WEBGL · R3F"
     },
