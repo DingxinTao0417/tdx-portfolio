@@ -10,7 +10,7 @@ function prefixMode(): string {
 
 /**
  * External pathname for a route in a given locale, honoring `localePrefix`.
- * `as-needed` → default locale has no prefix ("/about"), others do ("/zh/about").
+ * `as-needed` → default locale has no prefix ("/about"), others do ("/en/about").
  */
 export function localizedPath(locale: string, path: string): string {
   const clean = path === "/" ? "" : path.replace(/\/$/, "");

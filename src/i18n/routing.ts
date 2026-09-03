@@ -2,8 +2,8 @@ import { defineRouting } from "next-intl/routing";
 
 export const routing = defineRouting({
   locales: ["en", "zh"],
-  defaultLocale: "en",
-  // Default locale stays at `/`; only non-default locales get a prefix (`/zh`).
+  defaultLocale: "zh",
+  // Chinese stays at `/`; only English gets a locale prefix (`/en`).
   localePrefix: "as-needed",
   // Do not infer locale from cookie / Accept-Language — `/` must not redirect.
   localeDetection: false,

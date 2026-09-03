@@ -2,13 +2,15 @@
  * Global site configuration.
  * Everything personal lives here so it can be edited in one place.
  */
+const configuredSiteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim();
+
 export const site = {
   name: "Dingxin Tao",
   nameZh: "陶鼎新",
   initials: "DT",
   handle: "DingxinTao0417",
   // Public URL of the deployed site (used for canonical URLs, sitemap, OG images).
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://tdx-portfolio.vercel.app",
+  url: configuredSiteUrl || "https://tdx-portfolio.vercel.app",
   email: "taodingxin0417@gmail.com",
   location: { en: "Los Angeles, CA", zh: "美国 · 洛杉矶" },
   timeZone: "America/Los_Angeles",
