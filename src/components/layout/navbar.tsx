@@ -111,7 +111,8 @@ export function Navbar() {
             <div className="flex items-center gap-2">
               <LocaleSwitcher label={t("switchLocale")} className="hidden sm:flex" />
               <ThemeToggle label={t("toggleTheme")} />
-              <div className="hidden md:block">
+              {/* Hidden between lg and xl: the centred link row would collide with it there. */}
+              <div className="hidden md:block lg:hidden xl:block">
                 <ButtonLink href="/contact" size="sm" arrow>
                   {t("cta")}
                 </ButtonLink>

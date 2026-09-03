@@ -30,7 +30,7 @@ export function Hero() {
   return (
     <section
       ref={ref}
-      className="relative isolate min-h-[100svh] overflow-hidden pt-28 sm:pt-32"
+      className="relative isolate min-h-[100svh] overflow-hidden pt-28 sm:pt-32 short:pt-28"
       aria-labelledby="hero-title"
     >
       {/* Atmosphere */}
@@ -84,11 +84,11 @@ export function Hero() {
 
       <motion.div
         style={{ y: textY, opacity: textOpacity }}
-        className="container-x relative flex min-h-[calc(100svh-7rem)] flex-col justify-center pb-24"
+        className="container-x relative flex min-h-[calc(100svh-7rem)] flex-col justify-center pb-24 sm:min-h-[calc(100svh-8rem)] short:min-h-[calc(100svh-7rem)] short:pb-12"
       >
         <div className="max-w-3xl">
           <motion.p
-            className="eyebrow mb-6 flex items-center gap-3"
+            className="eyebrow mb-6 flex items-center gap-3 short:mb-4"
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease, delay: 0.1 }}
@@ -99,7 +99,7 @@ export function Hero() {
 
           <h1
             id="hero-title"
-            className="font-display text-[clamp(2.6rem,7.2vw,6.2rem)] font-bold leading-[0.98] tracking-[-0.03em]"
+            className="font-display text-[clamp(2.6rem,7.2vw,6.2rem)] font-bold leading-[0.98] tracking-[-0.03em] short:text-[clamp(2.4rem,min(7.2vw,10.5svh),6.2rem)]"
           >
             <span className="block overflow-hidden">
               <motion.span
@@ -124,7 +124,7 @@ export function Hero() {
           </h1>
 
           <motion.p
-            className="mt-8 max-w-xl text-base leading-relaxed text-muted sm:text-lg"
+            className="mt-8 max-w-xl text-base leading-relaxed text-muted sm:text-lg short:mt-4"
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease, delay: 0.5 }}
@@ -133,7 +133,7 @@ export function Hero() {
           </motion.p>
 
           <motion.div
-            className="mt-10 flex flex-wrap items-center gap-4"
+            className="mt-10 flex flex-wrap items-center gap-4 short:mt-6"
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease, delay: 0.62 }}
@@ -148,19 +148,22 @@ export function Hero() {
                 {t("ctaSecondary")}
               </ButtonLink>
             </Magnetic>
-          </motion.div>
 
-          <motion.div
-            className="mt-12 inline-flex items-center gap-3 rounded-full border border-line bg-surface px-4 py-2 text-sm text-fg/80 backdrop-blur"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.85 }}
-          >
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="absolute inline-flex h-full w-full animate-pulse-dot rounded-full bg-accent" />
-              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-accent" />
-            </span>
-            {t("status")}
+            {/* Status pill: its own row normally, joins the CTA row on short viewports. */}
+            <div className="mt-8 basis-full short:mt-0 short:basis-auto">
+              <motion.div
+                className="inline-flex items-center gap-3 rounded-full border border-line bg-surface px-4 py-2 text-sm text-fg/80 backdrop-blur"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.8, delay: 0.85 }}
+              >
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="absolute inline-flex h-full w-full animate-pulse-dot rounded-full bg-accent" />
+                  <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-accent" />
+                </span>
+                {t("status")}
+              </motion.div>
+            </div>
           </motion.div>
         </div>
       </motion.div>
@@ -168,7 +171,7 @@ export function Hero() {
       {/* Scroll hint */}
       <motion.div
         style={{ opacity: hudOpacity }}
-        className="pointer-events-none absolute bottom-8 left-1/2 hidden -translate-x-1/2 items-center gap-3 font-mono text-[10px] uppercase tracking-[0.22em] text-muted sm:flex"
+        className="pointer-events-none absolute bottom-8 left-1/2 hidden -translate-x-1/2 items-center gap-3 font-mono text-[10px] uppercase tracking-[0.22em] text-muted sm:flex short:bottom-4"
         aria-hidden
       >
         <span className="animate-float">

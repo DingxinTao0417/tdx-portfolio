@@ -2,6 +2,9 @@
 
 /* Dark mode is driven by the `.dark` class set by next-themes */
 @custom-variant dark (&:where(.dark, .dark *));
+/* Short viewports (small laptops, landscape phones): tighten vertical rhythm so
+   100svh sections actually fit in one screen. */
+@custom-variant short (@media (max-height: 760px));
 
 /* ------------------------------------------------------------------ */
 /* Design tokens                                                       */
