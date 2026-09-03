@@ -6,16 +6,13 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import * as THREE from "three";
 import type { ScenePalette } from "./palette";
 import { fragmentShader, vertexShader } from "./hero-shaders";
-import { buildTargets, PHASES, pointCount, type Phase } from "./hero-targets";
-
-export type HeroTelemetry = (phase: Phase, count: number) => void;
+import { buildTargets, PHASES } from "./hero-targets";
 
 type SceneProps = {
   palette: ScenePalette;
   reduced: boolean;
   /** 0..1 scroll progress of the hero, drives dispersal + a slow pull-back. */
   progressRef: React.RefObject<number>;
-  onPhase?: HeroTelemetry;
 };
 
 const damp = THREE.MathUtils.damp;
@@ -45,7 +42,6 @@ function Field({
   palette,
   reduced,
   progressRef,
-  onPhase,
   side,
 }: SceneProps & { side: number }) {
   const points = useRef<THREE.Points>(null);
@@ -55,7 +51,6 @@ function Field({
   const fade = useRef(0);
   const cycle = useRef({ from: 0, to: 0, elapsed: 0, hold: INTRO_HOLD });
   const raycaster = useMemo(() => new THREE.Raycaster(), []);
-  const count = pointCount(side);
 
   const geometry = useMemo(() => {
     const t = buildTargets(side);
@@ -119,11 +114,6 @@ function Field({
     };
   }, [gl]);
 
-  // Report the resting phase once so the HUD has something before the first morph.
-  useEffect(() => {
-    onPhase?.(PHASES[reduced ? 1 : 0], count);
-  }, [onPhase, reduced, count]);
-
   useFrame((state, delta) => {
     const m = material.current;
     if (!m) return;
@@ -167,7 +157,6 @@ function Field({
       c.to = (c.to + 1) % PHASES.length;
       c.elapsed = 0;
       c.hold = MORPH_TOTAL + HOLD;
-      onPhase?.(PHASES[c.to], count);
     }
     u.uFrom.value = c.from;
     u.uTo.value = c.to;
@@ -228,7 +217,6 @@ export default function HeroScene({
   palette,
   reduced,
   progressRef,
-  onPhase,
   active,
 }: SceneProps & { active: boolean }) {
   const [dpr, setDpr] = useState(1.5);
@@ -258,7 +246,6 @@ export default function HeroScene({
           palette={palette}
           reduced={reduced}
           progressRef={progressRef}
-          onPhase={onPhase}
           side={layout.side}
         />
       </Rig>

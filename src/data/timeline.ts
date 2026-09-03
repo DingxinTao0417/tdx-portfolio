@@ -10,7 +10,8 @@ export type EducationEntry = {
   classOf: string;
   location: Localized;
   focus: Localized[];
-  monogram: string;
+  logo: string;
+  logoFit: "cover" | "contain";
   hue: number;
 };
 
@@ -29,7 +30,8 @@ export const education: EducationEntry[] = [
       { en: "Machine learning for decision-making", zh: "面向决策的机器学习" },
       { en: "Data engineering & experimentation", zh: "数据工程与实验设计" },
     ],
-    monogram: "SC",
+    logo: "/education/usc.png",
+    logoFit: "cover",
     hue: 0,
   },
   {
@@ -46,7 +48,8 @@ export const education: EducationEntry[] = [
       { en: "Machine learning & AI", zh: "机器学习与人工智能" },
       { en: "Human-computer interaction", zh: "人机交互" },
     ],
-    monogram: "UCI",
+    logo: "/education/uci.png",
+    logoFit: "contain",
     hue: 210,
   },
 ];

@@ -1,4 +1,5 @@
 import { ArrowUpRight } from "lucide-react";
+import Image from "next/image";
 import type { Project } from "@/data/projects";
 import { pick } from "@/data/types";
 import { Link } from "@/i18n/navigation";
@@ -29,13 +30,28 @@ export function ProjectCard({
           "group relative flex h-full flex-col overflow-hidden rounded-3xl border border-line bg-bg-elevated shadow-soft transition-[border-color,box-shadow] duration-500 hover:border-accent/50 hover:shadow-glow",
         )}
       >
-        <div className={cn("relative overflow-hidden", size === "lg" ? "aspect-[16/9]" : "aspect-[4/3]")}>
-          <GenerativeCover
-            hue={project.hue}
-            motif={project.motif}
-            index={project.index}
-            className="transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
-          />
+        <div
+          className={cn(
+            "relative overflow-hidden",
+            project.cover ? "aspect-[2/1]" : size === "lg" ? "aspect-[16/9]" : "aspect-[4/3]",
+          )}
+        >
+          {project.cover ? (
+            <Image
+              src={project.cover.src}
+              alt={pick(project.cover.alt, locale)}
+              fill
+              sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+              className="object-cover object-top transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.02]"
+            />
+          ) : (
+            <GenerativeCover
+              hue={project.hue}
+              motif={project.motif}
+              index={project.index}
+              className="transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
+            />
+          )}
           <div className="absolute left-4 top-4 flex items-center gap-2">
             <Tag tone="accent">{categoryLabel}</Tag>
             <Tag>{project.year}</Tag>

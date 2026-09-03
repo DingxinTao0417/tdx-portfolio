@@ -125,7 +125,6 @@ export async function Footer() {
         <div className="flex flex-col gap-4 border-t border-line py-6 text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
           <p>{t("rights", { year })}</p>
           <div className="flex items-center gap-6">
-            <span className="font-mono uppercase tracking-[0.16em]">{t("madeIn")}</span>
             <a
               href="#top"
               className="inline-flex items-center gap-2 font-mono uppercase tracking-[0.16em] transition-colors hover:text-accent"

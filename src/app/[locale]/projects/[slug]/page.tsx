@@ -1,5 +1,6 @@
 import { ArrowLeft, ArrowUpRight, Check } from "lucide-react";
 import type { Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 import { ProjectCard } from "@/components/projects/project-card";
@@ -61,6 +62,9 @@ export default async function ProjectPage({ params }: Props) {
     { key: "problem", body: pick(project.problem, locale) },
     { key: "approach", body: pick(project.approach, locale) },
     { key: "impact", body: pick(project.impact, locale) },
+    ...(project.learning
+      ? [{ key: "learning" as const, body: pick(project.learning, locale) }]
+      : []),
   ] as const;
 
   const jsonLd = {
@@ -127,9 +131,23 @@ export default async function ProjectPage({ params }: Props) {
           </div>
 
           <Reveal delay={0.25} className="mt-12">
-            <div className="hud-corners relative aspect-[16/8] overflow-hidden rounded-3xl border border-line">
-              <GenerativeCover hue={project.hue} motif={project.motif} index={project.index} />
-            </div>
+            {project.cover ? (
+              <div className="hud-corners relative overflow-hidden rounded-2xl border border-line bg-bg-elevated p-1.5 sm:p-2">
+                <Image
+                  src={project.cover.src}
+                  alt={pick(project.cover.alt, locale)}
+                  width={project.cover.width}
+                  height={project.cover.height}
+                  priority
+                  sizes="(min-width: 1280px) 1200px, 100vw"
+                  className="h-auto w-full rounded-md"
+                />
+              </div>
+            ) : (
+              <div className="hud-corners relative aspect-[16/8] overflow-hidden rounded-3xl border border-line">
+                <GenerativeCover hue={project.hue} motif={project.motif} index={project.index} />
+              </div>
+            )}
           </Reveal>
         </div>
       </header>
@@ -155,7 +173,9 @@ export default async function ProjectPage({ params }: Props) {
             <section className="grid gap-4 sm:grid-cols-12">
               <div className="sm:col-span-3">
                 <p className="eyebrow flex items-center gap-2">
-                  <span className="text-accent">05</span>
+                  <span className="text-accent">
+                    {String(sections.length + 1).padStart(2, "0")}
+                  </span>
                   {t("detail.highlights")}
                 </p>
               </div>

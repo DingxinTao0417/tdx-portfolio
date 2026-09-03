@@ -73,7 +73,7 @@ export default async function AboutPage() {
             />
           </div>
           <Reveal delay={0.2} className="lg:col-span-5">
-            <Portrait caption={`${site.name} · ${site.nameZh} · ${locale === "zh" ? site.location.zh : site.location.en}`} />
+            <Portrait />
           </Reveal>
         </div>
       </header>

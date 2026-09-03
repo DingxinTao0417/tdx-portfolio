@@ -5,7 +5,6 @@ import dynamic from "next/dynamic";
 import { useTheme } from "next-themes";
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
-import type { HeroTelemetry } from "./hero-scene";
 import { palettes } from "./palette";
 
 const HeroScene = dynamic(() => import("./hero-scene"), {
@@ -20,12 +19,9 @@ const HeroScene = dynamic(() => import("./hero-scene"), {
 export function HeroCanvas({
   progress,
   className,
-  onPhase,
 }: {
   progress: MotionValue<number>;
   className?: string;
-  /** Fires when the particle field starts a new phase — used by the HUD readout. */
-  onPhase?: HeroTelemetry;
 }) {
   const wrapper = useRef<HTMLDivElement>(null);
   const inView = useInView(wrapper, { amount: 0.05 });
@@ -61,7 +57,6 @@ export function HeroCanvas({
         palette={palette}
         reduced={reduced}
         progressRef={progressRef}
-        onPhase={onPhase}
         active={inView}
       />
     </div>

@@ -1,0 +1,123 @@
+---
+title: "What I’ve Learned Using AI"
+description: "Practical notes on context, model choice, cost, and working effectively with coding agents."
+date: "2026-07-28"
+tags: ["AI Coding", "Claude Code", "Practice"]
+hue: 22
+---
+
+> **This is my setup, not a standard.** These are personal tradeoffs, and you may reasonably prefer something else.
+> For objective parameter references, see Omnigate’s [advanced Claude Code guide](https://omnigate.cc/docs/claude-code-advanced).
+>
+> - **Problem it addresses:** You have used AI coding tools for a while and feel they could work better, but you are not sure what to change.
+> - **For:** People who already have the basics working and use AI to write code every day.
+> - **Not for:** People who have not sent their first request yet. Start with the [quick-start guide](https://omnigate.cc/docs/introduction); this article will make more sense afterward.
+
+Everything here came from mistakes I made myself. It may not apply to everyone, but it has saved me a fair amount of time and money.
+
+For the two-model workflow I use after writing code—Claude generates, Codex looks for faults—see [My AI Coding Workflow](/en/blog/my-usage).
+
+## 1. Context is the only resource that really matters
+
+After using these tools for long enough, you realize that coding quality depends less on how smart the model is than on **how precise the context is**. The same model can behave like a senior engineer in a well-described project and like a new hire on day one when information is missing.
+
+My priority order is therefore: write a good `CLAUDE.md` > choose a more expensive model > install more plugins. The first has an immediate, lasting effect. The returns on the other two diminish quickly.
+
+Before asking it to fix a bug, provide the reproduction steps, the complete error, and the relevant file paths. Organizing those three things takes thirty seconds and can save five rounds of exploratory searching. Those five rounds consume more tokens than you might expect.
+
+## 2. Use /clear less and /compact more
+
+This is counterintuitive, but important.
+
+Many people assume a longer conversation always costs more, so they frequently run `/clear` and start over. In practice, **the older part of a long conversation can benefit from prompt caching**, while cached input is usually billed at a large discount. After `/clear`, the agent has to read the project structure again and reconstruct what you are doing. All of that becomes fresh input.
+
+There is only one time when I deliberately use `/clear`: **when I am switching to a completely unrelated task**. At that point, the old context is noise. Keeping it around costs money and lowers quality.
+
+When one task has simply accumulated too much context, I use `/compact`. It preserves the important decisions and discards the process, which is cheaper than rebuilding the entire mental model.
+
+I watch the context percentage in the status line and usually compact at around 70%.
+
+## 3. Match the model to the job
+
+Not every task needs the most expensive model. This is how I divide them:
+
+- **Change one or two lines, write tests, format code, draft a commit message, or translate documentation** → a small model such as Haiku. Accuracy here depends mostly on how clear the task is, not on maximum model capability.
+- **Day-to-day development** → a mid-tier model such as Sonnet. This tier is enough for most coding work and usually offers the best value.
+- **Architecture decisions, complex refactors, strange bugs, or performance work** → the strongest model available. In these cases, the cost of rework from a weaker model is much higher than the price difference.
+
+My rule of thumb: **if you can tell at a glance whether the result is correct, use the cheaper model; if you need to review it carefully before you can tell, use the stronger one.** In the first case, a mistake is cheap. In the second, you may not even notice it.
+
+It is also worth setting `ANTHROPIC_DEFAULT_HAIKU_MODEL`. Claude Code uses a small model for background work such as session titles and summaries, so the default selected there affects a cost you might otherwise never see.
+
+## 4. Ask for one thing at a time
+
+“While you’re there, change this too” is a reliable way to lower quality.
+
+Give an agent three requests at once and it may finish the first, rush the second, and forget the third. Worse, it may produce an awkward compromise in an attempt to satisfy all three. During review, it also becomes harder to tell which change belongs to which request.
+
+Split the work and verify each piece when it is done. The total time is rarely longer because you avoid debugging one large, tangled diff.
+
+## 5. Make the agent verify its own work
+
+**If you ask it to write code but never let it run checks, you are creating rework for yourself.**
+
+At minimum, it should be able to run the tests and type checker. Put the commands in `CLAUDE.md`, allow them in `settings.json`, and state the expectation clearly: “Run xxx when you finish. If it fails, keep fixing it until it passes.”
+
+That feedback loop creates a step change in quality because the agent sees the failure and gets a chance to correct it. Without the loop, what it returns is only “I think this should work.”
+
+For actions that must happen every time, such as formatting, use a hook instead of relying on a reminder in the prompt.
+
+## 6. The right way to use plan mode
+
+If a change touches more than three files, I start with a plan.
+
+The reason is not simply that the agent might make a mistake. **The agent and I often have different ideas about how the change should be made.** That mismatch takes a minute to catch while reading a plan and twenty minutes to untangle in a diff.
+
+My usual rhythm is to let it propose a plan, respond with something concrete such as “Do not handle step two that way; do this instead,” and repeat once or twice until the approach is settled. The implementation phase then needs very little intervention.
+
+## 7. Turn repeated instructions into reusable commands
+
+A meaningful share of the prompts you type every day are repeated. Turn them into custom commands.
+
+The benefit is not just less typing. Once a prompt lives in a file, you start improving it: adding boundaries, defining the output format, and spelling out what must not happen. A prompt written in the moment usually stops at “good enough.”
+
+The commands I use most often review the current diff, repair failing tests until they pass, add tests for a module, and explain why a piece of code was written a certain way.
+
+## 8. Do not install everything
+
+More MCP servers, plugins, and agent collections do not automatically make the agent stronger.
+
+There are three reasons. First, every MCP server contributes tool definitions to the context; ten services can add thousands of tokens of fixed overhead. Second, more options can make tool selection less accurate. Third, third-party hooks and scripts run on your machine with your permissions. That is a real security risk, especially when malicious clones can be disguised as popular configuration repositories.
+
+My actual setup is small: context7 for current documentation so the agent does not invent APIs from stale memory, plus Playwright or Chrome DevTools when I am doing frontend work. That is it.
+
+With third-party agent collections, I recommend reading and copying individual files you understand instead of installing an entire bundle.
+
+## 9. What it is good at—and what it is not
+
+It is good at boilerplate, tests, mechanical refactors across files, reading and explaining an unfamiliar codebase, translating error messages into plain language, and writing one-off scripts.
+
+It is not good at deciding what the business should do, admitting uncertainty when information is missing, changing old systems that depend on many unwritten conventions, or finding the root cause of a performance issue without profiling data.
+
+The most dangerous output is **code that looks completely reasonable but rests on a false assumption**. An agent may assume, for example, that a function is idempotent when it is not. This kind of error is hard to spot in review because nothing in the code itself looks unusual. The only defense is to **understand the critical paths yourself instead of relying on the agent’s explanation**.
+
+## 10. Where the cost actually comes from
+
+The largest costs are usually not individual requests. They are:
+
+- repeated rework because the context was incomplete
+- long conversations that mix several unrelated tasks
+- using a large model where a small one would do
+- leaving `max_tokens` unconstrained and receiving two thousand lines of explanation you will never read
+
+Together, these account for most of the waste. Fixing them saves more than obsessing over small differences in model pricing.
+
+Review the [Omnigate usage logs](https://omnigate.cc/usage-logs) periodically. Look for requests with unusually high token counts; they often reveal something like a complete file being resent over and over.
+
+## Final thought
+
+The tools are changing quickly, and some of these conclusions may no longer hold six months from now. One idea probably will: **AI amplifies your judgment; it does not replace it.** If you can state clearly what you want, it can help a great deal. If you have not worked out what you want, it will only help you produce the wrong thing faster.
+
+Questions are welcome—[get in touch](/en/contact).
+
+_Originally published in the [Omnigate documentation](https://omnigate.cc/docs/insights)._

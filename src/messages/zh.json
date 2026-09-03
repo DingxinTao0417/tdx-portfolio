@@ -62,25 +62,11 @@
   },
   "Home": {
     "eyebrow": "AI 全栈开发工程师 · 前沿部署工程师（FDE）",
-    "headline1": "我把 AI 产品",
-    "headline2": "从原型一路送进生产环境。",
-    "intro": "我是陶鼎新（Dingxin Tao）。我站在模型、数据与客户之间，把模糊的问题变成能在真实世界里稳定运行的系统。本科就读于加州大学尔湾分校计算机科学，研究生就读于南加州大学分析学。",
+    "headline1": "AI 正在改写起跑线，",
+    "headline2": "我想抓住这次机会。",
+    "intro": "我是陶鼎新（Dingxin Tao），一名 AI Native 开发者。本科在加州大学尔湾分校读计算机科学，研究生在南加州大学读分析学。做项目时，我更关心它到底解决了什么问题，以及最后能不能稳定地跑起来。",
     "ctaPrimary": "看看作品",
     "ctaSecondary": "联系我",
-    "status": "开放 FDE 与 AI 工程岗位机会",
-    "hud": {
-      "location": "尔湾 → 洛杉矶",
-      "state": "状态",
-      "online": "在线",
-      "phases": {
-        "scatter": "噪声",
-        "lattice": "结构",
-        "halo": "运行"
-      },
-      "points": "WEBGL · {count, number} 点",
-      "build": "构建 2026.09",
-      "render": "WEBGL · R3F"
-    },
     "scrollHint": "向下滚动探索",
     "marquee": [
       "React",
@@ -89,25 +75,22 @@
       "Python",
       "LangGraph",
       "RAG",
-      "评测体系",
       "PostgreSQL",
-      "pgvector",
       "FastAPI",
       "Three.js",
       "AWS",
       "Vercel",
-      "Docker",
-      "LLM Ops"
+      "Docker"
     ],
     "whatIDo": {
       "eyebrow": "01 — 我做什么",
-      "title": "三个领域，",
-      "titleAccent": "一个人闭环。",
+      "title": "AI 工程、全栈产品，",
+      "titleAccent": "以及落地部署。",
       "items": [
         {
           "title": "AI 工程",
-          "body": "RAG 管线、智能体工作流、评测体系与安全护栏——经得起真实用户和真实数据的考验。",
-          "tags": ["RAG", "智能体", "评测", "微调"]
+          "body": "企业级 RAG、AI 智能体和自动化工作流，也包括与它们配套的评测体系和安全护栏。",
+          "tags": ["企业级 RAG", "AI 智能体", "工作流", "评测体系"]
         },
         {
           "title": "全栈产品",
@@ -116,16 +99,16 @@
         },
         {
           "title": "前沿部署（FDE）",
-          "body": "深入客户现场：需求发现、系统集成、上线部署、持续迭代，直到方案在客户的真实环境里跑通，而不只是在演示里。",
-          "tags": ["需求发现", "系统集成", "上线", "赋能"]
+          "body": "和客户一起梳理需求、接入现有系统、推进上线，再根据实际使用情况继续调整。",
+          "tags": ["需求梳理", "系统集成", "推进上线", "持续迭代"]
         }
       ]
     },
     "featured": {
       "eyebrow": "02 — 精选项目",
-      "title": "走出实验室的",
-      "titleAccent": "系统。",
-      "body": "几个让模型质量、产品打磨与部署现实必须相互妥协的项目。",
+      "title": "最近做过的",
+      "titleAccent": "三个项目。",
+      "body": "视频创作工作台、本地优先桌面应用和模型 API 网关。下面只写我实际完成的部分。",
       "cta": "全部项目"
     },
     "facts": {
@@ -169,7 +152,7 @@
     "eyebrow": "项目",
     "title": "精选",
     "titleAccent": "作品。",
-    "intro": "生产级 AI 系统、全栈产品与前沿部署项目。每一个都真实上线、可度量、并随真实用户持续迭代。",
+    "intro": "这里收录的是我实际参与开发或部署的项目，涵盖 AI 内容生产、本地桌面软件和模型 API 网关。",
     "filters": {
       "all": "全部",
       "ai": "AI",
@@ -184,6 +167,7 @@
       "problem": "问题",
       "approach": "方案",
       "impact": "成果",
+      "learning": "收获",
       "highlights": "亮点",
       "more": "更多项目",
       "nextProject": "下一个项目"
@@ -292,8 +276,8 @@
   },
   "Contact": {
     "eyebrow": "联系方式",
-    "title": "一起做点",
-    "titleAccent": "能上线的东西。",
+    "title": "想聊工作或项目，",
+    "titleAccent": "直接联系我。",
     "intro": "无论是前沿部署工程师岗位、一个需要走出实验室的 AI 产品，还是项目合作——都欢迎联系我。",
     "responseTime": "我通常会在 48 小时内回复。",
     "directEmail": "更喜欢发邮件？",
@@ -332,16 +316,15 @@
     }
   },
   "Footer": {
-    "tagline": "一起做点",
-    "taglineAccent": "能上线的东西。",
+    "tagline": "想聊工作或项目，",
+    "taglineAccent": "直接联系我。",
     "cta": "开始对话",
     "navigate": "导航",
     "connect": "联系",
     "colophon": "关于本站",
-    "colophonBody": "由陶鼎新设计与开发。基于 Next.js 16、React 19、TypeScript、Tailwind CSS v4、React Three Fiber 与 Motion 构建。",
+    "colophonBody": "由陶鼎新设计与开发，并与 AI 协作完成。基于 Next.js 16、React 19、TypeScript、Tailwind CSS v4、React Three Fiber 与 Motion 构建。",
     "source": "GitHub 源码",
     "rights": "© {year} 陶鼎新 Dingxin Tao. 保留所有权利。",
-    "madeIn": "于加州制作",
     "backToTop": "回到顶部"
   },
   "NotFound": {

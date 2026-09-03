@@ -1,12 +1,6 @@
 import type { Localized } from "./types";
 
-/**
- * Project case studies.
- *
- * NOTE: These entries are representative of the kind of AI / full-stack / FDE
- * work described on this site. Replace titles, metrics and links with your own
- * real projects — the UI adapts automatically.
- */
+/** Project case studies backed by Dingxin Tao's actual repositories and deployments. */
 
 export type ProjectCategory = "ai" | "fullstack" | "data" | "fde";
 
@@ -19,14 +13,16 @@ export type Project = {
   problem: Localized;
   approach: Localized;
   impact: Localized;
+  learning?: Localized;
   highlights: Localized[];
   role: Localized;
   year: string;
   category: ProjectCategory;
   stack: string[];
   links: { github?: string; demo?: string };
+  cover?: { src: string; alt: Localized; width: number; height: number };
   featured?: boolean;
-  /** Hue (0–360) used to tint the generative cover artwork. */
+  /** Hue (0-360) used to tint the generative cover artwork. */
   hue: number;
   /** Visual motif for the generative cover. */
   motif: "orbit" | "grid" | "wave" | "stack" | "graph" | "prism";
@@ -35,256 +31,219 @@ export type Project = {
 
 export const projects: Project[] = [
   {
-    slug: "atlas-enterprise-rag",
+    slug: "multimix",
     index: "01",
-    title: { en: "Atlas — Enterprise RAG Platform", zh: "Atlas — 企业级 RAG 平台" },
+    title: { en: "MultiMix", zh: "MultiMix" },
     tagline: {
-      en: "Grounded answers over 40k internal documents, deployed inside a customer's VPC.",
-      zh: "覆盖 4 万份内部文档的有据可依问答系统，部署在客户自己的 VPC 内。",
+      en: "A conversational workspace for creating and organizing scripts, images, and videos.",
+      zh: "把文案、图片和视频创作放进同一个对话工作台。",
     },
     description: {
-      en: "A retrieval-augmented generation platform that lets operations teams ask natural-language questions over policies, runbooks and tickets — with citations, access control and an evaluation loop that keeps quality honest.",
-      zh: "一个检索增强生成（RAG）平台，让运营团队可以用自然语言查询政策、运维手册与工单——带引用、权限控制，以及一套让质量保持诚实的评测回路。",
+      en: "MultiMix is a conversational workspace for short-form video production. Users can describe what they want to make, organize reference material, and save generated scripts, images, and videos into separate libraries for later search and reuse.",
+      zh: "MultiMix 是一个面向短视频内容生产的对话式工作台。用户可以直接提出创作需求、整理参考资料，并把生成的文案、图片和视频保存到对应资源库，方便之后检索、复用和继续生成。",
     },
     problem: {
-      en: "Knowledge was scattered across wikis, PDFs and a ticketing system. Search returned documents, not answers, and a first LLM prototype hallucinated on edge cases nobody had tested.",
-      zh: "知识散落在 wiki、PDF 和工单系统里。搜索返回的是文档而不是答案，而第一个 LLM 原型在没人测过的边缘场景上会产生幻觉。",
+      en: "The project was built to keep creative requests, source material, generated assets, and later revisions in one workspace instead of scattering that context across separate tools.",
+      zh: "这个项目把创作需求、参考资料、生成结果和后续修改放在同一个工作区里，减少在不同工具之间反复整理上下文的过程。",
     },
     approach: {
-      en: "Hybrid retrieval (BM25 + pgvector) with document-level ACLs, a re-ranking stage, structured citations, and a 300-question golden set scored nightly. Streaming UI in Next.js; ingestion and orchestration in FastAPI workers.",
-      zh: "混合检索（BM25 + pgvector）叠加文档级权限控制、重排序阶段、结构化引用，以及每晚自动评分的 300 题黄金测试集。前端为 Next.js 流式界面，摄取与编排由 FastAPI 工作进程完成。",
+      en: "The Next.js frontend uses one conversation entry for both creation and knowledge capture. A FastAPI backend handles assets and video orchestration, with PostgreSQL, Redis, and RQ for persistent and asynchronous work. Artifact storage can run locally or use S3 and Supabase.",
+      zh: "前端使用 Next.js，把内容生成和资料整理统一到一个对话入口。FastAPI 后端负责资产管理与视频编排，PostgreSQL、Redis 和 RQ 分别承载持久化数据与异步任务，产物可以存到本地、S3 或 Supabase。",
     },
     impact: {
-      en: "Answer faithfulness rose from 71% to 94% on the golden set, median time-to-answer dropped from minutes of searching to ~6 seconds, and the system passed the customer's security review on the first attempt.",
-      zh: "黄金测试集上的答案忠实度从 71% 提升到 94%，中位回答时间从数分钟的检索缩短到约 6 秒，并一次性通过客户的安全评审。",
+      en: "The deployed frontend covers the workflow for scripts, images, and video projects. The backend can run as separate API, worker, and scheduler services, while offline tests cover the main product flows and security contracts.",
+      zh: "目前上线的前端已经覆盖文案、图片和视频工程流程。后端可以拆分为 API、不同任务 Worker 和调度器独立运行，离线测试覆盖主要产品流程与安全约束。",
     },
     highlights: [
-      { en: "Hybrid BM25 + vector retrieval with per-document ACL filtering", zh: "BM25 + 向量混合检索，按文档级权限过滤" },
-      { en: "Nightly eval harness with faithfulness / relevance / latency dashboards", zh: "每晚自动评测，含忠实度 / 相关性 / 延迟看板" },
-      { en: "Token-streamed answers with inline, clickable citations", zh: "逐 token 流式回答，内联可点击引用" },
-      { en: "Zero-egress deployment inside the customer's AWS VPC", zh: "零出口流量，部署在客户 AWS VPC 内" },
+      {
+        en: "One conversation entry for both content creation and knowledge capture",
+        zh: "用同一个对话入口处理内容创作与资料沉淀",
+      },
+      {
+        en: "Separate libraries for source assets, scripts, images, and videos",
+        zh: "来源资产、文案、图片和视频分库管理",
+      },
+      {
+        en: "Queued video orchestration with independent API, worker, and scheduler roles",
+        zh: "视频编排采用任务队列，API、Worker 与调度器可独立运行",
+      },
+      {
+        en: "Public media search with source compliance checks and persistent artifact storage",
+        zh: "公共素材搜索包含来源合规检查，并将采用的素材持久化保存",
+      },
     ],
-    role: { en: "Forward Deployed Engineer · end-to-end owner", zh: "前沿部署工程师 · 端到端负责" },
-    year: "2025",
-    category: "fde",
-    stack: ["Next.js", "TypeScript", "FastAPI", "PostgreSQL", "pgvector", "LangGraph", "AWS", "Docker"],
-    links: { github: "https://github.com/DingxinTao0417" },
+    role: { en: "AI product and full-stack development", zh: "AI 产品与全栈开发" },
+    year: "2026",
+    category: "ai",
+    stack: [
+      "Next.js",
+      "TypeScript",
+      "FastAPI",
+      "Python",
+      "PostgreSQL",
+      "Redis",
+      "RQ",
+      "Supabase",
+      "Remotion",
+      "Railway",
+    ],
+    links: {
+      github: "https://github.com/DingxinTao0417/MultiMix-Frontend",
+      demo: "https://multimix-frontend.vercel.app/",
+    },
+    cover: {
+      src: "/projects/multimix.png",
+      width: 1920,
+      height: 945,
+      alt: {
+        en: "MultiMix new video project workspace",
+        zh: "MultiMix 新建视频项目界面",
+      },
+    },
     featured: true,
     hue: 22,
     motif: "graph",
     metrics: [
-      { value: "94%", label: { en: "faithfulness", zh: "答案忠实度" } },
-      { value: "~6s", label: { en: "median answer", zh: "中位回答时间" } },
-      { value: "40k", label: { en: "documents indexed", zh: "已索引文档" } },
+      { value: "3", label: { en: "content output types", zh: "类内容产物" } },
+      { value: "4", label: { en: "content libraries", zh: "个内容资源库" } },
+      { value: "5", label: { en: "backend runtime roles", zh: "个后端运行角色" } },
     ],
   },
   {
-    slug: "forge-agent-workflows",
+    slug: "opc-workspace",
     index: "02",
-    title: { en: "Forge — Agentic Workflow Builder", zh: "Forge — 智能体工作流构建器" },
+    title: { en: "opc-workspace", zh: "opc-workspace" },
     tagline: {
-      en: "Visual builder for tool-calling agents with typed contracts and replayable runs.",
-      zh: "面向工具调用型智能体的可视化构建器，带类型化契约与可回放的运行记录。",
+      en: "A local-first desktop workspace for the day-to-day work of a one-person company.",
+      zh: "为一人公司的日常工作打造的本地优先桌面工作台。",
     },
     description: {
-      en: "A node-based editor where teams compose agents from typed tools, approval gates and memory, then run them with full tracing. Every run is replayable, diffable and testable.",
-      zh: "一个基于节点的编辑器，团队可以用类型化工具、审批节点与记忆模块组合智能体，并在完整链路追踪下运行。每一次运行都可回放、可对比、可测试。",
+      en: "opc-workspace brings tasks, projects, clients, an inbox, focus sessions, and local business data into one offline-capable desktop application. Its core data stays in SQLite and controlled directories on the user's own computer.",
+      zh: "opc-workspace 把任务、项目、客户、收件箱、专注时间和本地业务数据放进一个可离线使用的桌面应用。核心数据保存在用户自己电脑上的 SQLite 数据库与受控文件目录中。",
     },
     problem: {
-      en: "Agent prototypes lived in notebooks. Nobody could tell why a run failed, prompts drifted silently, and every integration was a bespoke script.",
-      zh: "智能体原型都活在 notebook 里。没人说得清一次运行为什么失败，prompt 悄悄漂移，每个集成都是一次性脚本。",
+      en: "Independent developers, freelancers, creators, and consultants often move between task tools, project sheets, client records, and timers. The project gives those workflows one shared set of local business facts.",
+      zh: "独立开发者、自由职业者和内容创作者经常要在任务工具、项目表格、客户资料与计时器之间切换。这个项目用一套本地业务数据把这些工作串在一起。",
     },
     approach: {
-      en: "Zod-typed tool schemas shared across the editor and runtime, a LangGraph-based executor with checkpointing, an OpenTelemetry trace viewer, and a regression suite that replays recorded runs against new prompts.",
-      zh: "编辑器与运行时共享 Zod 类型化工具 schema，基于 LangGraph 的带检查点执行器，OpenTelemetry 链路查看器，以及可用新 prompt 回放历史运行的回归测试套件。",
+      en: "A React and TypeScript interface talks to a Go sidecar over a versioned local API. Tauri manages the desktop shell and sidecar lifecycle, while SQLite migrations, controlled file storage, and backup and restore flows protect local data. The installed app bundles its runtime dependencies.",
+      zh: "React 与 TypeScript 界面通过版本化本地 API 访问 Go Sidecar。Tauri 负责桌面外壳和 Sidecar 生命周期，SQLite 迁移、受控文件存储与备份恢复流程负责保护本地数据。安装包已经包含应用运行所需的依赖。",
     },
     impact: {
-      en: "Cut time to build a new internal agent from days to hours; regression suite caught 3 prompt regressions before they reached users.",
-      zh: "新建一个内部智能体的时间从数天缩短到数小时；回归套件在 3 次 prompt 回退触达用户之前就将其拦截。",
+      en: "Version 0.1.1 can produce unsigned Windows test installers in both EXE and MSI formats. The current build supports the core offline workflow, including task acceptance and rework, project and client records, focus tracking, search, and data backup.",
+      zh: "v0.1.1 已经可以生成 EXE 与 MSI 两种 Windows 测试安装包。当前版本支持任务验收与返工、项目和客户资料、专注计时、跨模块搜索以及数据备份等核心离线流程。",
     },
     highlights: [
-      { en: "Shared Zod schemas: one source of truth for editor, runtime and docs", zh: "共享 Zod schema：编辑器、运行时与文档的唯一真相来源" },
-      { en: "Checkpointed execution with human-in-the-loop approval gates", zh: "带检查点的执行，支持人在回路的审批节点" },
-      { en: "Trace viewer with token/cost attribution per step", zh: "链路查看器，按步骤归因 token 与成本" },
-      { en: "Record-and-replay regression testing for prompts and tools", zh: "针对 prompt 与工具的录制回放式回归测试" },
+      {
+        en: "Six-state task lifecycle with subtasks, deliverables, acceptance, and rework",
+        zh: "六状态任务生命周期，包含子任务、产出提交、验收与返工",
+      },
+      {
+        en: "Versioned SQLite migrations with backup, restore, and controlled file storage",
+        zh: "版本化 SQLite 迁移，配合备份恢复与受控文件存储",
+      },
+      {
+        en: "Tauri desktop package with an embedded Go sidecar",
+        zh: "Tauri 桌面安装包内置 Go Sidecar",
+      },
+      {
+        en: "Local search and command palette across tasks, projects, clients, and inbox items",
+        zh: "通过本地搜索和命令面板直达任务、项目、客户与收件箱事项",
+      },
     ],
-    role: { en: "AI Full-Stack Engineer · architecture & frontend lead", zh: "AI 全栈工程师 · 架构与前端负责人" },
-    year: "2025",
-    category: "ai",
-    stack: ["React", "TypeScript", "Zod", "LangGraph", "Node.js", "PostgreSQL", "OpenTelemetry", "Vercel"],
-    links: { github: "https://github.com/DingxinTao0417" },
-    featured: true,
-    hue: 36,
-    motif: "orbit",
-    metrics: [
-      { value: "days → hrs", label: { en: "build time", zh: "构建时间" } },
-      { value: "100%", label: { en: "runs replayable", zh: "运行可回放" } },
-      { value: "3", label: { en: "regressions caught", zh: "拦截的回退" } },
-    ],
-  },
-  {
-    slug: "lens-llm-observability",
-    index: "03",
-    title: { en: "Lens — LLM Observability", zh: "Lens — LLM 可观测性平台" },
-    tagline: {
-      en: "Real-time quality, cost and latency for every model call in production.",
-      zh: "生产环境中每一次模型调用的实时质量、成本与延迟。",
-    },
-    description: {
-      en: "An observability layer that ingests LLM traces, scores outputs with model-graded rubrics, and surfaces regressions on a live dashboard with alerting.",
-      zh: "一个可观测性层：摄取 LLM 链路数据，用模型评分量规打分，并在带告警的实时看板上暴露回退。",
-    },
-    problem: {
-      en: "Teams shipped model changes blind. Cost spikes and quality dips were discovered by customers first.",
-      zh: "团队在盲飞中发布模型改动。成本飙升与质量下滑都是客户先发现的。",
-    },
-    approach: {
-      en: "OpenTelemetry-compatible ingestion into ClickHouse, async model-graded evals sampled by traffic, and a Next.js dashboard with server-streamed charts. Alerts route to Slack with a diff of the offending prompt.",
-      zh: "兼容 OpenTelemetry 的数据摄取写入 ClickHouse，按流量采样的异步模型评分，以及服务端流式图表的 Next.js 看板。告警推送到 Slack，并附带问题 prompt 的差异对比。",
-    },
-    impact: {
-      en: "Detected a 3× cost regression within 12 minutes of deploy; became the default pre-release gate for prompt changes.",
-      zh: "在部署后 12 分钟内发现一次 3 倍成本回退；成为 prompt 变更的默认发布前门禁。",
-    },
-    highlights: [
-      { en: "OTel-native ingestion, 50k spans/min on a single node", zh: "OTel 原生摄取，单节点 5 万 span/分钟" },
-      { en: "Model-graded rubrics with sampled human calibration", zh: "模型评分量规 + 抽样人工校准" },
-      { en: "Server-streamed dashboards with sub-second refresh", zh: "服务端流式看板，亚秒级刷新" },
-    ],
-    role: { en: "Full-Stack Engineer · data pipeline & dashboard", zh: "全栈工程师 · 数据管线与看板" },
-    year: "2024",
-    category: "ai",
-    stack: ["Next.js", "TypeScript", "ClickHouse", "Python", "OpenTelemetry", "Redis", "Docker"],
-    links: { github: "https://github.com/DingxinTao0417" },
-    featured: true,
-    hue: 14,
-    motif: "wave",
-    metrics: [
-      { value: "12 min", label: { en: "to detect regression", zh: "发现回退用时" } },
-      { value: "50k/min", label: { en: "spans ingested", zh: "span 摄取速率" } },
-    ],
-  },
-  {
-    slug: "pulse-ops-analytics",
-    index: "04",
-    title: { en: "Pulse — Operations Analytics", zh: "Pulse — 运营分析平台" },
-    tagline: {
-      en: "From raw event streams to decisions: dbt models, forecasts and a self-serve BI layer.",
-      zh: "从原始事件流到决策：dbt 模型、预测与自助式 BI 层。",
-    },
-    description: {
-      en: "An analytics stack that turns operational event data into forecastable metrics, with a semantic layer so non-analysts can ask questions safely.",
-      zh: "一个把运营事件数据转化为可预测指标的分析技术栈，并通过语义层让非分析师也能安全提问。",
-    },
-    problem: {
-      en: "Reporting was a weekly spreadsheet exercise. Definitions of 'active' and 'churned' differed by team.",
-      zh: "报表是每周一次的手工表格。「活跃」和「流失」的定义因团队而异。",
-    },
-    approach: {
-      en: "Event contracts validated at ingestion, dbt models with tests and documentation, Prophet-based forecasts, and a natural-language-to-SQL interface constrained by the semantic layer.",
-      zh: "在摄取时校验事件契约，带测试与文档的 dbt 模型，基于 Prophet 的预测，以及受语义层约束的自然语言转 SQL 接口。",
-    },
-    impact: {
-      en: "One definition per metric across the org; forecast MAPE under 8% on weekly volume; analysts reclaimed roughly a day per week.",
-      zh: "全组织每个指标只有一个定义；周度业务量预测 MAPE 低于 8%；分析师每周节省约一天时间。",
-    },
-    highlights: [
-      { en: "Semantic layer guards NL→SQL from hallucinated joins", zh: "语义层防止自然语言转 SQL 时的错误关联" },
-      { en: "Tested, documented dbt models as the metric source of truth", zh: "经测试与文档化的 dbt 模型作为指标唯一真相来源" },
-      { en: "Weekly forecasts with confidence bands in the dashboard", zh: "看板内含置信区间的周度预测" },
-    ],
-    role: { en: "Analytics Engineer · modeling & interface", zh: "分析工程师 · 数据建模与界面" },
-    year: "2024",
-    category: "data",
-    stack: ["Python", "SQL", "dbt", "PostgreSQL", "Prophet", "Next.js", "Plotly"],
-    links: { github: "https://github.com/DingxinTao0417" },
-    hue: 44,
-    motif: "grid",
-    metrics: [
-      { value: "<8%", label: { en: "forecast MAPE", zh: "预测 MAPE" } },
-      { value: "1", label: { en: "definition per metric", zh: "每个指标一个定义" } },
-    ],
-  },
-  {
-    slug: "courier-document-intake",
-    index: "05",
-    title: { en: "Courier — Multimodal Document Intake", zh: "Courier — 多模态文档处理" },
-    tagline: {
-      en: "Vision-language extraction that turns messy PDFs and scans into validated records.",
-      zh: "用视觉语言模型把杂乱的 PDF 与扫描件转化为经校验的结构化记录。",
-    },
-    description: {
-      en: "A document pipeline that classifies, extracts and validates structured data from invoices, forms and contracts — with human review only where confidence is low.",
-      zh: "一条文档处理管线：对发票、表单与合同进行分类、抽取并校验结构化数据——只在置信度低时才进入人工审核。",
-    },
-    problem: {
-      en: "Manual data entry from thousands of monthly documents, with error rates that leaked into downstream finance systems.",
-      zh: "每月数千份文档依赖人工录入，错误率一路泄漏进下游财务系统。",
-    },
-    approach: {
-      en: "Layout-aware chunking, a VLM extraction step with JSON-schema-constrained outputs, field-level confidence scoring, and a review queue UI that learns from corrections.",
-      zh: "版面感知的切分、受 JSON schema 约束输出的 VLM 抽取、字段级置信度评分，以及能从人工修正中学习的审核队列界面。",
-    },
-    impact: {
-      en: "Straight-through processing for 82% of documents; field accuracy above 98% on the reviewed set.",
-      zh: "82% 的文档实现直通处理；抽样审核集上的字段准确率超过 98%。",
-    },
-    highlights: [
-      { en: "Schema-constrained VLM outputs — no free-text parsing", zh: "受 schema 约束的 VLM 输出，不做自由文本解析" },
-      { en: "Confidence-routed human review queue", zh: "按置信度路由的人工审核队列" },
-      { en: "Corrections feed back into few-shot exemplars", zh: "人工修正回流为 few-shot 示例" },
-    ],
-    role: { en: "AI Engineer · extraction & review UI", zh: "AI 工程师 · 抽取与审核界面" },
-    year: "2024",
-    category: "ai",
-    stack: ["Python", "FastAPI", "React", "TypeScript", "PostgreSQL", "AWS", "Docker"],
-    links: { github: "https://github.com/DingxinTao0417" },
-    hue: 28,
-    motif: "stack",
-    metrics: [
-      { value: "82%", label: { en: "straight-through", zh: "直通处理率" } },
-      { value: "98%+", label: { en: "field accuracy", zh: "字段准确率" } },
-    ],
-  },
-  {
-    slug: "tdx-portfolio",
-    index: "06",
-    title: { en: "This Portfolio", zh: "本作品集网站" },
-    tagline: {
-      en: "Bilingual, multi-page Next.js 16 site with WebGL scenes, MDX blog and typed API routes.",
-      zh: "中英双语、多页面的 Next.js 16 网站，含 WebGL 场景、MDX 博客与类型化 API 路由。",
-    },
-    description: {
-      en: "The site you're reading. React Server Components for content, React Three Fiber for the 3D hero and skill sphere, Motion for choreography, and Next.js route handlers as the backend for contact, GitHub data and OG images.",
-      zh: "你正在浏览的这个网站。内容层使用 React Server Components，3D 首屏与技能球体使用 React Three Fiber，动效编排使用 Motion，联系表单、GitHub 数据与 OG 图片则由 Next.js 路由处理器提供后端支持。",
-    },
-    problem: {
-      en: "Most portfolios are either a static template or a single scrolling page. I wanted a real multi-page app with a backend, bilingual routing and a distinctive visual identity.",
-      zh: "大多数作品集要么是静态模板，要么是单页滚动。我想要一个真正的多页面应用：有后端、有双语路由、有独特的视觉识别。",
-    },
-    approach: {
-      en: "next-intl with `[locale]` routing, next-themes for light/dark, Tailwind v4 design tokens, dynamic-imported R3F scenes with reduced-motion fallbacks, and MDX rendered on the server with Shiki.",
-      zh: "next-intl 的 `[locale]` 路由、next-themes 亮暗切换、Tailwind v4 设计令牌、按需动态加载并支持减少动效回退的 R3F 场景，以及服务端渲染的 MDX（Shiki 高亮）。",
-    },
-    impact: {
-      en: "Statically rendered pages, streaming where data is live, and a Lighthouse-friendly 3D experience on both desktop and mobile.",
-      zh: "静态渲染的页面、在实时数据处使用流式输出，以及在桌面与移动端都对 Lighthouse 友好的 3D 体验。",
-    },
-    highlights: [
-      { en: "Locale-prefixed routing with static generation for both languages", zh: "带语言前缀的路由，两种语言均静态生成" },
-      { en: "R3F hero reacts to pointer and theme in real time", zh: "R3F 首屏实时响应指针与主题切换" },
-      { en: "Rate-limited contact API with optional Resend delivery", zh: "带限流的联系 API，可选 Resend 邮件投递" },
-    ],
-    role: { en: "Design & engineering", zh: "设计与开发" },
+    role: { en: "Product design and full-stack development", zh: "产品设计与全栈开发" },
     year: "2026",
     category: "fullstack",
-    stack: ["Next.js", "React", "TypeScript", "Tailwind CSS", "Three.js", "Motion", "MDX", "Vercel"],
-    links: { github: "https://github.com/DingxinTao0417/tdx-portfolio" },
-    hue: 20,
-    motif: "prism",
+    stack: ["React", "TypeScript", "Go", "SQLite", "Tauri", "Rust", "Vite", "Tailwind CSS"],
+    links: { github: "https://github.com/DingxinTao0417/opc-workspace" },
+    cover: {
+      src: "/projects/opc-workspace.png",
+      width: 1920,
+      height: 911,
+      alt: {
+        en: "opc-workspace today dashboard",
+        zh: "opc-workspace 今日工作台界面",
+      },
+    },
+    featured: true,
+    hue: 36,
+    motif: "stack",
     metrics: [
-      { value: "2", label: { en: "languages", zh: "种语言" } },
-      { value: "6", label: { en: "pages + API", zh: "页面 + API" } },
+      { value: "v0.1.1", label: { en: "current prerelease", zh: "当前预发布版本" } },
+      { value: "44", label: { en: "SQLite schema version", zh: "SQLite schema 版本" } },
+      { value: "2", label: { en: "Windows installer formats", zh: "种 Windows 安装包" } },
+    ],
+  },
+  {
+    slug: "omnigate",
+    index: "03",
+    title: { en: "Omnigate", zh: "Omnigate" },
+    tagline: {
+      en: "Production deployment and brand customization for an open-source AI API gateway.",
+      zh: "基于开源 AI API 网关完成的品牌定制与生产部署。",
+    },
+    description: {
+      en: "Omnigate is a secondary development project based on the open-source new-api codebase. The upstream project provides the core protocol adapters, usage tracking, billing, and user management. My work focused on branding, safer defaults, and a production deployment and operations setup for a single server.",
+      zh: "Omnigate 是基于开源项目 new-api 的二次开发。上游提供多协议适配、用量统计、计费和用户管理等核心能力；我完成了品牌定制、默认配置整理，以及面向单机环境的生产部署与运维方案。",
+    },
+    problem: {
+      en: "A self-hosted model gateway needs more than application code. HTTPS, streaming proxy behavior, database and cache services, secret templates, backups, and a repeatable deployment process all need to work together.",
+      zh: "自托管模型网关不只有应用代码。HTTPS、流式代理、数据库、缓存、密钥模板、备份和可重复执行的部署流程都需要一起处理。",
+    },
+    approach: {
+      en: "The deployment builds the application from source and runs it with Caddy, PostgreSQL, and Redis through Docker Compose. Caddy terminates HTTPS without buffering streamed responses. The repository also includes environment templates, a database backup script with retention cleanup, and an operations log.",
+      zh: "部署方案通过 Docker Compose 从源码构建应用，并配套运行 Caddy、PostgreSQL 和 Redis。Caddy 负责 HTTPS，同时关闭响应缓冲以保证流式输出。仓库还提供环境变量模板、带保留期清理的数据库备份脚本和实际部署记录。",
+    },
+    impact: {
+      en: "The service is running at omnigate.cc. Clients can use one base URL and one issued token with OpenAI-compatible tools, while the deployment files document how the service is configured, backed up, and updated.",
+      zh: "服务已运行在 omnigate.cc。客户端只需配置一个 Base URL 和系统签发的令牌，就能通过兼容 OpenAI 格式的工具调用不同模型；部署配置也记录了服务的配置、备份与更新方式。",
+    },
+    learning: {
+      en: "This project taught me how to work through a mature open-source codebase before changing it, and how to keep custom work within a maintainable boundary. I also gained a more practical understanding of streamed responses behind a reverse proxy, and how HTTPS, PostgreSQL, Redis, database backups, and upgrades fit together in production. Handling the license and upstream attribution made me more careful about separating upstream capabilities from my own work.",
+      zh: "这次二次开发让我完整走过了一套成熟开源系统的落地过程。我学会了先读清 Go 与 TypeScript 代码里的边界，再把自己的修改控制在可维护的范围内；也更具体地理解了流式响应为什么会被反向代理缓冲，以及 HTTPS、PostgreSQL、Redis、数据库备份和升级流程在生产环境里怎样配合。处理许可证与上游归属时，我也学会了明确区分上游能力和自己的工作。",
+    },
+    highlights: [
+      {
+        en: "Source-built Docker Compose deployment with Caddy, PostgreSQL, and Redis",
+        zh: "从源码构建的 Docker Compose 部署，包含 Caddy、PostgreSQL 与 Redis",
+      },
+      {
+        en: "Automatic HTTPS with response buffering disabled for streamed output",
+        zh: "自动配置 HTTPS，并为流式输出关闭响应缓冲",
+      },
+      {
+        en: "Database backup script with configurable retention cleanup",
+        zh: "数据库备份脚本支持按保留期自动清理",
+      },
+      {
+        en: "Project documentation clearly separates upstream features from custom work",
+        zh: "项目文档明确区分上游能力与本仓库的定制工作",
+      },
+    ],
+    role: { en: "Brand customization, deployment, and operations", zh: "品牌定制、部署与运维" },
+    year: "2026",
+    category: "fde",
+    stack: ["Go", "TypeScript", "Docker", "PostgreSQL", "Redis", "Caddy", "Linux"],
+    links: {
+      github: "https://github.com/DingxinTao0417/omnigate",
+      demo: "https://omnigate.cc/",
+    },
+    cover: {
+      src: "/projects/omnigate.png",
+      width: 1920,
+      height: 911,
+      alt: {
+        en: "Omnigate API gateway homepage",
+        zh: "Omnigate API 网关首页",
+      },
+    },
+    featured: true,
+    hue: 14,
+    motif: "orbit",
+    metrics: [
+      { value: "7+", label: { en: "model families", zh: "个模型系列" } },
+      { value: "4", label: { en: "production services", zh: "个生产服务" } },
+      { value: "1", label: { en: "compatible API endpoint", zh: "个兼容 API 入口" } },
     ],
   },
 ];
@@ -292,11 +251,11 @@ export const projects: Project[] = [
 export const featuredProjects = projects.filter((p) => p.featured);
 
 export function getProject(slug: string) {
-  return projects.find((p) => p.slug === slug);
+  return projects.find((project) => project.slug === slug);
 }
 
 export function getAdjacentProject(slug: string) {
-  const idx = projects.findIndex((p) => p.slug === slug);
-  if (idx === -1) return undefined;
-  return projects[(idx + 1) % projects.length];
+  const index = projects.findIndex((project) => project.slug === slug);
+  if (index === -1) return undefined;
+  return projects[(index + 1) % projects.length];
 }

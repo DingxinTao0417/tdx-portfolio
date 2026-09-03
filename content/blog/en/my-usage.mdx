@@ -1,0 +1,165 @@
+---
+title: "My AI Coding Workflow"
+description: "Claude Opus 5 handles implementation and decisions; GPT-5.6 Sol performs the strict review until the issues are resolved."
+date: "2026-07-28"
+tags: ["AI Coding", "Codex", "Code Review"]
+hue: 18
+---
+
+> **This is my setup, not a standard.** These are personal tradeoffs, and you may reasonably prefer something else.
+> For objective parameter references, see Omnigate’s [advanced Claude Code guide](https://omnigate.cc/docs/claude-code-advanced).
+>
+> - **Problem it addresses:** After writing code or a plan, you are not sure how to look for bugs systematically. Or the review finds so many issues that you cannot tell what should be fixed or how far the fix should go.
+> - **For:** People who already use Claude or Codex for coding and want a repeatable “generate → review → decide → fix” loop.
+> - **Not for:** People who are still configuring a Base URL. Start with the [quick-start guide](https://omnigate.cc/docs/introduction) and [tool installation](https://omnigate.cc/docs/claude-code). You can copy the prompts, but choose model tiers from what your account currently offers because the names will change.
+
+The core idea is simple: **writing code and finding faults should not use the same posture.**
+
+I use Claude Opus 5 to generate because it handles long context and follows direction well. I use GPT-5.6 Sol as a reviewer whose only job is to find problems. When the issues are numerous or difficult to understand, I ask Claude Opus 5 to translate them into plain language and frame the decision at production scale. **I still make the final call.**
+
+Model names change, so the table describes roles rather than fixed IDs:
+
+| Stage | Role | Tier I often use (illustrative) |
+| --- | --- | --- |
+| Write code or revise a plan | Claude implementer | Claude Opus 5 |
+| Find concrete faults | Codex reviewer | GPT-5.6 Sol |
+| Support a business decision | Claude director | Claude Opus 5 |
+
+Check the current IDs in the [Omnigate model catalog](https://omnigate.cc/pricing) and copy the one you need.
+
+---
+
+## The complete loop
+
+![Two-model workflow: Claude writes code, Codex performs a strict review, Claude optionally supports the decision, and the result is reviewed again after fixes](https://omnigate.cc/docs/ai-usage-workflow.jpg)
+
+---
+
+## Stage one: strict code review with GPT-5.6 Sol
+
+**When to use it:** Immediately after the code or plan is finished. Do not merge first and promise to review later.
+
+**Core constraint: find faults; do not polish.**
+
+Do not suggest refactors, renames, style changes, extra comments, or opportunistic improvements. Those requests dilute a focused review into a general conversation.
+
+### Role prompt
+
+```text
+You are a senior security architect reviewing a plan or code written by another AI assistant.
+Your job is to verify it independently.
+
+Answer only the four questions below. Do not suggest refactors, renames, style changes,
+or additional comments.
+
+Review checklist:
+1. Is the logic correct? Does the business flow actually work?
+2. Are edge cases missing? Consider null values, concurrency, timeouts, and extreme inputs.
+3. Are there security risks? Consider injection, broken authorization, sensitive-data leaks,
+   and resource exhaustion.
+4. Does it satisfy the stated requirements? Compare it with the original request and identify drift.
+
+Output requirements:
+- Report only definite bugs, logic errors, and security risks.
+- Mark uncertain items as “questionable,” state what information is missing, and do not pretend certainty.
+- Return the complete list in one response, ordered by severity.
+- For every item, state the location (file/function/step), the behavior, and why it is wrong.
+```
+
+### How I run it
+
+1. Give GPT-5.6 Sol the current diff, relevant files, or plan together with the **original requirements**.
+2. Paste the role prompt above, then ask something like:
+
+```text
+/goal Are there any remaining problems in the changes from this conversation?
+```
+
+3. When the issue list comes back, do not rush to fix everything manually. Continue with:
+
+```text
+/goal Resolve the issues you found.
+```
+
+Let it work through the list, then run stage one again. Repeat until the list is empty or contains only “questionable” items you have explicitly accepted.
+
+### What I deliberately exclude from this stage
+
+- Do not ask it to “make the code more elegant while you are here.”
+- Do not debate style.
+- Do not combine three unrelated pull requests.
+
+**The narrower the fault-finding stage is, the more it behaves like a real code review.**
+
+---
+
+## Stage two: business decision support with Claude Opus 5
+
+**When to use it:**
+
+- Stage one returns many issues and the priorities are unclear;
+- the logic is complex and GPT-5.6 Sol’s conclusion is hard to understand; or
+- deciding whether and how to fix something requires business judgment rather than another line of code.
+
+**Core constraint: explain the impact, provide a production-scale reference point, and leave the decision to me.**
+
+### Role prompt
+
+```text
+You are an engineering director reviewing a technical proposal and its review findings.
+
+Interaction requirements:
+1. If I do not understand an issue, explain the core logic first in the simplest nontechnical language,
+   then add the details.
+2. Explain the concrete business impact of each issue, such as mismatched data, an unavailable API,
+   incorrect billing, bypassed permissions, or exhausted resources.
+3. Give me a decision reference: if the same issue appeared in a major production environment,
+   how would the team most likely handle it? For example:
+   - block the merge
+   - require a design change before merging
+   - merge behind monitoring, rate limits, or a feature flag
+   - ship an emergency hotfix
+   - record technical debt and schedule it later
+4. Compare the tradeoffs of the available options and let me make the final decision.
+   Do not choose the “most elegant” option for me.
+```
+
+### How I run it
+
+I give Claude Opus 5 all of the following:
+
+- the relevant code or proposal
+- GPT-5.6 Sol’s **issue list**, preferably unchanged
+- the business context: who uses it and how sensitive the money, data, or permissions are
+
+I then ask questions at my own pace: “What happens if issue three ships as-is?” or “Would this block a merge at production scale?”
+
+---
+
+## How I combine the two stages
+
+1. **Write or revise** — use Claude Opus 5 to produce the code or plan.
+2. **Review immediately** — send the same changes to GPT-5.6 Sol with the stage-one prompt.
+3. **Clarify serious or confusing findings** — give GPT-5.6 Sol’s list and the code to Claude Opus 5 with the stage-two prompt, asking for plain-language impact and a production-scale reference point.
+4. **Make the call** — decide what must be fixed, what can wait, and what is a false positive.
+5. **Apply the fixes** — return to GPT-5.6 Sol with `/goal Resolve the issues I confirmed`.
+6. **Review again** — repeat steps two through five until no must-fix issues remain.
+
+In practice:
+
+- A small change often needs only one or two stage-one passes. Stage two is optional.
+- Billing, authorization, multitenancy, and concurrency should always go through stage one. I try to resolve every questionable item through stage two before deciding.
+- The models can use different keys and separate sessions. What matters is keeping the roles separate: do not ask the same session that just wrote the code to become its own uncompromising reviewer.
+
+---
+
+## Related articles and documentation
+
+- Cost, context, and `/clear` versus `/compact`: [What I’ve Learned Using AI](/en/blog/insights)
+- Project-level constraints: [My CLAUDE.md](/en/blog/my-claude-md)
+- Claude Code switches and permissions: [Omnigate’s settings.json guide](https://omnigate.cc/docs/my-settings)
+- Connecting tools to Omnigate: [Install Claude Code](https://omnigate.cc/docs/claude-code) and [Install Codex CLI](https://omnigate.cc/docs/codex)
+
+This workflow does not depend on one company’s interface. If a client still lets you paste a prompt and provide code, the loop still works.
+
+_Originally published in the [Omnigate documentation](https://omnigate.cc/docs/my-usage)._

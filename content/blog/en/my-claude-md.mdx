@@ -1,0 +1,127 @@
+---
+title: "My CLAUDE.md"
+description: "A real global CLAUDE.md that I use, with an explanation of why each section exists."
+date: "2026-07-27"
+tags: ["Claude Code", "CLAUDE.md", "Configuration"]
+hue: 28
+---
+
+> **This is my setup, not a standard.** These are personal tradeoffs, and you may reasonably prefer something else.
+> For objective parameter references, see Omnigate’s [advanced Claude Code guide](https://omnigate.cc/docs/claude-code-advanced).
+>
+> - **Problem it addresses:** You do not know what belongs in a CLAUDE.md or how much is enough.
+> - **For:** People who want to see a file that is genuinely in use rather than another list of “best practices.”
+> - **Not for:** Anyone planning to copy the entire file unchanged. Half of it reflects my preferences, and the other half applies only to specific projects. Copying it blindly will make the agent follow the wrong conventions.
+
+The syntax and loading order are covered in Omnigate’s [CLAUDE.md guide](https://omnigate.cc/docs/claude-md). Here I will focus only on what I actually wrote and which problem forced each line into the file.
+
+## The global file
+
+It lives at `~/.claude/CLAUDE.md` and applies to every project. Mine is short:
+
+```markdown
+## General
+
+- Reply in Simplified Chinese.
+- Keep code comments concise and write them in English.
+- After changing TypeScript, always run the type checker and fix every error.
+- If something is uncertain, ask first instead of guessing and continuing.
+
+## Writing files
+
+If a file exceeds 200 lines, append it with multiple Edit operations rather than
+one large Write operation. A large write can fail midway and leave half a file behind.
+```
+
+That is all. I deliberately keep the global file small because every project loads it. Anything unnecessary becomes a fixed token tax on every conversation.
+
+The final rule about writing files deserves context. It is not a universal truth; it came from my environment. A few large writes failed and left truncated files, which were harder to notice than an explicit error. The rule is simply **a workaround for something I observed**, and other people may not need it.
+
+## The project file
+
+At a project root, my `CLAUDE.md` often contains just one line:
+
+```markdown
+@AGENTS.md
+```
+
+Codex and OpenCode read `AGENTS.md`, while Claude Code reads `CLAUDE.md`. I keep the actual rules in `AGENTS.md` and import it from `CLAUDE.md`, so all three tools share one source of truth instead of making me maintain two copies.
+
+## The four kinds of project rules I actually write
+
+Consider Omnigate’s codebase. It has a Go backend and a React frontend. There are many rules, but they fit into four categories.
+
+**First: commands.** These provide the highest return because the agent cannot infer them reliably:
+
+```markdown
+- Use bun for frontend packages, not npm, yarn, or pnpm.
+- Type check: `bun run typecheck`
+- Lint: `bun run lint`
+- After changing TS or TSX, run typecheck and leave no errors behind.
+```
+
+Without this section, an agent may default to `npm` and leave you with a `package-lock.json` that conflicts with `bun.lock`.
+
+**Second: mandatory conventions that are specific to the project.** I include a rule when violating it causes a bug while the code still looks normal:
+
+```markdown
+- All JSON serialization must use the wrappers in common/json.go.
+  Do not import encoding/json directly in application code.
+- Database code must remain compatible with SQLite, MySQL 5.7.8+, and PostgreSQL 9.6+.
+- Use lockForUpdate(tx) for row locking. GORM v2 silently ignores the old form,
+  so the wrong code does not report an error—the lock simply never happens.
+```
+
+The final line is a perfect example: **the wrong code does not fail; the lock just stops working.** If the rule is absent, an agent may copy an outdated example from the web, and the mistake is difficult to catch in review.
+
+**Third: restricted areas.** These state what must not be touched:
+
+```markdown
+- Do not edit committed migration files; add a new migration.
+- Do not change any *.gen.ts file because it is generated.
+- For billing-related numeric conversions, use the helpers in common/quota_math.go.
+  Do not use a bare int() conversion.
+```
+
+**Fourth: mistakes we have already made.** This section grows gradually rather than being written upfront. My rule is simple: **when the same mistake happens a second time, add one line here.**
+
+For example, one rule says not to use a GORM `default:true` tag on boolean fields. MySQL and PostgreSQL handled the boolean default differently, so every restart triggered an unnecessary `ALTER TABLE`. Nobody was likely to predict that exact behavior. We had to hit it once and then record it.
+
+## What I leave out
+
+This matters just as much:
+
+- **A directory tour.** The agent can inspect the tree itself; documenting it consumes context for no reason.
+- **Instructions like “write high-quality code.”** They have no executable meaning.
+- **Complete API documentation.** Keep it in a separate file and let the agent read or import it with `@` when needed.
+- **Language fundamentals.** The model knows them better than I do.
+
+## Controlling the length
+
+My project `AGENTS.md` is now a little over two hundred lines, which is close to my limit. If it grows further, it should be split.
+
+Stable, mandatory conventions remain in the main file. Domain knowledge moves into `.claude/rules/` and loads only for matching paths. For example, rules for channel adapters are needed only when something under `relay/channel/**` changes:
+
+```markdown
+---
+paths:
+  - "relay/channel/**"
+---
+
+When adding a channel, check whether the upstream provider supports StreamOptions.
+If it does, add the channel to streamSupportedChannels.
+```
+
+That rule consumes no context during unrelated work and loads only when the agent touches the relevant files. In a large project, this is much more efficient than putting everything into one main file.
+
+## How to start your own
+
+Do not try to make it perfect in one pass. This is my process:
+
+1. Run `/init`, then **delete the automatically generated directory description**.
+2. Add the commands. This step has the highest immediate value.
+3. Whenever the agent makes the same mistake for the second time, add one rule.
+
+The third step is the important one. Every rule driven by a real failure has demonstrated value. Most of the rules imagined in advance are noise.
+
+_Originally published in the [Omnigate documentation](https://omnigate.cc/docs/my-claude-md)._

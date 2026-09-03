@@ -62,25 +62,11 @@
   },
   "Home": {
     "eyebrow": "AI Full-Stack Engineer · Forward Deployed Engineer",
-    "headline1": "I ship AI products",
-    "headline2": "from prototype to production.",
-    "intro": "I'm Dingxin Tao (陶鼎新). I sit between models, data, and customers — turning ambiguous problems into deployed systems that hold up in the real world. Computer Science at UC Irvine, Analytics at USC.",
+    "headline1": "AI is redrawing the starting line.",
+    "headline2": "I want to make this opportunity count.",
+    "intro": "I'm Dingxin Tao (陶鼎新), an AI Native developer. I studied Computer Science at UC Irvine and am studying Analytics at USC. When I build something, I care about the problem it solves and whether it keeps working once it leaves the demo.",
     "ctaPrimary": "See the work",
     "ctaSecondary": "Get in touch",
-    "status": "Available for FDE & AI engineering roles",
-    "hud": {
-      "location": "IRVINE → LOS ANGELES",
-      "state": "STATE",
-      "online": "ONLINE",
-      "phases": {
-        "scatter": "SCATTER",
-        "lattice": "LATTICE",
-        "halo": "HALO"
-      },
-      "points": "WEBGL · {count, number} PTS",
-      "build": "BUILD 2026.09",
-      "render": "WEBGL · R3F"
-    },
     "scrollHint": "Scroll to explore",
     "marquee": [
       "React",
@@ -89,25 +75,22 @@
       "Python",
       "LangGraph",
       "RAG",
-      "Evals",
       "PostgreSQL",
-      "pgvector",
       "FastAPI",
       "Three.js",
       "AWS",
       "Vercel",
-      "Docker",
-      "LLM Ops"
+      "Docker"
     ],
     "whatIDo": {
       "eyebrow": "01 — What I do",
-      "title": "Three disciplines,",
-      "titleAccent": "one operator.",
+      "title": "AI engineering, full-stack products,",
+      "titleAccent": "and deployment.",
       "items": [
         {
           "title": "AI Engineering",
-          "body": "RAG pipelines, agentic workflows, evaluation harnesses and guardrails that survive contact with real users and real data.",
-          "tags": ["RAG", "Agents", "Evals", "Fine-tuning"]
+          "body": "Enterprise RAG, AI agents, and automated workflows, along with the evaluations and safeguards they need.",
+          "tags": ["Enterprise RAG", "AI Agents", "Workflows", "Evaluation"]
         },
         {
           "title": "Full-Stack Product",
@@ -116,16 +99,16 @@
         },
         {
           "title": "Forward Deployed",
-          "body": "Embedded with customers: discovery, integration, deployment, and iteration until the system works in their world — not just in the demo.",
-          "tags": ["Discovery", "Integration", "Rollout", "Enablement"]
+          "body": "I work with customers to clarify requirements, connect existing systems, launch, and keep improving the product based on actual use.",
+          "tags": ["Requirements", "Integration", "Launch", "Iteration"]
         }
       ]
     },
     "featured": {
       "eyebrow": "02 — Selected work",
-      "title": "Systems that",
-      "titleAccent": "left the lab.",
-      "body": "A few projects where model quality, product craft and deployment reality had to meet in the middle.",
+      "title": "Three recent",
+      "titleAccent": "projects.",
+      "body": "A video creation workspace, a local-first desktop app, and a model API gateway. Each case study describes the work I actually completed.",
       "cta": "All projects"
     },
     "facts": {
@@ -169,7 +152,7 @@
     "eyebrow": "Projects",
     "title": "Selected",
     "titleAccent": "work.",
-    "intro": "Production AI systems, full-stack products, and forward-deployed engagements. Each one shipped, measured, and iterated with real users.",
+    "intro": "Projects I have developed or deployed, covering AI content production, local desktop software, and a model API gateway.",
     "filters": {
       "all": "All",
       "ai": "AI",
@@ -184,6 +167,7 @@
       "problem": "The problem",
       "approach": "The approach",
       "impact": "Impact",
+      "learning": "What I learned",
       "highlights": "Highlights",
       "more": "More projects",
       "nextProject": "Next project"
@@ -292,8 +276,8 @@
   },
   "Contact": {
     "eyebrow": "Contact",
-    "title": "Let's build",
-    "titleAccent": "something that ships.",
+    "title": "Want to talk about a role or project?",
+    "titleAccent": "Get in touch.",
     "intro": "Whether it's a forward deployed engineering role, an AI product that needs to leave the lab, or a collaboration — I'd love to hear from you.",
     "responseTime": "I usually reply within 48 hours.",
     "directEmail": "Prefer email?",
@@ -332,16 +316,15 @@
     }
   },
   "Footer": {
-    "tagline": "Let's build something",
-    "taglineAccent": "that ships.",
+    "tagline": "Want to talk about a role or project?",
+    "taglineAccent": "Get in touch.",
     "cta": "Start a conversation",
     "navigate": "Navigate",
     "connect": "Connect",
     "colophon": "Colophon",
-    "colophonBody": "Designed & engineered by Dingxin Tao. Built with Next.js 16, React 19, TypeScript, Tailwind CSS v4, React Three Fiber and Motion.",
+    "colophonBody": "Designed and engineered by Dingxin Tao in collaboration with AI. Built with Next.js 16, React 19, TypeScript, Tailwind CSS v4, React Three Fiber and Motion.",
     "source": "Source on GitHub",
     "rights": "© {year} Dingxin Tao. All rights reserved.",
-    "madeIn": "Made in California",
     "backToTop": "Back to top"
   },
   "NotFound": {

@@ -1,4 +1,5 @@
 import { GraduationCap, MapPin } from "lucide-react";
+import Image from "next/image";
 import type { EducationEntry, ExperienceEntry } from "@/data/timeline";
 import { pick } from "@/data/types";
 import { Reveal } from "@/components/ui/reveal";
@@ -32,14 +33,22 @@ export function EducationCards({
                 style={{ background: `oklch(65% 0.2 ${e.hue})` }}
               />
               <div className="relative flex items-start justify-between gap-4">
-                <span
+                <div
                   className={cn(
-                    "grid h-14 w-14 place-items-center rounded-2xl font-display text-lg font-bold tracking-tight text-white",
+                    "relative h-14 w-14 overflow-hidden rounded-2xl border border-line bg-white shadow-sm",
                   )}
-                  style={{ background: `oklch(55% 0.19 ${e.hue})` }}
                 >
-                  {e.monogram}
-                </span>
+                  <Image
+                    src={e.logo}
+                    alt=""
+                    fill
+                    sizes="56px"
+                    className={cn(
+                      "object-contain p-2",
+                      e.logoFit === "cover" && "object-cover p-0",
+                    )}
+                  />
+                </div>
                 <Tag tone="accent">{classOfLabel.replace("{year}", e.classOf)}</Tag>
               </div>
               <div className="relative">
