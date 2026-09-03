@@ -1,0 +1,354 @@
+{
+  "Metadata": {
+    "title": "Dingxin Tao — AI Full-Stack Engineer & Forward Deployed Engineer",
+    "titleTemplate": "%s — Dingxin Tao",
+    "description": "Portfolio of Dingxin Tao (陶鼎新): AI full-stack engineer and forward deployed engineer. B.S. Computer Science at UC Irvine '26, M.S. Analytics at USC '27. Shipping AI systems from prototype to production.",
+    "projects": "Projects",
+    "projectsDescription": "Selected AI, full-stack, and forward-deployed engineering work by Dingxin Tao.",
+    "skills": "Skills",
+    "skillsDescription": "Technical capabilities across AI engineering, full-stack product, data, and cloud infrastructure.",
+    "blog": "Blog",
+    "blogDescription": "Notes on building production AI systems, forward deployed engineering, and full-stack craft.",
+    "about": "About",
+    "aboutDescription": "The story, education, and principles behind Dingxin Tao's work.",
+    "contact": "Contact",
+    "contactDescription": "Get in touch with Dingxin Tao about FDE roles, AI engineering, or collaborations."
+  },
+  "Nav": {
+    "home": "Home",
+    "projects": "Projects",
+    "skills": "Skills",
+    "blog": "Blog",
+    "about": "About",
+    "contact": "Contact",
+    "cta": "Let's talk",
+    "menu": "Menu",
+    "close": "Close",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "toggleTheme": "Toggle theme",
+    "light": "Light",
+    "dark": "Dark",
+    "switchLocale": "Switch language",
+    "available": "Available for roles"
+  },
+  "Common": {
+    "viewAll": "View all",
+    "readMore": "Read more",
+    "learnMore": "Learn more",
+    "viewProject": "View project",
+    "caseStudy": "Case study",
+    "back": "Back",
+    "backToProjects": "All projects",
+    "backToBlog": "All posts",
+    "minRead": "{minutes} min read",
+    "published": "Published",
+    "updated": "Updated",
+    "stack": "Stack",
+    "role": "Role",
+    "year": "Year",
+    "links": "Links",
+    "source": "Source",
+    "liveDemo": "Live demo",
+    "tableOfContents": "On this page",
+    "scroll": "Scroll",
+    "localTime": "Local time · Los Angeles",
+    "copied": "Copied",
+    "copyEmail": "Copy email",
+    "loading": "Loading",
+    "next": "Next",
+    "previous": "Previous",
+    "index": "Index"
+  },
+  "Home": {
+    "eyebrow": "AI Full-Stack Engineer · Forward Deployed Engineer",
+    "headline1": "I ship AI products",
+    "headline2": "from prototype to production.",
+    "intro": "I'm Dingxin Tao (陶鼎新). I sit between models, data, and customers — turning ambiguous problems into deployed systems that hold up in the real world. Computer Science at UC Irvine, Analytics at USC.",
+    "ctaPrimary": "See the work",
+    "ctaSecondary": "Get in touch",
+    "status": "Available for FDE & AI engineering roles",
+    "hud": {
+      "location": "IRVINE → LOS ANGELES",
+      "system": "SYS · ONLINE",
+      "build": "BUILD 2026.09",
+      "render": "WEBGL · R3F"
+    },
+    "scrollHint": "Scroll to explore",
+    "marquee": [
+      "React",
+      "Next.js",
+      "TypeScript",
+      "Python",
+      "LangGraph",
+      "RAG",
+      "Evals",
+      "PostgreSQL",
+      "pgvector",
+      "FastAPI",
+      "Three.js",
+      "AWS",
+      "Vercel",
+      "Docker",
+      "LLM Ops"
+    ],
+    "whatIDo": {
+      "eyebrow": "01 — What I do",
+      "title": "Three disciplines,",
+      "titleAccent": "one operator.",
+      "items": [
+        {
+          "title": "AI Engineering",
+          "body": "RAG pipelines, agentic workflows, evaluation harnesses and guardrails that survive contact with real users and real data.",
+          "tags": ["RAG", "Agents", "Evals", "Fine-tuning"]
+        },
+        {
+          "title": "Full-Stack Product",
+          "body": "Type-safe React and Next.js frontends backed by Node and Python services, streaming APIs, and clean data models.",
+          "tags": ["Next.js", "TypeScript", "FastAPI", "Postgres"]
+        },
+        {
+          "title": "Forward Deployed",
+          "body": "Embedded with customers: discovery, integration, deployment, and iteration until the system works in their world — not just in the demo.",
+          "tags": ["Discovery", "Integration", "Rollout", "Enablement"]
+        }
+      ]
+    },
+    "featured": {
+      "eyebrow": "02 — Selected work",
+      "title": "Systems that",
+      "titleAccent": "left the lab.",
+      "body": "A few projects where model quality, product craft and deployment reality had to meet in the middle.",
+      "cta": "All projects"
+    },
+    "facts": {
+      "eyebrow": "03 — Snapshot",
+      "items": [
+        { "value": "UCI '26", "label": "B.S. Computer Science" },
+        { "value": "USC '27", "label": "M.S. Analytics" },
+        { "value": "EN · 中文", "label": "Bilingual, end to end" },
+        { "value": "AI × FS × FDE", "label": "Model → product → customer" }
+      ]
+    },
+    "github": {
+      "eyebrow": "04 — Live from GitHub",
+      "title": "Recent",
+      "titleAccent": "commits.",
+      "body": "Pulled live from the GitHub API through a cached Next.js route handler.",
+      "repos": "Public repos",
+      "followers": "Followers",
+      "following": "Following",
+      "since": "Shipping since",
+      "recent": "Recently pushed",
+      "viewProfile": "View profile",
+      "unavailable": "GitHub data is unavailable right now."
+    },
+    "writing": {
+      "eyebrow": "05 — Writing",
+      "title": "Notes from",
+      "titleAccent": "the field.",
+      "cta": "All posts"
+    },
+    "cta": {
+      "eyebrow": "06 — Next step",
+      "title": "Have a hard problem?",
+      "titleAccent": "Let's deploy the solution.",
+      "body": "I'm open to forward deployed engineering and AI engineering roles, as well as selective collaborations.",
+      "button": "Start a conversation",
+      "secondary": "Read about me"
+    }
+  },
+  "Projects": {
+    "eyebrow": "Projects",
+    "title": "Selected",
+    "titleAccent": "work.",
+    "intro": "Production AI systems, full-stack products, and forward-deployed engagements. Each one shipped, measured, and iterated with real users.",
+    "filters": {
+      "all": "All",
+      "ai": "AI",
+      "fullstack": "Full-Stack",
+      "data": "Data",
+      "fde": "Forward Deployed"
+    },
+    "count": "{count, plural, =1 {1 project} other {# projects}}",
+    "empty": "No projects match this filter yet.",
+    "detail": {
+      "overview": "Overview",
+      "problem": "The problem",
+      "approach": "The approach",
+      "impact": "Impact",
+      "highlights": "Highlights",
+      "more": "More projects",
+      "nextProject": "Next project"
+    }
+  },
+  "Skills": {
+    "eyebrow": "Skills",
+    "title": "Capabilities,",
+    "titleAccent": "mapped.",
+    "intro": "A working map of what I reach for — from model orchestration to pixels to infrastructure. Depth where it matters, breadth where it helps.",
+    "sphereHint": "Drag to rotate · hover to inspect",
+    "categories": "Categories",
+    "all": "Everything",
+    "proficiency": "Proficiency",
+    "levels": {
+      "expert": "Expert",
+      "advanced": "Advanced",
+      "proficient": "Proficient",
+      "familiar": "Familiar"
+    },
+    "principles": {
+      "eyebrow": "How I work",
+      "title": "Principles that",
+      "titleAccent": "ship.",
+      "items": [
+        {
+          "title": "Evals before vibes",
+          "body": "Every AI feature gets a test set, a metric, and a baseline before it gets a demo."
+        },
+        {
+          "title": "Customer is the spec",
+          "body": "Forward deployment means the spec lives in the customer's workflow, not in a doc. I go find it."
+        },
+        {
+          "title": "Type the boundary",
+          "body": "Schemas at every seam — API, DB, model output — so the system fails loudly and early."
+        },
+        {
+          "title": "Ship, observe, iterate",
+          "body": "Tracing, logging and feedback loops are part of v1, not a follow-up ticket."
+        }
+      ]
+    },
+    "toolbelt": {
+      "eyebrow": "Daily toolbelt",
+      "title": "What's open",
+      "titleAccent": "right now."
+    }
+  },
+  "Blog": {
+    "eyebrow": "Blog",
+    "title": "Notes from",
+    "titleAccent": "the field.",
+    "intro": "Writing about production AI systems, forward deployed engineering, and the craft of full-stack software. Bilingual, occasionally opinionated.",
+    "latest": "Latest",
+    "allPosts": "All posts",
+    "empty": "Nothing published yet — check back soon.",
+    "share": "Share",
+    "writtenBy": "Written by",
+    "relatedPosts": "Keep reading"
+  },
+  "About": {
+    "eyebrow": "About",
+    "title": "Engineer between",
+    "titleAccent": "models and people.",
+    "intro": "I'm Dingxin Tao — 陶鼎新 — an AI full-stack engineer and forward deployed engineer based in Southern California.",
+    "story": {
+      "eyebrow": "The story",
+      "paragraphs": [
+        "I got into software because I liked making things that other people could actually use. That instinct pulled me toward the full stack early: the interface people touch, the API underneath it, and the data that makes it honest.",
+        "Then large language models changed what 'usable' could mean. I spent the following years learning how to make AI features that survive production — retrieval that stays grounded, agents that stay on task, and evaluation loops that tell you the truth before your users do.",
+        "Forward deployed engineering is where those threads meet. I embed with customers, learn their workflow, integrate with their systems, and iterate until the solution works in their world. Then I bring what I learned back to the product.",
+        "I'm finishing my B.S. in Computer Science at UC Irvine in 2026 and continuing into the M.S. in Analytics at USC for 2027 — because the models are only as good as the data and the decisions around them."
+      ]
+    },
+    "education": {
+      "eyebrow": "Education",
+      "title": "Two campuses,",
+      "titleAccent": "one trajectory."
+    },
+    "experience": {
+      "eyebrow": "Experience",
+      "title": "Where the work",
+      "titleAccent": "happened."
+    },
+    "now": {
+      "eyebrow": "Now",
+      "title": "Currently",
+      "items": [
+        "Finishing my B.S. in Computer Science at UC Irvine (Class of 2026).",
+        "Preparing for the M.S. in Analytics at USC (Class of 2027).",
+        "Building agentic systems with typed tool-calling and evaluation harnesses.",
+        "Open to forward deployed engineering and AI engineering roles."
+      ]
+    },
+    "values": {
+      "eyebrow": "Values",
+      "items": [
+        { "title": "Ownership", "body": "From discovery call to production dashboard — if it's mine, it's mine end to end." },
+        { "title": "Clarity", "body": "Plain language for stakeholders, typed contracts for machines." },
+        { "title": "Momentum", "body": "Small, shipped increments beat perfect plans. Observe, then improve." },
+        { "title": "Craft", "body": "The details people feel but can't name — latency, motion, empty states — matter." }
+      ]
+    },
+    "cta": "Say hello"
+  },
+  "Contact": {
+    "eyebrow": "Contact",
+    "title": "Let's build",
+    "titleAccent": "something that ships.",
+    "intro": "Whether it's a forward deployed engineering role, an AI product that needs to leave the lab, or a collaboration — I'd love to hear from you.",
+    "responseTime": "I usually reply within 48 hours.",
+    "directEmail": "Prefer email?",
+    "elsewhere": "Elsewhere",
+    "form": {
+      "name": "Name",
+      "namePlaceholder": "Your name",
+      "email": "Email",
+      "emailPlaceholder": "you@company.com",
+      "company": "Company (optional)",
+      "companyPlaceholder": "Where you work",
+      "topic": "What is this about?",
+      "topics": {
+        "fde": "Forward Deployed Engineering role",
+        "ai": "AI engineering role",
+        "contract": "Contract / freelance project",
+        "collab": "Collaboration",
+        "other": "Something else"
+      },
+      "message": "Message",
+      "messagePlaceholder": "Tell me about the problem, the team, and the timeline.",
+      "submit": "Send message",
+      "sending": "Sending…",
+      "successTitle": "Message received.",
+      "successBody": "Thanks {name} — I'll get back to you soon.",
+      "successBodyNoDelivery": "Thanks {name} — your message was recorded. Email delivery isn't configured on this deployment yet, so feel free to also reach me directly.",
+      "errorTitle": "Something went wrong.",
+      "errorBody": "Please try again or email me directly.",
+      "rateLimited": "Too many messages from this network. Please try again later.",
+      "sendAnother": "Send another",
+      "validation": {
+        "name": "Please enter your name.",
+        "email": "Please enter a valid email.",
+        "message": "Please write at least 20 characters."
+      }
+    }
+  },
+  "Footer": {
+    "tagline": "Let's build something",
+    "taglineAccent": "that ships.",
+    "cta": "Start a conversation",
+    "navigate": "Navigate",
+    "connect": "Connect",
+    "colophon": "Colophon",
+    "colophonBody": "Designed & engineered by Dingxin Tao. Built with Next.js 16, React 19, TypeScript, Tailwind CSS v4, React Three Fiber and Motion.",
+    "source": "Source on GitHub",
+    "rights": "© {year} Dingxin Tao. All rights reserved.",
+    "madeIn": "Made in California",
+    "backToTop": "Back to top"
+  },
+  "NotFound": {
+    "code": "404",
+    "title": "This route",
+    "titleAccent": "doesn't resolve.",
+    "body": "The page you're looking for was moved, renamed, or never deployed.",
+    "cta": "Back home"
+  },
+  "Error": {
+    "title": "Something",
+    "titleAccent": "broke.",
+    "body": "An unexpected error occurred. It's been noted — please try again.",
+    "retry": "Try again",
+    "home": "Back home"
+  }
+}

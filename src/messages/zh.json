@@ -1,0 +1,354 @@
+{
+  "Metadata": {
+    "title": "陶鼎新 Dingxin Tao — AI 全栈开发工程师 & 前沿部署工程师（FDE）",
+    "titleTemplate": "%s — 陶鼎新",
+    "description": "陶鼎新（Dingxin Tao）的个人作品集：AI 全栈开发工程师、前沿部署工程师（FDE）。加州大学尔湾分校计算机科学本科（2026 届），南加州大学分析学硕士（2027 届）。把 AI 系统从原型推向生产。",
+    "projects": "项目",
+    "projectsDescription": "陶鼎新在 AI、全栈与前沿部署领域的精选项目。",
+    "skills": "技术能力",
+    "skillsDescription": "覆盖 AI 工程、全栈产品、数据与云基础设施的技术能力图谱。",
+    "blog": "博客",
+    "blogDescription": "关于生产级 AI 系统、前沿部署工程与全栈手艺的笔记。",
+    "about": "关于我",
+    "aboutDescription": "陶鼎新的成长经历、教育背景与工作原则。",
+    "contact": "联系方式",
+    "contactDescription": "联系陶鼎新：FDE 岗位、AI 工程岗位或项目合作。"
+  },
+  "Nav": {
+    "home": "首页",
+    "projects": "项目",
+    "skills": "技术能力",
+    "blog": "博客",
+    "about": "关于我",
+    "contact": "联系方式",
+    "cta": "聊一聊",
+    "menu": "菜单",
+    "close": "关闭",
+    "openMenu": "打开菜单",
+    "closeMenu": "关闭菜单",
+    "toggleTheme": "切换主题",
+    "light": "亮色",
+    "dark": "暗色",
+    "switchLocale": "切换语言",
+    "available": "开放求职中"
+  },
+  "Common": {
+    "viewAll": "查看全部",
+    "readMore": "阅读更多",
+    "learnMore": "了解更多",
+    "viewProject": "查看项目",
+    "caseStudy": "案例详情",
+    "back": "返回",
+    "backToProjects": "全部项目",
+    "backToBlog": "全部文章",
+    "minRead": "阅读约 {minutes} 分钟",
+    "published": "发布于",
+    "updated": "更新于",
+    "stack": "技术栈",
+    "role": "角色",
+    "year": "年份",
+    "links": "链接",
+    "source": "源码",
+    "liveDemo": "在线演示",
+    "tableOfContents": "本页目录",
+    "scroll": "滚动",
+    "localTime": "当地时间 · 洛杉矶",
+    "copied": "已复制",
+    "copyEmail": "复制邮箱",
+    "loading": "加载中",
+    "next": "下一个",
+    "previous": "上一个",
+    "index": "索引"
+  },
+  "Home": {
+    "eyebrow": "AI 全栈开发工程师 · 前沿部署工程师（FDE）",
+    "headline1": "我把 AI 产品",
+    "headline2": "从原型一路送进生产环境。",
+    "intro": "我是陶鼎新（Dingxin Tao）。我站在模型、数据与客户之间，把模糊的问题变成能在真实世界里稳定运行的系统。本科就读于加州大学尔湾分校计算机科学，研究生就读于南加州大学分析学。",
+    "ctaPrimary": "看看作品",
+    "ctaSecondary": "联系我",
+    "status": "开放 FDE 与 AI 工程岗位机会",
+    "hud": {
+      "location": "尔湾 → 洛杉矶",
+      "system": "系统 · 在线",
+      "build": "构建 2026.09",
+      "render": "WEBGL · R3F"
+    },
+    "scrollHint": "向下滚动探索",
+    "marquee": [
+      "React",
+      "Next.js",
+      "TypeScript",
+      "Python",
+      "LangGraph",
+      "RAG",
+      "评测体系",
+      "PostgreSQL",
+      "pgvector",
+      "FastAPI",
+      "Three.js",
+      "AWS",
+      "Vercel",
+      "Docker",
+      "LLM Ops"
+    ],
+    "whatIDo": {
+      "eyebrow": "01 — 我做什么",
+      "title": "三个领域，",
+      "titleAccent": "一个人闭环。",
+      "items": [
+        {
+          "title": "AI 工程",
+          "body": "RAG 管线、智能体工作流、评测体系与安全护栏——经得起真实用户和真实数据的考验。",
+          "tags": ["RAG", "智能体", "评测", "微调"]
+        },
+        {
+          "title": "全栈产品",
+          "body": "类型安全的 React / Next.js 前端，配合 Node 与 Python 服务、流式 API 和干净的数据模型。",
+          "tags": ["Next.js", "TypeScript", "FastAPI", "Postgres"]
+        },
+        {
+          "title": "前沿部署（FDE）",
+          "body": "深入客户现场：需求发现、系统集成、上线部署、持续迭代，直到方案在客户的真实环境里跑通，而不只是在演示里。",
+          "tags": ["需求发现", "系统集成", "上线", "赋能"]
+        }
+      ]
+    },
+    "featured": {
+      "eyebrow": "02 — 精选项目",
+      "title": "走出实验室的",
+      "titleAccent": "系统。",
+      "body": "几个让模型质量、产品打磨与部署现实必须相互妥协的项目。",
+      "cta": "全部项目"
+    },
+    "facts": {
+      "eyebrow": "03 — 快照",
+      "items": [
+        { "value": "UCI '26", "label": "计算机科学 本科" },
+        { "value": "USC '27", "label": "分析学 硕士" },
+        { "value": "中文 · EN", "label": "中英双语，全程沟通" },
+        { "value": "AI × 全栈 × FDE", "label": "模型 → 产品 → 客户" }
+      ]
+    },
+    "github": {
+      "eyebrow": "04 — GitHub 实时动态",
+      "title": "最近的",
+      "titleAccent": "提交。",
+      "body": "通过带缓存的 Next.js 路由处理器，实时从 GitHub API 拉取。",
+      "repos": "公开仓库",
+      "followers": "关注者",
+      "following": "正在关注",
+      "since": "开始提交于",
+      "recent": "最近推送",
+      "viewProfile": "查看主页",
+      "unavailable": "GitHub 数据暂时不可用。"
+    },
+    "writing": {
+      "eyebrow": "05 — 写作",
+      "title": "来自一线的",
+      "titleAccent": "笔记。",
+      "cta": "全部文章"
+    },
+    "cta": {
+      "eyebrow": "06 — 下一步",
+      "title": "手上有难题？",
+      "titleAccent": "一起把方案部署上线。",
+      "body": "我正在寻找前沿部署工程师（FDE）与 AI 工程岗位，也欢迎有选择性的项目合作。",
+      "button": "开始对话",
+      "secondary": "了解我"
+    }
+  },
+  "Projects": {
+    "eyebrow": "项目",
+    "title": "精选",
+    "titleAccent": "作品。",
+    "intro": "生产级 AI 系统、全栈产品与前沿部署项目。每一个都真实上线、可度量、并随真实用户持续迭代。",
+    "filters": {
+      "all": "全部",
+      "ai": "AI",
+      "fullstack": "全栈",
+      "data": "数据",
+      "fde": "前沿部署"
+    },
+    "count": "{count} 个项目",
+    "empty": "该分类下暂时没有项目。",
+    "detail": {
+      "overview": "概览",
+      "problem": "问题",
+      "approach": "方案",
+      "impact": "成果",
+      "highlights": "亮点",
+      "more": "更多项目",
+      "nextProject": "下一个项目"
+    }
+  },
+  "Skills": {
+    "eyebrow": "技术能力",
+    "title": "能力",
+    "titleAccent": "图谱。",
+    "intro": "这是我日常会用到的技术地图——从模型编排到像素细节，再到基础设施。该深的地方深，该广的地方广。",
+    "sphereHint": "拖动旋转 · 悬停查看",
+    "categories": "分类",
+    "all": "全部",
+    "proficiency": "熟练度",
+    "levels": {
+      "expert": "精通",
+      "advanced": "熟练",
+      "proficient": "掌握",
+      "familiar": "了解"
+    },
+    "principles": {
+      "eyebrow": "工作方式",
+      "title": "让项目真正上线的",
+      "titleAccent": "原则。",
+      "items": [
+        {
+          "title": "先评测，再感觉",
+          "body": "每个 AI 功能在做演示之前，都先有测试集、指标和基线。"
+        },
+        {
+          "title": "客户即需求文档",
+          "body": "前沿部署意味着需求藏在客户的工作流里，而不是文档里。我会亲自去找。"
+        },
+        {
+          "title": "给边界加类型",
+          "body": "API、数据库、模型输出的每一个接缝都有 schema，让系统尽早、大声地失败。"
+        },
+        {
+          "title": "上线、观测、迭代",
+          "body": "链路追踪、日志与反馈回路是 v1 的一部分，而不是之后再补的工单。"
+        }
+      ]
+    },
+    "toolbelt": {
+      "eyebrow": "日常工具箱",
+      "title": "此刻",
+      "titleAccent": "正在打开的工具。"
+    }
+  },
+  "Blog": {
+    "eyebrow": "博客",
+    "title": "来自一线的",
+    "titleAccent": "笔记。",
+    "intro": "写生产级 AI 系统、前沿部署工程，以及全栈软件的手艺。中英双语，偶尔有点主观。",
+    "latest": "最新",
+    "allPosts": "全部文章",
+    "empty": "还没有发布文章——稍后再来看看。",
+    "share": "分享",
+    "writtenBy": "作者",
+    "relatedPosts": "继续阅读"
+  },
+  "About": {
+    "eyebrow": "关于我",
+    "title": "站在模型与人之间的",
+    "titleAccent": "工程师。",
+    "intro": "我是陶鼎新（Dingxin Tao），一名 AI 全栈开发工程师与前沿部署工程师（FDE），目前在南加州。",
+    "story": {
+      "eyebrow": "我的故事",
+      "paragraphs": [
+        "我进入软件行业，是因为喜欢做出别人真正会用的东西。这种本能很早就把我推向了全栈：用户触碰的界面、界面之下的 API，以及让一切诚实可靠的数据。",
+        "后来，大语言模型改变了「可用」的定义。接下来的几年里，我一直在学习如何让 AI 功能在生产环境中存活——检索要保持有据可依，智能体要保持在轨，评测回路要在用户之前先告诉你真相。",
+        "前沿部署工程（FDE）正是这些线索交汇的地方。我深入客户现场，理解他们的工作流，与他们的系统集成，不断迭代直到方案在他们的世界里跑通，再把学到的东西带回产品。",
+        "我将于 2026 年完成加州大学尔湾分校计算机科学本科学业，并于 2027 届继续在南加州大学攻读分析学硕士——因为模型的好坏，取决于围绕它的数据与决策。"
+      ]
+    },
+    "education": {
+      "eyebrow": "教育背景",
+      "title": "两所校园，",
+      "titleAccent": "一条轨迹。"
+    },
+    "experience": {
+      "eyebrow": "工作经历",
+      "title": "那些工作",
+      "titleAccent": "发生的地方。"
+    },
+    "now": {
+      "eyebrow": "现在",
+      "title": "正在进行",
+      "items": [
+        "完成加州大学尔湾分校计算机科学本科学业（2026 届）。",
+        "准备进入南加州大学分析学硕士项目（2027 届）。",
+        "构建带类型化工具调用与评测体系的智能体系统。",
+        "寻找前沿部署工程师（FDE）与 AI 工程岗位机会。"
+      ]
+    },
+    "values": {
+      "eyebrow": "价值观",
+      "items": [
+        { "title": "负责到底", "body": "从需求电话到生产看板——只要是我的事，就端到端负责。" },
+        { "title": "清晰", "body": "对人用大白话，对机器用类型化契约。" },
+        { "title": "势能", "body": "小步快跑、持续上线，胜过完美计划。先观测，再改进。" },
+        { "title": "手艺", "body": "那些用户能感受到却说不出的细节——延迟、动效、空状态——都很重要。" }
+      ]
+    },
+    "cta": "打个招呼"
+  },
+  "Contact": {
+    "eyebrow": "联系方式",
+    "title": "一起做点",
+    "titleAccent": "能上线的东西。",
+    "intro": "无论是前沿部署工程师岗位、一个需要走出实验室的 AI 产品，还是项目合作——都欢迎联系我。",
+    "responseTime": "我通常会在 48 小时内回复。",
+    "directEmail": "更喜欢发邮件？",
+    "elsewhere": "其他平台",
+    "form": {
+      "name": "姓名",
+      "namePlaceholder": "你的名字",
+      "email": "邮箱",
+      "emailPlaceholder": "you@company.com",
+      "company": "公司（可选）",
+      "companyPlaceholder": "你所在的公司",
+      "topic": "想聊什么？",
+      "topics": {
+        "fde": "前沿部署工程师（FDE）岗位",
+        "ai": "AI 工程岗位",
+        "contract": "合同 / 自由职业项目",
+        "collab": "项目合作",
+        "other": "其他"
+      },
+      "message": "留言",
+      "messagePlaceholder": "说说你的问题、团队和时间线。",
+      "submit": "发送消息",
+      "sending": "发送中…",
+      "successTitle": "已收到你的消息。",
+      "successBody": "谢谢 {name}——我会尽快回复你。",
+      "successBodyNoDelivery": "谢谢 {name}——你的消息已记录。当前部署尚未配置邮件投递，欢迎同时直接给我发邮件。",
+      "errorTitle": "出了点问题。",
+      "errorBody": "请重试，或直接给我发邮件。",
+      "rateLimited": "来自该网络的消息过多，请稍后再试。",
+      "sendAnother": "再发一条",
+      "validation": {
+        "name": "请输入你的名字。",
+        "email": "请输入有效的邮箱地址。",
+        "message": "请至少写 20 个字符。"
+      }
+    }
+  },
+  "Footer": {
+    "tagline": "一起做点",
+    "taglineAccent": "能上线的东西。",
+    "cta": "开始对话",
+    "navigate": "导航",
+    "connect": "联系",
+    "colophon": "关于本站",
+    "colophonBody": "由陶鼎新设计与开发。基于 Next.js 16、React 19、TypeScript、Tailwind CSS v4、React Three Fiber 与 Motion 构建。",
+    "source": "GitHub 源码",
+    "rights": "© {year} 陶鼎新 Dingxin Tao. 保留所有权利。",
+    "madeIn": "于加州制作",
+    "backToTop": "回到顶部"
+  },
+  "NotFound": {
+    "code": "404",
+    "title": "这个路由",
+    "titleAccent": "无法解析。",
+    "body": "你要找的页面可能被移动、重命名，或者从未部署过。",
+    "cta": "返回首页"
+  },
+  "Error": {
+    "title": "出了点",
+    "titleAccent": "问题。",
+    "body": "发生了意外错误，已经记录下来——请重试。",
+    "retry": "重试",
+    "home": "返回首页"
+  }
+}
