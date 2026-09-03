@@ -1,0 +1,79 @@
+---
+title: "Typed tool-calling: the boring secret to reliable agents"
+description: "Most agent failures aren't reasoning failures — they're contract failures. One schema, shared by the model, the runtime and the UI, removes an entire class of bugs."
+date: "2026-02-20"
+tags: ["Agents", "TypeScript", "Zod", "LangGraph"]
+hue: 14
+---
+
+When an agent "goes off the rails," people blame the model. In the traces I've read, the model is rarely the culprit. What actually happened is that a tool accepted `"2026-3-1"` where it expected an ISO date, or returned a giant blob of HTML the planner then tried to reason about. The agent didn't fail to think; it was handed garbage and told to keep going.
+
+The fix is unglamorous: **type every boundary, and make one schema the source of truth.**
+
+## One schema, three consumers
+
+```ts title="tools/schedule-meeting.ts"
+import { z } from "zod";
+
+export const ScheduleMeetingInput = z.object({
+  attendees: z.array(z.string().email()).min(1).max(20),
+  startsAt: z.string().datetime({ offset: true }),
+  durationMinutes: z.number().int().min(15).max(240),
+  title: z.string().min(3).max(120),
+});
+
+export const ScheduleMeetingOutput = z.object({
+  eventId: z.string(),
+  joinUrl: z.string().url().optional(),
+});
+
+export type ScheduleMeetingInput = z.infer<typeof ScheduleMeetingInput>;
+```
+
+That single file feeds:
+
+1. **The model** — the JSON Schema handed to the tool-calling API is generated from it.
+2. **The runtime** — arguments are parsed with `safeParse` before the tool runs; failures are returned to the model as structured errors it can recover from.
+3. **The UI** — the approval dialog and the trace viewer render fields from the same definition.
+
+Change the schema, and all three move together. Drift becomes a compile error.
+
+## Structured errors are a feature
+
+When validation fails, don't throw. Return a typed error so the planner can self-correct:
+
+```ts
+const parsed = ScheduleMeetingInput.safeParse(args);
+if (!parsed.success) {
+  return {
+    ok: false,
+    error: {
+      code: "INVALID_ARGUMENTS",
+      issues: parsed.error.issues.map((i) => ({
+        path: i.path.join("."),
+        message: i.message,
+      })),
+    },
+  } as const;
+}
+```
+
+In production this turned a hard failure ("agent crashed") into a one-step retry ("model fixed the date format") for the overwhelming majority of cases.
+
+## Bound the output, too
+
+Tools that return unbounded text are the second biggest source of agent failures. A tool that fetches a web page should return a *summary schema* — title, key facts, source URL — not the page. If the planner needs more, it can ask for a specific section. Keep the context window for reasoning, not for storage.
+
+## Where LangGraph fits
+
+Typed tools slot cleanly into a graph: each node's state is a schema, each edge is a decision on validated data, and checkpoints let you replay a run with a new prompt against the *same* tool results. That replay is how we caught three prompt regressions before users did.
+
+## The boring checklist
+
+- Every tool has an input schema and an output schema.
+- Validation failures return structured errors, never exceptions.
+- Outputs are bounded and summarized.
+- The same schema powers the model, the runtime and the UI.
+- Runs are checkpointed and replayable.
+
+None of this is clever. That's the point. Reliability is mostly the absence of surprises.

@@ -1,0 +1,79 @@
+---
+title: "类型化工具调用：让智能体可靠的那个无聊秘密"
+description: "大多数智能体的失败并不是推理失败，而是契约失败。让模型、运行时和界面共享同一份 schema，可以消灭一整类 bug。"
+date: "2026-02-20"
+tags: ["智能体", "TypeScript", "Zod", "LangGraph"]
+hue: 14
+---
+
+当一个智能体「跑偏」时，人们会责怪模型。但在我读过的链路记录里，模型很少是罪魁祸首。真正发生的是：某个工具在期望 ISO 日期的地方接受了 `"2026-3-1"`，或者返回了一大团 HTML，然后规划器试图对着它推理。智能体并没有「不会思考」，它只是被塞了垃圾，还被要求继续往前走。
+
+解决办法一点也不酷：**给每一个边界加类型，并且只让一份 schema 成为唯一真相来源。**
+
+## 一份 schema，三个消费者
+
+```ts title="tools/schedule-meeting.ts"
+import { z } from "zod";
+
+export const ScheduleMeetingInput = z.object({
+  attendees: z.array(z.string().email()).min(1).max(20),
+  startsAt: z.string().datetime({ offset: true }),
+  durationMinutes: z.number().int().min(15).max(240),
+  title: z.string().min(3).max(120),
+});
+
+export const ScheduleMeetingOutput = z.object({
+  eventId: z.string(),
+  joinUrl: z.string().url().optional(),
+});
+
+export type ScheduleMeetingInput = z.infer<typeof ScheduleMeetingInput>;
+```
+
+这一个文件同时服务于：
+
+1. **模型**——交给工具调用 API 的 JSON Schema 由它生成。
+2. **运行时**——工具执行前用 `safeParse` 解析参数；失败时以结构化错误返回给模型，让它可以自我修正。
+3. **界面**——审批对话框和链路查看器用同一份定义渲染字段。
+
+改一次 schema，三者一起变。漂移变成了编译错误。
+
+## 结构化错误是一种功能
+
+校验失败时不要抛异常。返回一个带类型的错误，让规划器可以自我纠正：
+
+```ts
+const parsed = ScheduleMeetingInput.safeParse(args);
+if (!parsed.success) {
+  return {
+    ok: false,
+    error: {
+      code: "INVALID_ARGUMENTS",
+      issues: parsed.error.issues.map((i) => ({
+        path: i.path.join("."),
+        message: i.message,
+      })),
+    },
+  } as const;
+}
+```
+
+在生产环境中，这把绝大多数情况下的硬失败（「智能体崩了」）变成了一步重试（「模型修正了日期格式」）。
+
+## 输出也要有边界
+
+返回无界文本的工具，是智能体失败的第二大来源。一个抓取网页的工具应该返回一份*摘要 schema*——标题、关键事实、来源 URL——而不是整个页面。规划器如果需要更多，可以再请求某个具体章节。把上下文窗口留给推理，而不是存储。
+
+## LangGraph 在哪里发挥作用
+
+类型化工具可以干净地嵌入一张图：每个节点的状态是一份 schema，每条边是基于已校验数据的决策，检查点则让你能用新的 prompt 对着*同一批*工具结果回放一次运行。正是这种回放，让我们在用户之前拦下了三次 prompt 回退。
+
+## 那份无聊的清单
+
+- 每个工具都有输入 schema 和输出 schema。
+- 校验失败返回结构化错误，绝不抛异常。
+- 输出有边界、有摘要。
+- 同一份 schema 驱动模型、运行时和界面。
+- 运行有检查点、可回放。
+
+这些都不聪明。这正是重点。可靠性大部分时候就是「没有意外」。

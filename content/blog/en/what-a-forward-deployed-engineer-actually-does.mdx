@@ -1,0 +1,70 @@
+---
+title: "What a Forward Deployed Engineer actually does"
+description: "FDE is the most misunderstood title in AI right now. Here's the job as I've lived it: half systems engineer, half translator, fully accountable for the outcome."
+date: "2026-07-14"
+tags: ["FDE", "Career", "AI Engineering"]
+hue: 22
+---
+
+"Forward Deployed Engineer" sounds like a job title invented by a recruiter who wanted to say *consultant* without saying consultant. It isn't. The role exists because there's a real gap between an AI product that demos well and an AI product that works inside a specific customer's world — their data, their permissions, their legacy systems, their people.
+
+An FDE lives in that gap.
+
+## The three loops
+
+Most of my weeks can be described as three loops running at different speeds.
+
+### 1. The discovery loop (weeks)
+
+Before writing code, I sit with the people who will use the system. Not the executive sponsor — the analyst who will paste a question into the box at 4:50 PM on a Friday. I want to know:
+
+- What does a *good* answer look like to them? Can they show me one?
+- What sources do they trust, and which ones do they quietly ignore?
+- Where does the current workflow break, and who gets blamed when it does?
+
+The output of this loop is not a requirements doc. It's a **golden set**: 50–300 real questions with reference answers, written with the customer. Everything downstream is measured against it.
+
+### 2. The integration loop (days)
+
+This is the part that looks like traditional software engineering, except every dependency is someone else's system. Identity providers, document stores with three generations of permission models, a ticketing API that returns HTML in a JSON field.
+
+```ts title="acl-filter.ts"
+// Every retrieval call is scoped by the caller's effective permissions.
+// If we can't resolve them, we fail closed — never open.
+export async function retrieve(query: string, user: User) {
+  const acl = await resolveEffectiveAcl(user); // groups → document scopes
+  if (!acl.ok) throw new Forbidden("Could not resolve permissions");
+
+  return hybridSearch(query, {
+    filter: { scope: { $in: acl.scopes } },
+    k: 24,
+    rerank: true,
+  });
+}
+```
+
+The engineering principle here is simple: **the customer's security model is the spec.** If the model knows something the user isn't allowed to see, the system is broken regardless of how good the answer is.
+
+### 3. The evaluation loop (hours)
+
+Every prompt change, retriever tweak or model upgrade runs against the golden set before anyone sees it. The dashboard is boring on purpose: faithfulness, relevance, latency, cost. When a number moves, we know why before the customer asks.
+
+| Metric | Baseline | After re-ranker | After ACL fix |
+| --- | --- | --- | --- |
+| Faithfulness | 71% | 88% | 94% |
+| p50 latency | 9.2s | 6.1s | 6.0s |
+| Cost / answer | $0.041 | $0.038 | $0.038 |
+
+## What the job is *not*
+
+- It is not "AI consulting." I ship code that stays in production and gets paged on.
+- It is not solutions engineering. I'm not there to close the deal; I'm there after the deal, when reality shows up.
+- It is not a junior role. You need enough depth to redesign the retriever *and* enough judgment to tell a VP that their favorite feature is going to hurt them.
+
+## The feedback path back to product
+
+The most valuable thing an FDE does happens after the deployment: bringing back a precise, evidence-backed list of what the product needs so the *next* customer doesn't need an FDE for that part. If your forward deployed team isn't shrinking the scope of forward deployment over time, something is off.
+
+## If you're considering it
+
+You'll like this role if you enjoy ambiguity, if you'd rather see a system used than admired, and if you can hold two languages in your head at once — the customer's and the codebase's. I happen to hold three. It helps.

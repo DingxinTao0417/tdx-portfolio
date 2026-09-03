@@ -1,0 +1,75 @@
+---
+title: "先评测，再感觉：让生产环境里的 RAG 保持诚实"
+description: "没有被度量的检索管线一定会漂移。这是我在每一次部署中都会用到的评测体系，以及真正能预测用户信任度的三个指标。"
+date: "2026-05-02"
+tags: ["RAG", "评测", "LLM Ops"]
+hue: 36
+---
+
+我部署过的每一个 RAG 系统都走过同样的曲线：一次令人兴奋的首次演示，一段「感觉还挺好」的平静期，然后随着用户撞上没人度量过的边缘场景，信任慢慢流失。解决办法不是更好的模型，而是一套能在用户之前先告诉你真相的评测体系。
+
+## 黄金测试集就是产品本身
+
+先准备 50 到 300 个真实问题及参考答案，*和*真正使用系统的人一起写。把它们放在代码旁边、做版本管理，对黄金测试集的任何改动都要像对待 schema 迁移一样严肃。
+
+```python title="golden.py"
+from pydantic import BaseModel
+
+class GoldenCase(BaseModel):
+    id: str
+    question: str
+    reference_answer: str
+    must_cite: list[str]          # 一个忠实的答案必须引用的文档 id
+    forbidden_scopes: list[str]   # 提问者无权查看的 ACL 范围
+    tags: list[str] = []
+```
+
+注意 `forbidden_scopes`。权限泄漏是正确性问题，而不是事后补的安全问题，所以它们和其他用例放在同一个测试集里。
+
+## 三个能预测信任度的指标
+
+我在不同的部署中追踪过十几个指标，其中三个始终与「用户是否会持续回来」高度相关。
+
+### 忠实度（Faithfulness）
+
+答案中的每一个论断是否都有检索到的上下文支撑？由评分模型按严格量规打分，每月用 10% 抽样的人工标注做校准。
+
+### 引用精确率
+
+展示的引用中，有多少真正支撑了它所附着的句子？用户能原谅缺一个引用，但不会原谅引错。
+
+### p95 回答延迟
+
+不是 p50。慢的那条尾巴才是人们记住的，通常是因为重排序的候选太多，或者模型冷启动。
+
+## 每晚跑一遍（每个 PR 也跑）
+
+```yaml title=".github/workflows/evals.yml"
+on:
+  pull_request:
+    paths: ["prompts/**", "retriever/**", "golden/**"]
+  schedule:
+    - cron: "0 6 * * *"
+
+jobs:
+  evals:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: uv run python -m evals.run --golden golden/ --report report.json
+      - run: uv run python -m evals.gate --report report.json --min-faithfulness 0.9
+```
+
+`gate` 这一步会在忠实度低于阈值时让 PR 失败。这一个检查拦下的回退，比任何代码评审都多。
+
+## 那个没人看的看板（直到需要的时候）
+
+忠实度、引用精确率、p95 延迟、单次回答成本——每个一张图，一页，没有筛选器。当某个数字变动时，页面同时展示同一时间窗口内上线的 prompt 或检索器配置的差异。无聊的看板才会被信任。
+
+## 有了这套体系之后会发生什么
+
+- 你不再争论 prompt，而是开始比较数字。
+- 模型升级变成一个普通的周二，而不是一个项目。
+- 客户的安全团队拿到的是报告，而不是承诺。
+
+凭感觉是很好的起点，但却是很糟糕的运营方式。
