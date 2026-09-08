@@ -1,6 +1,6 @@
 "use client";
 
-import { Check, Loader2, Send } from "lucide-react";
+import { Check, ChevronDown, Loader2, Send } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useLocale, useTranslations } from "next-intl";
 import { useState, type FormEvent } from "react";
@@ -17,7 +17,7 @@ type Status =
 type FieldErrors = Partial<Record<"name" | "email" | "message", string>>;
 
 const inputClass =
-  "w-full rounded-2xl border border-line bg-bg-elevated px-4 py-3.5 text-[15px] text-fg placeholder:text-muted/70 transition-[border-color,box-shadow] focus:border-accent focus:outline-none focus:ring-4 focus:ring-accent/15 aria-[invalid=true]:border-red-500";
+  "w-full min-w-0 rounded-[10px] border border-line bg-bg/55 px-3.5 py-3 text-[15px] text-fg placeholder:text-muted/60 transition-[border-color,box-shadow,background-color] hover:border-line-strong focus:border-accent focus:bg-bg-elevated focus:outline-none focus:ring-3 focus:ring-accent/10 aria-[invalid=true]:border-red-500";
 
 export function ContactForm() {
   const t = useTranslations("Contact.form");
@@ -76,9 +76,9 @@ export function ContactForm() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
-            className="hud-corners flex flex-col items-start gap-5 rounded-3xl border border-line bg-bg-elevated p-8"
+            className="flex min-h-80 flex-col items-start justify-center gap-5 py-4"
           >
-            <span className="grid h-12 w-12 place-items-center rounded-2xl bg-accent text-white">
+            <span className="grid h-12 w-12 place-items-center rounded-xl bg-accent-soft text-accent">
               <Check className="h-6 w-6" />
             </span>
             <h3 className="font-display text-2xl font-semibold tracking-tight">{t("successTitle")}</h3>
@@ -99,7 +99,7 @@ export function ContactForm() {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
-            className="grid gap-5"
+            className="grid gap-6"
           >
             <div className="grid gap-5 sm:grid-cols-2">
               <Field label={t("name")} error={errors.name} htmlFor="name">
@@ -136,13 +136,16 @@ export function ContactForm() {
                 />
               </Field>
               <Field label={t("topic")} htmlFor="topic">
-                <select id="topic" name="topic" defaultValue="fde" className={cn(inputClass, "appearance-none")}>
-                  {contactTopics.map((topic) => (
-                    <option key={topic} value={topic}>
-                      {t(`topics.${topic}`)}
-                    </option>
-                  ))}
-                </select>
+                <div className="relative">
+                  <select id="topic" name="topic" defaultValue="fde" className={cn(inputClass, "appearance-none pr-10")}>
+                    {contactTopics.map((topic) => (
+                      <option key={topic} value={topic}>
+                        {t(`topics.${topic}`)}
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown aria-hidden className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
+                </div>
               </Field>
             </div>
 
@@ -164,14 +167,14 @@ export function ContactForm() {
             </div>
 
             {status.state === "error" && (
-              <p role="alert" className="rounded-2xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-600 dark:text-red-400">
+              <p role="alert" className="rounded-[10px] border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-600 dark:text-red-400">
                 <strong className="font-semibold">{t("errorTitle")}</strong>{" "}
                 {status.kind === "rate_limited" ? t("rateLimited") : t("errorBody")}
               </p>
             )}
 
-            <div className="flex items-center justify-between gap-4">
-              <Button type="submit" size="lg" disabled={status.state === "submitting"}>
+            <div className="flex items-center justify-between gap-4 border-t border-line pt-5">
+              <Button type="submit" size="lg" className="w-full sm:w-auto" disabled={status.state === "submitting"}>
                 {status.state === "submitting" ? (
                   <>
                     <Loader2 className="h-4 w-4 animate-spin" />
@@ -205,7 +208,7 @@ function Field({
 }) {
   return (
     <div className="flex flex-col gap-2">
-      <label htmlFor={htmlFor} className="eyebrow">
+      <label htmlFor={htmlFor} className="text-[13px] font-medium text-fg/85">
         {label}
       </label>
       {children}

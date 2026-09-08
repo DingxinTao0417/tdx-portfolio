@@ -14,14 +14,14 @@ export async function LatestPosts() {
   if (posts.length === 0) return null;
 
   return (
-    <section className="container-x py-24 sm:py-32">
+    <section className="container-x section-space border-t border-line">
       <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
         <SectionHeading eyebrow={t("eyebrow")} title={t("title")} accent={t("titleAccent")} />
         <ButtonLink href="/blog" variant="secondary" arrow className="shrink-0">
           {t("cta")}
         </ButtonLink>
       </div>
-      <Stagger className="mt-14 grid gap-5 md:grid-cols-3">
+      <Stagger className="mt-10 grid gap-5 md:grid-cols-3">
         {posts.map((post) => (
           <StaggerItem key={post.slug} className="h-full">
             <PostCard

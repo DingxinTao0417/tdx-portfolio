@@ -13,7 +13,6 @@ import type { ReactNode } from "react";
 import { Footer } from "@/components/layout/footer";
 import { Navbar } from "@/components/layout/navbar";
 import { ScrollProgress } from "@/components/layout/scroll-progress";
-import { CustomCursor } from "@/components/providers/custom-cursor";
 import { SmoothScroll } from "@/components/providers/smooth-scroll";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { site } from "@/data/site";
@@ -70,7 +69,7 @@ export async function generateMetadata({ params }: Omit<Props, "children">): Pro
   const title = t("title");
   const description = t("description");
   const ogImage = `/api/og?title=${encodeURIComponent(site.name)}&subtitle=${encodeURIComponent(
-    locale === "zh" ? "AI 全栈开发工程师 · FDE" : "AI Full-Stack Engineer · FDE",
+    locale === "zh" ? "AI Native 开发者" : "AI Native Developer",
   )}&locale=${locale}`;
 
   return {
@@ -83,8 +82,7 @@ export async function generateMetadata({ params }: Omit<Props, "children">): Pro
     keywords: [
       "Dingxin Tao",
       "陶鼎新",
-      "AI engineer",
-      "Forward Deployed Engineer",
+      "AI Native Developer",
       "Full-stack",
       "Next.js",
       "React",
@@ -130,6 +128,7 @@ export default async function LocaleLayout({ children, params }: Props) {
   return (
     <html
       lang={locale === "zh" ? "zh-CN" : "en"}
+      data-scroll-behavior="smooth"
       suppressHydrationWarning
       className={`${display.variable} ${sans.variable} ${serif.variable} ${mono.variable} ${zh.variable} h-full antialiased`}
     >
@@ -139,7 +138,6 @@ export default async function LocaleLayout({ children, params }: Props) {
             <div id="top" />
             <ScrollProgress />
             <SmoothScroll />
-            <CustomCursor />
             <div className="grain-overlay" aria-hidden />
             <Navbar />
             <main className="flex-1">{children}</main>

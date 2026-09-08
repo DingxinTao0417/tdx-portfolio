@@ -4,8 +4,8 @@ import { motion, type Variants } from "motion/react";
 import type { ReactNode } from "react";
 
 const variants: Variants = {
-  hidden: { opacity: 0, y: 24, filter: "blur(4px)" },
-  visible: { opacity: 1, y: 0, filter: "blur(0px)" },
+  hidden: { opacity: 0, y: 16 },
+  visible: { opacity: 1, y: 0 },
 };
 
 /** Scroll-triggered entrance. Fires once when ~20% of the element is visible. */
@@ -25,12 +25,13 @@ export function Reveal({
   const Component = motion[as];
   return (
     <Component
+      data-reveal
       className={className}
       variants={variants}
       initial="hidden"
       whileInView="visible"
       viewport={{ once, amount: 0.2, margin: "0px 0px -40px 0px" }}
-      transition={{ duration: 0.7, delay, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.5, delay, ease: [0.16, 1, 0.3, 1] }}
     >
       {children}
     </Component>
@@ -49,6 +50,7 @@ export function Stagger({
 }) {
   return (
     <motion.div
+      data-reveal
       className={className}
       initial="hidden"
       whileInView="visible"
@@ -69,9 +71,10 @@ export function StaggerItem({
 }) {
   return (
     <motion.div
+      data-reveal
       className={className}
       variants={variants}
-      transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
     >
       {children}
     </motion.div>

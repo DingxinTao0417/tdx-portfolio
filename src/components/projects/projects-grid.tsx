@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, LayoutGroup, motion } from "motion/react";
+import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from "motion/react";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 import type { Project, ProjectCategory } from "@/data/projects";
@@ -15,6 +15,7 @@ export function ProjectsGrid({ projects }: { projects: Project[] }) {
   const tc = useTranslations("Common");
   const locale = useLocale();
   const [filter, setFilter] = useState<Filter>("all");
+  const reducedMotion = useReducedMotion();
 
   const filters = allFilters.filter(
     (f) => f === "all" || projects.some((p) => p.category === f),
@@ -22,32 +23,31 @@ export function ProjectsGrid({ projects }: { projects: Project[] }) {
   const visible = filter === "all" ? projects : projects.filter((p) => p.category === filter);
 
   return (
-    <div className="mt-14">
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div className="mt-8 sm:mt-10">
+      <div className="flex flex-col gap-4 border-y border-line py-4 sm:flex-row sm:items-center sm:justify-between">
         <LayoutGroup id="project-filters">
           <div
-            role="tablist"
+            role="group"
             aria-label={t("filters.all")}
-            className="flex flex-wrap items-center gap-1 rounded-full border border-line bg-surface p-1"
+            className="flex flex-wrap items-center gap-1"
           >
             {filters.map((f) => {
               const active = f === filter;
               return (
                 <button
                   key={f}
-                  role="tab"
-                  aria-selected={active}
+                  aria-pressed={active}
                   type="button"
                   onClick={() => setFilter(f)}
                   className={cn(
-                    "relative h-9 rounded-full px-4 font-mono text-[11px] uppercase tracking-[0.14em] transition-colors",
-                    active ? "text-white" : "text-muted hover:text-fg",
+                    "relative h-10 rounded-lg px-4 text-sm transition-colors",
+                    active ? "text-bg" : "text-muted hover:text-fg",
                   )}
                 >
                   {active && (
                     <motion.span
-                      layoutId="filter-pill"
-                      className="absolute inset-0 rounded-full bg-accent"
+                      layoutId={reducedMotion ? undefined : "filter-pill"}
+                      className="absolute inset-0 rounded-lg bg-fg"
                       transition={{ type: "spring", stiffness: 420, damping: 34 }}
                     />
                   )}
@@ -57,28 +57,29 @@ export function ProjectsGrid({ projects }: { projects: Project[] }) {
             })}
           </div>
         </LayoutGroup>
-        <p className="font-mono text-xs uppercase tracking-[0.16em] text-muted">
+        <p aria-live="polite" className="font-mono text-xs text-muted">
           {t("count", { count: visible.length })}
         </p>
       </div>
 
-      <motion.ul layout className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+      <motion.ul layout={!reducedMotion} className="mt-8 grid gap-5 sm:gap-6 md:grid-cols-2">
         <AnimatePresence mode="popLayout">
-          {visible.map((project) => (
+          {visible.map((project, i) => (
             <motion.li
               key={project.slug}
-              layout
-              initial={{ opacity: 0, scale: 0.96, y: 16 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.96, y: -8 }}
-              transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-              className="h-full"
+              layout={!reducedMotion}
+              initial={{ opacity: 0, y: reducedMotion ? 0 : 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: reducedMotion ? 0 : -8 }}
+              transition={{ duration: reducedMotion ? 0 : 0.3, ease: [0.16, 1, 0.3, 1] }}
+              className={cn("h-full", i === 0 && "md:col-span-2")}
             >
               <ProjectCard
                 project={project}
                 locale={locale}
                 categoryLabel={t(`filters.${project.category}`)}
                 ctaLabel={tc("viewProject")}
+                size={i === 0 ? "lg" : "md"}
               />
             </motion.li>
           ))}

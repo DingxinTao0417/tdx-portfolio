@@ -16,7 +16,7 @@ export function Marquee({
     <div className={cn("mask-fade-x relative flex w-full overflow-hidden", className)}>
       <div
         className={cn(
-          "flex w-max shrink-0 items-center",
+          "flex w-max shrink-0 items-center hover:[animation-play-state:paused]",
           reverse ? "animate-marquee-reverse" : "animate-marquee",
         )}
       >

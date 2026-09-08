@@ -1,142 +1,66 @@
-/**
- * GLSL for the hero particle field. All motion lives in the vertex shader:
- * per-point staggered morphing between three target attributes, idle noise
- * drift, pointer repulsion, and scroll dispersal. One draw call.
- */
+import { DATABASE_PITCH, DATABASE_RADIUS } from "./hero-targets";
 
-// Simplex 3D noise — Ian McEwan / Ashima Arts (MIT).
-const simplex = /* glsl */ `
-vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
-vec4 mod289(vec4 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
-vec4 permute(vec4 x) { return mod289(((x * 34.0) + 1.0) * x); }
-vec4 taylorInvSqrt(vec4 r) { return 1.79284291400159 - 0.85373472095314 * r; }
-
-float snoise(vec3 v) {
-  const vec2 C = vec2(1.0 / 6.0, 1.0 / 3.0);
-  const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
-  vec3 i = floor(v + dot(v, C.yyy));
-  vec3 x0 = v - i + dot(i, C.xxx);
-  vec3 g = step(x0.yzx, x0.xyz);
-  vec3 l = 1.0 - g;
-  vec3 i1 = min(g.xyz, l.zxy);
-  vec3 i2 = max(g.xyz, l.zxy);
-  vec3 x1 = x0 - i1 + C.xxx;
-  vec3 x2 = x0 - i2 + C.yyy;
-  vec3 x3 = x0 - D.yyy;
-  i = mod289(i);
-  vec4 p = permute(permute(permute(
-      i.z + vec4(0.0, i1.z, i2.z, 1.0))
-    + i.y + vec4(0.0, i1.y, i2.y, 1.0))
-    + i.x + vec4(0.0, i1.x, i2.x, 1.0));
-  float n_ = 0.142857142857;
-  vec3 ns = n_ * D.wyz - D.xzx;
-  vec4 j = p - 49.0 * floor(p * ns.z * ns.z);
-  vec4 x_ = floor(j * ns.z);
-  vec4 y_ = floor(j - 7.0 * x_);
-  vec4 x = x_ * ns.x + ns.yyyy;
-  vec4 y = y_ * ns.x + ns.yyyy;
-  vec4 h = 1.0 - abs(x) - abs(y);
-  vec4 b0 = vec4(x.xy, y.xy);
-  vec4 b1 = vec4(x.zw, y.zw);
-  vec4 s0 = floor(b0) * 2.0 + 1.0;
-  vec4 s1 = floor(b1) * 2.0 + 1.0;
-  vec4 sh = -step(h, vec4(0.0));
-  vec4 a0 = b0.xzyw + s0.xzyw * sh.xxyy;
-  vec4 a1 = b1.xzyw + s1.xzyw * sh.zzww;
-  vec3 p0 = vec3(a0.xy, h.x);
-  vec3 p1 = vec3(a0.zw, h.y);
-  vec3 p2 = vec3(a1.xy, h.z);
-  vec3 p3 = vec3(a1.zw, h.w);
-  vec4 norm = taylorInvSqrt(vec4(dot(p0, p0), dot(p1, p1), dot(p2, p2), dot(p3, p3)));
-  p0 *= norm.x; p1 *= norm.y; p2 *= norm.z; p3 *= norm.w;
-  vec4 m = max(0.6 - vec4(dot(x0, x0), dot(x1, x1), dot(x2, x2), dot(x3, x3)), 0.0);
-  m = m * m;
-  return 42.0 * dot(m * m, vec4(dot(p0, x0), dot(p1, x1), dot(p2, x2), dot(p3, x3)));
-}
-`;
-
+/** One draw call: TDX, code, and a three-dimensional stack of database layers. */
 export const vertexShader = /* glsl */ `
 uniform float uTime;
-uniform float uElapsed;     // seconds since the current morph began
-uniform float uFrom;        // 0 scatter · 1 lattice · 2 halo
+uniform float uElapsed;
+uniform float uFrom;
 uniform float uTo;
-uniform float uBurst;       // 1 while dissolving back to scatter
-uniform float uDisperse;    // hero scroll progress 0..1
-uniform float uSize;        // base point size in CSS px
+uniform float uMorphDur;
+uniform float uSize;
 uniform float uPixelRatio;
-uniform float uDrift;       // idle noise amplitude
-uniform float uMorphDur;    // per-point travel time
-uniform float uAccentRatio; // share of permanently accent-coloured points
-uniform vec3 uRayOrigin;
-uniform vec3 uRayDir;
-uniform float uPointer;     // 0..1 pointer influence
-
-attribute vec3 aLattice;
-attribute vec3 aHalo;
-attribute vec3 aSeed;       // delay seed · accent seed · size jitter
-
-varying float vHeat;
-varying float vAlpha;
+uniform float uMovement;
+attribute vec3 aCode;
+attribute vec3 aDatabase;
+attribute vec3 aSeed;
 varying float vAccent;
+varying float vAlpha;
 
-${simplex}
-
-vec3 pick(float i) {
-  return mix(mix(position, aLattice, step(0.5, i)), aHalo, step(1.5, i));
+vec3 target(float phase) {
+  return mix(mix(position, aCode, step(0.5, phase)), aDatabase, step(1.5, phase));
 }
 
-float easeInOut(float t) {
-  return t < 0.5 ? 4.0 * t * t * t : 1.0 - pow(-2.0 * t + 2.0, 3.0) / 2.0;
+float accentAt(vec3 p, float phase) {
+  if (phase < 0.5) return step(0.85, p.x);
+  if (phase < 1.5) return (1.0 - step(1.4, abs(p.x))) * (1.0 - step(0.68, abs(p.y + 0.12)));
+  // Undo the baked pitch to find the circular rims in cylinder coordinates.
+  float localZ = -p.y * ${Math.sin(DATABASE_PITCH).toFixed(8)} + p.z * ${Math.cos(DATABASE_PITCH).toFixed(8)};
+  float radius = length(vec2(p.x, localZ));
+  return smoothstep(${(DATABASE_RADIUS - 0.06).toFixed(3)}, ${DATABASE_RADIUS.toFixed(3)}, radius);
 }
 
 void main() {
-  vec3 from = pick(uFrom);
-  vec3 to = pick(uTo);
-
-  // Staggered morph: the wave sweeps outward from the centre, jittered per point.
-  float delay = aSeed.x * 0.45 + min(length(from), 2.6) * 0.15;
+  vec3 from = target(uFrom);
+  vec3 to = target(uTo);
+  float delay = aSeed.x * 0.4;
   float t = clamp((uElapsed - delay) / uMorphDur, 0.0, 1.0);
-  float e = easeInOut(t);
+  // Quintic easing gives zero velocity and acceleration at both ends.
+  float e = t * t * t * (t * (t * 6.0 - 15.0) + 10.0);
   vec3 p = mix(from, to, e);
-
-  // Mid-flight swell; a full outward burst when the structure dissolves.
-  float travel = length(to - from);
-  float arc = sin(t * 3.14159265);
-  vec3 radial = normalize(p + vec3(1e-4));
-  p += radial * arc * (uBurst * 0.7 + 0.12 * min(travel, 1.0));
-
-  // Heat = energy of motion. Points that barely move stay cool.
-  float heat = arc * clamp(travel / 0.5, 0.0, 1.0);
-
-  // Idle drift so the field never fully freezes.
-  vec3 q = p * 0.9 + uTime * 0.12;
-  p += vec3(snoise(q), snoise(q + 31.7), snoise(q + 71.3)) * uDrift;
-
-  // Scroll: fly apart and fade as the hero leaves.
-  p += radial * uDisperse * 2.2;
-
-  vec4 wp = modelMatrix * vec4(p, 1.0);
-
-  // Pointer repulsion, measured as distance to the pointer ray in world space.
-  vec3 toP = wp.xyz - uRayOrigin;
-  vec3 perp = toP - dot(toP, uRayDir) * uRayDir;
-  float d = length(perp);
-  float push = smoothstep(0.95, 0.0, d) * uPointer;
-  wp.xyz += (perp / max(d, 1e-4)) * push * 0.55;
-  heat = max(heat, push * 0.9);
-
-  vec4 mv = viewMatrix * wp;
+  float arcWave = sin(t * 3.14159265);
+  float arc = arcWave * arcWave;
+  float travel = min(length(to - from), 1.0);
+  // A loose weave between shapes, without an expanding sphere or radial burst.
+  p += vec3(
+    sin(aSeed.y * 31.4) * 0.26,
+    cos(aSeed.z * 25.1) * 0.32,
+    sin(aSeed.x * 19.3) * 0.6
+  ) * arc * travel;
+  p += vec3(
+    sin(uTime * 0.65 + aSeed.x * 28.0),
+    cos(uTime * 0.55 + aSeed.y * 23.0),
+    sin(uTime * 0.4 + aSeed.z * 17.0)
+  ) * 0.012 * uMovement;
+  vec4 mv = modelViewMatrix * vec4(p, 1.0);
   gl_Position = projectionMatrix * mv;
-
-  float accent = step(1.0 - uAccentRatio, aSeed.y);
-  vAccent = accent;
-  vHeat = clamp(heat, 0.0, 1.0);
-
-  float depth = -mv.z;
-  vAlpha = smoothstep(10.5, 5.0, depth) * (1.0 - uDisperse);
-
-  float size = uSize * (0.85 + aSeed.z * 0.3) * (1.0 + accent * 0.7 + vHeat * 0.5);
-  gl_PointSize = size * uPixelRatio * (7.0 / max(depth, 0.1));
+  float emphasis = mix(accentAt(from, uFrom), accentAt(to, uTo), e);
+  vAccent = max(emphasis, max(step(0.9, aSeed.y), arc * 0.55));
+  float databaseWeight = mix(step(1.5, uFrom), step(1.5, uTo), e);
+  float depthAlpha = mix(1.0, 0.3, smoothstep(5.2, 8.8, -mv.z));
+  float databaseAlpha = depthAlpha * mix(0.8, 1.65, emphasis);
+  vAlpha = (0.6 + aSeed.z * 0.4) * mix(1.0, databaseAlpha, databaseWeight);
+  gl_PointSize = uSize * uPixelRatio * (0.7 + aSeed.z * 0.6)
+    * (7.0 / max(-mv.z, 0.1));
 }
 `;
 
@@ -144,26 +68,13 @@ export const fragmentShader = /* glsl */ `
 uniform vec3 uColor;
 uniform vec3 uAccent;
 uniform float uOpacity;
-
-varying float vHeat;
-varying float vAlpha;
 varying float vAccent;
-
+varying float vAlpha;
 void main() {
-  vec2 c = gl_PointCoord - 0.5;
-  float d = length(c);
-  float hot = max(vAccent, vHeat);
-
-  // Neutral points are crisp discs; hot points gain a soft glow skirt.
-  float core = smoothstep(0.5, 0.32, d);
-  float glow = smoothstep(0.5, 0.05, d) * 0.6;
-  float a = mix(core, max(core, glow), hot);
-
-  vec3 col = mix(uColor, uAccent, hot);
-  float alpha = a * vAlpha * mix(uOpacity, 1.0, hot);
+  float d = length(gl_PointCoord - 0.5);
+  float alpha = clamp((1.0 - smoothstep(0.22, 0.5, d)) * vAlpha * uOpacity, 0.0, 1.0);
   if (alpha < 0.01) discard;
-
-  gl_FragColor = vec4(col, alpha);
+  gl_FragColor = vec4(mix(uColor, uAccent, vAccent), alpha);
   #include <colorspace_fragment>
 }
 `;

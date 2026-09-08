@@ -1,5 +1,4 @@
 import { Suspense } from "react";
-import { CtaBand } from "@/components/home/cta-band";
 import { Facts } from "@/components/home/facts";
 import { FeaturedProjects } from "@/components/home/featured-projects";
 import { GitHubPanel, GitHubPanelSkeleton } from "@/components/home/github-panel";
@@ -20,7 +19,6 @@ export default function HomePage() {
         <GitHubPanel />
       </Suspense>
       <LatestPosts />
-      <CtaBand />
     </>
   );
 }

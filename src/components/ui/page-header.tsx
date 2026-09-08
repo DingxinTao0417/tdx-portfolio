@@ -19,14 +19,13 @@ export function PageHeader({
   className?: string;
 }) {
   return (
-    <header className={cn("relative isolate overflow-hidden pt-36 pb-6 sm:pt-44", className)}>
-      <div className="grid-bg pointer-events-none absolute inset-0 -z-10" />
+    <header className={cn("relative isolate overflow-hidden pt-32 pb-4 sm:pt-40", className)}>
       <div
         className="pointer-events-none absolute inset-0 -z-10"
         style={{ backgroundImage: "var(--hero-glow)" }}
       />
       <div className="container-x">
-        <SectionHeading eyebrow={eyebrow} title={title} accent={accent} body={body} size="xl">
+        <SectionHeading eyebrow={eyebrow} title={title} accent={accent} body={body} size="xl" as="h1" className="border-b border-line pb-10 sm:pb-12">
           {children}
         </SectionHeading>
       </div>

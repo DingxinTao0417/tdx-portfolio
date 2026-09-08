@@ -19,38 +19,28 @@ export function Hero() {
     target: ref,
     offset: ["start start", "end start"],
   });
-  const textY = useTransform(scrollYProgress, [0, 1], [0, -120]);
-  const textOpacity = useTransform(scrollYProgress, [0, 0.6], [1, 0]);
   const scrollHintOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
 
   return (
     <section
       ref={ref}
-      className="relative isolate min-h-[100svh] overflow-hidden pt-28 sm:pt-32 short:pt-28"
+      className="relative isolate overflow-hidden pt-28 sm:pt-32 lg:pt-28"
       aria-labelledby="hero-title"
     >
       {/* Atmosphere */}
-      <div className="grid-bg pointer-events-none absolute inset-0 -z-20" />
+      <div className="grid-bg pointer-events-none absolute inset-0 -z-20 opacity-40" />
       <div
         className="pointer-events-none absolute inset-0 -z-20"
         style={{ backgroundImage: "var(--hero-glow)" }}
       />
 
-      {/* 3D scene — sits right on desktop, behind the copy on mobile */}
-      <div className="pointer-events-none absolute inset-0 -z-10 lg:pointer-events-auto">
-        <HeroCanvas
-          progress={scrollYProgress}
-          className="absolute inset-x-0 top-[38%] h-[70vh] opacity-70 lg:inset-y-0 lg:left-auto lg:right-0 lg:h-full lg:w-[58%] lg:opacity-100 lg:[mask-image:linear-gradient(to_right,transparent,black_16%)]"
-        />
-      </div>
-
-      <motion.div
-        style={{ y: textY, opacity: textOpacity }}
-        className="container-x relative flex min-h-[calc(100svh-7rem)] flex-col justify-center pb-24 sm:min-h-[calc(100svh-8rem)] short:min-h-[calc(100svh-7rem)] short:pb-12"
+      <div
+        className="container-x relative grid items-center gap-10 pb-16 lg:min-h-[calc(min(100svh,960px)-7rem)] lg:grid-cols-2 lg:gap-10 lg:pt-8 lg:pb-24 xl:gap-14"
       >
-        <div className={cn("max-w-3xl", isChinese && "max-w-[50rem]")}>
+        <div className="relative max-w-2xl">
           <motion.p
-            className="eyebrow mb-6 flex items-center gap-3 short:mb-4"
+            data-reveal
+            className="eyebrow mb-7 flex items-center gap-3 leading-relaxed"
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, ease, delay: 0.1 }}
@@ -62,14 +52,15 @@ export function Hero() {
           <h1
             id="hero-title"
             className={cn(
-              "font-display font-bold",
+              "font-display font-semibold",
               isChinese
-                ? "text-[clamp(2.6rem,4.5vw,4.5rem)] leading-[1.05] tracking-[-0.025em] short:text-[clamp(2.4rem,min(4.5vw,9svh),4.5rem)]"
-                : "text-[clamp(2.6rem,7.2vw,6.2rem)] leading-[0.98] tracking-[-0.03em] short:text-[clamp(2.4rem,min(7.2vw,10.5svh),6.2rem)]",
+                ? "text-[clamp(1.8rem,4vw,3.65rem)] leading-[1.28] tracking-[-0.035em] sm:text-[clamp(2.5rem,4vw,3.65rem)]"
+                : "text-[clamp(2.8rem,5.4vw,4.8rem)] leading-[1.08] tracking-[-0.04em]",
             )}
           >
             <span className="block overflow-hidden">
               <motion.span
+                data-reveal
                 className="block"
                 initial={{ y: "110%" }}
                 animate={{ y: 0 }}
@@ -80,6 +71,7 @@ export function Hero() {
             </span>
             <span className="block overflow-hidden pb-2">
               <motion.span
+                data-reveal
                 className="block font-serif font-normal italic tracking-[-0.01em] text-accent"
                 initial={{ y: "110%" }}
                 animate={{ y: 0 }}
@@ -91,7 +83,8 @@ export function Hero() {
           </h1>
 
           <motion.p
-            className="mt-8 max-w-xl text-base leading-relaxed text-muted sm:text-lg short:mt-4"
+            data-reveal
+            className="mt-7 max-w-[34rem] text-[15px] leading-[1.95] text-muted sm:text-base lg:pr-6"
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease, delay: 0.5 }}
@@ -100,7 +93,8 @@ export function Hero() {
           </motion.p>
 
           <motion.div
-            className="mt-10 flex flex-wrap items-center gap-4 short:mt-6"
+            data-reveal
+            className="mt-8 flex flex-wrap items-center gap-3"
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease, delay: 0.62 }}
@@ -117,18 +111,20 @@ export function Hero() {
             </Magnetic>
           </motion.div>
         </div>
-      </motion.div>
+        <HeroCanvas className="mx-auto w-full max-w-[38rem] lg:max-w-none" />
+      </div>
 
       {/* Scroll hint */}
       <motion.div
         style={{ opacity: scrollHintOpacity }}
-        className="pointer-events-none absolute bottom-8 left-1/2 hidden -translate-x-1/2 items-center gap-3 font-mono text-[10px] uppercase tracking-[0.22em] text-muted sm:flex short:bottom-4"
+        className="pointer-events-none absolute inset-x-0 bottom-7 hidden lg:block"
         aria-hidden
       >
-        <span className="animate-float">
-          <ArrowDown className="h-3.5 w-3.5" />
-        </span>
-        {t("scrollHint")}
+        <div className="container-x flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.18em] text-muted">
+          <ArrowDown className="h-3.5 w-3.5 text-accent" />
+          {t("scrollHint")}
+          <span className="ml-3 h-px flex-1 bg-line" />
+        </div>
       </motion.div>
     </section>
   );

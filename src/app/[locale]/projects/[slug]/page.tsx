@@ -79,24 +79,23 @@ export default async function ProjectPage({ params }: Props) {
   };
 
   return (
-    <article>
+    <article className="pb-16 sm:pb-24">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <header className="relative isolate overflow-hidden pt-32 sm:pt-40">
-        <div className="grid-bg pointer-events-none absolute inset-0 -z-10" />
+      <header className="relative isolate pt-28 sm:pt-36">
         <div className="container-x">
           <Reveal>
             <Link
               href="/projects"
-              className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.16em] text-muted transition-colors hover:text-accent"
+              className="inline-flex min-h-11 items-center gap-2 text-sm text-muted transition-colors hover:text-accent"
             >
               <ArrowLeft className="h-3.5 w-3.5" />
               {tc("backToProjects")}
             </Link>
           </Reveal>
-          <div className="mt-10 grid gap-10 lg:grid-cols-12 lg:items-end">
+          <div className="mt-8 grid gap-8 lg:grid-cols-12 lg:items-end lg:gap-12">
             <div className="lg:col-span-8">
               <Reveal delay={0.05}>
                 <div className="flex flex-wrap items-center gap-2">
@@ -106,21 +105,21 @@ export default async function ProjectPage({ params }: Props) {
                 </div>
               </Reveal>
               <Reveal delay={0.1}>
-                <h1 className="mt-6 font-display text-4xl font-bold leading-[1.02] tracking-tight sm:text-5xl lg:text-6xl">
+                <h1 className="mt-5 font-display text-4xl font-semibold leading-[1.15] tracking-tight sm:text-5xl lg:text-[3.5rem]">
                   {pick(project.title, locale)}
                 </h1>
               </Reveal>
               <Reveal delay={0.15}>
-                <p className="mt-6 max-w-2xl font-serif text-xl italic leading-relaxed text-muted sm:text-2xl">
+                <p className="mt-5 max-w-2xl text-base leading-8 text-muted sm:text-lg">
                   {pick(project.tagline, locale)}
                 </p>
               </Reveal>
             </div>
             <Reveal delay={0.2} className="lg:col-span-4">
-              <dl className="grid grid-cols-2 gap-6 rounded-3xl border border-line bg-bg-elevated p-6">
+              <dl className="grid grid-cols-2 gap-x-6 gap-y-5 border-y border-line py-6">
                 {project.metrics.map((m) => (
                   <div key={m.value} className="flex flex-col gap-1">
-                    <dd className="font-display text-3xl font-bold tracking-tight text-accent">
+                    <dd className="font-display text-2xl font-semibold tracking-tight text-fg sm:text-3xl">
                       <Counter value={m.value} />
                     </dd>
                     <dt className="text-xs text-muted">{pick(m.label, locale)}</dt>
@@ -130,9 +129,9 @@ export default async function ProjectPage({ params }: Props) {
             </Reveal>
           </div>
 
-          <Reveal delay={0.25} className="mt-12">
+          <Reveal delay={0.25} className="mt-8 sm:mt-12">
             {project.cover ? (
-              <div className="hud-corners relative overflow-hidden rounded-2xl border border-line bg-bg-elevated p-1.5 sm:p-2">
+              <div className="relative rounded-2xl border border-line bg-bg-elevated p-1.5 sm:p-2.5">
                 <Image
                   src={project.cover.src}
                   alt={pick(project.cover.alt, locale)}
@@ -140,11 +139,11 @@ export default async function ProjectPage({ params }: Props) {
                   height={project.cover.height}
                   priority
                   sizes="(min-width: 1280px) 1200px, 100vw"
-                  className="h-auto w-full rounded-md"
+                  className="h-auto w-full rounded-lg border border-line object-contain"
                 />
               </div>
             ) : (
-              <div className="hud-corners relative aspect-[16/8] overflow-hidden rounded-3xl border border-line">
+              <div className="relative aspect-[16/8] overflow-hidden rounded-2xl border border-line">
                 <GenerativeCover hue={project.hue} motif={project.motif} index={project.index} />
               </div>
             )}
@@ -152,38 +151,38 @@ export default async function ProjectPage({ params }: Props) {
         </div>
       </header>
 
-      <div className="container-x mt-20 grid gap-14 lg:grid-cols-12">
+      <div className="container-x mt-12 grid gap-10 sm:mt-16 lg:grid-cols-12 lg:gap-14">
         {/* Body */}
-        <div className="flex flex-col gap-14 lg:col-span-8">
+        <div className="flex min-w-0 flex-col lg:col-span-8">
           {sections.map((s, i) => (
             <Reveal key={s.key}>
-              <section className="grid gap-4 sm:grid-cols-12">
+              <section className="grid gap-4 border-t border-line py-8 sm:grid-cols-12 sm:gap-6">
                 <div className="sm:col-span-3">
-                  <p className="eyebrow flex items-center gap-2">
+                  <h2 className="flex items-center gap-2 text-sm font-medium">
                     <span className="text-accent">0{i + 1}</span>
                     {t(`detail.${s.key}`)}
-                  </p>
+                  </h2>
                 </div>
-                <p className="text-lg leading-relaxed text-fg/90 sm:col-span-9">{s.body}</p>
+                <p className="text-base leading-8 text-fg/85 sm:col-span-9">{s.body}</p>
               </section>
             </Reveal>
           ))}
 
           <Reveal>
-            <section className="grid gap-4 sm:grid-cols-12">
+            <section className="grid gap-4 border-t border-line py-8 sm:grid-cols-12 sm:gap-6">
               <div className="sm:col-span-3">
-                <p className="eyebrow flex items-center gap-2">
+                <h2 className="flex items-center gap-2 text-sm font-medium">
                   <span className="text-accent">
                     {String(sections.length + 1).padStart(2, "0")}
                   </span>
                   {t("detail.highlights")}
-                </p>
+                </h2>
               </div>
-              <ul className="grid gap-3 sm:col-span-9">
+              <ul className="grid gap-4 sm:col-span-9">
                 {project.highlights.map((h) => (
                   <li
                     key={h.en}
-                    className="flex items-start gap-3 rounded-2xl border border-line bg-bg-elevated p-4 text-[15px] leading-relaxed"
+                    className="flex items-start gap-3 text-[15px] leading-7"
                   >
                     <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-accent-soft text-accent">
                       <Check className="h-3 w-3" />
@@ -197,12 +196,12 @@ export default async function ProjectPage({ params }: Props) {
         </div>
 
         {/* Sidebar */}
-        <aside className="lg:col-span-4">
+        <aside className="lg:sticky lg:top-28 lg:col-span-4 lg:self-start">
           <Reveal delay={0.1}>
-            <div className="sticky top-28 flex flex-col gap-8 rounded-3xl border border-line bg-bg-elevated p-7">
+            <div className="flex flex-col gap-7 rounded-2xl border border-line bg-bg-elevated p-6 sm:p-7">
               <div>
                 <p className="eyebrow mb-2">{tc("role")}</p>
-                <p className="text-[15px]">{pick(project.role, locale)}</p>
+                <p className="text-[15px] leading-7">{pick(project.role, locale)}</p>
               </div>
               <div>
                 <p className="eyebrow mb-2">{tc("year")}</p>
@@ -214,7 +213,7 @@ export default async function ProjectPage({ params }: Props) {
                   {project.stack.map((s) => (
                     <li
                       key={s}
-                      className="inline-flex items-center gap-2 rounded-lg border border-line px-2.5 py-1.5 font-mono text-xs"
+                      className="inline-flex items-center gap-2 rounded-md bg-bg px-2.5 py-1.5 font-mono text-xs"
                     >
                       <TechIcon icon={iconKeyForStack(s)} name={s} size={14} className="text-fg/70" />
                       {s}
@@ -260,14 +259,14 @@ export default async function ProjectPage({ params }: Props) {
       </div>
 
       {next && (
-        <section className="container-x mt-28">
+        <section className="container-x mt-16 sm:mt-24">
           <div className="flex items-end justify-between gap-6">
             <p className="eyebrow">{t("detail.nextProject")}</p>
             <ButtonLink href="/projects" variant="ghost" size="sm" arrow>
               {t("detail.more")}
             </ButtonLink>
           </div>
-          <div className="mt-6 md:w-2/3 lg:w-1/2">
+          <div className="mt-6">
             <ProjectCard
               project={next}
               locale={locale}

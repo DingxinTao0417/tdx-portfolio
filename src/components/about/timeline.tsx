@@ -4,7 +4,6 @@ import type { EducationEntry, ExperienceEntry } from "@/data/timeline";
 import { pick } from "@/data/types";
 import { Reveal } from "@/components/ui/reveal";
 import { Tag } from "@/components/ui/tag";
-import { TiltCard } from "@/components/ui/tilt-card";
 import { cn } from "@/lib/utils";
 
 export function EducationCards({
@@ -17,25 +16,14 @@ export function EducationCards({
   classOfLabel: string;
 }) {
   return (
-    <div className="relative grid gap-6 md:grid-cols-2">
-      {/* Trajectory connector (desktop) */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute left-1/2 top-1/2 hidden h-px w-24 -translate-x-1/2 bg-gradient-to-r from-accent/0 via-accent to-accent/0 md:block"
-      />
+    <div className="grid gap-5 md:grid-cols-2">
       {entries.map((e, i) => (
         <Reveal key={e.id} delay={i * 0.1} className="h-full">
-          <TiltCard className="h-full rounded-3xl" max={5}>
-            <article className="hud-corners relative flex h-full flex-col gap-6 overflow-hidden rounded-3xl border border-line bg-bg-elevated p-8">
-              <div
-                aria-hidden
-                className="pointer-events-none absolute -right-16 -top-20 h-56 w-56 rounded-full opacity-30 blur-3xl"
-                style={{ background: `oklch(65% 0.2 ${e.hue})` }}
-              />
+            <article className="relative flex h-full flex-col gap-6 rounded-2xl border border-line bg-bg-elevated p-6 sm:p-8">
               <div className="relative flex items-start justify-between gap-4">
                 <div
                   className={cn(
-                    "relative h-14 w-14 overflow-hidden rounded-2xl border border-line bg-white shadow-sm",
+                    "relative h-14 w-14 overflow-hidden rounded-xl border border-line bg-white",
                   )}
                 >
                   <Image
@@ -53,28 +41,27 @@ export function EducationCards({
               </div>
               <div className="relative">
                 <p className="eyebrow mb-2">{pick(e.period, locale)}</p>
-                <h3 className="font-display text-2xl font-semibold tracking-tight">
+                <h3 className="font-display text-xl font-semibold leading-snug tracking-tight sm:text-2xl">
                   {pick(e.school, locale)}
                 </h3>
-                <p className="mt-2 text-lg text-fg/85">
+                <p className="mt-2 text-base leading-relaxed text-fg/85">
                   {pick(e.degree, locale)} ·{" "}
                   <span className="font-serif italic text-accent">{pick(e.field, locale)}</span>
                 </p>
               </div>
-              <ul className="relative mt-auto flex flex-col gap-2 border-t border-line pt-5 text-sm text-muted">
+              <ul className="relative mt-auto flex flex-col gap-2.5 border-t border-line pt-5 text-sm leading-relaxed text-muted">
                 {e.focus.map((f) => (
-                  <li key={f.en} className="flex items-center gap-2">
-                    <GraduationCap className="h-3.5 w-3.5 text-accent" />
+                  <li key={f.en} className="flex items-start gap-2">
+                    <GraduationCap className="mt-1 h-3.5 w-3.5 shrink-0 text-muted" />
                     {pick(f, locale)}
                   </li>
                 ))}
-                <li className="mt-2 flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.14em]">
+                <li className="mt-2 flex items-center gap-2 text-xs">
                   <MapPin className="h-3.5 w-3.5" />
                   {pick(e.location, locale)}
                 </li>
               </ul>
             </article>
-          </TiltCard>
         </Reveal>
       ))}
     </div>
@@ -89,26 +76,25 @@ export function ExperienceTimeline({
   locale: string;
 }) {
   return (
-    <ol className="relative flex flex-col gap-12 border-l border-line pl-8 sm:pl-12">
+    <ol className="flex flex-col">
       {entries.map((e, i) => (
-        <Reveal key={e.id} as="li" delay={i * 0.08} className="relative">
-          <span className="absolute -left-[calc(2rem+5px)] top-2 h-2.5 w-2.5 rounded-full bg-accent ring-4 ring-bg sm:-left-[calc(3rem+5px)]" />
-          <div className="grid gap-6 lg:grid-cols-12">
+        <Reveal key={e.id} as="li" delay={i * 0.08} className="border-t border-line py-8 first:pt-0 first:border-t-0 last:pb-0 sm:py-10">
+          <div className="grid gap-4 lg:grid-cols-12 lg:gap-10">
             <div className="lg:col-span-3">
-              <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent">
+              <p className="font-mono text-[11px] uppercase tracking-[0.1em] text-accent">
                 {pick(e.period, locale)}
               </p>
               <p className="mt-2 text-sm text-muted">{pick(e.org, locale)}</p>
             </div>
             <div className="lg:col-span-9">
-              <h3 className="font-display text-2xl font-semibold tracking-tight">
+              <h3 className="font-display text-xl font-semibold leading-snug tracking-tight sm:text-2xl">
                 {pick(e.title, locale)}
               </h3>
-              <p className="mt-3 text-[15px] leading-relaxed text-fg/85">{pick(e.summary, locale)}</p>
+              <p className="mt-3 max-w-[44rem] text-[15px] leading-[1.85] text-fg/85">{pick(e.summary, locale)}</p>
               <ul className="mt-4 flex flex-col gap-2">
                 {e.bullets.map((b) => (
-                  <li key={b.en} className="flex gap-3 text-sm leading-relaxed text-muted">
-                    <span className="mt-2 h-1 w-3 shrink-0 rounded-full bg-accent/70" />
+                  <li key={b.en} className="flex gap-3 text-sm leading-[1.8] text-muted">
+                    <span className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-accent/70" />
                     {pick(b, locale)}
                   </li>
                 ))}
@@ -117,7 +103,7 @@ export function ExperienceTimeline({
                 {e.stack.map((s) => (
                   <li
                     key={s}
-                    className="rounded-md border border-line px-2 py-0.5 font-mono text-[11px] text-muted"
+                    className="rounded-md bg-accent-soft/50 px-2 py-1 font-mono text-[10px] text-muted"
                   >
                     {s}
                   </li>

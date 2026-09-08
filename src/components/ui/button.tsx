@@ -1,5 +1,5 @@
 import { ArrowUpRight } from "lucide-react";
-import type { ComponentProps, ReactNode } from "react";
+import type { ComponentProps, MouseEventHandler, ReactNode } from "react";
 import { Link } from "@/i18n/navigation";
 import { cn } from "@/lib/utils";
 
@@ -7,20 +7,20 @@ type Variant = "primary" | "secondary" | "ghost";
 type Size = "sm" | "md" | "lg";
 
 const base =
-  "group/btn relative inline-flex items-center justify-center gap-2 rounded-full font-medium tracking-tight transition-[transform,background-color,color,border-color,box-shadow] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50";
+  "group/btn relative inline-flex shrink-0 items-center justify-center gap-3 rounded-full font-medium tracking-tight transition-[transform,background-color,color,border-color,box-shadow] duration-200 ease-out active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50";
 
 const variants: Record<Variant, string> = {
   primary:
-    "bg-accent text-white shadow-[0_10px_30px_-12px_var(--accent-glow)] hover:bg-accent-strong hover:shadow-[0_18px_40px_-14px_var(--accent-glow)]",
+    "bg-accent text-white hover:bg-accent-strong dark:text-bg",
   secondary:
     "border border-line-strong bg-transparent text-fg hover:border-accent hover:text-accent",
   ghost: "text-fg hover:text-accent",
 };
 
 const sizes: Record<Size, string> = {
-  sm: "h-9 px-4 text-sm",
+  sm: "h-10 px-4 text-sm",
   md: "h-11 px-5 text-[15px]",
-  lg: "h-13 px-7 text-base",
+  lg: "h-12 px-6 text-[15px] sm:h-13 sm:px-7",
 };
 
 type StyleProps = {
@@ -47,16 +47,18 @@ type ButtonLinkProps = StyleProps & {
   href: string;
   children: ReactNode;
   "data-cursor-text"?: string;
+  onClick?: MouseEventHandler<HTMLAnchorElement>;
 };
 
 /** Internal links go through next-intl's locale-aware Link; external ones open in a new tab. */
-export function ButtonLink({ href, children, arrow, ...style }: ButtonLinkProps) {
+export function ButtonLink({ href, children, arrow, onClick, ...style }: ButtonLinkProps) {
   const classes = buttonClasses(style);
   const isExternal = href.startsWith("http") || href.startsWith("mailto:");
   if (isExternal) {
     return (
       <a
         href={href}
+        onClick={onClick}
         className={classes}
         target={href.startsWith("http") ? "_blank" : undefined}
         rel={href.startsWith("http") ? "noreferrer noopener" : undefined}
@@ -67,7 +69,7 @@ export function ButtonLink({ href, children, arrow, ...style }: ButtonLinkProps)
     );
   }
   return (
-    <Link href={href} className={classes}>
+    <Link href={href} className={classes} onClick={onClick}>
       {children}
       {arrow && <Arrow />}
     </Link>

@@ -14,7 +14,7 @@ export async function GitHubPanel() {
   const data = await getGitHubSnapshot();
 
   return (
-    <section className="container-x py-24 sm:py-32">
+    <section className="container-x section-space">
       <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
         <SectionHeading
           eyebrow={t("eyebrow")}
@@ -24,17 +24,15 @@ export async function GitHubPanel() {
         />
       </div>
 
-      <Reveal className="mt-12">
+      <Reveal className="mt-10">
         <div className="grid gap-5 lg:grid-cols-12">
           {/* Profile */}
           <a
             href={data?.profile.htmlUrl ?? `https://github.com/${site.handle}`}
             target="_blank"
             rel="noreferrer noopener"
-            className="group relative flex flex-col justify-between gap-8 overflow-hidden rounded-3xl border border-line bg-fg p-7 text-bg lg:col-span-4"
+            className="group relative flex flex-col justify-between gap-8 overflow-hidden rounded-2xl border border-line bg-fg p-7 text-bg lg:col-span-4"
           >
-            <div className="grid-bg-dense pointer-events-none absolute inset-0 opacity-40 [--grid:rgba(255,255,255,0.08)]" />
-            <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-accent/40 blur-3xl transition-transform duration-700 group-hover:scale-125" />
             <div className="relative flex items-center gap-4">
               <Image
                 src={data?.profile.avatarUrl ?? `https://github.com/${site.handle}.png`}
@@ -80,7 +78,7 @@ export async function GitHubPanel() {
                   href={repo.htmlUrl}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="group flex flex-col gap-3 rounded-3xl border border-line bg-bg-elevated p-6 transition-[border-color,box-shadow] duration-500 hover:border-accent/50 hover:shadow-glow"
+                  className="group flex min-w-0 flex-col gap-3 rounded-2xl border border-line bg-bg-elevated/60 p-6 transition-colors duration-200 hover:border-accent/40"
                 >
                   <div className="flex items-center justify-between gap-3">
                     <span className="truncate font-mono text-sm font-medium text-fg">{repo.name}</span>
@@ -108,7 +106,7 @@ export async function GitHubPanel() {
                 </a>
               ))
             ) : (
-              <div className="flex items-center justify-center rounded-3xl border border-dashed border-line p-10 text-sm text-muted sm:col-span-2">
+              <div className="flex items-center justify-center rounded-2xl border border-dashed border-line p-10 text-sm text-muted sm:col-span-2">
                 {t("unavailable")}
               </div>
             )}
@@ -121,14 +119,14 @@ export async function GitHubPanel() {
 
 export function GitHubPanelSkeleton() {
   return (
-    <section className="container-x py-24 sm:py-32" aria-hidden>
+    <section className="container-x section-space" aria-hidden>
       <div className="h-8 w-40 animate-pulse rounded-full bg-line" />
       <div className="mt-6 h-14 w-2/3 animate-pulse rounded-2xl bg-line" />
       <div className="mt-12 grid gap-5 lg:grid-cols-12">
-        <div className="h-72 animate-pulse rounded-3xl bg-line lg:col-span-4" />
+        <div className="h-72 animate-pulse rounded-2xl bg-line lg:col-span-4" />
         <div className="grid gap-4 sm:grid-cols-2 lg:col-span-8">
           {[0, 1, 2, 3].map((i) => (
-            <div key={i} className="h-32 animate-pulse rounded-3xl bg-line" />
+            <div key={i} className="h-32 animate-pulse rounded-2xl bg-line" />
           ))}
         </div>
       </div>

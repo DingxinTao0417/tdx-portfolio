@@ -12,7 +12,7 @@ export function FeaturedProjects() {
   const locale = useLocale();
 
   return (
-    <section className="relative py-24 sm:py-32">
+    <section className="relative section-space border-y border-line bg-bg-elevated/40">
       <div className="container-x">
         <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
           <SectionHeading
@@ -26,14 +26,15 @@ export function FeaturedProjects() {
           </ButtonLink>
         </div>
 
-        <Stagger className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <Stagger className="mt-10 grid gap-x-7 gap-y-10 md:grid-cols-2">
           {featuredProjects.map((project, i) => (
             <StaggerItem
               key={project.slug}
-              className={i === 0 ? "md:col-span-2 lg:col-span-1" : ""}
+              className={i === 0 ? "md:col-span-2" : ""}
             >
               <ProjectCard
                 project={project}
+                size={i === 0 ? "lg" : "md"}
                 locale={locale}
                 categoryLabel={tp(`filters.${project.category}`)}
                 ctaLabel={tc("viewProject")}

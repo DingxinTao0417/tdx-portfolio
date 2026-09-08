@@ -42,9 +42,9 @@ export default async function BlogPage() {
         body={t("intro")}
       />
 
-      <section className="container-x pb-24 pt-10">
+      <section className="container-x pb-16 pt-8 sm:pb-24 sm:pt-10">
         {posts.length === 0 ? (
-          <p className="rounded-3xl border border-dashed border-line p-12 text-center text-muted">
+          <p className="rounded-2xl border border-dashed border-line p-12 text-center text-muted">
             {t("empty")}
           </p>
         ) : (
@@ -64,11 +64,11 @@ export default async function BlogPage() {
 
             {rest.length > 0 && (
               <>
-                <p className="eyebrow mb-6 mt-16 flex items-center gap-3">
+                <p className="eyebrow mb-6 mt-12 flex items-center gap-3 sm:mt-16">
                   <span className="inline-block h-px w-6 bg-accent" />
                   {t("allPosts")}
                 </p>
-                <Stagger className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+                <Stagger className="grid gap-5 md:grid-cols-2 sm:gap-6">
                   {rest.map((post) => (
                     <StaggerItem key={post.slug} className="h-full">
                       <PostCard

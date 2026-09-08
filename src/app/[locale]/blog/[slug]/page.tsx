@@ -79,29 +79,23 @@ export default async function BlogPostPage({ params }: Props) {
   };
 
   return (
-    <article>
+    <article className="pb-16 sm:pb-24">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <header className="relative isolate overflow-hidden pt-32 sm:pt-40">
-        <div className="grid-bg pointer-events-none absolute inset-0 -z-10" />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -top-40 right-0 -z-10 h-[32rem] w-[32rem] rounded-full opacity-30 blur-3xl"
-          style={{ background: `oklch(70% 0.18 ${post.hue})` }}
-        />
+      <header className="relative isolate pt-28 sm:pt-36">
         <div className="container-x">
           <Reveal>
             <Link
               href="/blog"
-              className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.16em] text-muted transition-colors hover:text-accent"
+              className="inline-flex min-h-11 items-center gap-2 text-sm text-muted transition-colors hover:text-accent"
             >
               <ArrowLeft className="h-3.5 w-3.5" />
               {tc("backToBlog")}
             </Link>
           </Reveal>
-          <div className="mt-10 max-w-4xl">
+          <div className="mt-8 max-w-4xl">
             <Reveal delay={0.05}>
               <div className="flex flex-wrap items-center gap-2">
                 {post.tags.map((tag) => (
@@ -113,17 +107,17 @@ export default async function BlogPostPage({ params }: Props) {
               </div>
             </Reveal>
             <Reveal delay={0.1}>
-              <h1 className="mt-6 font-display text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
+              <h1 className="mt-5 max-w-3xl font-display text-3xl font-semibold leading-[1.3] tracking-tight sm:text-4xl lg:text-5xl">
                 {post.title}
               </h1>
             </Reveal>
             <Reveal delay={0.15}>
-              <p className="mt-6 max-w-2xl font-serif text-xl italic leading-relaxed text-muted sm:text-2xl">
+              <p className="mt-5 max-w-2xl text-base leading-8 text-muted sm:text-lg">
                 {post.description}
               </p>
             </Reveal>
             <Reveal delay={0.2}>
-              <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 border-y border-line py-4 font-mono text-[11px] uppercase tracking-[0.14em] text-muted">
+              <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 border-y border-line py-4 text-xs text-muted">
                 <span>
                   {t("writtenBy")} <span className="text-fg">{site.name}</span>
                 </span>
@@ -143,17 +137,31 @@ export default async function BlogPostPage({ params }: Props) {
         </div>
       </header>
 
-      <div className="container-x mt-14 grid gap-14 lg:grid-cols-12">
-        <div className="prose-tdx lg:col-span-8">{content}</div>
-        <aside className="hidden lg:col-span-4 lg:block">
-          <div className="sticky top-28 pl-6">
+      <div className="container-x mt-10 grid gap-10 sm:mt-12 lg:grid-cols-[minmax(0,1fr)_15rem] lg:gap-16">
+        {toc.length > 0 && (
+          <details className="rounded-xl border border-line bg-bg-elevated p-5 lg:hidden">
+            <summary className="cursor-pointer text-sm font-medium">{tc("tableOfContents")}</summary>
+            <nav aria-label={tc("tableOfContents")} className="mt-4 border-t border-line pt-3">
+              <ul className="space-y-1">
+                {toc.map((item) => (
+                  <li key={item.id}>
+                    <a href={`#${item.id}`} className={`block py-2 text-sm text-muted hover:text-accent ${item.depth === 3 ? "pl-4" : ""}`}>{item.text}</a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </details>
+        )}
+        <div className="prose-tdx min-w-0 max-w-[46rem]">{content}</div>
+        <aside className="hidden lg:block">
+          <div className="sticky top-28 rounded-xl bg-bg-elevated/70 p-5">
             <TableOfContents items={toc} label={tc("tableOfContents")} />
           </div>
         </aside>
       </div>
 
       {related.length > 0 && (
-        <section className="container-x mt-28">
+        <section className="container-x mt-16 sm:mt-24">
           <p className="eyebrow mb-6 flex items-center gap-3">
             <span className="inline-block h-px w-6 bg-accent" />
             {t("relatedPosts")}

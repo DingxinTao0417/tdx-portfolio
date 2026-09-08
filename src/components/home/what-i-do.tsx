@@ -3,7 +3,6 @@ import { useTranslations } from "next-intl";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Stagger, StaggerItem } from "@/components/ui/reveal";
 import { Tag } from "@/components/ui/tag";
-import { TiltCard } from "@/components/ui/tilt-card";
 
 const icons = [Bot, Layers, Radar];
 
@@ -14,24 +13,23 @@ export function WhatIDo() {
   const items = t.raw("items") as Item[];
 
   return (
-    <section className="container-x py-24 sm:py-32">
+    <section className="container-x section-space">
       <SectionHeading eyebrow={t("eyebrow")} title={t("title")} accent={t("titleAccent")} />
 
-      <Stagger className="mt-14 grid gap-5 md:grid-cols-3">
+      <Stagger className="mt-10 grid border-y border-line md:grid-cols-3">
         {items.map((item, i) => {
           const Icon = icons[i] ?? Bot;
           return (
-            <StaggerItem key={item.title} className="h-full">
-              <TiltCard className="h-full rounded-3xl" max={6}>
-                <article className="hud-corners group relative flex h-full flex-col gap-5 rounded-3xl border border-line bg-bg-elevated p-7 transition-colors duration-500 hover:border-accent/50">
+            <StaggerItem key={item.title} className="h-full border-line not-last:border-b md:not-last:border-r md:not-last:border-b-0">
+                <article className="group relative flex h-full flex-col gap-5 px-1 py-8 transition-colors duration-300 md:px-7 md:py-9">
                   <div className="flex items-center justify-between">
-                    <span className="grid h-11 w-11 place-items-center rounded-2xl bg-accent-soft text-accent transition-transform duration-500 group-hover:rotate-6 group-hover:scale-110">
-                      <Icon className="h-5 w-5" />
+                    <span className="text-accent">
+                      <Icon className="h-6 w-6" strokeWidth={1.5} />
                     </span>
                     <span className="font-mono text-xs text-muted">0{i + 1}</span>
                   </div>
-                  <h3 className="font-display text-2xl font-semibold tracking-tight">{item.title}</h3>
-                  <p className="text-[15px] leading-relaxed text-muted">{item.body}</p>
+                  <h3 className="font-display text-xl font-semibold tracking-tight">{item.title}</h3>
+                  <p className="text-[15px] leading-[1.85] text-muted">{item.body}</p>
                   <ul className="mt-auto flex flex-wrap gap-1.5 pt-2">
                     {item.tags.map((tag) => (
                       <li key={tag}>
@@ -40,7 +38,6 @@ export function WhatIDo() {
                     ))}
                   </ul>
                 </article>
-              </TiltCard>
             </StaggerItem>
           );
         })}

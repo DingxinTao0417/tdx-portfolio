@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Portrait } from "@/components/about/portrait";
-import { EducationCards, ExperienceTimeline } from "@/components/about/timeline";
+import { EducationCards } from "@/components/about/timeline";
 import { ButtonLink } from "@/components/ui/button";
 import { Reveal, Stagger, StaggerItem } from "@/components/ui/reveal";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { site } from "@/data/site";
-import { education, experience } from "@/data/timeline";
+import { education } from "@/data/timeline";
 import { languageAlternates, localizedPath } from "@/i18n/paths";
 import { routing } from "@/i18n/routing";
 
@@ -45,7 +45,7 @@ export default async function AboutPage() {
     alternateName: site.nameZh,
     url: site.url,
     email: site.email,
-    jobTitle: locale === "zh" ? "AI 全栈开发工程师 / 前沿部署工程师" : "AI Full-Stack Engineer / Forward Deployed Engineer",
+    jobTitle: locale === "zh" ? "AI Native 开发者" : "AI Native Developer",
     sameAs: site.socials.filter((s) => s.href.startsWith("http")).map((s) => s.href),
     alumniOf: education.map((e) => ({ "@type": "CollegeOrUniversity", name: e.school.en })),
   };
@@ -56,15 +56,12 @@ export default async function AboutPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <header className="relative isolate overflow-hidden pt-36 pb-10 sm:pt-44">
-        <div className="grid-bg pointer-events-none absolute inset-0 -z-10" />
-        <div
-          className="pointer-events-none absolute inset-0 -z-10"
-          style={{ backgroundImage: "var(--hero-glow)" }}
-        />
-        <div className="container-x grid gap-14 lg:grid-cols-12 lg:items-center">
+      <header className="relative pt-32 pb-12 sm:pt-40 sm:pb-16">
+        <div className="container-x grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-16">
           <div className="lg:col-span-7">
             <SectionHeading
+              as="h1"
+              className="[&_h1]:lg:text-[3.25rem]"
               eyebrow={t("eyebrow")}
               title={t("title")}
               accent={t("titleAccent")}
@@ -79,8 +76,8 @@ export default async function AboutPage() {
       </header>
 
       {/* Story */}
-      <section className="container-x py-20">
-        <div className="grid gap-10 lg:grid-cols-12">
+      <section className="container-x pb-16 lg:pb-24">
+        <div className="grid gap-6 border-t border-line pt-10 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-3">
             <Reveal>
               <p className="eyebrow flex items-center gap-3">
@@ -89,14 +86,14 @@ export default async function AboutPage() {
               </p>
             </Reveal>
           </div>
-          <div className="flex flex-col gap-6 lg:col-span-7">
+          <div className="flex max-w-[46rem] flex-col gap-5 lg:col-span-8">
             {paragraphs.map((p, i) => (
               <Reveal key={i} delay={i * 0.05}>
                 <p
                   className={
                     i === 0
-                      ? "text-xl leading-relaxed text-fg first-letter:float-left first-letter:mr-3 first-letter:font-serif first-letter:text-6xl first-letter:leading-[0.85] first-letter:text-accent sm:text-2xl"
-                      : "text-lg leading-relaxed text-fg/80"
+                      ? "text-lg leading-[1.85] text-fg sm:text-xl"
+                      : "text-base leading-[1.9] text-muted sm:text-[17px]"
                   }
                 >
                   {p}
@@ -108,15 +105,14 @@ export default async function AboutPage() {
       </section>
 
       {/* Education */}
-      <section className="relative border-y border-line py-24">
-        <div className="grid-bg pointer-events-none absolute inset-0 -z-10 opacity-60" />
+      <section className="section-space border-y border-line bg-bg-elevated/35">
         <div className="container-x">
           <SectionHeading
             eyebrow={t("education.eyebrow")}
             title={t("education.title")}
             accent={t("education.titleAccent")}
           />
-          <div className="mt-14">
+          <div className="mt-10">
             <EducationCards
               entries={education}
               locale={locale}
@@ -126,35 +122,22 @@ export default async function AboutPage() {
         </div>
       </section>
 
-      {/* Experience */}
-      <section className="container-x py-24">
-        <SectionHeading
-          eyebrow={t("experience.eyebrow")}
-          title={t("experience.title")}
-          accent={t("experience.titleAccent")}
-        />
-        <div className="mt-14">
-          <ExperienceTimeline entries={experience} locale={locale} />
-        </div>
-      </section>
+      {/* Employment entries remain in data/timeline.ts until their placeholder organizations and role details are confirmed. */}
 
       {/* Now + Values */}
-      <section className="container-x pb-24">
-        <div className="grid gap-6 lg:grid-cols-12">
+      <section className="container-x section-space">
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
           <Reveal className="lg:col-span-5">
-            <div className="hud-corners flex h-full flex-col gap-6 rounded-3xl border border-line bg-fg p-8 text-bg">
+            <div className="flex h-full flex-col gap-6 rounded-2xl bg-fg p-7 text-bg sm:p-8">
               <p className="eyebrow flex items-center gap-3 text-bg/60">
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent opacity-70" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-accent" />
-                </span>
+                <span className="h-1.5 w-1.5 rounded-full bg-accent" />
                 {t("now.eyebrow")}
               </p>
-              <h3 className="font-display text-3xl font-semibold tracking-tight">{t("now.title")}</h3>
-              <ul className="flex flex-col gap-3">
+              <h3 className="font-display text-2xl font-semibold leading-snug tracking-tight sm:text-3xl">{t("now.title")}</h3>
+              <ul className="flex flex-col divide-y divide-bg/15">
                 {now.map((item, i) => (
-                  <li key={item} className="flex gap-4 text-[15px] leading-relaxed text-bg/85">
-                    <span className="font-mono text-xs text-accent">0{i + 1}</span>
+                  <li key={item} className="flex gap-4 py-4 text-sm leading-[1.8] text-bg/85 first:pt-0 last:pb-0">
+                    <span className="pt-0.5 font-mono text-[10px] text-accent">0{i + 1}</span>
                     {item}
                   </li>
                 ))}
@@ -173,13 +156,13 @@ export default async function AboutPage() {
                 {t("values.eyebrow")}
               </p>
             </Reveal>
-            <Stagger className="grid gap-4 sm:grid-cols-2">
+            <Stagger className="grid gap-x-7 gap-y-6 sm:grid-cols-2">
               {values.map((v, i) => (
                 <StaggerItem key={v.title} className="h-full">
-                  <article className="group flex h-full flex-col gap-3 rounded-3xl border border-line bg-bg-elevated p-6 transition-colors hover:border-accent/50">
-                    <span className="font-mono text-xs text-muted">0{i + 1}</span>
+                  <article className="flex h-full flex-col gap-3 border-t border-line pt-5">
+                    <span className="font-mono text-[10px] text-accent">0{i + 1}</span>
                     <h4 className="font-display text-xl font-semibold tracking-tight">{v.title}</h4>
-                    <p className="text-sm leading-relaxed text-muted">{v.body}</p>
+                    <p className="text-sm leading-[1.8] text-muted">{v.body}</p>
                   </article>
                 </StaggerItem>
               ))}

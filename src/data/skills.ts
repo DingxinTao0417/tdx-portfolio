@@ -28,15 +28,14 @@ export const skillCategories: SkillCategory[] = [
     id: "ai",
     title: { en: "AI Engineering", zh: "AI 工程" },
     blurb: {
-      en: "Retrieval, agents, evals and the plumbing that keeps them honest in production.",
-      zh: "检索、智能体、评测，以及让它们在生产环境中保持诚实的底层管线。",
+      en: "I build RAG applications and agent workflows with model APIs.",
+      zh: "把模型 API 接进应用，做 RAG 和智能体工作流。",
     },
     skills: [
       { name: "LangGraph", icon: "langgraph", level: "expert" },
       { name: "LangChain", icon: "langchain", level: "advanced" },
       { name: "RAG Systems", level: "expert" },
       { name: "Agentic Workflows", level: "expert" },
-      { name: "LLM Evals", level: "advanced" },
       { name: "OpenAI API", icon: "openai", level: "expert" },
       { name: "Anthropic API", icon: "anthropic", level: "advanced" },
       { name: "Gemini", icon: "googlegemini", level: "proficient" },
@@ -50,8 +49,8 @@ export const skillCategories: SkillCategory[] = [
     id: "frontend",
     title: { en: "Frontend", zh: "前端" },
     blurb: {
-      en: "Interfaces that feel fast, look considered and stay accessible.",
-      zh: "快、讲究、且始终无障碍的界面。",
+      en: "I care about how a page looks and how it feels to use, including keyboard navigation.",
+      zh: "页面好不好看、操作顺不顺手，我都在意。键盘能不能用也会留意。",
     },
     skills: [
       { name: "React", icon: "react", level: "expert" },
@@ -70,15 +69,14 @@ export const skillCategories: SkillCategory[] = [
     id: "backend",
     title: { en: "Backend & APIs", zh: "后端与 API" },
     blurb: {
-      en: "Typed contracts, streaming responses, and data models that age well.",
-      zh: "类型化契约、流式响应，以及经得起时间考验的数据模型。",
+      en: "I work on APIs, databases and streaming responses. I prefer a structure that is easy to change.",
+      zh: "处理接口和数据库，也会做流式响应。我偏好方便后续修改的结构。",
     },
     skills: [
       { name: "Node.js", icon: "nodedotjs", level: "expert" },
       { name: "Python", icon: "python", level: "expert" },
       { name: "FastAPI", icon: "fastapi", level: "expert" },
       { name: "PostgreSQL", icon: "postgresql", level: "advanced" },
-      { name: "pgvector", level: "advanced" },
       { name: "Redis", icon: "redis", level: "advanced" },
       { name: "Prisma", icon: "prisma", level: "advanced" },
       { name: "Drizzle", icon: "drizzle", level: "proficient" },
@@ -92,8 +90,8 @@ export const skillCategories: SkillCategory[] = [
     id: "data",
     title: { en: "Data & Analytics", zh: "数据与分析" },
     blurb: {
-      en: "From event contracts to forecasts — the analytics side of my USC degree, applied.",
-      zh: "从事件契约到预测——把 USC 分析学所学用到实处。",
+      en: "I study analytics at USC and use SQL and Python to work with data.",
+      zh: "在 USC 读分析学，也在做项目时用 SQL 和 Python 处理数据。",
     },
     skills: [
       { name: "SQL", icon: "postgresql", level: "expert" },
@@ -114,8 +112,8 @@ export const skillCategories: SkillCategory[] = [
     id: "cloud",
     title: { en: "Cloud & DevOps", zh: "云与 DevOps" },
     blurb: {
-      en: "Shipping into customer environments means being comfortable in all of them.",
-      zh: "部署到客户环境里，意味着要熟悉每一种环境。",
+      en: "Deployment includes the less visible work: configuration, logs and keeping services running.",
+      zh: "把应用部署起来，再处理配置、日志和运行中的问题。",
     },
     skills: [
       { name: "AWS", level: "advanced" },
@@ -136,8 +134,8 @@ export const skillCategories: SkillCategory[] = [
     id: "fde",
     title: { en: "Forward Deployed", zh: "前沿部署" },
     blurb: {
-      en: "The non-code half of the job: discovery, integration, enablement and trust.",
-      zh: "这份工作里非代码的另一半：需求发现、系统集成、客户赋能与信任。",
+      en: "I start by clarifying the need, then discuss the approach and how it connects to existing systems.",
+      zh: "先把需求问清楚，再讨论方案和怎么接入现有系统。",
     },
     skills: [
       { name: "Customer Discovery", level: "advanced" },

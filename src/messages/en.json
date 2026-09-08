@@ -1,23 +1,23 @@
 {
   "Metadata": {
-    "title": "Dingxin Tao — AI Full-Stack Engineer & Forward Deployed Engineer",
-    "titleTemplate": "%s — Dingxin Tao",
-    "description": "Portfolio of Dingxin Tao (陶鼎新): AI full-stack engineer and forward deployed engineer. B.S. Computer Science at UC Irvine '26, M.S. Analytics at USC '27. Shipping AI systems from prototype to production.",
+    "title": "Dingxin Tao | AI Native developer",
+    "titleTemplate": "%s | Dingxin Tao",
+    "description": "Dingxin Tao's personal website. Notes on building MultiMix, opc-workspace, and Omnigate, and the choices I make while using AI coding tools.",
     "projects": "Projects",
-    "projectsDescription": "Selected AI, full-stack, and forward-deployed engineering work by Dingxin Tao.",
-    "skills": "Skills",
-    "skillsDescription": "Technical capabilities across AI engineering, full-stack product, data, and cloud infrastructure.",
+    "projectsDescription": "MultiMix, opc-workspace, and Omnigate: what each project does, what I worked on, and the decisions involved.",
+    "skills": "Tech & tools",
+    "skillsDescription": "Technologies I've used in my studies and projects, and some habits I've developed while working with AI.",
     "blog": "Blog",
-    "blogDescription": "Notes on building production AI systems, forward deployed engineering, and full-stack craft.",
+    "blogDescription": "Notes on using AI, my coding workflow, and tool configuration. This is how I work; other approaches are welcome.",
     "about": "About",
-    "aboutDescription": "The story, education, and principles behind Dingxin Tao's work.",
+    "aboutDescription": "I'm Dingxin Tao, an AI Native developer. Here's my educational background, how I approach projects, and a few personal preferences.",
     "contact": "Contact",
-    "contactDescription": "Get in touch with Dingxin Tao about FDE roles, AI engineering, or collaborations."
+    "contactDescription": "Contact Dingxin Tao about work or projects, or compare notes on using AI tools."
   },
   "Nav": {
     "home": "Home",
     "projects": "Projects",
-    "skills": "Skills",
+    "skills": "Tech & tools",
     "blog": "Blog",
     "about": "About",
     "contact": "Contact",
@@ -37,7 +37,7 @@
     "readMore": "Read more",
     "learnMore": "Learn more",
     "viewProject": "View project",
-    "caseStudy": "Case study",
+    "caseStudy": "Project notes",
     "back": "Back",
     "backToProjects": "All projects",
     "backToBlog": "All posts",
@@ -61,13 +61,21 @@
     "index": "Index"
   },
   "Home": {
-    "eyebrow": "AI Full-Stack Engineer · Forward Deployed Engineer",
-    "headline1": "AI is redrawing the starting line.",
-    "headline2": "I want to make this opportunity count.",
-    "intro": "I'm Dingxin Tao (陶鼎新), an AI Native developer. I studied Computer Science at UC Irvine and am studying Analytics at USC. When I build something, I care about the problem it solves and whether it keeps working once it leaves the demo.",
+    "eyebrow": "Dingxin Tao / AI Native developer",
+    "headline1": "I use AI",
+    "headline2": "to build what I want.",
+    "intro": "I'm Dingxin Tao. I use AI to write code and build products, and I keep asking it to explain its choices. My projects are here, along with notes on what I've tried and why.",
     "ctaPrimary": "See the work",
     "ctaSecondary": "Get in touch",
-    "scrollHint": "Scroll to explore",
+    "scrollHint": "Keep scrolling",
+    "particles": {
+      "description": "Particles form TDX, a code window, and a layered three-dimensional database.",
+      "monogram": "TDX",
+      "code": "Code",
+      "database": "Database",
+      "pause": "Pause particle animation",
+      "play": "Resume particle animation"
+    },
     "marquee": [
       "React",
       "Next.js",
@@ -83,105 +91,105 @@
       "Docker"
     ],
     "whatIDo": {
-      "eyebrow": "01 — What I do",
-      "title": "AI engineering, full-stack products,",
-      "titleAccent": "and deployment.",
+      "eyebrow": "01 / Interests",
+      "title": "Development",
+      "titleAccent": "in practice.",
       "items": [
         {
-          "title": "AI Engineering",
-          "body": "Enterprise RAG, AI agents, and automated workflows, along with the evaluations and safeguards they need.",
-          "tags": ["Enterprise RAG", "AI Agents", "Workflows", "Evaluation"]
+          "title": "AI engineering",
+          "body": "I'm interested in enterprise RAG, AI agents, and workflows. I care more about the work they can save someone than how many models they connect to.",
+          "tags": ["Enterprise RAG", "AI agents", "Workflows"]
         },
         {
-          "title": "Full-Stack Product",
-          "body": "Type-safe React and Next.js frontends backed by Node and Python services, streaming APIs, and clean data models.",
+          "title": "Full-stack products",
+          "body": "I build web and desktop apps. Alongside APIs and data, I pay attention to how a page reads and whether an interaction feels awkward.",
           "tags": ["Next.js", "TypeScript", "FastAPI", "Postgres"]
         },
         {
-          "title": "Forward Deployed",
-          "body": "I work with customers to clarify requirements, connect existing systems, launch, and keep improving the product based on actual use.",
-          "tags": ["Requirements", "Integration", "Launch", "Iteration"]
+          "title": "Forward deployed engineering",
+          "body": "FDE interests me because there's plenty to ask before writing code: who will use it, how, and which systems it needs to connect to. Deployment and maintenance are worth spending time learning, too.",
+          "tags": ["Requirements", "System integration", "Deployment & maintenance"]
         }
       ]
     },
     "featured": {
-      "eyebrow": "02 — Selected work",
-      "title": "Three recent",
-      "titleAccent": "projects.",
-      "body": "A video creation workspace, a local-first desktop app, and a model API gateway. Each case study describes the work I actually completed.",
+      "eyebrow": "02 / Projects",
+      "title": "Projects",
+      "titleAccent": "I've worked on.",
+      "body": "Some are apps I built myself; others build on open-source projects. Each write-up explains what I did.",
       "cta": "All projects"
     },
     "facts": {
-      "eyebrow": "03 — Snapshot",
+      "eyebrow": "03 / Background",
       "items": [
         { "value": "UCI '26", "label": "B.S. Computer Science" },
         { "value": "USC '27", "label": "M.S. Analytics" },
-        { "value": "EN · 中文", "label": "Bilingual, end to end" },
-        { "value": "AI × FS × FDE", "label": "Model → product → customer" }
+        { "value": "EN · 中文", "label": "Conversation and writing" },
+        { "value": "AI Native", "label": "Developing with AI" }
       ]
     },
     "github": {
-      "eyebrow": "04 — Live from GitHub",
+      "eyebrow": "04 / GitHub",
       "title": "Recent",
       "titleAccent": "commits.",
-      "body": "Pulled live from the GitHub API through a cached Next.js route handler.",
+      "body": "My code and recent changes are here.",
       "repos": "Public repos",
       "followers": "Followers",
       "following": "Following",
-      "since": "Shipping since",
+      "since": "On GitHub since",
       "recent": "Recently pushed",
       "viewProfile": "View profile",
       "unavailable": "GitHub data is unavailable right now."
     },
     "writing": {
-      "eyebrow": "05 — Writing",
-      "title": "Notes from",
-      "titleAccent": "the field.",
+      "eyebrow": "05 / Blog",
+      "title": "Notes on",
+      "titleAccent": "using AI.",
       "cta": "All posts"
     },
     "cta": {
-      "eyebrow": "06 — Next step",
-      "title": "Have a hard problem?",
-      "titleAccent": "Let's deploy the solution.",
-      "body": "I'm open to forward deployed engineering and AI engineering roles, as well as selective collaborations.",
-      "button": "Start a conversation",
+      "eyebrow": "06 / Contact",
+      "title": "Want to talk?",
+      "titleAccent": "Write to me.",
+      "body": "We can talk about work or a project, or a different take on something I've written.",
+      "button": "Contact me",
       "secondary": "Read about me"
     }
   },
   "Projects": {
     "eyebrow": "Projects",
-    "title": "Selected",
-    "titleAccent": "work.",
-    "intro": "Projects I have developed or deployed, covering AI content production, local desktop software, and a model API gateway.",
+    "title": "Projects",
+    "titleAccent": "I've worked on.",
+    "intro": "Each write-up explains what I worked on and the tools I used. For projects based on open source, I also explain what comes from upstream.",
     "filters": {
       "all": "All",
       "ai": "AI",
-      "fullstack": "Full-Stack",
+      "fullstack": "Full-stack",
       "data": "Data",
-      "fde": "Forward Deployed"
+      "fde": "Forward deployed"
     },
     "count": "{count, plural, =1 {1 project} other {# projects}}",
     "empty": "No projects match this filter yet.",
     "detail": {
       "overview": "Overview",
-      "problem": "The problem",
-      "approach": "The approach",
-      "impact": "Impact",
+      "problem": "What it aims to solve",
+      "approach": "How I built it",
+      "impact": "Where it stands",
       "learning": "What I learned",
-      "highlights": "Highlights",
+      "highlights": "Project details",
       "more": "More projects",
       "nextProject": "Next project"
     }
   },
   "Skills": {
-    "eyebrow": "Skills",
-    "title": "Capabilities,",
-    "titleAccent": "mapped.",
-    "intro": "A working map of what I reach for — from model orchestration to pixels to infrastructure. Depth where it matters, breadth where it helps.",
-    "sphereHint": "Drag to rotate · hover to inspect",
+    "eyebrow": "Tech & tools",
+    "title": "Technologies",
+    "titleAccent": "and tools.",
+    "intro": "These are technologies I've encountered in my studies and projects. The project notes explain how I've used them and what I've built.",
+    "sphereHint": "Drag to rotate, click a category to view",
     "categories": "Categories",
-    "all": "Everything",
-    "proficiency": "Proficiency",
+    "all": "All",
+    "proficiency": "By category",
     "levels": {
       "expert": "Expert",
       "advanced": "Advanced",
@@ -190,120 +198,120 @@
     },
     "principles": {
       "eyebrow": "How I work",
-      "title": "Principles that",
-      "titleAccent": "ship.",
+      "title": "How I write code",
+      "titleAccent": "with AI.",
       "items": [
         {
-          "title": "Evals before vibes",
-          "body": "Every AI feature gets a test set, a metric, and a baseline before it gets a demo."
+          "title": "Agree on the change first",
+          "body": "I ask AI to read the existing code and explain what it plans to change. If we understand the task differently, I'd rather discuss that before it's halfway through."
         },
         {
-          "title": "Customer is the spec",
-          "body": "Forward deployment means the spec lives in the customer's workflow, not in a doc. I go find it."
+          "title": "Keep asking until I understand",
+          "body": "I don't stop at a reviewer's conclusion. I ask what the issue affects and what happens if I leave it alone, then decide whether to make the change."
         },
         {
-          "title": "Type the boundary",
-          "body": "Schemas at every seam — API, DB, model output — so the system fails loudly and early."
+          "title": "Keep the scope in check",
+          "body": "I finish the change I set out to make. If the model suggests a refactor or a new feature along the way, I consider it separately instead of accepting it by default."
         },
         {
-          "title": "Ship, observe, iterate",
-          "body": "Tracing, logging and feedback loops are part of v1, not a follow-up ticket."
+          "title": "Revise the rules as I go",
+          "body": "When the same mistake keeps happening, I add a project rule for it. My configuration changes with experience; it doesn't need to cover everything on day one."
         }
       ]
     },
     "toolbelt": {
-      "eyebrow": "Daily toolbelt",
-      "title": "What's open",
-      "titleAccent": "right now."
+      "eyebrow": "Toolbox",
+      "title": "Tools I use",
+      "titleAccent": "for development."
     }
   },
   "Blog": {
     "eyebrow": "Blog",
-    "title": "Notes from",
-    "titleAccent": "the field.",
-    "intro": "Writing about production AI systems, forward deployed engineering, and the craft of full-stack software. Bilingual, occasionally opinionated.",
+    "title": "Notes on",
+    "titleAccent": "using AI.",
+    "intro": "How I use AI, set up my tools, and decide what works for me. My setup keeps changing; you don't have to use it the same way.",
     "latest": "Latest",
     "allPosts": "All posts",
-    "empty": "Nothing published yet — check back soon.",
+    "empty": "I haven't published any posts yet.",
     "share": "Share",
     "writtenBy": "Written by",
     "relatedPosts": "Keep reading"
   },
   "About": {
     "eyebrow": "About",
-    "title": "Engineer between",
-    "titleAccent": "models and people.",
-    "intro": "I'm Dingxin Tao — 陶鼎新 — an AI full-stack engineer and forward deployed engineer based in Southern California.",
+    "title": "I'm",
+    "titleAccent": "Dingxin Tao.",
+    "intro": "I'm Dingxin Tao, an AI Native developer. I studied Computer Science at UC Irvine and am studying Analytics at USC.",
     "story": {
-      "eyebrow": "The story",
+      "eyebrow": "A bit about me",
       "paragraphs": [
-        "I got into software because I liked making things that other people could actually use. That instinct pulled me toward the full stack early: the interface people touch, the API underneath it, and the data that makes it honest.",
-        "Then large language models changed what 'usable' could mean. I spent the following years learning how to make AI features that survive production — retrieval that stays grounded, agents that stay on task, and evaluation loops that tell you the truth before your users do.",
-        "Forward deployed engineering is where those threads meet. I embed with customers, learn their workflow, integrate with their systems, and iterate until the solution works in their world. Then I bring what I learned back to the product.",
-        "I'm finishing my B.S. in Computer Science at UC Irvine in 2026 and continuing into the M.S. in Analytics at USC for 2027 — because the models are only as good as the data and the decisions around them."
+        "AI lets me try more of the things I want to make. I use it to write code, review changes, and think things through. It also helped build this website and the projects here.",
+        "I don't treat a model's answer as a decision. If I don't understand a review comment, I ask what it affects. If a suggestion doesn't fit what I'm trying to do, I stop and talk it through. I still have to decide what to change.",
+        "I have my own taste in interfaces. Oversized type, a hitch in an animation, or a cropped screenshot will make me want to go back and fix it. I'm the same with copy: if it doesn't sound like something I'd say, I change it.",
+        "Some projects here are independent work; others build on open source. Omnigate, for example, is based on new-api. I separate what the upstream project provides from what I changed. My blog describes how I work right now. Some of it may only suit me, and you're free to disagree."
       ]
     },
     "education": {
       "eyebrow": "Education",
-      "title": "Two campuses,",
-      "titleAccent": "one trajectory."
+      "title": "Where I've",
+      "titleAccent": "studied."
     },
     "experience": {
       "eyebrow": "Experience",
-      "title": "Where the work",
-      "titleAccent": "happened."
+      "title": "Work",
+      "titleAccent": "experience."
     },
     "now": {
-      "eyebrow": "Now",
-      "title": "Currently",
+      "eyebrow": "What I'm working on",
+      "title": "Projects and notes",
       "items": [
-        "Finishing my B.S. in Computer Science at UC Irvine (Class of 2026).",
-        "Preparing for the M.S. in Analytics at USC (Class of 2027).",
-        "Building agentic systems with typed tool-calling and evaluation harnesses.",
-        "Open to forward deployed engineering and AI engineering roles."
+        "MultiMix: one workspace for conversations, assets, and video creation.",
+        "opc-workspace: a local desktop workspace for a one-person business.",
+        "Omnigate: customization and deployment based on new-api.",
+        "Writing down how I use and configure AI coding tools."
       ]
     },
     "values": {
-      "eyebrow": "Values",
+      "eyebrow": "A few personal preferences",
       "items": [
-        { "title": "Ownership", "body": "From discovery call to production dashboard — if it's mine, it's mine end to end." },
-        { "title": "Clarity", "body": "Plain language for stakeholders, typed contracts for machines." },
-        { "title": "Momentum", "body": "Small, shipped increments beat perfect plans. Observe, then improve." },
-        { "title": "Craft", "body": "The details people feel but can't name — latency, motion, empty states — matter." }
+        { "title": "Make my own calls", "body": "A model can suggest changes, and I can switch tools. I want to understand the reasoning before I adopt a suggestion." },
+        { "title": "My setup isn't a standard", "body": "What works for me may not fit another project. I can explain my choices without expecting everyone to agree." },
+        { "title": "Be clear about sources", "body": "When I use an open-source project, I explain what it provides. If AI helped, I say so." },
+        { "title": "Follow my own taste", "body": "I don't like introductions packed with jargon. I prefer simple pages and writing that feels natural to read." }
       ]
     },
     "cta": "Say hello"
   },
   "Contact": {
     "eyebrow": "Contact",
-    "title": "Want to talk about a role or project?",
-    "titleAccent": "Get in touch.",
-    "intro": "Whether it's a forward deployed engineering role, an AI product that needs to leave the lab, or a collaboration — I'd love to hear from you.",
-    "responseTime": "I usually reply within 48 hours.",
+    "title": "Want to talk?",
+    "titleAccent": "Write to me.",
+    "intro": "You can write about work or a project, compare notes on tools, or disagree with something I've written.",
+    "responseTime": "You can include relevant links or some background on your project.",
     "directEmail": "Prefer email?",
     "elsewhere": "Elsewhere",
     "form": {
       "name": "Name",
       "namePlaceholder": "Your name",
       "email": "Email",
-      "emailPlaceholder": "you@company.com",
+      "emailPlaceholder": "you@example.com",
       "company": "Company (optional)",
       "companyPlaceholder": "Where you work",
       "topic": "What is this about?",
       "topics": {
-        "fde": "Forward Deployed Engineering role",
+        "fde": "Forward deployed engineering (FDE) role",
         "ai": "AI engineering role",
         "contract": "Contract / freelance project",
         "collab": "Collaboration",
         "other": "Something else"
       },
       "message": "Message",
-      "messagePlaceholder": "Tell me about the problem, the team, and the timeline.",
+      "messagePlaceholder": "What would you like to discuss? If it's a project, a little background and your plans would help.",
       "submit": "Send message",
       "sending": "Sending…",
       "successTitle": "Message received.",
-      "successBody": "Thanks {name} — I'll get back to you soon.",
-      "successBodyNoDelivery": "Thanks {name} — your message was recorded. Email delivery isn't configured on this deployment yet, so feel free to also reach me directly.",
+      "successBody": "Thanks for writing, {name}.",
+      "successBodyNoDelivery": "Email delivery isn't configured on this site, {name}, so I may not receive this message. Please email me directly.",
       "errorTitle": "Something went wrong.",
       "errorBody": "Please try again or email me directly.",
       "rateLimited": "Too many messages from this network. Please try again later.",
@@ -316,28 +324,28 @@
     }
   },
   "Footer": {
-    "tagline": "Want to talk about a role or project?",
-    "taglineAccent": "Get in touch.",
-    "cta": "Start a conversation",
+    "tagline": "Want to talk?",
+    "taglineAccent": "Write to me.",
+    "cta": "Contact me",
     "navigate": "Navigate",
     "connect": "Connect",
-    "colophon": "Colophon",
-    "colophonBody": "Designed and engineered by Dingxin Tao in collaboration with AI. Built with Next.js 16, React 19, TypeScript, Tailwind CSS v4, React Three Fiber and Motion.",
+    "colophon": "About this site",
+    "colophonBody": "Dingxin Tao designed and built this site with AI. The source is on GitHub if you'd like to see how it works.",
     "source": "Source on GitHub",
     "rights": "© {year} Dingxin Tao. All rights reserved.",
     "backToTop": "Back to top"
   },
   "NotFound": {
     "code": "404",
-    "title": "This route",
-    "titleAccent": "doesn't resolve.",
-    "body": "The page you're looking for was moved, renamed, or never deployed.",
+    "title": "Page",
+    "titleAccent": "not found.",
+    "body": "The link may be wrong, or the page may have moved. You can try the home page.",
     "cta": "Back home"
   },
   "Error": {
     "title": "Something",
-    "titleAccent": "broke.",
-    "body": "An unexpected error occurred. It's been noted — please try again.",
+    "titleAccent": "went wrong.",
+    "body": "The page couldn't load. Please try again. If it still won't open, you can return home.",
     "retry": "Try again",
     "home": "Back home"
   }

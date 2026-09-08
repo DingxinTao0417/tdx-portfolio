@@ -9,14 +9,15 @@ type Props = {
   body?: string;
   align?: "left" | "center";
   size?: "md" | "lg" | "xl";
+  as?: "h1" | "h2";
   className?: string;
   children?: ReactNode;
 };
 
 const sizes = {
-  md: "text-3xl sm:text-4xl lg:text-5xl",
-  lg: "text-4xl sm:text-5xl lg:text-6xl",
-  xl: "text-5xl sm:text-6xl lg:text-7xl xl:text-8xl",
+  md: "text-[1.75rem] sm:text-3xl lg:text-4xl",
+  lg: "text-3xl sm:text-4xl lg:text-[2.75rem]",
+  xl: "text-[2.5rem] sm:text-5xl lg:text-[4rem]",
 };
 
 /**
@@ -29,6 +30,7 @@ export function SectionHeading({
   body,
   align = "left",
   size = "lg",
+  as: Heading = "h2",
   className,
   children,
 }: Props) {
@@ -49,18 +51,18 @@ export function SectionHeading({
         </Reveal>
       )}
       <Reveal delay={0.05}>
-        <h2 className={cn("font-display font-semibold leading-[1.02]", sizes[size])}>
+        <Heading className={cn("max-w-4xl font-display font-semibold leading-[1.2] tracking-[-0.035em] [text-wrap:pretty]", sizes[size])}>
           {title}{" "}
           {accent && (
             <span className="font-serif font-normal italic tracking-normal text-accent">
               {accent}
             </span>
           )}
-        </h2>
+        </Heading>
       </Reveal>
       {body && (
         <Reveal delay={0.1}>
-          <p className="max-w-2xl text-base leading-relaxed text-muted sm:text-lg">{body}</p>
+          <p className="max-w-2xl text-[15px] leading-[1.85] text-muted sm:text-base">{body}</p>
         </Reveal>
       )}
       {children}

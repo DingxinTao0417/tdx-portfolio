@@ -36,7 +36,7 @@ export default async function ProjectsPage() {
         accent={t("titleAccent")}
         body={t("intro")}
       />
-      <section className="container-x pb-24">
+      <section className="container-x pb-16 sm:pb-24">
         <ProjectsGrid projects={projects} />
       </section>
     </>

@@ -11,35 +11,35 @@
 /* Light: bone white + signal orange. Dark: midnight ink + ember.      */
 /* ------------------------------------------------------------------ */
 :root {
-  --bg: #fbf7f1;
+  --bg: #f8f6f2;
   --bg-elevated: #ffffff;
   --surface: rgba(255, 255, 255, 0.72);
-  --fg: #16120e;
-  --muted: #6f665e;
+  --fg: #24221f;
+  --muted: #716c64;
   --line: rgba(22, 18, 14, 0.1);
   --line-strong: rgba(22, 18, 14, 0.22);
-  --accent: #ff5a1f;
-  --accent-strong: #e24a12;
-  --accent-soft: rgba(255, 90, 31, 0.12);
-  --accent-glow: rgba(255, 90, 31, 0.35);
+  --accent: #c94720;
+  --accent-strong: #ad3817;
+  --accent-soft: rgba(201, 71, 32, 0.07);
+  --accent-glow: rgba(201, 71, 32, 0.2);
   --amber: #ffb020;
   --cool: #0ea5b7;
-  --grid: rgba(22, 18, 14, 0.055);
-  --grain-opacity: 0.05;
+  --grid: rgba(22, 18, 14, 0.032);
+  --grain-opacity: 0.025;
   --hero-glow: radial-gradient(
     60% 50% at 80% 10%,
-    rgba(255, 122, 61, 0.28),
+    rgba(225, 130, 84, 0.12),
     transparent 70%
   );
   color-scheme: light;
 }
 
 .dark {
-  --bg: #0a0b10;
-  --bg-elevated: #111319;
-  --surface: rgba(17, 19, 25, 0.72);
+  --bg: #141514;
+  --bg-elevated: #1d1e1c;
+  --surface: rgba(29, 30, 28, 0.8);
   --fg: #f4efe8;
-  --muted: #9a938a;
+  --muted: #ada79e;
   --line: rgba(244, 239, 232, 0.1);
   --line-strong: rgba(244, 239, 232, 0.24);
   --accent: #ff6b2c;
@@ -49,10 +49,10 @@
   --amber: #ffc247;
   --cool: #38d3e8;
   --grid: rgba(244, 239, 232, 0.045);
-  --grain-opacity: 0.09;
+  --grain-opacity: 0.035;
   --hero-glow: radial-gradient(
     60% 50% at 80% 10%,
-    rgba(255, 107, 44, 0.22),
+    rgba(255, 107, 44, 0.12),
     transparent 70%
   );
   color-scheme: dark;
@@ -77,8 +77,8 @@
   --font-serif: var(--font-serif), var(--font-zh), ui-serif, Georgia, serif;
   --font-mono: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
 
-  --shadow-glow: 0 0 0 1px var(--line), 0 24px 70px -24px var(--accent-glow);
-  --shadow-soft: 0 1px 0 0 var(--line), 0 12px 40px -18px rgba(0, 0, 0, 0.25);
+  --shadow-glow: 0 8px 28px -14px var(--accent-glow);
+  --shadow-soft: 0 8px 32px -20px rgba(0, 0, 0, 0.18);
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
@@ -182,18 +182,13 @@
     font-family: var(--font-display);
     letter-spacing: -0.02em;
     text-wrap: balance;
+    scroll-margin-top: 7rem;
   }
 
   code,
   kbd,
   pre {
     font-family: var(--font-mono);
-  }
-
-  /* CJK has no true italics — keep accent phrases upright and slightly heavier in Chinese. */
-  html:lang(zh-CN) .italic {
-    font-style: normal;
-    font-weight: 500;
   }
 
   ::-webkit-scrollbar {
@@ -239,6 +234,34 @@
 
 @utility hairline {
   border: 1px solid var(--line);
+}
+
+@utility section-space {
+  padding-block: 4rem;
+  @media (min-width: 768px) {
+    padding-block: 6rem;
+  }
+}
+
+@utility surface-panel {
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: var(--surface);
+}
+
+/* Apply after utility styles, including on the default `lang="zh"` route. */
+:lang(zh) :is(h1, h2, h3) .italic {
+  font-style: normal;
+  font-family: var(--font-sans), var(--font-zh), sans-serif;
+  font-weight: 500;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
 }
 
 @utility glass {
@@ -362,9 +385,15 @@
 /* Blog prose                                                          */
 /* ------------------------------------------------------------------ */
 .prose-tdx {
-  font-size: 1.0625rem;
-  line-height: 1.8;
+  font-size: 1rem;
+  line-height: 1.9;
   color: color-mix(in oklab, var(--fg) 88%, var(--muted));
+  overflow-wrap: anywhere;
+}
+@media (min-width: 768px) {
+  .prose-tdx {
+    font-size: 1.0625rem;
+  }
 }
 .prose-tdx > * + * {
   margin-top: 1.25em;
@@ -374,10 +403,10 @@
   color: var(--fg);
   scroll-margin-top: 6rem;
   margin-top: 2.2em;
-  line-height: 1.15;
+  line-height: 1.45;
 }
 .prose-tdx h2 {
-  font-size: 1.75rem;
+  font-size: clamp(1.4rem, 2.4vw, 1.75rem);
   padding-top: 1.25rem;
   border-top: 1px solid var(--line);
 }
@@ -427,11 +456,15 @@
 }
 .prose-tdx blockquote {
   border-left: 2px solid var(--accent);
-  padding: 0.25rem 0 0.25rem 1.25rem;
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 1.25rem;
-  color: var(--fg);
+  border-radius: 0 0.5rem 0.5rem 0;
+  padding: 1rem 1.25rem;
+  background: var(--accent-soft);
+  font-style: normal;
+  font-size: 1rem;
+  color: var(--muted);
+}
+.prose-tdx blockquote > * + * {
+  margin-top: 1em;
 }
 .prose-tdx hr {
   border: 0;
@@ -442,6 +475,9 @@
   border: 1px solid var(--line);
 }
 .prose-tdx table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
   width: 100%;
   border-collapse: collapse;
   font-size: 0.95rem;

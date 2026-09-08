@@ -1,14 +1,15 @@
 "use client";
 
-import { motion, useInView } from "motion/react";
+import { ArrowUpRight } from "lucide-react";
+import { motion, useInView, useReducedMotion } from "motion/react";
 import dynamic from "next/dynamic";
 import { useLocale, useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { palettes } from "@/components/three/palette";
 import type { SphereItem } from "@/components/three/tech-sphere";
 import { TechIcon } from "@/components/ui/tech-icon";
-import { levelValue, type SkillCategory, type SkillLevel } from "@/data/skills";
+import { levelValue, type SkillCategory } from "@/data/skills";
 import { pick } from "@/data/types";
 import { cn } from "@/lib/utils";
 
@@ -31,6 +32,7 @@ export function SkillsExplorer({ categories }: { categories: SkillCategory[] }) 
   const locale = useLocale();
   const { resolvedTheme } = useTheme();
   const [active, setActive] = useState<string | null>(null);
+  const [hovered, setHovered] = useState<string | null>(null);
   const wrapper = useRef<HTMLDivElement>(null);
   const inView = useInView(wrapper, { amount: 0.1 });
   const [reduced, setReduced] = useState(false);
@@ -46,64 +48,80 @@ export function SkillsExplorer({ categories }: { categories: SkillCategory[] }) 
     };
   }, []);
 
-  const items: SphereItem[] = Array.from(
-    new Map(
-      categories
-        .flatMap((c) =>
-          c.skills.map((s) => ({ name: s.name, category: c.id, weight: levelValue[s.level] })),
-        )
-        .map((s) => [s.name, s] as const),
-    ).values(),
+  const items = useMemo<SphereItem[]>(
+    () =>
+      Array.from(
+        new Map(
+          categories
+            .flatMap((c) =>
+              c.skills.map((s) => ({ name: s.name, category: c.id, weight: levelValue[s.level] })),
+            )
+            .map((s) => [s.name, s] as const),
+        ).values(),
+      ),
+    [categories],
   );
 
   const palette = palettes[resolvedTheme === "dark" ? "dark" : "light"];
+  const preview = hovered ?? active;
 
   return (
-    <div className="grid gap-10 lg:grid-cols-12 lg:items-center">
+    <div className="surface-panel grid grid-cols-1 gap-6 p-5 sm:p-7 lg:grid-cols-12 lg:items-center lg:gap-10 lg:p-8">
       {/* Category selector */}
-      <div className="flex flex-col gap-2 lg:col-span-4">
-        <p className="eyebrow mb-3">{t("categories")}</p>
+      <div className="min-w-0 lg:col-span-4" onMouseLeave={() => setHovered(null)}>
+        <p className="eyebrow mb-5">{t("categories")}</p>
+        <div className="grid grid-cols-2 gap-x-3 gap-y-1 lg:grid-cols-1">
         <button
           type="button"
           onClick={() => setActive(null)}
+          onMouseEnter={() => setHovered(null)}
+          onFocus={() => setHovered(null)}
+          aria-pressed={active === null}
           className={cn(
-            "flex items-center justify-between rounded-2xl border px-4 py-3 text-left transition-colors",
-            active === null
-              ? "border-accent bg-accent-soft text-fg"
-              : "border-line text-muted hover:border-line-strong hover:text-fg",
+            "flex min-h-12 items-center justify-between gap-3 rounded-lg px-3 py-3 text-left text-sm transition-colors",
+            preview === null
+              ? "bg-accent-soft text-accent"
+              : "text-muted hover:bg-bg hover:text-fg",
           )}
         >
           <span className="font-medium">{t("all")}</span>
-          <span className="font-mono text-xs">{items.length}</span>
+          <span className="font-mono text-[11px] tabular-nums">{String(items.length).padStart(2, "0")}</span>
         </button>
         {categories.map((c) => {
-          const isActive = active === c.id;
+          const isActive = preview === c.id;
           return (
             <button
               key={c.id}
               type="button"
-              onMouseEnter={() => setActive(c.id)}
-              onFocus={() => setActive(c.id)}
-              onClick={() => setActive(isActive ? null : c.id)}
+              onMouseEnter={() => setHovered(c.id)}
+              onFocus={() => setHovered(c.id)}
+              onBlur={() => setHovered(null)}
+              onClick={() => {
+                setHovered(null);
+                setActive(active === c.id ? null : c.id);
+              }}
+              aria-pressed={active === c.id}
               className={cn(
-                "group flex items-center justify-between rounded-2xl border px-4 py-3 text-left transition-colors",
+                "group flex min-h-12 items-center justify-between gap-3 rounded-lg px-3 py-3 text-left text-sm transition-colors",
                 isActive
-                  ? "border-accent bg-accent-soft text-fg"
-                  : "border-line text-muted hover:border-line-strong hover:text-fg",
+                  ? "bg-accent-soft text-accent"
+                  : "text-muted hover:bg-bg hover:text-fg",
               )}
             >
-              <span className="flex items-center gap-3">
+              <span className="flex items-center gap-2.5">
                 <span
-                  className="h-2.5 w-2.5 rounded-full transition-transform group-hover:scale-125"
+                  className="hidden h-1.5 w-1.5 shrink-0 rounded-full opacity-70 sm:block"
                   style={{ background: categoryColors[c.id] }}
                 />
                 <span className="font-medium">{pick(c.title, locale)}</span>
               </span>
-              <span className="font-mono text-xs">{c.skills.length}</span>
+              <span className="font-mono text-[11px] tabular-nums">{String(c.skills.length).padStart(2, "0")}</span>
             </button>
           );
         })}
-        <p className="mt-4 font-mono text-[11px] uppercase tracking-[0.16em] text-muted">
+        </div>
+        <p className="mt-5 flex items-center gap-2 border-t border-line pt-5 text-xs leading-relaxed text-muted">
+          <ArrowUpRight aria-hidden className="h-3.5 w-3.5 shrink-0" />
           {t("sphereHint")}
         </p>
       </div>
@@ -111,16 +129,15 @@ export function SkillsExplorer({ categories }: { categories: SkillCategory[] }) 
       {/* Sphere */}
       <div
         ref={wrapper}
-        className="relative aspect-square w-full lg:col-span-8 lg:aspect-[5/4]"
-        onMouseLeave={() => setActive(null)}
+        className="relative aspect-square w-full min-w-0 max-h-[32rem] overflow-hidden lg:col-span-8 lg:aspect-[5/4]"
       >
         <div className="pointer-events-none absolute inset-0 -z-10 flex items-center justify-center">
-          <div className="h-[60%] w-[60%] rounded-full bg-[radial-gradient(circle,var(--accent-glow),transparent_70%)] blur-3xl opacity-60" />
+          <div className="h-[60%] w-[60%] rounded-full bg-[radial-gradient(circle,var(--accent-glow),transparent_70%)] blur-3xl opacity-20" />
         </div>
         <TechSphere
           items={items}
           palette={palette}
-          activeCategory={active}
+          activeCategory={preview}
           categoryColors={categoryColors}
           reduced={reduced}
           active={inView}
@@ -131,58 +148,37 @@ export function SkillsExplorer({ categories }: { categories: SkillCategory[] }) 
 }
 
 export function SkillMatrix({ categories }: { categories: SkillCategory[] }) {
-  const t = useTranslations("Skills");
   const locale = useLocale();
-  const levels: SkillLevel[] = ["expert", "advanced", "proficient", "familiar"];
+  const reduced = useReducedMotion();
 
   return (
-    <div className="grid gap-6 md:grid-cols-2">
+    <div className="grid gap-5 md:grid-cols-2 lg:gap-6">
       {categories.map((c, ci) => (
         <motion.section
           key={c.id}
-          initial={{ opacity: 0, y: 24 }}
+          initial={{ opacity: 0, y: reduced ? 0 : 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.6, delay: (ci % 2) * 0.08, ease: [0.16, 1, 0.3, 1] }}
-          className="hud-corners rounded-3xl border border-line bg-bg-elevated p-7"
+          className="rounded-2xl border border-line bg-bg-elevated p-5 sm:p-7"
         >
-          <div className="flex items-start justify-between gap-4">
+          <div className="flex items-start justify-between gap-4 border-b border-line pb-5">
             <div>
-              <h3 className="font-display text-2xl font-semibold tracking-tight">
+              <p className="mb-3 font-mono text-[10px] tracking-[0.16em] text-accent">{String(ci + 1).padStart(2, "0")}</p>
+              <h3 className="font-display text-xl font-semibold tracking-tight">
                 {pick(c.title, locale)}
               </h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted">{pick(c.blurb, locale)}</p>
+              <p className="mt-2 max-w-sm text-sm leading-[1.75] text-muted">{pick(c.blurb, locale)}</p>
             </div>
-            <span
-              className="mt-1 h-3 w-3 shrink-0 rounded-full"
-              style={{ background: categoryColors[c.id] }}
-            />
+            <span className="font-mono text-[11px] tabular-nums text-muted">{String(c.skills.length).padStart(2, "0")}</span>
           </div>
 
-          <ul className="mt-6 flex flex-col gap-3">
-            {c.skills.map((s, i) => (
-              <li key={s.name} className="grid grid-cols-[auto_1fr_auto] items-center gap-3">
-                <TechIcon icon={s.icon} name={s.name} size={18} className="text-fg/75" />
-                <div className="flex flex-col gap-1.5">
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="font-medium">{s.name}</span>
-                    <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
-                      {t(`levels.${s.level}`)}
-                    </span>
-                  </div>
-                  <div className="h-1 overflow-hidden rounded-full bg-line">
-                    <motion.div
-                      className="h-full rounded-full"
-                      style={{ background: categoryColors[c.id] }}
-                      initial={{ width: 0 }}
-                      whileInView={{ width: `${levelValue[s.level] * 100}%` }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.9, delay: 0.1 + i * 0.04, ease: [0.16, 1, 0.3, 1] }}
-                    />
-                  </div>
-                </div>
-                <span className="w-6 text-right font-mono text-[10px] text-muted">
-                  {levels.indexOf(s.level) === 0 ? "★" : ""}
+          <ul className="mt-2 flex flex-col divide-y divide-line/60">
+            {c.skills.map((s) => (
+              <li key={s.name} className="flex min-h-10 items-center gap-3 py-2">
+                <span className="flex min-w-0 items-center gap-2.5">
+                  <TechIcon icon={s.icon} name={s.name} size={16} className="shrink-0 text-muted" />
+                  <span className="text-[13px] font-medium leading-relaxed sm:text-sm">{s.name}</span>
                 </span>
               </li>
             ))}

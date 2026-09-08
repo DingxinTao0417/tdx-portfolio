@@ -8,9 +8,11 @@ import { cn } from "@/lib/utils";
 export function LocaleSwitcher({
   label,
   className,
+  onNavigate,
 }: {
   label: string;
   className?: string;
+  onNavigate?: () => void;
 }) {
   const locale = useLocale();
   const pathname = usePathname();
@@ -31,6 +33,7 @@ export function LocaleSwitcher({
             key={l}
             href={pathname}
             locale={l}
+            onClick={onNavigate}
             aria-current={active ? "true" : undefined}
             className={cn(
               "grid h-8 min-w-9 place-items-center rounded-full px-2.5 transition-colors",
