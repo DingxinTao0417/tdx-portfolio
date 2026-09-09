@@ -126,7 +126,7 @@
     "facts": {
       "eyebrow": "03 / Background",
       "items": [
-        { "value": "UCI '26", "label": "B.S. Computer Science" },
+        { "value": "UCI '25", "label": "B.S. Computer Science" },
         { "value": "USC '27", "label": "M.S. Analytics" },
         { "value": "EN · 中文", "label": "Conversation and writing" },
         { "value": "AI Native", "label": "Developing with AI" }
@@ -307,7 +307,7 @@
     "eyebrow": "About",
     "title": "I'm",
     "titleAccent": "Dingxin Tao.",
-    "intro": "I'm Dingxin Tao, an AI Native developer. I studied Computer Science at UC Irvine and am studying Analytics at USC.",
+    "intro": "I'm Dingxin Tao, an AI Native developer. I studied Computer Science at Shoreline Community College and UC Irvine, and am now studying Analytics at USC.",
     "story": {
       "eyebrow": "A bit about me",
       "paragraphs": [

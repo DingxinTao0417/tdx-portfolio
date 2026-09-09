@@ -1,7 +1,7 @@
 # tdx-portfolio
 
 Personal portfolio of **Dingxin Tao (陶鼎新)** — AI Full-Stack Engineer & Forward Deployed Engineer.
-B.S. Computer Science @ UC Irvine '26 · M.S. Analytics @ USC '27.
+Computer Science @ Shoreline CC (2021–2023) · B.S. Computer Science @ UC Irvine (2023–2025) · M.S. Analytics @ USC (2026–2027).
 
 A bilingual (English / 中文), multi-page Next.js 16 site with WebGL scenes, an MDX blog and typed API routes as the backend.
 

@@ -4,14 +4,14 @@ export type EducationEntry = {
   id: string;
   school: Localized;
   shortName: string;
-  degree: Localized;
+  degree?: Localized;
   field: Localized;
   period: Localized;
-  classOf: string;
-  location: Localized;
+  classOf?: string;
+  location?: Localized;
   focus: Localized[];
   logo: string;
-  logoFit: "cover" | "contain";
+  logoFit: "cover" | "contain" | "wordmark";
   hue: number;
 };
 
@@ -40,8 +40,8 @@ export const education: EducationEntry[] = [
     shortName: "UCI",
     degree: { en: "Bachelor of Science", zh: "理学学士" },
     field: { en: "Computer Science", zh: "计算机科学" },
-    period: { en: "2022 — 2026", zh: "2022 — 2026" },
-    classOf: "2026",
+    period: { en: "2023 — 2025", zh: "2023 — 2025" },
+    classOf: "2025",
     location: { en: "Irvine, CA", zh: "加州 · 尔湾" },
     focus: [
       { en: "Systems, algorithms & software design", zh: "系统、算法与软件设计" },
@@ -51,6 +51,17 @@ export const education: EducationEntry[] = [
     logo: "/education/uci.png",
     logoFit: "contain",
     hue: 210,
+  },
+  {
+    id: "shoreline",
+    school: { en: "Shoreline Community College", zh: "Shoreline Community College" },
+    shortName: "Shoreline CC",
+    field: { en: "Computer Science", zh: "计算机" },
+    period: { en: "2021 — 2023", zh: "2021 — 2023" },
+    focus: [],
+    logo: "/education/shoreline.png",
+    logoFit: "wordmark",
+    hue: 176,
   },
 ];
 

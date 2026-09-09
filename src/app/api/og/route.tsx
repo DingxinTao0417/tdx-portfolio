@@ -156,7 +156,7 @@ export async function GET(req: NextRequest) {
           <span>{site.url.replace(/^https?:\/\//, "")}</span>
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <div style={{ width: 48, height: 2, background: accent }} />
-            <span>UCI &apos;26 · USC &apos;27</span>
+            <span>UCI &apos;25 · USC &apos;27</span>
           </div>
         </div>
       </div>

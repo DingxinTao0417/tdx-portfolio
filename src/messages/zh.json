@@ -126,7 +126,7 @@
     "facts": {
       "eyebrow": "03 / 简介",
       "items": [
-        { "value": "UCI '26", "label": "计算机科学 本科" },
+        { "value": "UCI '25", "label": "计算机科学 本科" },
         { "value": "USC '27", "label": "分析学 硕士" },
         { "value": "中文 · EN", "label": "交流与写作" },
         { "value": "AI Native", "label": "与 AI 协作开发" }
@@ -307,7 +307,7 @@
     "eyebrow": "关于我",
     "title": "我是",
     "titleAccent": "陶鼎新。",
-    "intro": "Dingxin Tao，AI Native 开发者。本科在加州大学尔湾分校读计算机科学，研究生在南加州大学读分析学。",
+    "intro": "Dingxin Tao，AI Native 开发者。先在 Shoreline CC 学习计算机，之后在加州大学尔湾分校读计算机科学本科，目前在南加州大学读分析学研究生。",
     "story": {
       "eyebrow": "说说我自己",
       "paragraphs": [

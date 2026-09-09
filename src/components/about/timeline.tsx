@@ -16,28 +16,29 @@ export function EducationCards({
   classOfLabel: string;
 }) {
   return (
-    <div className="grid gap-5 md:grid-cols-2">
+    <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
       {entries.map((e, i) => (
         <Reveal key={e.id} delay={i * 0.1} className="h-full">
             <article className="relative flex h-full flex-col gap-6 rounded-2xl border border-line bg-bg-elevated p-6 sm:p-8">
               <div className="relative flex items-start justify-between gap-4">
                 <div
                   className={cn(
-                    "relative h-14 w-14 overflow-hidden rounded-xl border border-line bg-white",
+                    "relative h-14 w-14 shrink-0 overflow-hidden rounded-xl border border-line bg-white",
+                    e.logoFit === "wordmark" && "w-28",
                   )}
                 >
                   <Image
                     src={e.logo}
                     alt=""
                     fill
-                    sizes="56px"
+                    sizes={e.logoFit === "wordmark" ? "112px" : "56px"}
                     className={cn(
                       "object-contain p-2",
-                      e.logoFit === "cover" && "object-cover p-0",
+                      e.logoFit !== "contain" && "object-cover p-0",
                     )}
                   />
                 </div>
-                <Tag tone="accent">{classOfLabel.replace("{year}", e.classOf)}</Tag>
+                {e.classOf && <Tag tone="accent">{classOfLabel.replace("{year}", e.classOf)}</Tag>}
               </div>
               <div className="relative">
                 <p className="eyebrow mb-2">{pick(e.period, locale)}</p>
@@ -45,22 +46,26 @@ export function EducationCards({
                   {pick(e.school, locale)}
                 </h3>
                 <p className="mt-2 text-base leading-relaxed text-fg/85">
-                  {pick(e.degree, locale)} ·{" "}
+                  {e.degree && <>{pick(e.degree, locale)} · </>}
                   <span className="font-serif italic text-accent">{pick(e.field, locale)}</span>
                 </p>
               </div>
-              <ul className="relative mt-auto flex flex-col gap-2.5 border-t border-line pt-5 text-sm leading-relaxed text-muted">
-                {e.focus.map((f) => (
-                  <li key={f.en} className="flex items-start gap-2">
-                    <GraduationCap className="mt-1 h-3.5 w-3.5 shrink-0 text-muted" />
-                    {pick(f, locale)}
-                  </li>
-                ))}
-                <li className="mt-2 flex items-center gap-2 text-xs">
-                  <MapPin className="h-3.5 w-3.5" />
-                  {pick(e.location, locale)}
-                </li>
-              </ul>
+              {(e.focus.length > 0 || e.location) && (
+                <ul className="relative mt-auto flex flex-col gap-2.5 border-t border-line pt-5 text-sm leading-relaxed text-muted">
+                  {e.focus.map((f) => (
+                    <li key={f.en} className="flex items-start gap-2">
+                      <GraduationCap className="mt-1 h-3.5 w-3.5 shrink-0 text-muted" />
+                      {pick(f, locale)}
+                    </li>
+                  ))}
+                  {e.location && (
+                    <li className="mt-2 flex items-center gap-2 text-xs">
+                      <MapPin className="h-3.5 w-3.5" />
+                      {pick(e.location, locale)}
+                    </li>
+                  )}
+                </ul>
+              )}
             </article>
         </Reveal>
       ))}
