@@ -69,10 +69,10 @@
     "ctaSecondary": "联系我",
     "scrollHint": "往下看看",
     "particles": {
-      "description": "粒子依次组成 TDX、代码窗口和立体多层数据库。",
+      "description": "粒子依次组成 TDX、具有双半球和脑沟的立体大脑，以及信号逐层传播的神经网络。可选择模型或暂停查看细节。",
       "monogram": "TDX",
-      "code": "代码",
-      "database": "数据库",
+      "brain": "大脑",
+      "network": "神经网络",
       "pause": "暂停粒子动画",
       "play": "继续粒子动画"
     },

@@ -12,11 +12,12 @@ type SceneProps = {
   reduced: boolean;
   active: boolean;
   playing: boolean;
+  selection: { index: number; version: number };
   onPhaseChange: (phase: number) => void;
   fallback: ReactNode;
 };
 
-const HOLD = 4.8;
+const HOLD = 6.8;
 const POINT_DURATION = 2;
 // Maximum shader delay is 0.4 seconds. All points must arrive before swapping targets.
 const MORPH_DURATION = POINT_DURATION + 0.4;
@@ -25,27 +26,30 @@ function pickQuality() {
   const small = window.innerWidth < 768;
   const weak = (navigator.hardwareConcurrency ?? 8) <= 4;
   return {
-    count: small || weak ? 4200 : 7000,
+    count: small || weak ? 7200 : 11000,
     // Fixed for this mount; never resize the canvas for a mid-morph quality change.
-    dpr: Math.min(window.devicePixelRatio || 1, small || weak ? 1.25 : 1.5),
+    dpr: Math.min(window.devicePixelRatio || 1, 1.5),
   };
 }
 
 function Field({
-  palette, reduced, playing, onPhaseChange, count,
-}: Pick<SceneProps, "palette" | "reduced" | "playing" | "onPhaseChange"> & { count: number }) {
+  palette, reduced, playing, selection, onPhaseChange, count,
+}: Pick<SceneProps, "palette" | "reduced" | "playing" | "selection" | "onPhaseChange"> & { count: number }) {
   const points = useRef<THREE.Points>(null);
   const material = useRef<THREE.ShaderMaterial>(null);
   const invalidate = useThree((state) => state.invalidate);
-  const cycle = useRef({ from: 0, to: 0, elapsed: MORPH_DURATION, hold: 0, time: 0 });
+  const cycle = useRef({ from: 0, to: 0, elapsed: MORPH_DURATION, hold: 0, time: 0, pending: null as number | null });
   const skipNextDelta = useRef(true);
 
   const geometry = useMemo(() => {
     const targets = buildTargets(count);
     const result = new THREE.BufferGeometry();
     result.setAttribute("position", new THREE.BufferAttribute(targets.monogram, 3));
-    result.setAttribute("aCode", new THREE.BufferAttribute(targets.code, 3));
-    result.setAttribute("aDatabase", new THREE.BufferAttribute(targets.database, 3));
+    result.setAttribute("aBrain", new THREE.BufferAttribute(targets.brain, 3));
+    result.setAttribute("aBrainStyle", new THREE.BufferAttribute(targets.brainStyles, 3));
+    result.setAttribute("aBrainNormal", new THREE.BufferAttribute(targets.brainNormals, 3));
+    result.setAttribute("aNetwork", new THREE.BufferAttribute(targets.network, 3));
+    result.setAttribute("aNetworkStyle", new THREE.BufferAttribute(targets.networkStyles, 3));
     result.setAttribute("aSeed", new THREE.BufferAttribute(targets.seeds, 3));
     result.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 4);
     return result;
@@ -58,12 +62,12 @@ function Field({
     uFrom: { value: 0 },
     uTo: { value: 0 },
     uMorphDur: { value: POINT_DURATION },
-    uSize: { value: 1.8 },
+    uSize: { value: 2.4 },
     uPixelRatio: { value: 1 },
     uMovement: { value: 1 },
     uColor: { value: new THREE.Color(palette.point) },
     uAccent: { value: new THREE.Color(palette.accent) },
-    uOpacity: { value: palette.additive ? 0.82 : 0.78 },
+    uOpacity: { value: palette.additive ? 0.95 : 0.9 },
   }), [palette.point, palette.accent, palette.additive]);
 
   useEffect(() => {
@@ -76,6 +80,12 @@ function Field({
     invalidate();
   }, [playing, reduced, invalidate]);
 
+  useEffect(() => {
+    if (selection.version === 0) return;
+    cycle.current.pending = selection.index;
+    invalidate();
+  }, [selection, invalidate]);
+
   useFrame((state, delta) => {
     const m = material.current;
     if (!m) return;
@@ -85,6 +95,17 @@ function Field({
     const c = cycle.current;
     u.uPixelRatio.value = state.gl.getPixelRatio();
     u.uMovement.value = reduced ? 0 : 1;
+
+    // Finish an in-flight morph before selecting another model. While paused,
+    // selection is immediate so individual structures can be inspected at rest.
+    if (c.pending !== null && (c.elapsed >= MORPH_DURATION || !playing || reduced)) {
+      c.from = playing && !reduced ? c.to : c.pending;
+      c.to = c.pending;
+      c.pending = null;
+      c.elapsed = c.from === c.to ? MORPH_DURATION : 0;
+      c.hold = 0;
+      onPhaseChange(c.to);
+    }
 
     if (!reduced && playing) {
       c.time += dt;
@@ -102,14 +123,16 @@ function Field({
       }
     }
     u.uTime.value = c.time;
-    u.uFrom.value = reduced ? 2 : c.from;
-    u.uTo.value = reduced ? 2 : c.to;
+    u.uFrom.value = reduced ? selection.index : c.from;
+    u.uTo.value = reduced ? selection.index : c.to;
     u.uElapsed.value = reduced ? MORPH_DURATION : c.elapsed;
 
     if (points.current) {
-      // The database has a baked viewing angle; keep the letters almost front-on.
-      const x = reduced ? 0 : -state.pointer.y * 0.045;
-      const y = reduced ? 0 : state.pointer.x * 0.065;
+      // Limit network parallax so its front and back neurons stay separated.
+      const progress = THREE.MathUtils.smoothstep(c.elapsed, 0, MORPH_DURATION);
+      const networkWeight = THREE.MathUtils.lerp(Number(c.from === 2), Number(c.to === 2), progress);
+      const x = reduced ? 0 : -state.pointer.y * THREE.MathUtils.lerp(0.045, 0.015, networkWeight);
+      const y = reduced ? 0 : state.pointer.x * THREE.MathUtils.lerp(0.065, 0.015, networkWeight);
       if (reduced) points.current.rotation.set(0, 0, 0);
       else if (playing) {
         points.current.rotation.x = THREE.MathUtils.damp(points.current.rotation.x, x, 3, dt);
@@ -129,7 +152,7 @@ function Field({
   );
 }
 
-export default function HeroScene({ palette, reduced, active, playing, onPhaseChange, fallback }: SceneProps) {
+export default function HeroScene({ palette, reduced, active, playing, selection, onPhaseChange, fallback }: SceneProps) {
   const [quality] = useState(pickQuality);
   return (
     <Canvas
@@ -142,7 +165,7 @@ export default function HeroScene({ palette, reduced, active, playing, onPhaseCh
       onCreated={({ gl }) => { gl.toneMapping = THREE.NoToneMapping; }}
     >
       <Field
-        palette={palette} reduced={reduced} playing={active && playing}
+        palette={palette} reduced={reduced} playing={active && playing} selection={selection}
         onPhaseChange={onPhaseChange} count={quality.count}
       />
     </Canvas>

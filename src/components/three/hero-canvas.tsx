@@ -1,6 +1,6 @@
 "use client";
 
-import { Code2, Database, Pause, Play } from "lucide-react";
+import { Brain, Network, Pause, Play } from "lucide-react";
 import { useInView } from "motion/react";
 import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
@@ -8,6 +8,8 @@ import { useTheme } from "next-themes";
 import { Component, useMemo, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { palettes } from "./palette";
+
+const phases = ["monogram", "brain", "network"] as const;
 
 const HeroScene = dynamic(() => import("./hero-scene"), { ssr: false });
 const reducedQuery = "(prefers-reduced-motion: reduce)";
@@ -33,11 +35,13 @@ class SceneBoundary extends Component<{ children: ReactNode; fallback: ReactNode
 function Fallback() {
   return (
     <div className="absolute inset-0 flex items-center justify-center gap-6 text-accent/50">
-      <span className="font-mono text-3xl font-semibold tracking-tight">TDX</span>
+      <span className="font-mono text-3xl font-semibold tracking-tight">
+        <span className="text-accent">T</span><span className="text-fg">DX</span>
+      </span>
       <span className="h-px w-6 bg-current" />
-      <Code2 className="h-14 w-14" strokeWidth={1} />
+      <Brain className="h-14 w-14" strokeWidth={1} />
       <span className="h-px w-6 bg-current" />
-      <Database className="h-14 w-14" strokeWidth={1} />
+      <Network className="h-14 w-14" strokeWidth={1} />
     </div>
   );
 }
@@ -52,27 +56,31 @@ export function HeroCanvas({ className }: { className?: string }) {
   const visible = useSyncExternalStore(subscribeVisibility, getVisible, serverSnapshot);
   const [playing, setPlaying] = useState(true);
   const [phase, setPhase] = useState(0);
+  const [selection, setSelection] = useState({ index: 1, version: 0 });
   const palette = useMemo(() => ({
     ...palettes[resolvedTheme === "dark" ? "dark" : "light"],
     accent: resolvedTheme === "dark" ? "#ee805a" : "#c94720",
   }), [resolvedTheme]);
 
   return (
-    <figure ref={wrapper} className={cn("relative min-w-0", className)} aria-label={t("description")} data-hero-particles data-phase={reduced ? 2 : phase} data-playing={playing && !reduced}>
+    <figure ref={wrapper} className={cn("relative min-w-0", className)} aria-label={t("description")} data-hero-particles data-phase={reduced ? selection.index : phase} data-playing={playing && !reduced}>
       <div className="relative aspect-[6/5] w-full" aria-hidden>
         <SceneBoundary fallback={<Fallback />}>
           <HeroScene
             palette={palette} reduced={reduced} active={inView && visible}
-            playing={playing} onPhaseChange={setPhase} fallback={<Fallback />}
+            playing={playing} selection={selection} onPhaseChange={setPhase} fallback={<Fallback />}
           />
         </SceneBoundary>
       </div>
-      <figcaption className="mx-auto flex max-w-sm items-center justify-center gap-5 font-mono text-[11px] tracking-[0.08em] text-muted sm:gap-7 sm:text-xs">
-        {["monogram", "code", "database"].map((key, index) => (
-          <span key={key} className={cn("flex items-center gap-2 transition-colors duration-700 motion-reduce:transition-none", (reduced ? 2 : phase) === index && "text-accent")}>
-            <span className="text-[9px] opacity-60" aria-hidden>0{index + 1}</span>
+      <figcaption className="mx-auto flex max-w-md items-center justify-center gap-3 font-mono text-[11px] tracking-[0.04em] text-muted sm:gap-5 sm:text-xs">
+        {phases.map((key, index) => (
+          <button key={key} type="button"
+            onClick={() => setSelection((current) => ({ index, version: current.version + 1 }))}
+            aria-pressed={(reduced ? selection.index : phase) === index}
+            className={cn("flex min-h-11 items-center gap-1.5 whitespace-nowrap transition-colors hover:text-accent motion-reduce:transition-none", (reduced ? selection.index : phase) === index && "text-accent")}>
+            <span className="hidden text-[9px] opacity-60 min-[360px]:inline" aria-hidden>0{index + 1}</span>
             {t(key)}
-          </span>
+          </button>
         ))}
         {!reduced && (
           <button

@@ -69,10 +69,10 @@
     "ctaSecondary": "Get in touch",
     "scrollHint": "Keep scrolling",
     "particles": {
-      "description": "Particles form TDX, a code window, and a layered three-dimensional database.",
+      "description": "Particles form TDX, a 3D brain with two hemispheres and cortical folds, and a layered neural network with flowing signals. Select a model or pause to inspect its details.",
       "monogram": "TDX",
-      "code": "Code",
-      "database": "Database",
+      "brain": "Brain",
+      "network": "Neural net",
       "pause": "Pause particle animation",
       "play": "Resume particle animation"
     },

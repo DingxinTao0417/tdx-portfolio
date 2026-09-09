@@ -1,17 +1,15 @@
-/**
- * Hero targets: a geometric TDX monogram, a code window, and a 3D database.
- * Letter strokes and the code window sit near the XY plane. Database layers
- * retain their depth and receive one baked X rotation to expose their tops.
- * All samples are deterministic and spatially ordered for the morph shader.
- */
-export const PHASES = ["monogram", "code", "database"] as const;
+import { buildBrain } from "./hero-brain";
+import { buildNetwork } from "./hero-network";
+
+/** Positions and their visual attributes share a deterministic spatial ordering. */
+export const PHASES = ["monogram", "brain", "network"] as const;
 export type Phase = (typeof PHASES)[number];
 
-export const DATABASE_PITCH = 0.4;
-export const DATABASE_RADIUS = 1.45;
-
 export type Targets = Record<Phase, Float32Array> & {
-  /** vec3 per particle: transition delay, accent selection, size variation. */
+  brainStyles: Float32Array;
+  brainNormals: Float32Array;
+  networkStyles: Float32Array;
+  /** vec3 per particle: transition delay, path variation, size variation. */
   seeds: Float32Array;
   count: number;
 };
@@ -27,7 +25,6 @@ type Stroke = {
 };
 type Sample = { x: number; y: number; z: number; order: number };
 
-const TAU = Math.PI * 2;
 const X_LIMIT = 2.15;
 const Y_LIMIT = 1.7;
 
@@ -72,36 +69,6 @@ function arc(
   }
 }
 
-function roundedRect(
-  strokes: Stroke[],
-  left: number,
-  bottom: number,
-  right: number,
-  top: number,
-  radius = 0.14,
-  width = 0.052,
-) {
-  line(strokes, [left + radius, top], [right - radius, top], width);
-  arc(strokes, right - radius, top - radius, radius, Math.PI / 2, 0, width);
-  line(strokes, [right, top - radius], [right, bottom + radius], width);
-  arc(strokes, right - radius, bottom + radius, radius, 0, -Math.PI / 2, width);
-  line(strokes, [right - radius, bottom], [left + radius, bottom], width);
-  arc(strokes, left + radius, bottom + radius, radius, -Math.PI / 2, -Math.PI, width);
-  line(strokes, [left, bottom + radius], [left, top - radius], width);
-  arc(strokes, left + radius, top - radius, radius, Math.PI, Math.PI / 2, width);
-}
-
-/** A narrow circular stroke overlaps itself to fill each window-control dot. */
-function dot(strokes: Stroke[], x: number, y: number) {
-  arc(strokes, x, y, 0.018, 0, TAU, 0.045);
-}
-
-function windowFrame(strokes: Stroke[]) {
-  roundedRect(strokes, -2, -1.25, 2, 1.25, 0.16, 0.058);
-  line(strokes, [-2, 0.76], [2, 0.76], 0.045);
-  for (const x of [-1.66, -1.4, -1.14]) dot(strokes, x, 1);
-}
-
 function monogramStrokes() {
   const strokes: Stroke[] = [];
   // T: a full-width cap and a centred stem.
@@ -114,15 +81,6 @@ function monogramStrokes() {
   // X: two solid diagonal strokes with space clear of the D.
   line(strokes, [0.91, 0.84], [1.96, -0.86], 0.17);
   line(strokes, [0.91, -0.86], [1.96, 0.84], 0.17);
-  return strokes;
-}
-
-function codeStrokes() {
-  const strokes: Stroke[] = [];
-  windowFrame(strokes);
-  polyline(strokes, [[-0.8, 0.32], [-1.25, -0.12], [-0.8, -0.56]], 0.07);
-  line(strokes, [0.22, 0.4], [-0.22, -0.65], 0.07);
-  polyline(strokes, [[0.8, 0.32], [1.25, -0.12], [0.8, -0.56]], 0.07);
   return strokes;
 }
 
@@ -180,108 +138,38 @@ function sampleStrokes(strokes: Stroke[], count: number, salt: number) {
   return orderedPositions(samples);
 }
 
-/** A square point grid clipped to a disk, with exactly the requested count. */
-function diskGrid(count: number) {
-  if (count === 0) return [];
-  const radius = DATABASE_RADIUS - 0.025;
-  let side = Math.ceil(Math.sqrt((count * 4) / Math.PI)) + 2;
-  let candidates: V2[];
-  do {
-    candidates = [];
-    const step = (radius * 2) / (side - 1);
-    for (let row = 0; row < side; row++) {
-      for (let col = 0; col < side; col++) {
-        const x = -radius + col * step;
-        const z = -radius + row * step;
-        if (x * x + z * z <= radius * radius) candidates.push([x, z]);
-      }
+/** Reorder all attributes together so morphs keep both locality and surface detail. */
+function orderModel<T extends { positions: Float32Array }>(model: T): T {
+  const order = Array.from({ length: model.positions.length / 3 }, (_, index) => index);
+  order.sort((a, b) => spatialOrder(model.positions[a * 3], model.positions[a * 3 + 1])
+    - spatialOrder(model.positions[b * 3], model.positions[b * 3 + 1]) || a - b);
+  const ordered = {} as Record<string, Float32Array>;
+  for (const [name, values] of Object.entries(model) as [string, Float32Array][]) {
+    const next = new Float32Array(values.length);
+    for (let i = 0; i < order.length; i++) {
+      next.set(values.subarray(order[i] * 3, order[i] * 3 + 3), i * 3);
     }
-    side++;
-  } while (candidates.length < count);
-
-  return Array.from({ length: count }, (_, i) =>
-    candidates[Math.floor(((i + 0.5) * candidates.length) / count)],
-  );
-}
-
-function databasePoints(count: number) {
-  const samples: Sample[] = [];
-  const layers = 4;
-  const spacing = 0.6;
-  const thickness = 0.26;
-  const cosine = Math.cos(DATABASE_PITCH);
-  const sine = Math.sin(DATABASE_PITCH);
-
-  const add = (x: number, y: number, z: number) => {
-    // Only this rotation is baked in; the shader can invert it for radial colour.
-    const rotatedY = y * cosine - z * sine;
-    const rotatedZ = y * sine + z * cosine;
-    samples.push({ x, y: rotatedY, z: rotatedZ, order: spatialOrder(x, rotatedY) });
-  };
-
-  for (let layer = 0; layer < layers; layer++) {
-    const layerCount = Math.floor(count / layers) + (layer < count % layers ? 1 : 0);
-    const centreY = (layer - (layers - 1) / 2) * spacing;
-    const topY = centreY + thickness / 2;
-    const bottomY = centreY - thickness / 2;
-    const topCount = Math.floor(layerCount * 0.46);
-    const wallCount = Math.floor(layerCount * 0.14);
-    const edgeCount = layerCount - topCount - wallCount;
-    const salt = 701 + layer * 31;
-    const top = diskGrid(topCount);
-
-    for (let i = 0; i < topCount; i++) {
-      const [x, z] = top[i];
-      add(
-        x + (hash(i, salt) - 0.5) * 0.008,
-        topY + (hash(i, salt + 1) - 0.5) * 0.012,
-        z + (hash(i, salt + 2) - 0.5) * 0.008,
-      );
-    }
-
-    // Sparse samples connect the upper and lower edges into short cylinder walls.
-    for (let i = 0; i < wallCount; i++) {
-      const angle = ((i + hash(i, salt + 3)) / wallCount) * TAU;
-      const radius = DATABASE_RADIUS + (hash(i, salt + 4) - 0.5) * 0.012;
-      add(
-        Math.cos(angle) * radius,
-        bottomY + hash(i, salt + 5) * thickness,
-        Math.sin(angle) * radius,
-      );
-    }
-
-    // Both edges get more samples per unit length than the interior grid.
-    for (let i = 0; i < edgeCount; i++) {
-      const upper = i % 2 === 0;
-      const edgeIndex = Math.floor(i / 2);
-      const pointsOnEdge = upper ? Math.ceil(edgeCount / 2) : Math.floor(edgeCount / 2);
-      const angle = ((edgeIndex + hash(i, salt + 6)) / pointsOnEdge) * TAU;
-      const radius = DATABASE_RADIUS + (hash(i, salt + 7) - 0.5) * 0.022;
-      add(
-        Math.cos(angle) * radius,
-        (upper ? topY : bottomY) + (hash(i, salt + 8) - 0.5) * 0.016,
-        Math.sin(angle) * radius,
-      );
-    }
+    ordered[name] = next;
   }
-
-  return orderedPositions(samples);
+  return ordered as T;
 }
 
-export function buildTargets(count = 7000): Targets {
+export function buildTargets(count = 11000): Targets {
   if (!Number.isSafeInteger(count) || count < 0) {
     throw new RangeError("Particle count must be a non-negative safe integer.");
   }
-
   const monogram = sampleStrokes(monogramStrokes(), count, 101);
-  const code = sampleStrokes(codeStrokes(), count, 211);
-  const database = databasePoints(count);
+  const brain = orderModel(buildBrain(count));
+  const network = orderModel(buildNetwork(count));
   const seeds = new Float32Array(count * 3);
-
   for (let i = 0; i < count; i++) {
     seeds[i * 3] = hash(i, 401);
     seeds[i * 3 + 1] = hash(i, 503);
     seeds[i * 3 + 2] = hash(i, 601);
   }
-  return { monogram, code, database, seeds, count };
+  return {
+    monogram, brain: brain.positions, network: network.positions,
+    brainStyles: brain.styles, brainNormals: brain.normals,
+    networkStyles: network.styles, seeds, count,
+  };
 }
