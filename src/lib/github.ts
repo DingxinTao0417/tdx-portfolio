@@ -1,4 +1,12 @@
 import { site } from "@/data/site";
+import { cache } from "react";
+import {
+  isGitHubContributionYear,
+  parseGitHubContributionCalendar,
+  type GitHubContributionCalendar,
+} from "@/lib/github-contributions";
+
+export type { GitHubContributionDay, GitHubContributionCalendar } from "@/lib/github-contributions";
 
 export type GitHubProfile = {
   login: string;
@@ -16,17 +24,23 @@ export type GitHubRepo = {
   name: string;
   fullName: string;
   htmlUrl: string;
+  external?: boolean;
+  visibility?: "private";
   description: string | null;
   language: string | null;
   stars: number;
   forks: number;
   pushedAt: string;
   topics: string[];
+  showcaseKey?: GitHubShowcaseKey;
 };
+
+export type GitHubShowcaseKey = "asA" | "multimix" | "portfolio" | "opcWorkspace";
 
 export type GitHubSnapshot = {
   profile: GitHubProfile;
   repos: GitHubRepo[];
+  contributions: GitHubContributionCalendar | null;
   fetchedAt: string;
 };
 
@@ -36,6 +50,60 @@ const headers: HeadersInit = {
   ...(process.env.GITHUB_TOKEN ? { Authorization: `Bearer ${process.env.GITHUB_TOKEN}` } : {}),
 };
 
+const asAShowcaseRepo: GitHubRepo = {
+  name: "As-a",
+  fullName: "DingxinTao0417/As-a",
+  // The repository is private. Send visitors to the public case study instead.
+  htmlUrl: "/projects/as-a",
+  external: false,
+  visibility: "private",
+  description: null,
+  language: "TypeScript",
+  stars: 0,
+  forks: 0,
+  pushedAt: "2026-09-08T09:26:49Z",
+  topics: [],
+  showcaseKey: "asA",
+};
+
+const showcaseKeys: Partial<Record<string, GitHubShowcaseKey>> = {
+  "MultiMix-Frontend": "multimix",
+  "tdx-portfolio": "portfolio",
+  "opc-workspace": "opcWorkspace",
+};
+
+function addShowcaseKey(repo: GitHubRepo): GitHubRepo {
+  const showcaseKey = showcaseKeys[repo.name];
+  return showcaseKey ? { ...repo, showcaseKey } : repo;
+}
+
+function replaceXiaoshiWithAsA(repos: GitHubRepo[]) {
+  const xiaoshiIndex = repos.findIndex((repo) => repo.name.toLowerCase() === "xiaoshi_ai_notes");
+  if (xiaoshiIndex === -1) return [asAShowcaseRepo, ...repos].slice(0, 4);
+  return repos.map((repo, index) => (index === xiaoshiIndex ? asAShowcaseRepo : repo));
+}
+
+export const getGitHubContributionCalendar = cache(async (year?: number): Promise<GitHubContributionCalendar | null> => {
+  if (year !== undefined && !isGitHubContributionYear(year)) return null;
+  try {
+    const url = new URL(`https://github.com/users/${site.handle}/contributions`);
+    if (year !== undefined) {
+      url.searchParams.set("from", `${year}-01-01`);
+      url.searchParams.set("to", `${year}-12-31`);
+    }
+    const response = await fetch(url, {
+      headers: { Accept: "text/html", "Accept-Language": "en-US", "User-Agent": "tdx-portfolio" },
+      cache: "force-cache",
+      next: { revalidate: 3600, tags: ["github"] },
+      signal: AbortSignal.timeout(8000),
+    });
+    if (!response.ok || !response.headers.get("content-type")?.includes("text/html")) return null;
+    return parseGitHubContributionCalendar(await response.text(), year);
+  } catch {
+    return null;
+  }
+});
+
 /**
  * Fetches the public GitHub profile + recently pushed repos.
  * Cached for an hour through Next's fetch cache; returns null when GitHub
@@ -43,7 +111,7 @@ const headers: HeadersInit = {
  */
 export async function getGitHubSnapshot(): Promise<GitHubSnapshot | null> {
   try {
-    const [profileRes, reposRes] = await Promise.all([
+    const [profileRes, reposRes, contributions] = await Promise.all([
       fetch(`https://api.github.com/users/${site.handle}`, {
         headers,
         next: { revalidate: 3600, tags: ["github"] },
@@ -52,6 +120,7 @@ export async function getGitHubSnapshot(): Promise<GitHubSnapshot | null> {
         `https://api.github.com/users/${site.handle}/repos?sort=pushed&per_page=6&type=owner`,
         { headers, next: { revalidate: 3600, tags: ["github"] } },
       ),
+      getGitHubContributionCalendar(),
     ]);
     if (!profileRes.ok || !reposRes.ok) return null;
 
@@ -94,20 +163,25 @@ export async function getGitHubSnapshot(): Promise<GitHubSnapshot | null> {
         following: p.following,
         createdAt: p.created_at,
       },
-      repos: repos
-        .filter((r) => !r.fork)
-        .slice(0, 4)
-        .map((r) => ({
-          name: r.name,
-          fullName: r.full_name,
-          htmlUrl: r.html_url,
-          description: r.description,
-          language: r.language,
-          stars: r.stargazers_count,
-          forks: r.forks_count,
-          pushedAt: r.pushed_at,
-          topics: r.topics ?? [],
-        })),
+      repos: replaceXiaoshiWithAsA(
+        repos
+          .filter((r) => !r.fork)
+          .slice(0, 4)
+          .map((r) =>
+            addShowcaseKey({
+              name: r.name,
+              fullName: r.full_name,
+              htmlUrl: r.html_url,
+              description: r.description,
+              language: r.language,
+              stars: r.stargazers_count,
+              forks: r.forks_count,
+              pushedAt: r.pushed_at,
+              topics: r.topics ?? [],
+            }),
+          ),
+      ),
+      contributions,
       fetchedAt: new Date().toISOString(),
     };
   } catch {

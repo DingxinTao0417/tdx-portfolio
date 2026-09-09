@@ -2,9 +2,9 @@
   "Metadata": {
     "title": "陶鼎新 Dingxin Tao | AI Native 开发者",
     "titleTemplate": "%s | 陶鼎新",
-    "description": "陶鼎新（Dingxin Tao）的个人网站。记录 MultiMix、opc-workspace 和 Omnigate 的开发，以及我使用 AI 编程工具时的想法与取舍。",
+    "description": "陶鼎新（Dingxin Tao）的个人网站。记录 MultiMix、opc-workspace、Omnigate 和 As-a 的开发，以及我使用 AI 编程工具时的想法与取舍。",
     "projects": "项目",
-    "projectsDescription": "MultiMix、opc-workspace 和 Omnigate：项目做了什么，我参与了哪些部分，还有哪些取舍。",
+    "projectsDescription": "MultiMix、opc-workspace、Omnigate 和 As-a：项目做了什么，我参与了哪些部分，还有哪些取舍。",
     "skills": "技术与工具",
     "skillsDescription": "我在学习和项目中接触的技术，以及使用 AI 协作开发的一些习惯。",
     "blog": "博客",
@@ -49,6 +49,7 @@
     "year": "年份",
     "links": "链接",
     "source": "源码",
+    "sourcePrivate": "GitHub（私有仓库）",
     "liveDemo": "在线演示",
     "tableOfContents": "本页目录",
     "scroll": "滚动",
@@ -69,10 +70,13 @@
     "ctaSecondary": "联系我",
     "scrollHint": "往下看看",
     "particles": {
-      "description": "粒子依次组成 TDX、具有双半球和脑沟的立体大脑，以及信号逐层传播的神经网络。可选择模型或暂停查看细节。",
+      "description": "粒子依次组成 TDX、神经网络、三层立体数据库和六层薄片。点击或轻触切换形态，靠近网络节点可查看相连线路的信号，也可暂停查看细节。",
+      "next": "切换粒子造型，当前为{shape}",
+      "hint": "点一下，换个形状",
       "monogram": "TDX",
-      "brain": "大脑",
+      "database": "数据库",
       "network": "神经网络",
+      "lattice": "层叠",
       "pause": "暂停粒子动画",
       "play": "继续粒子动画"
     },
@@ -136,10 +140,60 @@
       "repos": "公开仓库",
       "followers": "关注者",
       "following": "正在关注",
+      "private": "私有项目",
       "since": "开始提交于",
       "recent": "最近推送",
       "viewProfile": "查看主页",
-      "unavailable": "GitHub 数据暂时不可用。"
+      "unavailable": "GitHub 数据暂时不可用。",
+      "details": "项目细节",
+      "showcases": {
+        "asA": {
+          "description": "面向阿拉伯语与英语用户的专业服务平台。",
+          "detailOne": "Next.js",
+          "detailTwo": "Supabase",
+          "detailThree": "PostgreSQL"
+        },
+        "multimix": {
+          "description": "用对话做短视频，文案、素材和生成结果放在同一个工作区。",
+          "detailOne": "Next.js",
+          "detailTwo": "FastAPI",
+          "detailThree": "视频任务队列"
+        },
+        "portfolio": {
+          "description": "这个作品集记录项目、博客，以及我使用 AI 写代码时的取舍。",
+          "detailOne": "Next.js",
+          "detailTwo": "Three.js",
+          "detailThree": "MDX"
+        },
+        "opcWorkspace": {
+          "description": "离线桌面工作台，把任务、项目、客户和专注时间放在一起。",
+          "detailOne": "Tauri",
+          "detailTwo": "Go Sidecar",
+          "detailThree": "SQLite"
+        }
+      },
+      "contributions": {
+        "eyebrow": "GitHub 贡献",
+        "total": "{count} 次贡献",
+        "summary": "{period}，共 {count} 次 GitHub 贡献",
+        "period": "近一年",
+        "chooseYear": "选择贡献年份",
+        "loading": "正在读取 {period} 的贡献记录…",
+        "loadFailed": "暂时无法读取所选时段，下面保留上次成功的数据。",
+        "unavailable": "暂时无法读取 GitHub 贡献记录。",
+        "retry": "重试",
+        "hint": "悬停或点选格子，查看当天的贡献。",
+        "keyboardHint": "方向键切换日期：左右移动一周，上下移动一天；Home 跳到第一天，End 跳到最后一天。",
+        "scrollHint": "左右滑动查看全年。",
+        "source": "来源：GitHub 公开贡献记录，包含代码提交、PR、Issue 等。",
+        "view": "在 GitHub 查看",
+        "less": "少",
+        "more": "多",
+        "monday": "一",
+        "wednesday": "三",
+        "friday": "五",
+        "day": "{date} · {count} 次贡献"
+      }
     },
     "writing": {
       "eyebrow": "05 / 博客",
@@ -170,6 +224,18 @@
     },
     "count": "{count} 个项目",
     "empty": "该分类下暂时没有项目。",
+    "gallery": {
+      "label": "项目截图",
+      "carousel": "图片轮播",
+      "slide": "截图",
+      "previous": "上一张截图",
+      "next": "下一张截图",
+      "open": "查看原图",
+      "openLabel": "在新标签页查看当前原图",
+      "hint": "项目截图，可左右滑动或使用左右方向键切换",
+      "thumbnails": "选择项目截图",
+      "show": "查看第 {index} 张：{caption}"
+    },
     "detail": {
       "overview": "概览",
       "problem": "要解决什么",

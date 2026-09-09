@@ -4,6 +4,14 @@ import type { Localized } from "./types";
 
 export type ProjectCategory = "ai" | "fullstack" | "data" | "fde";
 
+export type ProjectImage = {
+  src: string;
+  alt: Localized;
+  width: number;
+  height: number;
+  caption?: Localized;
+};
+
 export type Project = {
   slug: string;
   index: string;
@@ -19,8 +27,10 @@ export type Project = {
   year: string;
   category: ProjectCategory;
   stack: string[];
-  links: { github?: string; demo?: string };
-  cover?: { src: string; alt: Localized; width: number; height: number };
+  links: { github?: string; githubPrivate?: boolean; demo?: string };
+  cover?: ProjectImage;
+  gallery?: ProjectImage[];
+  galleryNote?: Localized;
   featured?: boolean;
   /** Hue (0-360) used to tint the generative cover artwork. */
   hue: number;
@@ -100,6 +110,41 @@ export const projects: Project[] = [
         zh: "MultiMix 新建视频项目界面",
       },
     },
+    gallery: [
+      {
+        src: "/projects/multimix-conversation.png",
+        width: 1920,
+        height: 911,
+        alt: {
+          en: "MultiMix conversation workspace with generation progress and a failed generation status",
+          zh: "MultiMix 对话创作界面，显示生成进度与生成失败状态",
+        },
+        caption: {
+          en: "Conversation and generation progress",
+          zh: "对话创作与生成进度",
+        },
+      },
+      {
+        src: "/projects/multimix-image-library.png",
+        width: 1920,
+        height: 911,
+        alt: {
+          en: "MultiMix image library with image cards and category filters",
+          zh: "MultiMix 图片库界面，展示图片卡片与分类筛选",
+        },
+        caption: { en: "Image library", zh: "图片库" },
+      },
+      {
+        src: "/projects/multimix-script-library.png",
+        width: 1920,
+        height: 911,
+        alt: {
+          en: "MultiMix script library with saved content plans and category filters",
+          zh: "MultiMix 文案库界面，展示已保存的内容方案与分类筛选",
+        },
+        caption: { en: "Script library", zh: "文案库" },
+      },
+    ],
     featured: true,
     hue: 22,
     motif: "graph",
@@ -156,14 +201,47 @@ export const projects: Project[] = [
     stack: ["React", "TypeScript", "Go", "SQLite", "Tauri", "Rust", "Vite", "Tailwind CSS"],
     links: { github: "https://github.com/DingxinTao0417/opc-workspace" },
     cover: {
-      src: "/projects/opc-workspace.png",
+      src: "/projects/opc-workspace-today.png",
       width: 1920,
       height: 911,
       alt: {
-        en: "opc-workspace today dashboard",
+        en: "opc-workspace today dashboard with inbox, focus timer, and task overview",
         zh: "opc-workspace 今日工作台界面",
       },
+      caption: { en: "Today workspace", zh: "今日工作台" },
     },
+    gallery: [
+      {
+        src: "/projects/opc-workspace-new-task.png",
+        width: 1920,
+        height: 911,
+        alt: {
+          en: "opc-workspace new task dialog with project, deadline, priority, and acceptance settings",
+          zh: "opc-workspace 新建任务窗口，包含项目、截止时间、优先级和验收设置",
+        },
+        caption: { en: "Create a task", zh: "新建任务" },
+      },
+      {
+        src: "/projects/opc-workspace-ai-assistant.png",
+        width: 1920,
+        height: 911,
+        alt: {
+          en: "opc-workspace AI assistant proposing a website development task from a conversation",
+          zh: "opc-workspace AI 助手根据对话建议创建网站开发任务",
+        },
+        caption: { en: "AI task assistant", zh: "AI 任务助手" },
+      },
+      {
+        src: "/projects/opc-workspace-tasks.png",
+        width: 1920,
+        height: 911,
+        alt: {
+          en: "opc-workspace task list with search, filters, sorting, and a task row",
+          zh: "opc-workspace 任务列表，包含搜索、筛选、排序和任务条目",
+        },
+        caption: { en: "Task list", zh: "任务列表" },
+      },
+    ],
     featured: true,
     hue: 36,
     motif: "stack",
@@ -227,20 +305,160 @@ export const projects: Project[] = [
       demo: "https://omnigate.cc/",
     },
     cover: {
-      src: "/projects/omnigate.png",
+      src: "/projects/omnigate-dashboard.png",
       width: 1920,
       height: 911,
       alt: {
-        en: "Omnigate API gateway homepage",
-        zh: "Omnigate API 网关首页",
+        en: "Omnigate dashboard with setup guidance, API request examples, and usage panels",
+        zh: "Omnigate 控制台概览，包含使用引导、API 请求示例和用量面板",
       },
+      caption: { en: "Dashboard overview", zh: "控制台概览" },
     },
+    gallery: [
+      {
+        src: "/projects/omnigate-service-status.png",
+        width: 1920,
+        height: 911,
+        alt: {
+          en: "Omnigate service status page with request history and infrastructure health panels",
+          zh: "Omnigate 服务状态页，展示请求记录和基础设施健康面板",
+        },
+        caption: { en: "Service status", zh: "服务状态" },
+      },
+      {
+        src: "/projects/omnigate-home.png",
+        width: 1920,
+        height: 911,
+        alt: {
+          en: "Omnigate public homepage with API gateway positioning and model routing illustration",
+          zh: "Omnigate 公开首页，展示 API 网关定位和模型路由示意图",
+        },
+        caption: { en: "Public homepage", zh: "公开首页" },
+      },
+      {
+        src: "/projects/omnigate-ai-usage-guide.png",
+        width: 1920,
+        height: 911,
+        alt: {
+          en: "Omnigate documentation article about personal practices for using AI coding tools",
+          zh: "Omnigate 文档文章，记录个人使用 AI 编程工具的经验",
+        },
+        caption: { en: "AI usage guide", zh: "AI 使用心得" },
+      },
+    ],
     featured: true,
     hue: 14,
     motif: "orbit",
     metrics: [
       { value: "new-api", label: { en: "upstream project", zh: "二次开发基础" } },
       { value: "Compose", label: { en: "single-server deployment", zh: "单机部署" } },
+    ],
+  },
+  {
+    slug: "as-a",
+    index: "04",
+    title: { en: "As-a", zh: "As-a" },
+    tagline: {
+      en: "An Arabic and English marketplace for finding professionals, discussing work, and managing orders.",
+      zh: "一个阿拉伯语与英语的服务平台，找人做事、沟通需求、跟进订单。",
+    },
+    description: {
+      en: "As-a connects people looking for professional services with providers. Buyers can browse services, check what is included, and discuss a job before ordering. Providers have their own workspace for listings, orders, and earnings. The interface supports Arabic and English, including right-to-left layouts.",
+      zh: "As-a 连接有需求的人和提供专业服务的人。买家可以按分类找服务，看清交付范围，再联系服务商、沟通和下单。服务商有自己的后台，管理上架内容、订单与收益。界面支持阿拉伯语和英语，也处理了从右向左的阅读布局。",
+    },
+    problem: {
+      en: "A service listing only answers part of a buyer's questions. The scope, price, and delivery still need to be agreed on. As-a keeps the conversation and its orders together, so both sides can refer back to the work they discussed and see its status.",
+      zh: "选中一个服务之后，事情还没结束：具体做什么、多少钱、什么时候算交付，都要讲清楚。As-a 把会话和订单放在一起，让双方能回头查看约定，知道工作进行到了哪一步。",
+    },
+    approach: {
+      en: "The application uses Next.js and TypeScript, with Supabase for accounts, PostgreSQL data, file storage, and message subscriptions. Providers can create an order in a conversation; buyers can also order from a listing. The Tap checkout code checks payments on the server and handles repeated callbacks without settling an order twice. Database permissions and transactions govern who can read or change records.",
+      zh: "应用使用 Next.js 和 TypeScript，账户、PostgreSQL 数据、文件存储与消息订阅交给 Supabase。服务商可以在会话里创建订单，买家也能从服务页直接下单。Tap 支付接入在服务端核对交易结果，并处理重复回调；哪些记录能看、哪些状态能改，由数据库权限和事务约束。",
+    },
+    impact: {
+      en: "The current version includes a service directory, provider onboarding, conversations, order delivery confirmation, and administrator review. The repository has local tests for permissions and payment logic. It remains a product demo: live payment integration, migration of the existing database, and refund and dispute procedures still need acceptance before real transactions are opened.",
+      zh: "目前已有服务目录、服务商入驻、站内会话、订单交付确认和管理员审核，仓库里也有针对权限与支付逻辑的本地测试。当前仍按产品演示来展示。真实支付联调、旧数据库迁移，以及退款和争议处理，还需要在开放交易前完成验收。",
+    },
+    learning: {
+      en: "This project made me pay more attention to what happens after a click. A payment callback can arrive twice, a price sent by the browser cannot be trusted, and each side needs different permissions on the same order. I want those rules to live in server and database code, with tests that check what each person can actually do.",
+      zh: "这个项目让我更在意点击按钮之后发生的事。支付回调可能来两次，浏览器传来的价格不能直接信，同一个订单对买家和服务商也有不同的操作权限。我更愿意把这些规则写进服务端和数据库，再用测试检查每种身份实际能做什么。",
+    },
+    highlights: [
+      {
+        en: "Arabic and English service content, search, category filters, and right-to-left layouts",
+        zh: "阿拉伯语与英语服务内容、搜索和分类筛选，以及 RTL 布局",
+      },
+      {
+        en: "Conversations with order cards and separate delivery and buyer-confirmation steps",
+        zh: "会话中展示订单卡片，服务商交付与买家确认分开处理",
+      },
+      {
+        en: "Server-side payment verification, checks against duplicate processing, and manual payout records",
+        zh: "服务端核对支付、防止重复处理，并记录人工提现转账凭据",
+      },
+      {
+        en: "Listing moderation, database access rules, and administrator audit records",
+        zh: "服务上架审核、数据库访问权限与管理员操作记录",
+      },
+    ],
+    role: { en: "Full-stack development", zh: "全栈开发" },
+    year: "2026",
+    category: "fullstack",
+    stack: ["Next.js", "TypeScript", "Supabase", "PostgreSQL", "Tailwind CSS", "Tap Payments", "Vitest", "Playwright"],
+    links: { github: "https://github.com/DingxinTao0417/As-a", githubPrivate: true },
+    cover: {
+      src: "/projects/as-a.png",
+      width: 1920,
+      height: 911,
+      alt: { en: "As-a marketplace homepage with Arabic branding and English content", zh: "As-a 服务平台首页，展示阿拉伯语标识与英语内容" },
+      caption: { en: "Marketplace homepage", zh: "平台首页" },
+    },
+    gallery: [
+      {
+        src: "/projects/as-a-services.png",
+        width: 1920,
+        height: 911,
+        alt: { en: "As-a service directory with search, categories, and demo service cards", zh: "As-a 服务目录，包含搜索、分类筛选和演示服务卡片" },
+        caption: { en: "Service directory", zh: "服务列表与筛选" },
+      },
+      {
+        src: "/projects/as-a-service-detail.png",
+        width: 1920,
+        height: 911,
+        alt: { en: "As-a demo service detail with a provider profile and pricing panel", zh: "As-a 演示服务详情，展示服务商资料与价格面板" },
+        caption: { en: "Service details", zh: "服务详情" },
+      },
+      {
+        src: "/projects/as-a-service-workflow.png",
+        width: 1920,
+        height: 911,
+        alt: { en: "As-a service page showing included deliverables, workflow, and frequently asked questions", zh: "As-a 服务页的交付范围、工作步骤与常见问题" },
+        caption: { en: "Scope and delivery steps", zh: "交付说明与常见问题" },
+      },
+      {
+        src: "/projects/as-a-provider-dashboard.png",
+        width: 1920,
+        height: 911,
+        alt: { en: "As-a provider dashboard with test orders, earnings panels, and a payment account connection notice", zh: "As-a 服务商后台，显示测试订单、收益面板和支付账户待连接提示" },
+        caption: { en: "Provider dashboard", zh: "服务商后台" },
+      },
+      {
+        src: "/projects/as-a-messages.png",
+        width: 1920,
+        height: 911,
+        alt: { en: "As-a messages page with a conversation list and a pending order card", zh: "As-a 消息页面，展示会话列表与待付款订单卡片" },
+        caption: { en: "Conversations and orders", zh: "消息与订单" },
+      },
+    ],
+    galleryNote: {
+      en: "Screenshots show the demo interface. Service data, ratings, badges, and amounts do not represent verified credentials or real trading results.",
+      zh: "截图为演示界面，其中的服务数据、评分、认证标识和金额不代表真实资质或交易业绩。",
+    },
+    featured: true,
+    hue: 145,
+    motif: "grid",
+    metrics: [
+      { value: "AR / EN", label: { en: "bilingual interface", zh: "双语界面" } },
+      { value: "RTL", label: { en: "right-to-left layout", zh: "从右向左布局" } },
     ],
   },
 ];

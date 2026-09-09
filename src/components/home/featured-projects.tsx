@@ -10,6 +10,7 @@ export function FeaturedProjects() {
   const tp = useTranslations("Projects");
   const tc = useTranslations("Common");
   const locale = useLocale();
+  const hasLeadCard = featuredProjects.length % 2 === 1;
 
   return (
     <section className="relative section-space border-y border-line bg-bg-elevated/40">
@@ -30,11 +31,11 @@ export function FeaturedProjects() {
           {featuredProjects.map((project, i) => (
             <StaggerItem
               key={project.slug}
-              className={i === 0 ? "md:col-span-2" : ""}
+              className={hasLeadCard && i === 0 ? "md:col-span-2" : ""}
             >
               <ProjectCard
                 project={project}
-                size={i === 0 ? "lg" : "md"}
+                size={hasLeadCard && i === 0 ? "lg" : "md"}
                 locale={locale}
                 categoryLabel={tp(`filters.${project.category}`)}
                 ctaLabel={tc("viewProject")}

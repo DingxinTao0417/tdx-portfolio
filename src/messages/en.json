@@ -2,9 +2,9 @@
   "Metadata": {
     "title": "Dingxin Tao | AI Native developer",
     "titleTemplate": "%s | Dingxin Tao",
-    "description": "Dingxin Tao's personal website. Notes on building MultiMix, opc-workspace, and Omnigate, and the choices I make while using AI coding tools.",
+    "description": "Dingxin Tao's personal website. Notes on building MultiMix, opc-workspace, Omnigate, and As-a, and the choices I make while using AI coding tools.",
     "projects": "Projects",
-    "projectsDescription": "MultiMix, opc-workspace, and Omnigate: what each project does, what I worked on, and the decisions involved.",
+    "projectsDescription": "MultiMix, opc-workspace, Omnigate, and As-a: what each project does, what I worked on, and the decisions involved.",
     "skills": "Tech & tools",
     "skillsDescription": "Technologies I've used in my studies and projects, and some habits I've developed while working with AI.",
     "blog": "Blog",
@@ -49,6 +49,7 @@
     "year": "Year",
     "links": "Links",
     "source": "Source",
+    "sourcePrivate": "GitHub (private repository)",
     "liveDemo": "Live demo",
     "tableOfContents": "On this page",
     "scroll": "Scroll",
@@ -69,10 +70,13 @@
     "ctaSecondary": "Get in touch",
     "scrollHint": "Keep scrolling",
     "particles": {
-      "description": "Particles form TDX, a 3D brain with two hemispheres and cortical folds, and a layered neural network with flowing signals. Select a model or pause to inspect its details.",
+      "description": "Particles form TDX, a neural network, a three-layer database, and six sheets. Click or tap to change shape, hover over a network node to follow its connections, or pause to inspect the details.",
+      "next": "Change particle shape. Currently: {shape}",
+      "hint": "Click to change shape",
       "monogram": "TDX",
-      "brain": "Brain",
+      "database": "Database",
       "network": "Neural net",
+      "lattice": "Layers",
       "pause": "Pause particle animation",
       "play": "Resume particle animation"
     },
@@ -136,10 +140,60 @@
       "repos": "Public repos",
       "followers": "Followers",
       "following": "Following",
+      "private": "Private project",
       "since": "On GitHub since",
       "recent": "Recently pushed",
       "viewProfile": "View profile",
-      "unavailable": "GitHub data is unavailable right now."
+      "unavailable": "GitHub data is unavailable right now.",
+      "details": "Project details",
+      "showcases": {
+        "asA": {
+          "description": "A marketplace for professional services in Arabic and English.",
+          "detailOne": "Next.js",
+          "detailTwo": "Supabase",
+          "detailThree": "PostgreSQL"
+        },
+        "multimix": {
+          "description": "A conversation workspace for making short videos, with scripts, assets, and generated work kept together.",
+          "detailOne": "Next.js",
+          "detailTwo": "FastAPI",
+          "detailThree": "Video task queue"
+        },
+        "portfolio": {
+          "description": "This portfolio: projects, a blog, and notes on the choices I make while coding with AI.",
+          "detailOne": "Next.js",
+          "detailTwo": "Three.js",
+          "detailThree": "MDX"
+        },
+        "opcWorkspace": {
+          "description": "An offline desktop workspace for tasks, projects, clients, and focus time.",
+          "detailOne": "Tauri",
+          "detailTwo": "Go sidecar",
+          "detailThree": "SQLite"
+        }
+      },
+      "contributions": {
+        "eyebrow": "GitHub contributions",
+        "total": "{count, plural, one {# contribution} other {# contributions}}",
+        "summary": "{period}: {count} GitHub contributions",
+        "period": "Past year",
+        "chooseYear": "Choose contribution year",
+        "loading": "Loading contributions for {period}…",
+        "loadFailed": "Could not load that period. The last successful data is still shown below.",
+        "unavailable": "GitHub contributions are temporarily unavailable.",
+        "retry": "Retry",
+        "hint": "Hover over or select a day to see its contributions.",
+        "keyboardHint": "Use left and right arrows to move a week, up and down to move a day, Home for the first day and End for the last day.",
+        "scrollHint": "Swipe sideways to see the full year.",
+        "source": "Source: GitHub public contributions, including commits, pull requests and issues.",
+        "view": "View on GitHub",
+        "less": "Less",
+        "more": "More",
+        "monday": "Mon",
+        "wednesday": "Wed",
+        "friday": "Fri",
+        "day": "{date} · {count, plural, one {# contribution} other {# contributions}}"
+      }
     },
     "writing": {
       "eyebrow": "05 / Blog",
@@ -170,6 +224,18 @@
     },
     "count": "{count, plural, =1 {1 project} other {# projects}}",
     "empty": "No projects match this filter yet.",
+    "gallery": {
+      "label": "Project screenshots",
+      "carousel": "Image carousel",
+      "slide": "Screenshot",
+      "previous": "Previous screenshot",
+      "next": "Next screenshot",
+      "open": "View full size",
+      "openLabel": "Open the current full-size image in a new tab",
+      "hint": "Project screenshots. Swipe or use the left and right arrow keys to navigate.",
+      "thumbnails": "Choose a project screenshot",
+      "show": "View image {index}: {caption}"
+    },
     "detail": {
       "overview": "Overview",
       "problem": "What it aims to solve",

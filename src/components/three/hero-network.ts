@@ -1,17 +1,12 @@
 type Vector3 = readonly [number, number, number];
-type NetworkNode = { center: Vector3; radius: number; accent: number };
-type Connection = { start: Vector3; end: Vector3; bend: number; accent: number };
-type Sample = { position: Vector3; style: Vector3 };
+type NetworkNode = { id: number; center: Vector3; radius: number; accent: number };
+type Connection = {
+  fromId: number; toId: number;
+  start: Vector3; end: Vector3; bend: number; accent: number;
+};
+type Sample = { position: Vector3; style: Vector3; link: Vector3 };
 
-const TAU = Math.PI * 2;
 const GOLDEN_ANGLE = Math.PI * (3 - Math.sqrt(5));
-
-function hash(index: number, salt: number) {
-  let value = Math.imul(index + 1, 0x9e3779b1) ^ salt;
-  value = Math.imul(value ^ (value >>> 16), 0x85ebca6b);
-  value = Math.imul(value ^ (value >>> 13), 0xc2b2ae35);
-  return ((value ^ (value >>> 16)) >>> 0) / 4294967296;
-}
 
 function allocate(total: number, parts: number, index: number) {
   return Math.floor(total / parts) + (index < total % parts ? 1 : 0);
@@ -25,8 +20,10 @@ function architecture() {
     { x: 0.6, ys: [0.72, 0, -0.72], zs: [-0.55, 0.55] },
     { x: 1.77, ys: [0.72, 0, -0.72], zs: [0] },
   ];
+  let nextId = 0;
   const nodes: NetworkNode[][] = layers.map((layer, layerIndex) =>
     layer.ys.flatMap((y, rowIndex) => layer.zs.map((z, depthIndex) => ({
+      id: nextId++,
       center: [layer.x, y, z] as Vector3,
       radius: layerIndex === 3 ? 0.17 : 0.145,
       accent: (layerIndex === 1 && rowIndex === 1 && depthIndex === 1)
@@ -48,12 +45,14 @@ function architecture() {
       const to = nodes[layerIndex + 1][toIndex];
       const delta = to.center.map((value, axis) => value - from.center[axis]);
       const length = Math.hypot(...delta);
-      // Terminate outside each shell so dark wires never bisect the neuron cores.
+      // Terminate outside each node so dark wires never bisect its filled face.
       const start = from.center.map((value, axis) =>
         value + delta[axis] / length * from.radius * 1.1) as unknown as Vector3;
       const end = to.center.map((value, axis) =>
         value - delta[axis] / length * to.radius * 1.1) as unknown as Vector3;
       connections.push({
+        fromId: from.id,
+        toId: to.id,
         start,
         end,
         bend: linkIndex % 2 === 0 ? 0.085 : -0.085,
@@ -73,59 +72,42 @@ function viewingAngle([x, y, z]: Vector3): Vector3 {
     y * Math.sin(pitch) + turnedZ * Math.cos(pitch)];
 }
 
-/** Deterministic point shells, orbital contours, and sparse three-dimensional edges. */
-export function buildNetwork(count: number): { positions: Float32Array; styles: Float32Array } {
+/** Centers share the particle model's baked view; the scene applies its own scale. */
+export function getNetworkNodes(): { id: number; center: Vector3; radius: number }[] {
+  return architecture().nodes.map(({ id, center, radius }) => ({
+    id, center: viewingAngle(center), radius,
+  }));
+}
+
+/** Filled, camera-facing neuron discs and sparse three-dimensional connections. */
+export function buildNetwork(count: number): {
+  positions: Float32Array; styles: Float32Array; links: Float32Array;
+} {
   const { nodes, connections } = architecture();
   const samples: Sample[] = [];
   const neuronCount = Math.floor(count * 0.74);
 
   nodes.forEach((node, nodeIndex) => {
     const budget = allocate(neuronCount, nodes.length, nodeIndex);
-    const shellCount = Math.floor(budget * 0.62);
-    const contourCount = Math.floor(budget * 0.3);
-    const centerCount = budget - shellCount - contourCount;
-    const add = (x: number, y: number, z: number, alpha: number, size: number) => {
-      samples.push({
-        position: [node.center[0] + x, node.center[1] + y, node.center[2] + z],
-        style: [node.accent, alpha, size],
-      });
-    };
+    const center = viewingAngle(node.center);
 
-    for (let i = 0; i < shellCount; i++) {
-      const z = 1 - 2 * (i + 0.5) / shellCount;
-      const radial = Math.sqrt(1 - z * z);
+    // Uniform disc sampling spends every neuron particle on its visible face.
+    // Bake the view into the center first so the discs stay round, not oblique.
+    for (let i = 0; i < budget; i++) {
+      const radial = Math.sqrt((i + 0.5) / budget);
       const angle = i * GOLDEN_ANGLE + nodeIndex * 0.71;
-      add(
-        Math.cos(angle) * radial * node.radius,
-        Math.sin(angle) * radial * node.radius,
-        z * node.radius,
-        0.4 + (z + 1) * 0.22,
-        0.84 + (z + 1) * 0.09,
-      );
-    }
-
-    // Two visible great-circle contours supply a crisp edge and an internal depth cue.
-    for (let i = 0; i < contourCount; i++) {
-      const circle = i % 2;
-      const steps = allocate(contourCount, 2, circle);
-      const angle = Math.floor(i / 2) / steps * TAU;
-      const sine = Math.sin(angle);
-      const cosine = Math.cos(angle);
-      const radius = node.radius * 1.015;
-      if (circle === 0) {
-        add(cosine * radius, sine * radius * 0.94, sine * radius * 0.342, 0.88, 1.08);
-      } else {
-        add(cosine * radius * 0.34, sine * radius, cosine * radius * 0.94, 0.6, 0.92);
-      }
-    }
-
-    for (let i = 0; i < centerCount; i++) {
-      const z = 1 - 2 * (i + 0.5) / centerCount;
-      const radial = Math.sqrt(1 - z * z);
-      const angle = i * GOLDEN_ANGLE;
-      const radius = node.radius * 0.25 * Math.cbrt(hash(i, 407 + nodeIndex));
-      add(Math.cos(angle) * radial * radius, Math.sin(angle) * radial * radius,
-        z * radius, 0.78, 1.06);
+      const cap = 1 - radial * radial;
+      samples.push({
+        position: [
+          center[0] + Math.cos(angle) * radial * node.radius,
+          center[1] + Math.sin(angle) * radial * node.radius,
+          center[2] + cap * node.radius * 0.12,
+        ],
+        // Overlapping opaque points remove the hollow shell and central-knot look.
+        // Slightly larger output nodes keep the same coverage per visible area.
+        style: [node.accent, 1.55 + cap * 0.18, 1.38 * node.radius / 0.145],
+        link: [node.id, node.id, -1],
+      });
     }
   });
 
@@ -142,20 +124,24 @@ export function buildNetwork(count: number): { positions: Float32Array; styles: 
         connection.start[2] + (connection.end[2] - connection.start[2]) * t
           + bow * connection.bend,
       ];
-      samples.push({ position, style: [connection.accent, 0.38, 0.76] });
+      samples.push({
+        position: viewingAngle(position),
+        style: [connection.accent, 0.38, 0.76],
+        link: [connection.fromId, connection.toId, t],
+      });
     }
   });
 
-  // Bake the oblique view before sorting so even a paused model reveals both depth columns.
-  samples.forEach((sample) => { sample.position = viewingAngle(sample.position); });
-  // Position and appearance always travel together when the morph reorders samples.
+  // Position, appearance, and graph identity travel together through both sorts.
   samples.sort((a, b) => a.position[0] - b.position[0]
     || a.position[1] - b.position[1] || a.position[2] - b.position[2]);
   const positions = new Float32Array(count * 3);
   const styles = new Float32Array(count * 3);
+  const links = new Float32Array(count * 3);
   samples.forEach((sample, i) => {
     positions.set(sample.position, i * 3);
     styles.set(sample.style, i * 3);
+    links.set(sample.link, i * 3);
   });
-  return { positions, styles };
+  return { positions, styles, links };
 }

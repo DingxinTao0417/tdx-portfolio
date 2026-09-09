@@ -1,17 +1,22 @@
-import { GitFork, Star } from "lucide-react";
+import { GitFork, LockKeyhole, Star } from "lucide-react";
 import Image from "next/image";
 import { getLocale, getTranslations } from "next-intl/server";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/ui/reveal";
 import { TechIcon } from "@/components/ui/tech-icon";
+import { GitHubContributions } from "@/components/home/github-contributions";
 import { site } from "@/data/site";
-import { getGitHubSnapshot } from "@/lib/github";
+import { getGitHubContributionCalendar, getGitHubSnapshot } from "@/lib/github";
+import { MIN_GITHUB_CONTRIBUTION_YEAR } from "@/lib/github-contributions";
 import { formatDate } from "@/lib/utils";
 
 export async function GitHubPanel() {
   const t = await getTranslations("Home.github");
   const locale = await getLocale();
-  const data = await getGitHubSnapshot();
+  const [data, contributions] = await Promise.all([getGitHubSnapshot(), getGitHubContributionCalendar()]);
+  const today = new Date().toISOString().slice(0, 10);
+  const currentYear = Number(today.slice(0, 4));
+  const contributionYears = Array.from({ length: currentYear - MIN_GITHUB_CONTRIBUTION_YEAR + 1 }, (_, index) => currentYear - index);
 
   return (
     <section className="container-x section-space">
@@ -25,7 +30,7 @@ export async function GitHubPanel() {
       </div>
 
       <Reveal className="mt-10">
-        <div className="grid gap-5 lg:grid-cols-12">
+        <div className="grid min-w-0 gap-5 lg:grid-cols-12">
           {/* Profile */}
           <a
             href={data?.profile.htmlUrl ?? `https://github.com/${site.handle}`}
@@ -35,8 +40,8 @@ export async function GitHubPanel() {
           >
             <div className="relative flex items-center gap-4">
               <Image
-                src={data?.profile.avatarUrl ?? `https://github.com/${site.handle}.png`}
-                alt={site.name}
+                src="/peach-cat-avatar.png"
+                alt={`${site.name} avatar`}
                 width={64}
                 height={64}
                 className="h-16 w-16 rounded-2xl border border-white/10"
@@ -70,47 +75,79 @@ export async function GitHubPanel() {
           </a>
 
           {/* Repos */}
-          <div className="grid gap-4 sm:grid-cols-2 lg:col-span-8">
+          <div className="grid min-w-0 gap-4 sm:grid-cols-2 lg:col-span-8">
             {data ? (
-              data.repos.map((repo) => (
-                <a
-                  key={repo.fullName}
-                  href={repo.htmlUrl}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  className="group flex min-w-0 flex-col gap-3 rounded-2xl border border-line bg-bg-elevated/60 p-6 transition-colors duration-200 hover:border-accent/40"
-                >
-                  <div className="flex items-center justify-between gap-3">
-                    <span className="truncate font-mono text-sm font-medium text-fg">{repo.name}</span>
-                    <span className="shrink-0 font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
-                      {formatDate(repo.pushedAt, locale)}
-                    </span>
-                  </div>
-                  <p className="line-clamp-2 text-sm leading-relaxed text-muted">
-                    {repo.description ?? "—"}
-                  </p>
-                  <div className="mt-auto flex items-center gap-4 pt-2 font-mono text-xs text-muted">
-                    {repo.language && (
-                      <span className="flex items-center gap-1.5">
-                        <span className="h-2 w-2 rounded-full bg-accent" />
-                        {repo.language}
+              data.repos.map((repo) => {
+                const details = repo.showcaseKey
+                  ? [
+                      t(`showcases.${repo.showcaseKey}.detailOne`),
+                      t(`showcases.${repo.showcaseKey}.detailTwo`),
+                      t(`showcases.${repo.showcaseKey}.detailThree`),
+                    ]
+                  : [];
+
+                return (
+                  <a
+                    key={repo.fullName}
+                    href={repo.htmlUrl}
+                    target={repo.external === false ? undefined : "_blank"}
+                    rel={repo.external === false ? undefined : "noreferrer noopener"}
+                    className="group flex min-w-0 flex-col gap-3 rounded-2xl border border-line bg-bg-elevated/60 p-6 transition-colors duration-200 hover:border-accent/40"
+                  >
+                    <div className="flex items-center justify-between gap-3">
+                      <span className="truncate font-mono text-sm font-medium text-fg">{repo.name}</span>
+                      <span className="shrink-0 font-mono text-[10px] uppercase tracking-[0.14em] text-muted">
+                        {formatDate(repo.pushedAt, locale)}
                       </span>
+                    </div>
+                    <p className="line-clamp-2 text-sm leading-relaxed text-muted">
+                      {repo.showcaseKey
+                        ? t(`showcases.${repo.showcaseKey}.description`)
+                        : repo.description ?? "—"}
+                    </p>
+                    {details.length > 0 && (
+                      <ul className="flex flex-wrap gap-1.5" aria-label={t("details")}>
+                        {details.map((detail) => (
+                          <li
+                            key={detail}
+                            className="rounded-full border border-line bg-bg px-2 py-1 font-mono text-[10px] text-muted"
+                          >
+                            {detail}
+                          </li>
+                        ))}
+                      </ul>
                     )}
-                    <span className="flex items-center gap-1">
-                      <Star className="h-3.5 w-3.5" /> {repo.stars}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <GitFork className="h-3.5 w-3.5" /> {repo.forks}
-                    </span>
-                  </div>
-                </a>
-              ))
+                    <div className="mt-auto flex items-center gap-4 pt-2 font-mono text-xs text-muted">
+                      {repo.visibility === "private" && (
+                        <span className="flex items-center gap-1.5" title={t("private")}>
+                          <LockKeyhole className="h-3.5 w-3.5" aria-hidden />
+                          {t("private")}
+                        </span>
+                      )}
+                      {repo.language && (
+                        <span className="flex items-center gap-1.5">
+                          <span className="h-2 w-2 rounded-full bg-accent" />
+                          {repo.language}
+                        </span>
+                      )}
+                      <span className="flex items-center gap-1">
+                        <Star className="h-3.5 w-3.5" /> {repo.stars}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <GitFork className="h-3.5 w-3.5" /> {repo.forks}
+                      </span>
+                    </div>
+                  </a>
+                );
+              })
             ) : (
               <div className="flex items-center justify-center rounded-2xl border border-dashed border-line p-10 text-sm text-muted sm:col-span-2">
                 {t("unavailable")}
               </div>
             )}
           </div>
+
+          <GitHubContributions calendar={contributions} years={contributionYears} today={today} />
         </div>
       </Reveal>
     </section>

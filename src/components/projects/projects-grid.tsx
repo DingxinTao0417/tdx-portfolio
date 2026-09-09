@@ -21,6 +21,7 @@ export function ProjectsGrid({ projects }: { projects: Project[] }) {
     (f) => f === "all" || projects.some((p) => p.category === f),
   );
   const visible = filter === "all" ? projects : projects.filter((p) => p.category === filter);
+  const hasLeadCard = visible.length % 2 === 1;
 
   return (
     <div className="mt-8 sm:mt-10">
@@ -72,14 +73,14 @@ export function ProjectsGrid({ projects }: { projects: Project[] }) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: reducedMotion ? 0 : -8 }}
               transition={{ duration: reducedMotion ? 0 : 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className={cn("h-full", i === 0 && "md:col-span-2")}
+              className={cn("h-full", hasLeadCard && i === 0 && "md:col-span-2")}
             >
               <ProjectCard
                 project={project}
                 locale={locale}
                 categoryLabel={t(`filters.${project.category}`)}
                 ctaLabel={tc("viewProject")}
-                size={i === 0 ? "lg" : "md"}
+                size={hasLeadCard && i === 0 ? "lg" : "md"}
               />
             </motion.li>
           ))}

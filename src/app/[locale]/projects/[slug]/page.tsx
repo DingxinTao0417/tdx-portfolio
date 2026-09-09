@@ -4,6 +4,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 import { ProjectCard } from "@/components/projects/project-card";
+import { ProjectGallery } from "@/components/projects/project-gallery";
 import { ButtonLink } from "@/components/ui/button";
 import { Counter } from "@/components/ui/counter";
 import { GenerativeCover } from "@/components/ui/generative-cover";
@@ -56,6 +57,8 @@ export default async function ProjectPage({ params }: Props) {
   const t = await getTranslations("Projects");
   const tc = await getTranslations("Common");
   const next = getAdjacentProject(slug);
+  const gallery = [...(project.cover ? [project.cover] : []), ...(project.gallery ?? [])];
+  const firstImage = gallery[0];
 
   const sections = [
     { key: "overview", body: pick(project.description, locale) },
@@ -130,14 +133,23 @@ export default async function ProjectPage({ params }: Props) {
           </div>
 
           <Reveal delay={0.25} className="mt-8 sm:mt-12">
-            {project.cover ? (
+            {gallery.length > 1 ? (
+              <ProjectGallery
+                key={project.slug}
+                images={gallery.map((image) => ({
+                  ...image,
+                  alt: pick(image.alt, locale),
+                  caption: pick(image.caption ?? image.alt, locale),
+                }))}
+              />
+            ) : firstImage ? (
               <div className="relative rounded-2xl border border-line bg-bg-elevated p-1.5 sm:p-2.5">
                 <Image
-                  src={project.cover.src}
-                  alt={pick(project.cover.alt, locale)}
-                  width={project.cover.width}
-                  height={project.cover.height}
-                  priority
+                  src={firstImage.src}
+                  alt={pick(firstImage.alt, locale)}
+                  width={firstImage.width}
+                  height={firstImage.height}
+                  preload
                   sizes="(min-width: 1280px) 1200px, 100vw"
                   className="h-auto w-full rounded-lg border border-line object-contain"
                 />
@@ -146,6 +158,11 @@ export default async function ProjectPage({ params }: Props) {
               <div className="relative aspect-[16/8] overflow-hidden rounded-2xl border border-line">
                 <GenerativeCover hue={project.hue} motif={project.motif} index={project.index} />
               </div>
+            )}
+            {project.galleryNote && (
+              <p className="mt-4 max-w-3xl text-xs leading-6 text-muted">
+                {pick(project.galleryNote, locale)}
+              </p>
             )}
           </Reveal>
         </div>
@@ -234,7 +251,7 @@ export default async function ProjectPage({ params }: Props) {
                       >
                         <span className="inline-flex items-center gap-2">
                           <TechIcon icon="github" name="GitHub" size={16} />
-                          {tc("source")}
+                          {tc(project.links.githubPrivate ? "sourcePrivate" : "source")}
                         </span>
                         <ArrowUpRight className="h-4 w-4" />
                       </a>

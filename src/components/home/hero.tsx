@@ -35,9 +35,9 @@ export function Hero() {
       />
 
       <div
-        className="container-x relative grid items-center gap-10 pb-16 lg:min-h-[calc(min(100svh,960px)-7rem)] lg:grid-cols-2 lg:gap-10 lg:pt-8 lg:pb-24 xl:gap-14"
+        className="container-x relative grid items-center gap-10 pb-16 lg:min-h-[calc(min(100svh,960px)-7rem)] lg:grid-cols-2 lg:gap-14 lg:pt-8 lg:pb-24"
       >
-        <div className="relative max-w-2xl">
+        <div className="relative z-10 max-w-2xl">
           <motion.p
             data-reveal
             className="eyebrow mb-7 flex items-center gap-3 leading-relaxed"
@@ -84,7 +84,7 @@ export function Hero() {
 
           <motion.p
             data-reveal
-            className="mt-7 max-w-[34rem] text-[15px] leading-[1.95] text-muted sm:text-base lg:pr-6"
+            className="mt-7 max-w-[34rem] text-[15px] leading-[1.95] text-muted sm:text-base lg:max-w-[30rem] lg:pr-6 xl:max-w-[34rem]"
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease, delay: 0.5 }}
