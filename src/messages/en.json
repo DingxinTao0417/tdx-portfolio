@@ -322,6 +322,14 @@
       "title": "Where I've",
       "titleAccent": "studied."
     },
+    "publications": {
+      "eyebrow": "Academic work",
+      "title": "Research & publications",
+      "intro": "Two papers from my studies in applied machine learning, from an early classification experiment to a review of recommender systems.",
+      "authors": "Authors",
+      "proceedings": "Conference proceedings",
+      "publisher": "Publisher page"
+    },
     "experience": {
       "eyebrow": "Experience",
       "title": "Work",
@@ -356,6 +364,19 @@
     "responseTime": "You can include relevant links or some background on your project.",
     "directEmail": "Prefer email?",
     "elsewhere": "Elsewhere",
+    "wechat": {
+      "title": "Connect on WeChat",
+      "trigger": "Add me on WeChat",
+      "shortNote": "Please include your reason for reaching out and how you found me.",
+      "close": "Close WeChat QR code",
+      "scan": "Scan with WeChat to add me",
+      "alt": "Dingxin Tao's WeChat contact QR code",
+      "note": "When adding me, please mention why you're reaching out and where you found me.",
+      "example": "For example: project collaboration · portfolio / GitHub",
+      "save": "Save QR code",
+      "open": "View original",
+      "mobileHint": "On your phone, save the image, then select it from your album in WeChat’s Scan feature."
+    },
     "form": {
       "name": "Name",
       "namePlaceholder": "Your name",
@@ -395,6 +416,7 @@
     "cta": "Contact me",
     "navigate": "Navigate",
     "connect": "Connect",
+    "wechat": "WeChat · Add me",
     "colophon": "About this site",
     "colophonBody": "Dingxin Tao designed and built this site with AI. The source is on GitHub if you'd like to see how it works.",
     "source": "Source on GitHub",

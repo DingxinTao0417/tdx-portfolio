@@ -20,6 +20,14 @@ export function SmoothScroll() {
       anchors: true,
     });
 
+    // A modal must also stop inertia that began before it opened.
+    const syncDialogState = () => {
+      if (document.querySelector("dialog[open]")) lenis.stop();
+      else lenis.start();
+    };
+    document.addEventListener("site:dialog-change", syncDialogState);
+    syncDialogState();
+
     let frame = 0;
     const raf = (time: number) => {
       lenis.raf(time);
@@ -29,6 +37,7 @@ export function SmoothScroll() {
 
     return () => {
       cancelAnimationFrame(frame);
+      document.removeEventListener("site:dialog-change", syncDialogState);
       lenis.destroy();
     };
   }, []);

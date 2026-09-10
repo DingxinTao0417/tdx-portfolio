@@ -1,13 +1,18 @@
-import type { Localized } from "./types";
+import { pick, type Localized } from "./types";
 
 export type SkillLevel = "expert" | "advanced" | "proficient" | "familiar";
 
 export type Skill = {
   name: string;
+  label?: Localized;
   /** Key into the simple-icons registry (see lib/icons.ts). */
   icon?: string;
   level: SkillLevel;
 };
+
+export function getSkillName(skill: Skill, locale: string): string {
+  return skill.label ? pick(skill.label, locale) : skill.name;
+}
 
 export type SkillCategory = {
   id: string;
@@ -36,9 +41,6 @@ export const skillCategories: SkillCategory[] = [
       { name: "LangChain", icon: "langchain", level: "advanced" },
       { name: "RAG Systems", level: "expert" },
       { name: "Agentic Workflows", level: "expert" },
-      { name: "OpenAI API", icon: "openai", level: "expert" },
-      { name: "Anthropic API", icon: "anthropic", level: "advanced" },
-      { name: "Gemini", icon: "googlegemini", level: "proficient" },
       { name: "PyTorch", icon: "pytorch", level: "proficient" },
       { name: "Hugging Face", icon: "huggingface", level: "advanced" },
       { name: "Fine-tuning", level: "proficient" },
@@ -57,12 +59,7 @@ export const skillCategories: SkillCategory[] = [
       { name: "Next.js", icon: "nextdotjs", level: "expert" },
       { name: "TypeScript", icon: "typescript", level: "expert" },
       { name: "Tailwind CSS", icon: "tailwindcss", level: "expert" },
-      { name: "Three.js / R3F", icon: "threedotjs", level: "advanced" },
-      { name: "Motion", icon: "framer", level: "advanced" },
-      { name: "WebGL / Shaders", icon: "webgl", level: "proficient" },
       { name: "Vite", icon: "vite", level: "advanced" },
-      { name: "Storybook", icon: "storybook", level: "proficient" },
-      { name: "Playwright", level: "proficient" },
     ],
   },
   {
@@ -79,10 +76,6 @@ export const skillCategories: SkillCategory[] = [
       { name: "PostgreSQL", icon: "postgresql", level: "advanced" },
       { name: "Redis", icon: "redis", level: "advanced" },
       { name: "Prisma", icon: "prisma", level: "advanced" },
-      { name: "Drizzle", icon: "drizzle", level: "proficient" },
-      { name: "GraphQL", icon: "graphql", level: "proficient" },
-      { name: "tRPC", icon: "trpc", level: "proficient" },
-      { name: "Zod", icon: "zod", level: "expert" },
       { name: "Supabase", icon: "supabase", level: "advanced" },
     ],
   },
@@ -98,11 +91,6 @@ export const skillCategories: SkillCategory[] = [
       { name: "pandas", icon: "pandas", level: "advanced" },
       { name: "NumPy", icon: "numpy", level: "advanced" },
       { name: "scikit-learn", icon: "scikitlearn", level: "advanced" },
-      { name: "dbt", level: "proficient" },
-      { name: "Apache Spark", icon: "apachespark", level: "proficient" },
-      { name: "Airflow", icon: "apacheairflow", level: "proficient" },
-      { name: "DuckDB", icon: "duckdb", level: "proficient" },
-      { name: "Plotly", icon: "plotly", level: "advanced" },
       { name: "Tableau", level: "proficient" },
       { name: "Jupyter", icon: "jupyter", level: "expert" },
       { name: "R", icon: "r", level: "familiar" },
@@ -122,12 +110,8 @@ export const skillCategories: SkillCategory[] = [
       { name: "Docker", icon: "docker", level: "advanced" },
       { name: "Kubernetes", icon: "kubernetes", level: "proficient" },
       { name: "GitHub Actions", icon: "githubactions", level: "advanced" },
-      { name: "Terraform", icon: "terraform", level: "proficient" },
       { name: "Cloudflare", icon: "cloudflare", level: "proficient" },
       { name: "Linux", icon: "linux", level: "advanced" },
-      { name: "OpenTelemetry", level: "advanced" },
-      { name: "Grafana", icon: "grafana", level: "proficient" },
-      { name: "Sentry", icon: "sentry", level: "advanced" },
     ],
   },
   {
@@ -138,14 +122,13 @@ export const skillCategories: SkillCategory[] = [
       zh: "先把需求问清楚，再讨论方案和怎么接入现有系统。",
     },
     skills: [
-      { name: "Customer Discovery", level: "advanced" },
-      { name: "Solution Architecture", level: "advanced" },
-      { name: "Systems Integration", level: "expert" },
-      { name: "Security Reviews", level: "proficient" },
-      { name: "Technical Writing", level: "advanced" },
-      { name: "Stakeholder Comms", level: "advanced" },
-      { name: "Bilingual EN / 中文", level: "expert" },
-      { name: "Enablement & Training", level: "advanced" },
+      { name: "Customer Discovery", label: { en: "Customer Discovery", zh: "客户需求调研" }, level: "advanced" },
+      { name: "Solution Architecture", label: { en: "Solution Architecture", zh: "解决方案架构" }, level: "advanced" },
+      { name: "Systems Integration", label: { en: "Systems Integration", zh: "系统集成" }, level: "expert" },
+      { name: "Security Reviews", label: { en: "Security Reviews", zh: "安全评审" }, level: "proficient" },
+      { name: "Technical Writing", label: { en: "Technical Writing", zh: "技术文档编写" }, level: "advanced" },
+      { name: "Bilingual EN / 中文", label: { en: "Bilingual Communication", zh: "中英双语沟通" }, level: "expert" },
+      { name: "Enablement & Training", label: { en: "Enablement & Training", zh: "使用指导与培训" }, level: "advanced" },
     ],
   },
 ];

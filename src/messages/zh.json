@@ -203,8 +203,8 @@
     },
     "cta": {
       "eyebrow": "06 / 联系",
-      "title": "有想聊的，",
-      "titleAccent": "给我写信。",
+      "title": "想聊聊",
+      "titleAccent": "项目或合作？",
       "body": "工作、项目，或对某篇文章有不同的看法，都可以聊。",
       "button": "联系我",
       "secondary": "了解我"
@@ -322,6 +322,14 @@
       "title": "在哪里",
       "titleAccent": "读书。"
     },
+    "publications": {
+      "eyebrow": "学术经历",
+      "title": "论文与研究",
+      "intro": "两篇围绕机器学习应用的论文，记录了我从数据分析实践到推荐系统综述的学习过程。",
+      "authors": "作者",
+      "proceedings": "会议论文集",
+      "publisher": "出版页面"
+    },
     "experience": {
       "eyebrow": "工作经历",
       "title": "工作",
@@ -350,12 +358,25 @@
   },
   "Contact": {
     "eyebrow": "联系方式",
-    "title": "有想聊的，",
-    "titleAccent": "给我写信。",
+    "title": "想聊聊",
+    "titleAccent": "项目或合作？",
     "intro": "可以聊工作和项目，也可以交流工具的用法。对文章有不同意见，同样欢迎写给我。",
     "responseTime": "有相关链接或项目背景的话，可以一起发来。",
     "directEmail": "更喜欢发邮件？",
     "elsewhere": "其他平台",
+    "wechat": {
+      "title": "微信联系",
+      "trigger": "添加微信",
+      "shortNote": "添加时请备注来意和来源。",
+      "close": "关闭微信二维码",
+      "scan": "用微信扫一扫，添加好友",
+      "alt": "陶鼎新的微信好友二维码",
+      "note": "添加时请备注来意，以及你是从哪里找到我的。",
+      "example": "例如：项目合作 · 来自个人网站 / GitHub",
+      "save": "保存二维码",
+      "open": "查看原图",
+      "mobileHint": "手机浏览时，可先保存图片，再到微信「扫一扫」中从相册选择。"
+    },
     "form": {
       "name": "姓名",
       "namePlaceholder": "你的名字",
@@ -390,11 +411,12 @@
     }
   },
   "Footer": {
-    "tagline": "有想聊的，",
-    "taglineAccent": "给我写信。",
+    "tagline": "想聊聊",
+    "taglineAccent": "项目或合作？",
     "cta": "联系我",
     "navigate": "导航",
     "connect": "联系",
+    "wechat": "微信 · 添加好友",
     "colophon": "关于本站",
     "colophonBody": "陶鼎新与 AI 协作设计、开发。代码放在 GitHub，欢迎看看实现。",
     "source": "GitHub 源码",

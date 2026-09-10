@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Portrait } from "@/components/about/portrait";
+import { Publications } from "@/components/about/publications";
 import { EducationCards } from "@/components/about/timeline";
 import { ButtonLink } from "@/components/ui/button";
 import { Reveal, Stagger, StaggerItem } from "@/components/ui/reveal";
@@ -121,6 +122,8 @@ export default async function AboutPage() {
           </div>
         </div>
       </section>
+
+      <Publications />
 
       {/* Employment entries remain in data/timeline.ts until their placeholder organizations and role details are confirmed. */}
 

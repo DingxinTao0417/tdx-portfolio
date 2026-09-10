@@ -9,7 +9,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { palettes } from "@/components/three/palette";
 import type { SphereItem } from "@/components/three/tech-sphere";
 import { TechIcon } from "@/components/ui/tech-icon";
-import { levelValue, type SkillCategory } from "@/data/skills";
+import { getSkillName, levelValue, type SkillCategory } from "@/data/skills";
 import { pick } from "@/data/types";
 import { cn } from "@/lib/utils";
 
@@ -54,12 +54,12 @@ export function SkillsExplorer({ categories }: { categories: SkillCategory[] }) 
         new Map(
           categories
             .flatMap((c) =>
-              c.skills.map((s) => ({ name: s.name, category: c.id, weight: levelValue[s.level] })),
+              c.skills.map((s) => ({ name: getSkillName(s, locale), category: c.id, weight: levelValue[s.level] })),
             )
             .map((s) => [s.name, s] as const),
         ).values(),
       ),
-    [categories],
+    [categories, locale],
   );
 
   const palette = palettes[resolvedTheme === "dark" ? "dark" : "light"];
@@ -174,14 +174,17 @@ export function SkillMatrix({ categories }: { categories: SkillCategory[] }) {
           </div>
 
           <ul className="mt-2 flex flex-col divide-y divide-line/60">
-            {c.skills.map((s) => (
-              <li key={s.name} className="flex min-h-10 items-center gap-3 py-2">
-                <span className="flex min-w-0 items-center gap-2.5">
-                  <TechIcon icon={s.icon} name={s.name} size={16} className="shrink-0 text-muted" />
-                  <span className="text-[13px] font-medium leading-relaxed sm:text-sm">{s.name}</span>
-                </span>
-              </li>
-            ))}
+            {c.skills.map((s) => {
+              const name = getSkillName(s, locale);
+              return (
+                <li key={s.name} className="flex min-h-10 items-center gap-3 py-2">
+                  <span className="flex min-w-0 items-center gap-2.5">
+                    <TechIcon icon={s.icon} name={name} size={16} className="shrink-0 text-muted" />
+                    <span className="text-[13px] font-medium leading-relaxed sm:text-sm">{name}</span>
+                  </span>
+                </li>
+              );
+            })}
           </ul>
         </motion.section>
       ))}

@@ -5,6 +5,7 @@ import { site } from "@/data/site";
 import { Link } from "@/i18n/navigation";
 import { ButtonLink } from "@/components/ui/button";
 import { TechIcon } from "@/components/ui/tech-icon";
+import { WeChatDialog } from "@/components/contact/wechat-dialog";
 
 export async function Footer() {
   const t = await getTranslations("Footer");
@@ -66,6 +67,9 @@ export async function Footer() {
           <div className="min-w-0 lg:col-span-4">
             <p className="eyebrow mb-5">{t("connect")}</p>
             <ul className="flex flex-col gap-3">
+              <li>
+                <WeChatDialog compact label={t("wechat")} />
+              </li>
               {site.socials.map((s) => (
                 <li key={s.id}>
                   <a

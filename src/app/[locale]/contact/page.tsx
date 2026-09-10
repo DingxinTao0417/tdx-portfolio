@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 import { ContactForm } from "@/components/contact/contact-form";
 import { CopyEmail } from "@/components/contact/copy-email";
+import { WeChatDialog } from "@/components/contact/wechat-dialog";
 import { LocalClock } from "@/components/layout/local-clock";
 import { PageHeader } from "@/components/ui/page-header";
 import { Reveal } from "@/components/ui/reveal";
@@ -55,6 +56,7 @@ export default async function ContactPage() {
 
         {/* Sidebar */}
         <div className="flex min-w-0 flex-col gap-9 lg:col-span-5 lg:pt-3">
+          <WeChatDialog />
           <Reveal delay={0.1}>
             <div className="min-w-0 border-b border-line pb-8 [&_a]:break-all [&_a]:text-xl sm:[&_a]:text-2xl">
               <p className="eyebrow mb-4 flex items-center gap-2">
