@@ -1,0 +1,236 @@
+{
+  "created": "2026-09-09",
+  "generationMode": "Built-in image_gen",
+  "style": "Article-specific art direction, with no global palette or medium requirement. Photography, screen-print illustration, terminal graphics, engineering blueprints and paper diagrams coexist. Only display sizing is shared.",
+  "encoding": "WebP at per-asset quality (default 88), original 1536x1024 dimensions, no cropping. PNG originals and prior WebP variants are retained.",
+  "contentSource": "个人知识库 / AI学习 / AI时代必学 / 01-结构化与流程化思维.md (read-only). The tutorial keeps its paper diagrams and unverified teaching-example boundary.",
+  "assets": [
+    {
+      "name": "insights-cover-v2",
+      "source": "exec-21406300-b784-40de-b3f8-65bf747118df.png",
+      "output": "public/images/blog/insights-cover-v2.webp",
+      "width": 1536,
+      "height": 1024,
+      "prompt": "Use case: photorealistic-natural. Create one finished 1536x1024 landscape blog cover about providing useful context when coding with AI. Art direction: photorealistic optical still life, NOT a paper illustration. A thick clear glass lens resting on a subtly scratched dark teal surface brings a small orderly group of abstract black code-like strokes into precise focus; surrounding marks dissolve softly out of focus. Oblique macro view, strong legible central lens, natural warm sidelight refracting through its rim, authentic glass imperfections, cinematic but restrained photography. The idea is selecting signal from noise, not magic intelligence. Full-bleed composition with generous breathing room. No readable text, branding, robots, brains, notebooks, paper cards, orange connecting threads or watermark. Only the finished photograph-style illustration, no layout or surrounding page.",
+      "direction": "Optical editorial photography",
+      "quality": 88
+    },
+    {
+      "name": "my-usage-cover-v2",
+      "source": "exec-b27b5ca4-a7ff-406b-b9ff-09bda7f0d1f7.png",
+      "output": "public/images/blog/my-usage-cover-v2.webp",
+      "width": 1536,
+      "height": 1024,
+      "prompt": "Use case: illustration-story. Create one 1536x1024 landscape editorial blog cover about independent code creation and review with a human choosing what to fix. Art direction: playful yet sophisticated screen-print magazine illustration with flat saturated cobalt blue, coral red and pale lilac inks, bold slightly imperfect contours, restrained halftone texture. Two different abstract code-editor panes face one another across a broad looping arrow. One pane creates code strokes, the other has a magnifying lens examining one line; a single stylized human hand adjusts a small decision switch between them. Large simple forms fill the frame and remain recognizable as a thumbnail, not a literal UI screenshot. No readable text, product logos, robots, brains, paper scraps, beige stationery aesthetic, 3D rendering or watermark. This is a visual metaphor for a review loop, not an automatic-success claim.",
+      "direction": "Colorful screen-print editorial illustration",
+      "quality": 78
+    },
+    {
+      "name": "my-claude-md-cover-v2",
+      "source": "exec-a85eb9bd-3b60-4679-a41d-d786290ad1de.png",
+      "output": "public/images/blog/my-claude-md-cover-v2.webp",
+      "width": 1536,
+      "height": 1024,
+      "prompt": "Use case: stylized-concept. Create one finished 1536x1024 landscape blog cover for an article about a concise CLAUDE.md project rules file. Design a distinctive technical graphic poster: near-black graphite background, oversized crisp monospace filename \"CLAUDE.md\" exactly once, a small mint-green terminal cursor and a sparse file-tree of sharp silver rule lines below it. A few highlighted mint code brackets connect the root file to three subordinate paths. Elegant asymmetrical Swiss typography, strict spacing, subtle scanline ink texture, high contrast. The filename is the focal point, not a logo. All other marks are abstract strokes, not invented readable code or text. No brand logos, glows, neon cyberpunk, gradients, paper cards, dimensional documents, robots, brains or watermark. Refined developer zine aesthetic; the entire composition fits generous margins.",
+      "direction": "Dark terminal / Swiss graphic poster",
+      "quality": 88,
+      "edit": {
+        "inputSource": "exec-a745a170-f06e-460c-8ec5-6db6a222c3da.png",
+        "prompt": "Image 1 is the edit target. Change only one thing: remove the four small words SMALL RULES BIG PROGRESS from the bottom-left corner and fill that small area with the existing near-black background texture. Keep every other element, the exact CLAUDE.md filename, terminal cursor, file tree, lines, color, texture, composition and 1536x1024 canvas unchanged. Do not add any new text or objects."
+      }
+    },
+    {
+      "name": "fde-cover-v2",
+      "source": "exec-49d6be41-516e-4b54-ab4f-4db8e56d89d1.png",
+      "output": "public/images/blog/fde-cover-v2.webp",
+      "width": 1536,
+      "height": 1024,
+      "prompt": "Use case: stylized-concept. Create one 1536x1024 landscape editorial blog cover about a forward deployed engineer fitting software into a customer's existing systems. Art direction: beautiful engineering blueprint drawn in fine white and pale-cyan technical ink on rich Prussian blue, with subtle drafting-paper texture. A clear large exploded axonometric drawing of two different system enclosures and a bespoke connector/adapter bridging their incompatible sockets. Thin construction lines, restrained dashed alignment guides and circular connection ports make it feel like an architectural workshop drawing. Strong readable composition, no tiny clutter, no fantasy buildings. The visual metaphor is careful integration, not a literal hardware design or proof of an actual deployment. No words, numbers, measurement claims, branding, paper note cards, warm orange thread, human faces, robots, brains or watermark.",
+      "direction": "Architectural engineering blueprint",
+      "quality": 80
+    },
+    {
+      "name": "structured-workflows-cover",
+      "source": "exec-73430232-c1ee-4ff2-bd67-f480a8996f9d.png",
+      "output": "public/images/blog/structured-workflows-cover.webp",
+      "width": 1536,
+      "height": 1024,
+      "prompt": "Generate ONE NEW 3:2 landscape blog cover. Image1 is ONLY the style reference, not an edit target. Match its tactile warm ivory paper, charcoal fine ink, pale taupe paper layers, burnt-orange accent thread, understated independent magazine aesthetic and soft short shadows. Compose a distinctive new scene, not a repeated notebook arrangement. Clear large shapes, generous margins, legible as a small thumbnail. No text/letters/numbers/logos/watermarks, no humans, robots, brains, planets, neon, plants or coffee. Article theme: turn an ambiguous task into structured information and an executable workflow. On warm ivory paper, a few loose overlapping note cards become a neat four-cell information card, then a simple path of rectangular paper steps with a single diamond decision, ending in a checked sheet. Burnt-orange thread links the objects along an elegant horizontal composition. The final sheet is a draft awaiting review, not a claim of business success. Abstract marks only, no letters.",
+      "direction": "Tactile paper teaching diagrams"
+    },
+    {
+      "name": "insights-context-v2",
+      "source": "exec-a4745d24-a83e-4747-bf8f-93e8d347f48a.png",
+      "output": "public/images/blog/insights-context-v2.webp",
+      "width": 1536,
+      "height": 1024,
+      "prompt": "Use case: photorealistic-natural. Create one 1536x1024 conceptual editorial photograph-style illustration for a blog passage about giving an AI coding assistant relevant context. Top-down composition on a muted blue-grey surface: a large optical magnifier singles out three small crisp groups of abstract code marks under its clear glass, with scattered unrelated blurred marks outside the lens. The relevant material forms a neat column; peripheral clutter remains outside. Realistic brushed metal, glass reflections, natural side lighting and soft shallow shadows, calm sophisticated photography with space around the object. This illustrates focus and selection; it is not an actual screenshot. No readable text, logos, watermark, notebook, paper collage, orange string, robots or brains.",
+      "direction": "Optical editorial photography",
+      "quality": 88
+    },
+    {
+      "name": "my-usage-review-v2",
+      "source": "exec-35f5de50-a2e2-45db-b6ee-0d90977089f2.png",
+      "output": "public/images/blog/my-usage-review-v2.webp",
+      "width": 1536,
+      "height": 1024,
+      "prompt": "Use case: illustration-story. Create one 1536x1024 article illustration of a code implementation / independent review / human decision / repair loop. Four distinct illustrated objects arranged around a clear clockwise coral-red loop: a cobalt-blue code editor with abstract code strokes; a magnifier inspecting a line; a stylized hand choosing between two toggle positions; a small spanner repairing a code bracket. Keep precisely these four stages, arrows returning repair to review as a smaller inner feedback path. Flat sophisticated screen-print art, pale lilac background, cobalt and coral ink, bold imperfect outlines and a little halftone texture, ample breathing room. A conceptual loop with user-facing captions supplied separately, not an actual application screenshot or verified performance claim. No readable labels, numbers, logos, watermarks, notebook, paper-cut shapes or robots.",
+      "direction": "Colorful screen-print editorial illustration",
+      "quality": 88
+    },
+    {
+      "name": "my-claude-md-rules-v2",
+      "source": "exec-d4a4acbd-27b2-42f0-b90f-de709622831c.png",
+      "output": "public/images/blog/my-claude-md-rules-v2.webp",
+      "width": 1536,
+      "height": 1024,
+      "prompt": "Use case: stylized-concept. Create one 1536x1024 conceptual technical illustration for a blog passage about short global rules and loading only relevant project rules. A minimal dark terminal/editor layout rendered as a refined graphic print: one short root rules block above three branch paths, with only one branch highlighted mint green leading to an active code-bracket window; the other two branches remain dim grey. Near-black graphite backdrop, crisp silver and mint lines, restrained scanline texture, careful Swiss grid, large simple shapes and generous spacing. Include exactly one small monospace text label \"CLAUDE.md\" above the root; use only abstract short line marks for all other contents. No other letters, words, slogans, branding or watermark. No paper collage, no glow, no neon cyberpunk. Show selection of relevant rules, not automatic execution.",
+      "direction": "Dark terminal / Swiss graphic poster",
+      "quality": 88
+    },
+    {
+      "name": "fde-feedback-v2",
+      "source": "exec-d36cb05a-c04e-458e-bf3d-79606e5a2d62.png",
+      "output": "public/images/blog/fde-feedback-v2.webp",
+      "width": 1536,
+      "height": 1024,
+      "prompt": "Use case: stylized-concept. Create one 1536x1024 editorial technical illustration about feedback from customer use shaping a deployed software system. A spacious engineering blueprint with white and pale-cyan technical linework on rich Prussian-blue drafting paper. Three legible axonometric schematic units form a feedback circuit: a customer terminal with a small speech-bubble symbol, a review/repair junction with a magnifier and a tiny spanner, and a server enclosure behind a clearly drawn permission gate bearing a padlock symbol. One broad clear return arrow closes the circuit from the server to the terminal. Architectural drawing character, restrained construction guides, large forms readable at article width, no dense technical clutter. Conceptual integration metaphor only, not a factual network topology. No letters, numbers, labels, measurements, performance metrics, branding, watermark, paper note cards, orange threads or robots.",
+      "direction": "Architectural engineering blueprint",
+      "quality": 88
+    },
+    {
+      "name": "structured-workflows-business",
+      "source": "exec-b4a34a24-9015-4da6-8ef7-e8a05ff3e7f2.png",
+      "output": "public/images/blog/structured-workflows-business.webp",
+      "width": 1536,
+      "height": 1024,
+      "prompt": "Create ONE 3:2 landscape educational editorial illustration. Image1 is a STYLE reference only: match its ivory tactile paper, charcoal fine outlines, muted taupe paper cutouts, burnt-orange thread, short soft shadows and restrained roomy layout. No text, letters, numbers, watermarks, logos, plants, people, robots, brains, neon, decorative scenery. Use large clear forms; generous margins; all details fit the canvas. It illustrates a teaching example and must NOT suggest real results or confirmed success. Show four clear consecutive stages, left to right: two messy source notes and a speech bubble; a structured four-cell information sheet; a small vertical process with two rectangles and one diamond decision; a final draft sheet beside a magnifying glass. Orange arrows connect the four stages in order. No branching below the four stages, no complete/success tick on the final sheet. Diagrammatic overhead paper arrangement, quieter and flatter than a cover.",
+      "direction": "Tactile paper teaching diagrams"
+    },
+    {
+      "name": "structured-workflows-feedback",
+      "source": "exec-d3709697-9f03-48e6-bcb7-c8b37e0f0294.png",
+      "output": "public/images/blog/structured-workflows-feedback.webp",
+      "width": 1536,
+      "height": 1024,
+      "prompt": "Create ONE 3:2 landscape educational editorial illustration. Image1 is a STYLE reference only: match its ivory tactile paper, charcoal fine outlines, muted taupe paper cutouts, burnt-orange thread, short soft shadows and restrained roomy layout. No text, letters, numbers, watermarks, logos, plants, people, robots, brains, neon, decorative scenery. Use large clear forms; generous margins; all details fit the canvas. It illustrates a teaching example and must NOT suggest real results or confirmed success. Show three large objects left to right: a customer speech-bubble paper with short abstract charcoal marks; an information card with one filled row and two visibly empty rows, topped with a small orange question-mark symbol; a draft processing sheet with a magnifying lens and empty checkboxes. Orange arrows go source -> information -> draft, one curved orange return arrow from the draft back to the incomplete information card. This explicitly means missing information must be clarified and the draft reviewed, NOT issue resolved. Only permitted symbol resembling text is a question mark.",
+      "direction": "Tactile paper teaching diagrams"
+    },
+    {
+      "name": "structured-workflows-knowledge",
+      "source": "exec-c3d49441-97d9-46e4-95d9-2538169227d8.png",
+      "output": "public/images/blog/structured-workflows-knowledge.webp",
+      "width": 1536,
+      "height": 1024,
+      "prompt": "Create ONE 3:2 landscape educational editorial illustration. Image1 is a STYLE reference only: match its ivory tactile paper, charcoal fine outlines, muted taupe paper cutouts, burnt-orange thread, short soft shadows and restrained roomy layout. No text, letters, numbers, watermarks, logos, plants, people, robots, brains, neon, decorative scenery. Use large clear forms; generous margins; all details fit the canvas. It illustrates a teaching example and must NOT suggest real results or confirmed success. Show three stages: a shallow folder of raw source notes; two clear self-contained knowledge cards, one with a small empty status circle; and a directory card connected to several related note cards in a tidy sparse network. An orange thread proceeds from the raw folder to the knowledge cards to the directory. A second slender curved charcoal arrow points from the knowledge cards BACK to the raw folder to express source traceability. Keep network no more than five notes, no nested duplicate notebooks, no charts or performance data.",
+      "direction": "Tactile paper teaching diagrams"
+    }
+  ],
+  "revision": 2,
+  "previousRevision": {
+    "created": "2026-09-09",
+    "generationMode": "Built-in image_gen",
+    "style": "Warm ivory paper, charcoal ink, taupe paper layers and burnt-orange accents. No embedded labels; localized captions remain HTML.",
+    "reference": "insights-cover",
+    "encoding": "WebP quality 88, original dimensions retained, no cropping. Generated PNG originals remain in the image-generation output directory.",
+    "contentSource": "个人知识库 / AI学习 / AI时代必学 / 01-结构化与流程化思维.md (read-only). Tutorial illustrations redrawn to match the cover series; examples remain unverified teaching examples.",
+    "assets": [
+      {
+        "name": "insights-cover",
+        "source": "exec-9a64c384-e6d6-4214-8c17-cd6eb73f5851.png",
+        "output": "public/images/blog/insights-cover.webp",
+        "width": 1536,
+        "height": 1024,
+        "prompt": "Create ONE wide 3:2 editorial illustration to serve as the cover of a personal developer blog article titled 'AI usage notes'. Do not render the title or any other text. The article is about providing precise context, keeping useful project notes, and exercising judgment when coding with AI. Scene: overhead study of a small open notebook, a few ordered index cards, and a fine orange thread connecting a chosen card to an abstract code window drawn on paper. Show only restrained abstract horizontal ink marks instead of words or code. Medium: thoughtful independent magazine illustration, tactile warm ivory paper (#f6f3ed), charcoal black fine ink contours, burnt orange (#c94720) accents, subtle pale taupe paper cutouts and soft short shadows. Deliberate asymmetry, spacious composition with large legible silhouettes that work at thumbnail size, modest natural grain, never glossy. Subject occupies central 75% of canvas, generous intact margins. Use only this limited palette. Avoid humans, faces, robot heads, brains, glowing circuits, planets, gradients, dashboards, decorative plants, coffee cups, logos, lettering, watermarks, borders or split panels. This is a visual metaphor, not a screenshot. Produce one finished high-quality landscape bitmap image, not a contact sheet."
+      },
+      {
+        "name": "my-usage-cover",
+        "source": "exec-a66c39b4-67eb-4579-ac60-e72d4bf1d38a.png",
+        "output": "public/images/blog/my-usage-cover.webp",
+        "width": 1536,
+        "height": 1024,
+        "prompt": "Generate ONE NEW 3:2 landscape blog cover. Image1 is ONLY the style reference, not an edit target. Match its tactile warm ivory paper, charcoal fine ink, pale taupe paper layers, burnt-orange accent thread, understated independent magazine aesthetic and soft short shadows. Compose a distinctive new scene, not a repeated notebook arrangement. Clear large shapes, generous margins, legible as a small thumbnail. No text/letters/numbers/logos/watermarks, no humans, robots, brains, planets, neon, plants or coffee. Article theme: independent code creation and code review. Two separate paper code windows facing each other with a looping burnt-orange thread between them; one has horizontal charcoal code marks, the second a transparent magnifying lens over a singled-out orange line. A small blank decision card interrupts the loop to suggest human approval. No real UI screenshot or actual code."
+      },
+      {
+        "name": "my-claude-md-cover",
+        "source": "exec-7034893b-1cb0-4561-a8ea-831304c4bb32.png",
+        "output": "public/images/blog/my-claude-md-cover.webp",
+        "width": 1536,
+        "height": 1024,
+        "prompt": "Generate ONE NEW 3:2 landscape blog cover. Image1 is ONLY the style reference, not an edit target. Match its tactile warm ivory paper, charcoal fine ink, pale taupe paper layers, burnt-orange accent thread, understated independent magazine aesthetic and soft short shadows. Compose a distinctive new scene, not a repeated notebook arrangement. Clear large shapes, generous margins, legible as a small thumbnail. No text/letters/numbers/logos/watermarks, no humans, robots, brains, planets, neon, plants or coffee. Article theme: maintaining a small project rules file. One crisp upright paper document with a folded corner, several short charcoal rule lines and two orange checkmarks, standing above a shallow fan of thinner reference sheets with tabbed edges. Orange binding thread connects the one rules page to three simple code-file outlines. Emphasize one shared source of rules, restraint and clarity."
+      },
+      {
+        "name": "fde-cover",
+        "source": "exec-5dfcaed9-acf1-4762-affe-a0a0faa71842.png",
+        "output": "public/images/blog/fde-cover.webp",
+        "width": 1536,
+        "height": 1024,
+        "prompt": "Generate ONE NEW 3:2 landscape blog cover. Image1 is ONLY the style reference, not an edit target. Match its tactile warm ivory paper, charcoal fine ink, pale taupe paper layers, burnt-orange accent thread, understated independent magazine aesthetic and soft short shadows. Compose a distinctive new scene, not a repeated notebook arrangement. Clear large shapes, generous margins, legible as a small thumbnail. No text/letters/numbers/logos/watermarks, no humans, robots, brains, planets, neon, plants or coffee. Article theme: connecting real customer needs with working software. A small architectural bridge built of folded ivory paper joins a stack of messy source-record cards to a neat paper terminal and three understated server blocks. One burnt-orange line runs across the bridge and connects both sides. Oblique overhead view, diagrammatic tangible objects; no humanoids, no rockets, no skyline, no literal abyss."
+      },
+      {
+        "name": "structured-workflows-cover",
+        "source": "exec-73430232-c1ee-4ff2-bd67-f480a8996f9d.png",
+        "output": "public/images/blog/structured-workflows-cover.webp",
+        "width": 1536,
+        "height": 1024,
+        "prompt": "Generate ONE NEW 3:2 landscape blog cover. Image1 is ONLY the style reference, not an edit target. Match its tactile warm ivory paper, charcoal fine ink, pale taupe paper layers, burnt-orange accent thread, understated independent magazine aesthetic and soft short shadows. Compose a distinctive new scene, not a repeated notebook arrangement. Clear large shapes, generous margins, legible as a small thumbnail. No text/letters/numbers/logos/watermarks, no humans, robots, brains, planets, neon, plants or coffee. Article theme: turn an ambiguous task into structured information and an executable workflow. On warm ivory paper, a few loose overlapping note cards become a neat four-cell information card, then a simple path of rectangular paper steps with a single diamond decision, ending in a checked sheet. Burnt-orange thread links the objects along an elegant horizontal composition. The final sheet is a draft awaiting review, not a claim of business success. Abstract marks only, no letters."
+      },
+      {
+        "name": "insights-context",
+        "source": "exec-eb134fe3-aa70-4bba-be85-04ffcbb6d8bf.png",
+        "output": "public/images/blog/insights-context.webp",
+        "width": 1536,
+        "height": 1024,
+        "prompt": "Create ONE new wide 3:2 editorial article illustration in the exact visual family of Image1 (style reference only). Tactile ivory paper, charcoal fine ink, pale taupe paper layers, burnt-orange thread and accents, soft short shadows, restrained magazine illustration, simple legible objects and large empty margins. No text, letters, numbers, brands, watermarks, human characters, robots, brains, neon, plants or coffee. This is a conceptual illustration, not a software screenshot or quantitative diagram. Illustrate selecting relevant context: a handful of loose paper fragments on the left pass through a simple rectangular paper sorting frame, becoming just two carefully selected index cards attached by orange thread to one focused paper code window. The useful few cards are foregrounded, unrelated fragments remain outside. Do NOT draw a literal kitchen funnel or giant notebook."
+      },
+      {
+        "name": "my-usage-review",
+        "source": "exec-dec8121c-8dc6-41eb-845b-4cee78122787.png",
+        "output": "public/images/blog/my-usage-review.webp",
+        "width": 1536,
+        "height": 1024,
+        "prompt": "Create ONE new wide 3:2 editorial article illustration in the exact visual family of Image1 (style reference only). Tactile ivory paper, charcoal fine ink, pale taupe paper layers, burnt-orange thread and accents, soft short shadows, restrained magazine illustration, simple legible objects and large empty margins. No text, letters, numbers, brands, watermarks, human characters, robots, brains, neon, plants or coffee. This is a conceptual illustration, not a software screenshot or quantitative diagram. Illustrate a repair-and-review loop as an arrangement of four small paper tiles around an oval orange thread: abstract code marks, a magnifying lens over a short error line, a branching choice with an unfilled small decision circle, and a repair patch with an orange check. Clear clockwise arrows in the thread, no start/end claims, no all-success green ticks. Individual objects remain distinct. No notebook."
+      },
+      {
+        "name": "my-claude-md-rules",
+        "source": "exec-962161b7-d24e-472f-83e3-77781b397cb7.png",
+        "output": "public/images/blog/my-claude-md-rules.webp",
+        "width": 1536,
+        "height": 1024,
+        "prompt": "Create ONE new wide 3:2 editorial article illustration in the exact visual family of Image1 (style reference only). Tactile ivory paper, charcoal fine ink, pale taupe paper layers, burnt-orange thread and accents, soft short shadows, restrained magazine illustration, simple legible objects and large empty margins. No text, letters, numbers, brands, watermarks, human characters, robots, brains, neon, plants or coffee. This is a conceptual illustration, not a software screenshot or quantitative diagram. Illustrate a short global rules file and selective project rules: one small single sheet with just a few ink lines above a larger organized folder; inside the folder three tabbed reference sheets remain partially tucked away, only one orange-tab sheet is drawn out and connected to a code-file tile by orange thread. Emphasis on loading relevant rules only. No giant notebook."
+      },
+      {
+        "name": "fde-feedback",
+        "source": "exec-2de4d9a2-1a7e-44f5-8ac8-3f89898093fe.png",
+        "output": "public/images/blog/fde-feedback.webp",
+        "width": 1536,
+        "height": 1024,
+        "prompt": "Create ONE new wide 3:2 editorial article illustration in the exact visual family of Image1 (style reference only). Tactile ivory paper, charcoal fine ink, pale taupe paper layers, burnt-orange thread and accents, soft short shadows, restrained magazine illustration, simple legible objects and large empty margins. No text, letters, numbers, brands, watermarks, human characters, robots, brains, neon, plants or coffee. This is a conceptual illustration, not a software screenshot or quantitative diagram. Illustrate feedback from real use improving software: a paper terminal tile and a stack of customer feedback cards are joined by a clear looping orange thread, with a small magnifying lens and a patch-shaped orange paper square along the loop. A thin charcoal lock symbol sits on the terminal to hint at permissions. No charts, percentages, invented performance metrics or literal bridge in this illustration."
+      },
+      {
+        "name": "structured-workflows-business",
+        "source": "exec-b4a34a24-9015-4da6-8ef7-e8a05ff3e7f2.png",
+        "output": "public/images/blog/structured-workflows-business.webp",
+        "width": 1536,
+        "height": 1024,
+        "prompt": "Create ONE 3:2 landscape educational editorial illustration. Image1 is a STYLE reference only: match its ivory tactile paper, charcoal fine outlines, muted taupe paper cutouts, burnt-orange thread, short soft shadows and restrained roomy layout. No text, letters, numbers, watermarks, logos, plants, people, robots, brains, neon, decorative scenery. Use large clear forms; generous margins; all details fit the canvas. It illustrates a teaching example and must NOT suggest real results or confirmed success. Show four clear consecutive stages, left to right: two messy source notes and a speech bubble; a structured four-cell information sheet; a small vertical process with two rectangles and one diamond decision; a final draft sheet beside a magnifying glass. Orange arrows connect the four stages in order. No branching below the four stages, no complete/success tick on the final sheet. Diagrammatic overhead paper arrangement, quieter and flatter than a cover."
+      },
+      {
+        "name": "structured-workflows-feedback",
+        "source": "exec-d3709697-9f03-48e6-bcb7-c8b37e0f0294.png",
+        "output": "public/images/blog/structured-workflows-feedback.webp",
+        "width": 1536,
+        "height": 1024,
+        "prompt": "Create ONE 3:2 landscape educational editorial illustration. Image1 is a STYLE reference only: match its ivory tactile paper, charcoal fine outlines, muted taupe paper cutouts, burnt-orange thread, short soft shadows and restrained roomy layout. No text, letters, numbers, watermarks, logos, plants, people, robots, brains, neon, decorative scenery. Use large clear forms; generous margins; all details fit the canvas. It illustrates a teaching example and must NOT suggest real results or confirmed success. Show three large objects left to right: a customer speech-bubble paper with short abstract charcoal marks; an information card with one filled row and two visibly empty rows, topped with a small orange question-mark symbol; a draft processing sheet with a magnifying lens and empty checkboxes. Orange arrows go source -> information -> draft, one curved orange return arrow from the draft back to the incomplete information card. This explicitly means missing information must be clarified and the draft reviewed, NOT issue resolved. Only permitted symbol resembling text is a question mark."
+      },
+      {
+        "name": "structured-workflows-knowledge",
+        "source": "exec-c3d49441-97d9-46e4-95d9-2538169227d8.png",
+        "output": "public/images/blog/structured-workflows-knowledge.webp",
+        "width": 1536,
+        "height": 1024,
+        "prompt": "Create ONE 3:2 landscape educational editorial illustration. Image1 is a STYLE reference only: match its ivory tactile paper, charcoal fine outlines, muted taupe paper cutouts, burnt-orange thread, short soft shadows and restrained roomy layout. No text, letters, numbers, watermarks, logos, plants, people, robots, brains, neon, decorative scenery. Use large clear forms; generous margins; all details fit the canvas. It illustrates a teaching example and must NOT suggest real results or confirmed success. Show three stages: a shallow folder of raw source notes; two clear self-contained knowledge cards, one with a small empty status circle; and a directory card connected to several related note cards in a tidy sparse network. An orange thread proceeds from the raw folder to the knowledge cards to the directory. A second slender curved charcoal arrow points from the knowledge cards BACK to the raw folder to express source traceability. Keep network no more than five notes, no nested duplicate notebooks, no charts or performance data."
+      }
+    ]
+  }
+}

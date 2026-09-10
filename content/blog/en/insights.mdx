@@ -4,6 +4,8 @@ description: "Practical notes on context, model choice, cost, and working effect
 date: "2026-07-28"
 tags: ["AI Coding", "Claude Code", "Practice"]
 hue: 22
+cover: "/images/blog/insights-cover-v2.webp"
+coverAlt: "A photographic-style illustration of a glass lens focusing a signal"
 ---
 
 > **This is my setup, not a standard.** These are personal tradeoffs, and you may reasonably prefer something else.
@@ -24,6 +26,14 @@ After using these tools for long enough, you realize that coding quality depends
 My priority order is therefore: write a good `CLAUDE.md` > choose a more expensive model > install more plugins. The first has an immediate, lasting effect. The returns on the other two diminish quickly.
 
 Before asking it to fix a bug, provide the reproduction steps, the complete error, and the relevant file paths. Organizing those three things takes thirty seconds and can save five rounds of exploratory searching. Those five rounds consume more tokens than you might expect.
+
+<BlogImage
+  src="/images/blog/insights-context-v2.webp"
+  alt="A magnifying glass selecting information relevant to a coding task"
+  caption="Context, illustrated: give the model reproduction steps, the complete error, and relevant files so it can work on the current task."
+  width="1536"
+  height="1024"
+/>
 
 ## 2. Use /clear less and /compact more
 

@@ -14,8 +14,10 @@ export type PostMeta = {
   updated?: string;
   tags: string[];
   hue: number;
+  cover?: string;
+  coverAlt?: string;
   readingMinutes: number;
-  /** True when the post is served from the fallback locale (English). */
+  /** True when the post is served from the configured default locale. */
   fallback: boolean;
 };
 
@@ -46,6 +48,10 @@ async function readPost(locale: Locale, slug: string, fallback = false): Promise
       updated: data.updated ? String(data.updated) : undefined,
       tags: Array.isArray(data.tags) ? data.tags.map(String) : [],
       hue: typeof data.hue === "number" ? data.hue : 24,
+      cover: typeof data.cover === "string" && /^\/images\/blog\/[a-z0-9-]+\.(webp|png|jpg)$/.test(data.cover)
+        ? data.cover
+        : undefined,
+      coverAlt: typeof data.coverAlt === "string" ? data.coverAlt : undefined,
       readingMinutes: readingTime(content, locale),
       fallback,
       content,
@@ -55,7 +61,7 @@ async function readPost(locale: Locale, slug: string, fallback = false): Promise
   }
 }
 
-/** All posts for a locale, falling back to English for untranslated slugs. */
+/** All posts for a locale, falling back to the default locale for untranslated slugs. */
 export async function getAllPosts(locale: string): Promise<PostMeta[]> {
   const loc = (routing.locales as readonly string[]).includes(locale)
     ? (locale as Locale)

@@ -4,6 +4,8 @@ description: "A real global CLAUDE.md that I use, with an explanation of why eac
 date: "2026-07-27"
 tags: ["Claude Code", "CLAUDE.md", "Configuration"]
 hue: 28
+cover: "/images/blog/my-claude-md-cover-v2.webp"
+coverAlt: "A dark terminal-style composition of a CLAUDE.md file and rules"
 ---
 
 > **This is my setup, not a standard.** These are personal tradeoffs, and you may reasonably prefer something else.
@@ -113,6 +115,14 @@ If it does, add the channel to streamSupportedChannels.
 ```
 
 That rule consumes no context during unrelated work and loads only when the agent touches the relevant files. In a large project, this is much more efficient than putting everything into one main file.
+
+<BlogImage
+  src="/images/blog/my-claude-md-rules-v2.webp"
+  alt="Dark terminal typography showing short global rules and project rules selected as needed"
+  caption="Rule organization, illustrated: keep global conventions short and load project domain rules for the relevant file paths."
+  width="1536"
+  height="1024"
+/>
 
 ## How to start your own
 

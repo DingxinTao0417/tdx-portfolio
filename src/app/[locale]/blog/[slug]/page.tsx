@@ -1,5 +1,6 @@
 import { ArrowLeft } from "lucide-react";
 import type { Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 import { PostCard } from "@/components/blog/post-card";
@@ -26,7 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const post = await getPost(locale, slug);
   if (!post) return {};
-  const og = `/api/og?title=${encodeURIComponent(post.title)}&subtitle=${encodeURIComponent(
+  const og = post.cover ?? `/api/og?title=${encodeURIComponent(post.title)}&subtitle=${encodeURIComponent(
     post.description,
   )}&locale=${locale}&hue=${post.hue}&kind=post`;
   return {
@@ -44,7 +45,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       modifiedTime: post.updated,
       authors: [site.name],
       tags: post.tags,
-      images: [{ url: og, width: 1200, height: 630 }],
+      images: [{ url: og, width: post.cover ? 1536 : 1200, height: post.cover ? 1024 : 630, alt: post.coverAlt ?? post.title }],
     },
     twitter: { card: "summary_large_image", title: post.title, description: post.description, images: [og] },
   };
@@ -71,6 +72,7 @@ export default async function BlogPostPage({ params }: Props) {
     headline: post.title,
     description: post.description,
     datePublished: post.date,
+    image: post.cover ? new URL(post.cover, site.url).toString() : undefined,
     dateModified: post.updated ?? post.date,
     inLanguage: locale === "zh" ? "zh-CN" : "en-US",
     author: { "@type": "Person", name: site.name, url: site.url },
@@ -103,7 +105,7 @@ export default async function BlogPostPage({ params }: Props) {
                     {tag}
                   </Tag>
                 ))}
-                {post.fallback && <Tag>EN</Tag>}
+                {post.fallback && <Tag>{post.locale.toUpperCase()}</Tag>}
               </div>
             </Reveal>
             <Reveal delay={0.1}>
@@ -152,7 +154,19 @@ export default async function BlogPostPage({ params }: Props) {
             </nav>
           </details>
         )}
-        <div className="prose-tdx min-w-0 max-w-[46rem]">{content}</div>
+        <div className="min-w-0 max-w-[46rem]">
+          {post.cover && (
+            <Image
+              src={post.cover}
+              alt={post.coverAlt ?? ""}
+              width={1536}
+              height={1024}
+              sizes="(max-width: 767px) 100vw, (max-width: 1023px) 90vw, 736px"
+              className="mb-10 h-auto w-full rounded-xl border border-line bg-[#f6f3ed]"
+            />
+          )}
+          <div className="prose-tdx">{content}</div>
+        </div>
         <aside className="hidden lg:block">
           <div className="sticky top-28 rounded-xl bg-bg-elevated/70 p-5">
             <TableOfContents items={toc} label={tc("tableOfContents")} />
