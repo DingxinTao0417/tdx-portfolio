@@ -54,13 +54,19 @@ export const education: EducationEntry[] = [
   },
   {
     id: "shoreline",
-    school: { en: "Shoreline Community College", zh: "Shoreline Community College" },
+    school: { en: "Shoreline Community College", zh: "雪兰社区大学" },
     shortName: "Shoreline CC",
-    field: { en: "Computer Science", zh: "计算机" },
+    field: { en: "Computer Science", zh: "计算机科学" },
     period: { en: "2021 — 2023", zh: "2021 — 2023" },
-    focus: [],
+    classOf: "2023",
+    location: { en: "Shoreline, WA", zh: "华盛顿州 · 雪兰" },
+    focus: [
+      { en: "Computer science fundamentals", zh: "计算机基础" },
+      { en: "Linear algebra", zh: "线性代数" },
+      { en: "Probability theory", zh: "概率论" },
+    ],
     logo: "/education/shoreline.png",
-    logoFit: "wordmark",
+    logoFit: "cover",
     hue: 176,
   },
 ];

@@ -404,7 +404,10 @@ export const projects: Project[] = [
     year: "2026",
     category: "fullstack",
     stack: ["Next.js", "TypeScript", "Supabase", "PostgreSQL", "Tailwind CSS", "Tap Payments", "Vitest", "Playwright"],
-    links: { github: "https://github.com/DingxinTao0417/As-a", githubPrivate: true },
+    links: {
+      github: "https://github.com/DingxinTao0417/As-a",
+      demo: "https://v0-professional-services-pl-git-feeafe-dingxintao0417s-projects.vercel.app/",
+    },
     cover: {
       src: "/projects/as-a.png",
       width: 1920,

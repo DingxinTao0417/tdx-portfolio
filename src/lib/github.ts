@@ -53,10 +53,8 @@ const headers: HeadersInit = {
 const asAShowcaseRepo: GitHubRepo = {
   name: "As-a",
   fullName: "DingxinTao0417/As-a",
-  // The repository is private. Send visitors to the public case study instead.
-  htmlUrl: "/projects/as-a",
-  external: false,
-  visibility: "private",
+  htmlUrl: "https://github.com/DingxinTao0417/As-a",
+  external: true,
   description: null,
   language: "TypeScript",
   stars: 0,
@@ -67,6 +65,7 @@ const asAShowcaseRepo: GitHubRepo = {
 };
 
 const showcaseKeys: Partial<Record<string, GitHubShowcaseKey>> = {
+  "As-a": "asA",
   "MultiMix-Frontend": "multimix",
   "tdx-portfolio": "portfolio",
   "opc-workspace": "opcWorkspace",
@@ -78,9 +77,11 @@ function addShowcaseKey(repo: GitHubRepo): GitHubRepo {
 }
 
 function replaceXiaoshiWithAsA(repos: GitHubRepo[]) {
-  const xiaoshiIndex = repos.findIndex((repo) => repo.name.toLowerCase() === "xiaoshi_ai_notes");
-  if (xiaoshiIndex === -1) return [asAShowcaseRepo, ...repos].slice(0, 4);
-  return repos.map((repo, index) => (index === xiaoshiIndex ? asAShowcaseRepo : repo));
+  const asA = repos.find((repo) => repo.name.toLowerCase() === "as-a") ?? asAShowcaseRepo;
+  const otherRepos = repos.filter((repo) => repo.name.toLowerCase() !== "as-a");
+  const xiaoshiIndex = otherRepos.findIndex((repo) => repo.name.toLowerCase() === "xiaoshi_ai_notes");
+  if (xiaoshiIndex === -1) return [asA, ...otherRepos].slice(0, 4);
+  return otherRepos.map((repo, index) => (index === xiaoshiIndex ? asA : repo)).slice(0, 4);
 }
 
 export const getGitHubContributionCalendar = cache(async (year?: number): Promise<GitHubContributionCalendar | null> => {
@@ -166,7 +167,6 @@ export async function getGitHubSnapshot(): Promise<GitHubSnapshot | null> {
       repos: replaceXiaoshiWithAsA(
         repos
           .filter((r) => !r.fork)
-          .slice(0, 4)
           .map((r) =>
             addShowcaseKey({
               name: r.name,

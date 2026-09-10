@@ -187,7 +187,7 @@ function databasePoints(count: number) {
   const positions = new Float32Array(count * 3);
   const styles = new Float32Array(count * 3);
   const layers = 3;
-  const spacing = 1.05;
+  const spacing = 0.85;
   const thickness = 0.5;
   const cosine = Math.cos(DATABASE_PITCH);
   const sine = Math.sin(DATABASE_PITCH);
