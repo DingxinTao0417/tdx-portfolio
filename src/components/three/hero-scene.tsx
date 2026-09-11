@@ -6,15 +6,14 @@ import * as THREE from "three";
 import type { ScenePalette } from "./palette";
 import { fragmentShader, vertexShader } from "./hero-shaders";
 import { buildTargets } from "./hero-targets";
-import { getNetworkNodes } from "./hero-network";
-import { createHeroCycle, MORPH_DURATION, noteActivity, POINT_DURATION, requestNext, stepHeroCycle } from "./hero-cycle";
+import { getNetworkLayers, NETWORK_SCALE, NETWORK_SWAY } from "./hero-network";
+import { createHeroCycle, MORPH_DURATION, POINT_DURATION, requestNext, stepHeroCycle } from "./hero-cycle";
 import type { HeroInteraction } from "./hero-interaction";
 
 type SceneProps = {
   palette: ScenePalette;
   reduced: boolean;
   active: boolean;
-  playing: boolean;
   nextRequest: number;
   interaction: RefObject<HeroInteraction>;
   onInvalidateReady: (invalidate: (() => void) | null) => void;
@@ -33,17 +32,16 @@ function pickQuality() {
 }
 
 function Field({
-  palette, reduced, playing, nextRequest, interaction, onInvalidateReady, onPhaseChange, count,
-}: Pick<SceneProps, "palette" | "reduced" | "playing" | "nextRequest" | "interaction" | "onInvalidateReady" | "onPhaseChange"> & { count: number }) {
+  palette, reduced, active, nextRequest, interaction, onInvalidateReady, onPhaseChange, count,
+}: Pick<SceneProps, "palette" | "reduced" | "active" | "nextRequest" | "interaction" | "onInvalidateReady" | "onPhaseChange"> & { count: number }) {
   const points = useRef<THREE.Points>(null);
   const material = useRef<THREE.ShaderMaterial>(null);
   const invalidate = useThree((state) => state.invalidate);
   const cycle = useRef(createHeroCycle(reduced));
   const skipNextDelta = useRef(true);
-  const activityVersion = useRef(0);
   const hoverTime = useRef(0);
-  const networkNodes = useMemo(() => getNetworkNodes(), []);
-  const probes = useRef({ center: new THREE.Vector3(), edge: new THREE.Vector3(), axis: new THREE.Vector3(0, 1, 0) });
+  const networkLayers = useMemo(() => getNetworkLayers(), []);
+  const probes = useRef({ corner: new THREE.Vector3(), axis: new THREE.Vector3(0, 1, 0) });
 
   const geometry = useMemo(() => {
     const targets = buildTargets(count);
@@ -51,6 +49,7 @@ function Field({
     result.setAttribute("position", new THREE.BufferAttribute(targets.monogram, 3));
     result.setAttribute("aDatabase", new THREE.BufferAttribute(targets.database, 3));
     result.setAttribute("aDatabaseStyle", new THREE.BufferAttribute(targets.databaseStyles, 3));
+    result.setAttribute("aDatabaseDetail", new THREE.BufferAttribute(targets.databaseDetails, 3));
     result.setAttribute("aNetwork", new THREE.BufferAttribute(targets.network, 3));
     result.setAttribute("aNetworkStyle", new THREE.BufferAttribute(targets.networkStyles, 3));
     result.setAttribute("aNetworkLink", new THREE.BufferAttribute(targets.networkLinks, 3));
@@ -91,15 +90,14 @@ function Field({
   useEffect(() => {
     if (nextRequest === 0) return;
     requestNext(cycle.current);
-    noteActivity(cycle.current);
     invalidate();
   }, [nextRequest, invalidate]);
 
-  // Resume without counting time spent paused in the next animation frame.
+  // Returning onscreen must not count time spent hidden in the next frame.
   useEffect(() => {
     skipNextDelta.current = true;
     invalidate();
-  }, [playing, reduced, invalidate]);
+  }, [active, reduced, invalidate]);
 
   useFrame((state, delta) => {
     const m = material.current;
@@ -110,17 +108,12 @@ function Field({
     const c = cycle.current;
     const input = interaction.current;
     const probe = probes.current;
-    if (activityVersion.current !== input.activityVersion) {
-      activityVersion.current = input.activityVersion;
-      noteActivity(c);
-    }
     u.uPixelRatio.value = state.gl.getPixelRatio();
-    // Keep particle coverage consistent as the drawing surface grows, especially
-    // on solid neurons; a larger canvas must not turn their faces into sparse dots.
+    // Keep the point-grid coverage consistent as the drawing surface grows.
     u.uSize.value = 2.4 * Math.max(1, state.size.width / (560 * Math.sqrt(count / 11000)));
     u.uMovement.value = reduced ? 0 : 1;
 
-    const changedPhase = stepHeroCycle(c, dt, { playing, reduced });
+    const changedPhase = stepHeroCycle(c, dt, { active, reduced });
     if (changedPhase !== null) onPhaseChange(changedPhase);
     u.uTime.value = c.time;
     u.uFrom.value = c.from;
@@ -128,34 +121,39 @@ function Field({
     u.uElapsed.value = c.elapsed;
 
     if (points.current) {
-      // Limit network parallax so its front and back neurons stay separated.
+      // Gentle parallax exposes slab thickness without overlapping nearby layers.
       const progress = THREE.MathUtils.smoothstep(c.elapsed, 0, MORPH_DURATION);
       const networkWeight = THREE.MathUtils.lerp(Number(c.from === 2), Number(c.to === 2), progress);
-      const x = reduced || !input.inside ? 0 : -input.y * THREE.MathUtils.lerp(0.045, 0.015, networkWeight);
-      const y = reduced || !input.inside ? 0 : input.x * THREE.MathUtils.lerp(0.065, 0.015, networkWeight);
+      const x = reduced || !input.inside ? 0 : -input.y * THREE.MathUtils.lerp(0.045, 0.028, networkWeight);
+      const y = reduced || !input.inside ? 0 : input.x * THREE.MathUtils.lerp(0.065, 0.040, networkWeight);
       if (reduced) points.current.rotation.set(0, 0, 0);
-      else if (playing) {
+      else if (active) {
         points.current.rotation.x = THREE.MathUtils.damp(points.current.rotation.x, x, 3, dt);
         points.current.rotation.y = THREE.MathUtils.damp(points.current.rotation.y, y, 3, dt);
       }
 
-      // Pick the 18 visible node faces, not thousands of morphing GPU particles.
+      // Project the cuboid bounds so tall feature maps have layer-shaped hit areas.
       let hovered = -1;
       let nearest = Infinity;
       if (input.inside && c.to === 2 && c.elapsed >= MORPH_DURATION) {
         points.current.updateMatrixWorld();
-        const angle = reduced ? 0 : Math.sin(c.time * 0.26) * 0.02;
-        for (const node of networkNodes) {
-          probe.center.fromArray(node.center).multiplyScalar(1.12);
-          probe.edge.copy(probe.center);
-          probe.edge.x += node.radius * 1.12;
-          probe.center.applyAxisAngle(probe.axis, angle).applyMatrix4(points.current.matrixWorld).project(state.camera);
-          probe.edge.applyAxisAngle(probe.axis, angle).applyMatrix4(points.current.matrixWorld).project(state.camera);
-          const radius = Math.abs(probe.edge.x - probe.center.x) * state.size.width / 2 + 8;
-          const distance = Math.hypot((input.x - probe.center.x) * state.size.width / 2,
-            (input.y - probe.center.y) * state.size.height / 2);
-          const score = distance / radius;
-          if (score < 1 && score < nearest) { hovered = node.id; nearest = score; }
+        const angle = reduced ? 0 : Math.sin(c.time * 0.26) * NETWORK_SWAY;
+        for (const layer of networkLayers) {
+          let left = Infinity, right = -Infinity, bottom = Infinity, top = -Infinity;
+          for (const corner of layer.corners) {
+            probe.corner.fromArray(corner).multiplyScalar(NETWORK_SCALE)
+              .applyAxisAngle(probe.axis, angle).applyMatrix4(points.current.matrixWorld).project(state.camera);
+            left = Math.min(left, probe.corner.x);
+            right = Math.max(right, probe.corner.x);
+            bottom = Math.min(bottom, probe.corner.y);
+            top = Math.max(top, probe.corner.y);
+          }
+          const padX = 12 / state.size.width;
+          const padY = 12 / state.size.height;
+          if (input.x < left - padX || input.x > right + padX || input.y < bottom - padY || input.y > top + padY) continue;
+          const score = Math.abs(input.x - (left + right) / 2) / (right - left + padX * 2)
+            + 0.15 * Math.abs(input.y - (top + bottom) / 2) / (top - bottom + padY * 2);
+          if (score < nearest) { hovered = layer.id; nearest = score; }
         }
       }
       if (hovered >= 0 && hovered !== u.uHoverNode.value) {
@@ -163,10 +161,10 @@ function Field({
         hoverTime.current = 0;
       }
       const strength = hovered >= 0 ? 1 : 0;
-      u.uHoverStrength.value = playing && !reduced
+      u.uHoverStrength.value = active && !reduced
         ? THREE.MathUtils.damp(u.uHoverStrength.value, strength, 12, dt) : strength;
       if (hovered < 0 && u.uHoverStrength.value < 0.002) u.uHoverNode.value = -1;
-      if (playing && !reduced) hoverTime.current += dt;
+      if (active && !reduced) hoverTime.current += dt;
       u.uHoverTime.value = hoverTime.current;
     }
   });
@@ -182,12 +180,12 @@ function Field({
   );
 }
 
-export default function HeroScene({ palette, reduced, active, playing, nextRequest, interaction, onInvalidateReady, onPhaseChange, fallback }: SceneProps) {
+export default function HeroScene({ palette, reduced, active, nextRequest, interaction, onInvalidateReady, onPhaseChange, fallback }: SceneProps) {
   const [quality] = useState(pickQuality);
   return (
     <Canvas
       dpr={quality.dpr}
-      frameloop={active && playing && !reduced ? "always" : "demand"}
+      frameloop={active && !reduced ? "always" : "demand"}
       camera={{ position: [0, 0, 7], fov: 38 }}
       gl={{ antialias: false, alpha: true, powerPreference: "low-power" }}
       style={{ background: "transparent" }}
@@ -195,7 +193,7 @@ export default function HeroScene({ palette, reduced, active, playing, nextReque
       onCreated={({ gl }) => { gl.toneMapping = THREE.NoToneMapping; }}
     >
       <Field
-        palette={palette} reduced={reduced} playing={active && playing}
+        palette={palette} reduced={reduced} active={active}
         nextRequest={nextRequest} interaction={interaction} onInvalidateReady={onInvalidateReady}
         onPhaseChange={onPhaseChange} count={quality.count}
       />

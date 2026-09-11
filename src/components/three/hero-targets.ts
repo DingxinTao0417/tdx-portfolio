@@ -1,17 +1,19 @@
 import { buildNetwork } from "./hero-network";
 import { buildLattice } from "./hero-lattice";
+import { buildDatabase } from "./hero-database";
 
 /** Positions and their visual attributes share a deterministic spatial ordering. */
 export const PHASES = ["monogram", "database", "network", "lattice"] as const;
 export type Phase = (typeof PHASES)[number];
 
-export const DATABASE_PITCH = 0.35;
-export const DATABASE_RADIUS = 1.45;
+export { DATABASE_PITCH, DATABASE_RADIUS } from "./hero-database";
 
 export type Targets = Record<Phase, Float32Array> & {
   databaseStyles: Float32Array;
+  /** vec3: tier index, normalized azimuth, surface kind. */
+  databaseDetails: Float32Array;
   networkStyles: Float32Array;
-  /** vec3 per particle: source node ID, target node ID, edge t (-1 for nodes). */
+  /** vec3 per particle: source layer ID, target layer ID, edge t (-1 for surfaces). */
   networkLinks: Float32Array;
   /** vec3 per particle: transition delay, path variation, size variation. */
   seeds: Float32Array;
@@ -29,7 +31,6 @@ type Stroke = {
 };
 type Sample = { x: number; y: number; z: number; order: number };
 
-const TAU = Math.PI * 2;
 const X_LIMIT = 2.15;
 const Y_LIMIT = 1.7;
 
@@ -159,93 +160,13 @@ function orderModel<T extends { positions: Float32Array }>(model: T): T {
   return ordered as T;
 }
 
-/** A square point grid clipped to a disk, with exactly the requested count. */
-function diskGrid(count: number) {
-  if (count === 0) return [];
-  const radius = DATABASE_RADIUS - 0.025;
-  let side = Math.ceil(Math.sqrt((count * 4) / Math.PI)) + 2;
-  let candidates: V2[];
-  do {
-    candidates = [];
-    const step = (radius * 2) / (side - 1);
-    for (let row = 0; row < side; row++) {
-      for (let col = 0; col < side; col++) {
-        const x = -radius + col * step;
-        const z = -radius + row * step;
-        if (x * x + z * z <= radius * radius) candidates.push([x, z]);
-      }
-    }
-    side++;
-  } while (candidates.length < count);
-
-  return Array.from({ length: count }, (_, i) =>
-    candidates[Math.floor(((i + 0.5) * candidates.length) / count)],
-  );
-}
-
-function databasePoints(count: number) {
-  const positions = new Float32Array(count * 3);
-  const styles = new Float32Array(count * 3);
-  const layers = 3;
-  const spacing = 0.85;
-  const thickness = 0.5;
-  const cosine = Math.cos(DATABASE_PITCH);
-  const sine = Math.sin(DATABASE_PITCH);
-  let index = 0;
-
-  const add = (x: number, y: number, z: number, accent: number, alpha: number, size: number) => {
-    positions.set([x, y * cosine - z * sine, y * sine + z * cosine], index * 3);
-    styles.set([accent, alpha, size], index * 3);
-    index++;
-  };
-
-  for (let layer = 0; layer < layers; layer++) {
-    const budget = Math.floor(count / layers) + (layer < count % layers ? 1 : 0);
-    const centreY = (layer - 1) * spacing;
-    const topY = centreY + thickness / 2;
-    const bottomY = centreY - thickness / 2;
-    const topCount = Math.floor(budget * 0.35);
-    const wallCount = Math.floor(budget * 0.5);
-    const rimCount = Math.floor(budget * 0.1);
-    const baseCount = budget - topCount - wallCount - rimCount;
-
-    for (const [x, z] of diskGrid(topCount)) {
-      add(x, topY, z, 0.04, 0.72, 0.82);
-    }
-
-    // Sample only the visible front wall, evenly in projected X/Y.
-    // Back walls and lower rear rims caused the transparent stack to read as extra layers.
-    const cols = Math.max(1, Math.ceil(Math.sqrt(wallCount * DATABASE_RADIUS * 2 / thickness)));
-    const rows = Math.ceil(wallCount / cols);
-    for (let i = 0; i < wallCount; i++) {
-      const cell = Math.floor((i + 0.5) * cols * rows / wallCount);
-      const x = ((cell % cols + 0.5) / cols - 0.5) * DATABASE_RADIUS * 2;
-      const y = bottomY + (Math.floor(cell / cols) + 0.5) / rows * thickness;
-      const z = Math.sqrt(Math.max(0, DATABASE_RADIUS * DATABASE_RADIUS - x * x));
-      add(x, y, z, 0.06, 1.0, 1.0);
-    }
-
-    // One highlighted top ellipse per tier, with an understated front-only lower edge.
-    for (let i = 0; i < rimCount; i++) {
-      const angle = (i + 0.5) / rimCount * TAU;
-      add(Math.cos(angle) * DATABASE_RADIUS, topY, Math.sin(angle) * DATABASE_RADIUS,
-        0.95, 1.05, 0.94);
-    }
-    for (let i = 0; i < baseCount; i++) {
-      const angle = (i + 0.5) / baseCount * Math.PI;
-      add(Math.cos(angle) * DATABASE_RADIUS, bottomY, Math.sin(angle) * DATABASE_RADIUS,
-        0.08, 0.72, 0.85);
-    }
-  }
-  return { positions, styles };
-}
 
 export function buildTargets(count = 11000): Targets {
   if (!Number.isSafeInteger(count) || count < 0) {
     throw new RangeError("Particle count must be a non-negative safe integer.");
   }
   const monogram = sampleStrokes(monogramStrokes(), count, 101);
-  const database = orderModel(databasePoints(count));
+  const database = orderModel(buildDatabase(count));
   const network = orderModel(buildNetwork(count));
   const lattice = orderModel(buildLattice(count));
   const seeds = new Float32Array(count * 3);
@@ -255,7 +176,7 @@ export function buildTargets(count = 11000): Targets {
     seeds[i * 3 + 2] = hash(i, 601);
   }
   return {
-    monogram, database: database.positions, databaseStyles: database.styles,
+    monogram, database: database.positions, databaseStyles: database.styles, databaseDetails: database.details,
     network: network.positions, lattice: lattice.positions,
     networkStyles: network.styles, networkLinks: network.links, seeds, count,
   };

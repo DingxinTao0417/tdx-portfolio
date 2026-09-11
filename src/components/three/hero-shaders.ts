@@ -1,3 +1,6 @@
+import { NETWORK_SCALE, NETWORK_SWAY } from "./hero-network";
+import { DATABASE_PITCH } from "./hero-database";
+
 // Simplex 3D noise — Ian McEwan / Ashima Arts (MIT).
 const simplex = /* glsl */ `
 vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
@@ -64,6 +67,7 @@ uniform float uHoverTime;
 uniform float uHoverStrength;
 attribute vec3 aDatabase;
 attribute vec3 aDatabaseStyle;
+attribute vec3 aDatabaseDetail;
 attribute vec3 aNetwork;
 attribute vec3 aNetworkStyle;
 attribute vec3 aNetworkLink;
@@ -83,7 +87,18 @@ vec3 turn(vec3 p, float angle) {
 float angleAt(float phase) {
   if (phase < 1.5) return 0.0;
   if (phase > 2.5) return sin(uTime * 0.15) * 0.22 * uMovement;
-  return sin(uTime * 0.26) * 0.02 * uMovement;
+  return sin(uTime * 0.26) * ${NETWORK_SWAY} * uMovement;
+}
+
+// Transform the baked view back to the cylinder's local vertical axis.
+float databaseHeight() {
+  return aDatabase.y * ${Math.cos(DATABASE_PITCH)} + aDatabase.z * ${Math.sin(DATABASE_PITCH)};
+}
+
+float databaseReadWave() {
+  // Enter and leave beyond the silhouette so the wrap never flashes in place.
+  float head = mod(uTime * 0.82, 3.0) - 1.5;
+  return (1.0 - smoothstep(0.035, 0.19, abs(databaseHeight() - head))) * uMovement;
 }
 
 vec3 target(float phase) {
@@ -93,8 +108,15 @@ vec3 target(float phase) {
     vec3 ripple = vec3(snoise(q), snoise(q + 31.7), snoise(q + 71.3));
     return turn(aLattice + ripple * 0.06 * uMovement, angleAt(phase));
   }
+  if (phase > 0.5 && phase < 1.5) {
+    // Move whole tiers, not individual surface points. Spacing can expand a
+    // little but never contract; no rotation of the pre-occluded back faces.
+    float breath = (0.5 + 0.5 * sin(uTime * 1.15)) * 0.035;
+    float lift = (sin(uTime * 1.15) * 0.055 + (aDatabaseDetail.x - 1.0) * breath) * uMovement;
+    return aDatabase + vec3(0.0, ${Math.cos(DATABASE_PITCH)}, ${Math.sin(DATABASE_PITCH)}) * lift;
+  }
   vec3 p = mix(mix(position, aDatabase, step(0.5, phase)), aNetwork, step(1.5, phase));
-  if (phase > 1.5) p *= 1.12;
+  if (phase > 1.5) p *= ${NETWORK_SCALE};
   return turn(p, angleAt(phase));
 }
 
@@ -102,15 +124,33 @@ vec3 target(float phase) {
 vec3 appearance(float phase) {
   if (phase < 0.5) return vec3(1.0 - step(-0.8, position.x), 0.9, 0.82);
   if (phase < 1.5) {
-    return aDatabaseStyle;
+    float rim = 1.0 - step(0.5, abs(aDatabaseDetail.z - 2.0));
+    float wall = 1.0 - step(0.5, aDatabaseDetail.z);
+    float indicator = step(3.5, aDatabaseDetail.z);
+    // Opposite travelling highlights keep one scan visible on the front half.
+    float head = fract(uTime * 0.20 - aDatabaseDetail.x * 0.16);
+    float distance = abs(aDatabaseDetail.y - head);
+    distance = min(distance, 1.0 - distance);
+    distance = min(distance, abs(distance - 0.5));
+    float sweep = (1.0 - smoothstep(0.012, 0.065, distance)) * uMovement;
+    float read = databaseReadWave();
+    float activity = max(sweep * max(rim, wall * 0.45), read * max(wall * 0.82, indicator));
+    float heartbeat = (0.5 + 0.5 * sin(uTime * 2.1 - aDatabaseDetail.x * 1.4)) * indicator * uMovement;
+    return vec3(
+      mix(aDatabaseStyle.x, 1.0, activity),
+      aDatabaseStyle.y + activity * 0.60 + heartbeat * 0.16,
+      aDatabaseStyle.z * (1.0 + activity * 0.28)
+    );
   }
   if (phase > 2.5) {
     float accent = step(0.96, aSeed.y);
     return vec3(accent, 0.82, mix(0.7, 1.15, accent));
   }
-  float waveX = mod(uTime * 0.85, 5.6) - 2.8;
-  float signal = (1.0 - smoothstep(0.08, 0.38, abs(aNetwork.x - waveX))) * uMovement;
   float edge = step(0.0, aNetworkLink.z);
+  // Stage-index flow lights complete feature maps, then their outgoing paths.
+  float stage = mix(aNetworkLink.x, mix(aNetworkLink.x, aNetworkLink.y, aNetworkLink.z), edge);
+  float wave = mod(uTime * 1.35, 9.5) - 1.0;
+  float signal = (1.0 - smoothstep(0.12, 0.65, abs(stage - wave))) * uMovement;
   float hover = step(-0.5, uHoverNode) * clamp(uHoverStrength, 0.0, 1.0);
   float fromSelected = 1.0 - step(0.5, abs(aNetworkLink.x - uHoverNode));
   float toSelected = 1.0 - step(0.5, abs(aNetworkLink.y - uHoverNode));
@@ -120,12 +160,12 @@ vec3 appearance(float phase) {
   float outwardT = mix(1.0 - aNetworkLink.z, aNetworkLink.z, fromSelected);
   float pulsePosition = mod(max(uHoverTime, 0.0) * 0.85, 1.5);
   float pulse = (1.0 - smoothstep(0.035, 0.16, abs(outwardT - pulsePosition))) * uMovement;
-  // Keep the automatic node wave; hovered edges show only the selected connections.
+  // Keep automatic layer flow; hover emphasizes only adjacent connections.
   float automatic = signal * (1.0 - edge * hover);
   vec3 style = vec3(
     mix(aNetworkStyle.x, 1.0, automatic * 0.9),
     mix(aNetworkStyle.y, max(aNetworkStyle.y, 0.85), automatic),
-    aNetworkStyle.z * (1.0 + signal * 0.15)
+    aNetworkStyle.z * (1.0 + signal * 0.10)
   );
   float highlight = max(source * 0.94, connected * (0.18 + pulse * 0.78));
   style.x = mix(style.x, 1.0, highlight);
@@ -163,8 +203,9 @@ void main() {
   float databaseWeight = mix(
     step(0.5, uFrom) * (1.0 - step(1.5, uFrom)),
     step(0.5, uTo) * (1.0 - step(1.5, uTo)), e);
-  // Preserve the original front-to-back fade so the database layers stay legible.
-  depthAlpha = mix(depthAlpha, mix(1.0, 0.3, smoothstep(5.2, 8.8, -mv.z)), databaseWeight);
+  // Database surfaces already encode lighting and physical occlusion. A second
+  // aggressive depth fade would erase the lid and make the drums look hollow.
+  depthAlpha = mix(depthAlpha, mix(1.04, 0.76, smoothstep(5.2, 8.8, -mv.z)), databaseWeight);
   vAccent = max(style.x, arc * 0.35);
   vAlpha = style.y * (0.85 + aSeed.z * 0.15) * mix(1.0, depthAlpha, volume);
   gl_PointSize = uSize * uPixelRatio * style.z * (0.85 + aSeed.z * 0.3)

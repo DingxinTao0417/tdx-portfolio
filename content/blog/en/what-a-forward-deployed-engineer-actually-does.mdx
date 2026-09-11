@@ -1,6 +1,6 @@
 ---
-title: "What a Forward Deployed Engineer actually does"
-description: "FDE is the most misunderstood title in AI right now. Here's the job as I've lived it: half systems engineer, half translator, fully accountable for the outcome."
+title: "Understanding the forward deployed engineer role"
+description: "Notes on requirements, system integration, and evaluation in forward deployed engineering, with connections to software development and deployment projects."
 date: "2026-07-14"
 tags: ["FDE", "Career", "AI Engineering"]
 hue: 22
@@ -8,27 +8,27 @@ cover: "/images/blog/fde-cover-v2.webp"
 coverAlt: "An engineering blueprint illustration connecting different systems"
 ---
 
-"Forward Deployed Engineer" sounds like a job title invented by a recruiter who wanted to say *consultant* without saying consultant. It isn't. The role exists because there's a real gap between an AI product that demos well and an AI product that works inside a specific customer's world — their data, their permissions, their legacy systems, their people.
+A forward deployed engineer (FDE) turns a user's business problem into a software solution. [Palantir's official role description](https://jobs.lever.co/palantir/c4442730-2926-41ad-8c0e-5e5a6b4d14ae) includes working directly with customers to understand their problems, then designing and implementing solutions.
 
-An FDE lives in that gap.
+These notes organize my understanding of the role around requirements, integration, and evaluation, with attention to the evidence each step should produce.
 
-## The three loops
+## From requirements to a verifiable delivery
 
-Most of my weeks can be described as three loops running at different speeds.
+For a document question-answering system, the feature requirements, access rules, and acceptance examples need to agree. A demonstration alone gives limited information about how the system will fit a working process.
 
-### 1. The discovery loop (weeks)
+### 1. Clarify requirements and acceptance criteria
 
-Before writing code, I sit with the people who will use the system. Not the executive sponsor — the analyst who will paste a question into the box at 4:50 PM on a Friday. I want to know:
+Start the discussion with concrete usage scenarios:
 
-- What does a *good* answer look like to them? Can they show me one?
-- What sources do they trust, and which ones do they quietly ignore?
-- Where does the current workflow break, and who gets blamed when it does?
+- What result does the user need? Can they provide an example of an acceptable answer?
+- Which sources can support the answer, and what can each user access?
+- Where does the current process get stuck, and who takes over when the system cannot help?
 
-The output of this loop is not a requirements doc. It's a **golden set**: 50–300 real questions with reference answers, written with the customer. Everything downstream is measured against it.
+Turn the agreed questions, reference answers, and conditions into evaluation cases with clear acceptance criteria. Include missing information and insufficient permissions so the cases can expose inappropriate answers in those situations.
 
-### 2. The integration loop (days)
+### 2. Integrate within the existing system's rules
 
-This is the part that looks like traditional software engineering, except every dependency is someone else's system. Identity providers, document stores with three generations of permission models, a ticketing API that returns HTML in a JSON field.
+Before connecting an identity provider, document store, or ticketing API, establish its data formats, access rules, and error handling. The retrieval code below illustrates permission filtering. Its helper functions depend on the actual system, and its parameters are example settings.
 
 ```ts title="acl-filter.ts"
 // Every retrieval call is scoped by the caller's effective permissions.
@@ -45,27 +45,30 @@ export async function retrieve(query: string, user: User) {
 }
 ```
 
-The engineering principle here is simple: **the customer's security model is the spec.** If the model knows something the user isn't allowed to see, the system is broken regardless of how good the answer is.
+Check that the caller's permissions constrain retrieval and that a failure to resolve permissions denies access. Tests should include documents the user cannot access and confirm that they do not appear in the returned results.
 
-### 3. The evaluation loop (hours)
+### 3. Check changes against the same cases
 
-Every prompt change, retriever tweak or model upgrade runs against the golden set before anyone sees it. The dashboard is boring on purpose: faithfulness, relevance, latency, cost. When a number moves, we know why before the customer asks.
+After changing a prompt, retriever, or model, compare results on the same evaluation cases and record the conditions of each run. The evaluation record can cover these questions:
 
-| Metric | Baseline | After re-ranker | After ACL fix |
-| --- | --- | --- | --- |
-| Faithfulness | 71% | 88% | 94% |
-| p50 latency | 9.2s | 6.1s | 6.0s |
-| Cost / answer | $0.041 | $0.038 | $0.038 |
+| Check | Evidence to keep |
+| --- | --- |
+| Is the answer supported? | The answer, its sources, and a human review |
+| Are permissions respected? | Test identity, permitted scope, and actual results |
+| How long does a response take? | Latency recorded under the same conditions |
+| What does a call cost? | Model and configuration, usage, and corresponding charges |
 
-## What the job is *not*
+Record the test cases, environment, and calculation method alongside each measurement so comparisons can be checked.
 
-- It is not "AI consulting." I ship code that stays in production and gets paged on.
-- It is not solutions engineering. I'm not there to close the deal; I'm there after the deal, when reality shows up.
-- It is not a junior role. You need enough depth to redesign the retriever *and* enough judgment to tell a VP that their favorite feature is going to hurt them.
+## Collaboration and delivery
+
+Requirements and technical plans often need several rounds of discussion. A handoff should explain what works, which conditions remain unmet, and who will maintain the system. When scope or cost requires a tradeoff, document the options and their effects so the business owner and engineering team can decide together.
 
 ## The feedback path back to product
 
-The most valuable thing an FDE does happens after the deployment: bringing back a precise, evidence-backed list of what the product needs so the *next* customer doesn't need an FDE for that part. If your forward deployed team isn't shrinking the scope of forward deployment over time, something is off.
+Recurring delivery problems can become product feedback. [Anthropic's official FDE role description](https://job-boards.greenhouse.io/anthropic/jobs/5391016008) includes documenting reusable deployment patterns and sharing findings with Product and Engineering.
+
+Include the usage scenario, reproduction steps, and current handling in each report. That gives the team a problem it can verify and discuss, whether the next step is a product change, better documentation, or a different integration approach.
 
 <BlogImage
   src="/images/blog/fde-feedback-v2.webp"
@@ -75,6 +78,6 @@ The most valuable thing an FDE does happens after the deployment: bringing back 
   height="1024"
 />
 
-## If you're considering it
+## Related project work
 
-You'll like this role if you enjoy ambiguity, if you'd rather see a system used than admired, and if you can hold two languages in your head at once — the customer's and the codebase's. I happen to hold three. It helps.
+The [Omnigate project notes](/en/projects/omnigate) describe customization based on new-api, deployment, and backup configuration. The [As-a project notes](/en/projects/as-a) cover permissions, payment logic, and local tests, along with the acceptance work still needed before opening real transactions.

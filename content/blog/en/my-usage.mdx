@@ -1,6 +1,6 @@
 ---
-title: "My AI Coding Workflow"
-description: "Claude Opus 5 handles implementation and decisions; GPT-5.6 Sol performs the strict review until the issues are resolved."
+title: "AI coding workflow: implementation, review, and decisions"
+description: "Organize code fixes and verification through implementation, independent review, impact analysis, and human decisions."
 date: "2026-07-28"
 tags: ["AI Coding", "Codex", "Code Review"]
 hue: 18
@@ -8,30 +8,23 @@ cover: "/images/blog/my-usage-cover-v2.webp"
 coverAlt: "A colorful screen print of code generation and independent review"
 ---
 
-> **This is my setup, not a standard.** These are personal tradeoffs, and you may reasonably prefer something else.
-> For objective parameter references, see Omnigate’s [advanced Claude Code guide](https://omnigate.cc/docs/claude-code-advanced).
->
-> - **Problem it addresses:** After writing code or a plan, you are not sure how to look for bugs systematically. Or the review finds so many issues that you cannot tell what should be fixed or how far the fix should go.
-> - **For:** People who already use Claude or Codex for coding and want a repeatable “generate → review → decide → fix” loop.
-> - **Not for:** People who are still configuring a Base URL. Start with the [quick-start guide](https://omnigate.cc/docs/introduction) and [tool installation](https://omnigate.cc/docs/claude-code). You can copy the prompts, but choose model tiers from what your account currently offers because the names will change.
+> This article describes a review workflow for coding with Claude and Codex, covering issue identification, impact analysis, and review after fixes. For tool settings, see Omnigate’s [advanced Claude Code guide](https://omnigate.cc/docs/claude-code-advanced). Initial setup is covered in the [quick-start guide](https://omnigate.cc/docs/introduction) and [tool installation](https://omnigate.cc/docs/claude-code).
 
-The core idea is simple: **writing code and finding faults should not use the same posture.**
+Implementation, review, and business decisions require different inputs and checks. In this workflow, Claude Opus 5 produces the code or plan and GPT-5.6 Sol reviews it independently. When findings are numerous or their impact is unclear, Claude Opus 5 helps explain them and compare options. The person responsible decides the scope of the fix.
 
-I use Claude Opus 5 to generate because it handles long context and follows direction well. I use GPT-5.6 Sol as a reviewer whose only job is to find problems. When the issues are numerous or difficult to understand, I ask Claude Opus 5 to translate them into plain language and frame the decision at production scale. **I still make the final call.**
+The model tiers below are examples from this setup. Choose from the models available to your account:
 
-Model names change, so the table describes roles rather than fixed IDs:
-
-| Stage | Role | Tier I often use (illustrative) |
+| Stage | Role | Example tier |
 | --- | --- | --- |
 | Write code or revise a plan | Claude implementer | Claude Opus 5 |
-| Find concrete faults | Codex reviewer | GPT-5.6 Sol |
-| Support a business decision | Claude director | Claude Opus 5 |
+| Independent review | Codex reviewer | GPT-5.6 Sol |
+| Support a business decision | Claude analyst | Claude Opus 5 |
 
-Check the current IDs in the [Omnigate model catalog](https://omnigate.cc/pricing) and copy the one you need.
+Model IDs can be checked in the [Omnigate model catalog](https://omnigate.cc/pricing).
 
 ---
 
-## The complete loop
+## Workflow overview
 
 <BlogImage
   src="/images/blog/my-usage-review-v2.webp"
@@ -43,15 +36,13 @@ Check the current IDs in the [Omnigate model catalog](https://omnigate.cc/pricin
 
 ---
 
-## Stage one: strict code review with GPT-5.6 Sol
+## Stage one: independent code review with GPT-5.6 Sol
 
-**When to use it:** Immediately after the code or plan is finished. Do not merge first and promise to review later.
+After the code or plan is complete and before merging, check correctness, edge cases, security, and whether it meets the requirements.
 
-**Core constraint: find faults; do not polish.**
+This stage focuses on issues that affect correctness. Refactoring, naming, style, and comments can be handled separately so the issue list has a clear scope.
 
-Do not suggest refactors, renames, style changes, extra comments, or opportunistic improvements. Those requests dilute a focused review into a general conversation.
-
-### Role prompt
+### Example review prompt
 
 ```text
 You are a senior security architect reviewing a plan or code written by another AI assistant.
@@ -74,44 +65,42 @@ Output requirements:
 - For every item, state the location (file/function/step), the behavior, and why it is wrong.
 ```
 
-### How I run it
+### Execution steps
 
-1. Give GPT-5.6 Sol the current diff, relevant files, or plan together with the **original requirements**.
+1. Give GPT-5.6 Sol the current diff, relevant files, or plan together with the original requirements.
 2. Paste the role prompt above, then ask something like:
 
 ```text
 /goal Are there any remaining problems in the changes from this conversation?
 ```
 
-3. When the issue list comes back, do not rush to fix everything manually. Continue with:
+3. After checking the issue list, request fixes:
 
 ```text
 /goal Resolve the issues you found.
 ```
 
-Let it work through the list, then run stage one again. Repeat until the list is empty or contains only “questionable” items you have explicitly accepted.
+Work through the list, then run another review. For unresolved findings, retain the missing information and any decision to accept the risk.
 
-### What I deliberately exclude from this stage
+### Keep the review scope clear
 
-- Do not ask it to “make the code more elegant while you are here.”
-- Do not debate style.
-- Do not combine three unrelated pull requests.
-
-**The narrower the fault-finding stage is, the more it behaves like a real code review.**
+Handle refactoring and style discussions separately, and review unrelated pull requests on their own. Use the same set of changes and requirements in each pass so issues can be tracked through resolution.
 
 ---
 
 ## Stage two: business decision support with Claude Opus 5
 
-**When to use it:**
+Add impact analysis when:
 
-- Stage one returns many issues and the priorities are unclear;
-- the logic is complex and GPT-5.6 Sol’s conclusion is hard to understand; or
-- deciding whether and how to fix something requires business judgment rather than another line of code.
+- Stage one finds many issues and their priorities need clarification.
+- The technical logic is complex and the review findings need explanation.
+- Whether and how to fix an issue depends on business impact and acceptable risk.
 
-**Core constraint: explain the impact, provide a production-scale reference point, and leave the decision to me.**
+This stage explains the consequences and tradeoffs of the options to support the decision.
 
-### Role prompt
+### Example impact analysis prompt
+
+The organizational comparison in this template is a way to discuss possible responses, not evidence of a particular company's process. Apply it using the current project's business impact and constraints.
 
 ```text
 You are an engineering director reviewing a technical proposal and its review findings.
@@ -132,42 +121,42 @@ Interaction requirements:
    Do not choose the “most elegant” option for me.
 ```
 
-### How I run it
+### Execution steps
 
-I give Claude Opus 5 all of the following:
+Provide Claude Opus 5 with:
 
 - the relevant code or proposal
-- GPT-5.6 Sol’s **issue list**, preferably unchanged
+- GPT-5.6 Sol's original issue list
 - the business context: who uses it and how sensitive the money, data, or permissions are
 
-I then ask questions at my own pace: “What happens if issue three ships as-is?” or “Would this block a merge at production scale?”
+Follow-up questions might include: "What would happen if issue three shipped?" or "Does this issue need to block the merge in the current project?"
 
 ---
 
-## How I combine the two stages
+## The combined sequence
 
-1. **Write or revise** — use Claude Opus 5 to produce the code or plan.
-2. **Review immediately** — send the same changes to GPT-5.6 Sol with the stage-one prompt.
-3. **Clarify serious or confusing findings** — give GPT-5.6 Sol’s list and the code to Claude Opus 5 with the stage-two prompt, asking for plain-language impact and a production-scale reference point.
-4. **Make the call** — decide what must be fixed, what can wait, and what is a false positive.
-5. **Apply the fixes** — return to GPT-5.6 Sol with `/goal Resolve the issues I confirmed`.
-6. **Review again** — repeat steps two through five until no must-fix issues remain.
+1. Use Claude Opus 5 to produce the code or plan.
+2. Send the same changes to GPT-5.6 Sol with the stage-one prompt.
+3. If findings are serious or their impact is unclear, give the issue list and code to Claude Opus 5 with the stage-two prompt.
+4. Have the person responsible confirm what must be fixed, what can wait, and what is a false positive.
+5. Return to GPT-5.6 Sol to apply the fixes: `/goal Resolve the issues I confirmed`.
+6. Repeat steps two through five until the confirmed required fixes are complete.
 
-In practice:
+Adjust review depth to the risk of the change:
 
-- A small change often needs only one or two stage-one passes. Stage two is optional.
-- Billing, authorization, multitenancy, and concurrency should always go through stage one. I try to resolve every questionable item through stage two before deciding.
-- The models can use different keys and separate sessions. What matters is keeping the roles separate: do not ask the same session that just wrote the code to become its own uncompromising reviewer.
+- Start small changes with stage one, then use the findings to decide whether stage two is needed.
+- Billing, authorization, multitenancy, and concurrency changes warrant a full review and clarification of uncertain findings before a decision.
+- The models can use different keys and separate sessions. Keep implementation and review separate, and verify the changes against the original requirements during review.
 
 ---
 
 ## Related articles and documentation
 
-- Cost, context, and `/clear` versus `/compact`: [What I’ve Learned Using AI](/en/blog/insights)
-- Project-level constraints: [My CLAUDE.md](/en/blog/my-claude-md)
+- Cost, context, and `/clear` versus `/compact`: [AI coding: context, verification, and cost](/en/blog/insights)
+- Project-level constraints: [Configuring CLAUDE.md: global conventions and project rules](/en/blog/my-claude-md)
 - Claude Code switches and permissions: [Omnigate’s settings.json guide](https://omnigate.cc/docs/my-settings)
 - Connecting tools to Omnigate: [Install Claude Code](https://omnigate.cc/docs/claude-code) and [Install Codex CLI](https://omnigate.cc/docs/codex)
 
-This workflow does not depend on one company’s interface. If a client still lets you paste a prompt and provide code, the loop still works.
+These roles can be reused in clients that accept prompts and code, with execution adjusted to the client's capabilities.
 
 _Originally published in the [Omnigate documentation](https://omnigate.cc/docs/my-usage)._

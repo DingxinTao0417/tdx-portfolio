@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { AIUsagePanel } from "@/components/home/ai-usage-panel";
 import { Facts } from "@/components/home/facts";
 import { FeaturedProjects } from "@/components/home/featured-projects";
 import { GitHubPanel, GitHubPanelSkeleton } from "@/components/home/github-panel";
@@ -18,6 +19,7 @@ export default function HomePage() {
       <Suspense fallback={<GitHubPanelSkeleton />}>
         <GitHubPanel />
       </Suspense>
+      <AIUsagePanel />
       <LatestPosts />
     </>
   );

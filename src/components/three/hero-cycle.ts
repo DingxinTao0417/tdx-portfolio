@@ -13,7 +13,6 @@ export type HeroCycle = {
   elapsed: number;
   hold: number;
   time: number;
-  cooldown: number;
   pending: boolean;
   reduced: boolean;
 };
@@ -27,7 +26,6 @@ export function createHeroCycle(reduced = false): HeroCycle {
     elapsed: MORPH_DURATION,
     hold: 0,
     time: 0,
-    cooldown: 0,
     pending: false,
     reduced,
   };
@@ -36,10 +34,6 @@ export function createHeroCycle(reduced = false): HeroCycle {
 /** A burst of clicks reserves only one transition after the current morph. */
 export function requestNext(cycle: HeroCycle) {
   cycle.pending = true;
-}
-
-export function noteActivity(cycle: HeroCycle) {
-  cycle.cooldown = 4;
 }
 
 function advance(cycle: HeroCycle, instant: boolean) {
@@ -57,8 +51,11 @@ function advance(cycle: HeroCycle, instant: boolean) {
 export function stepHeroCycle(
   cycle: HeroCycle,
   delta: number,
-  { playing, reduced }: { playing: boolean; reduced: boolean },
+  { active, reduced }: { active: boolean; reduced: boolean },
 ): number | null {
+  // Offscreen/background rendering must not consume time or queued interaction.
+  if (!active) return null;
+
   if (reduced !== cycle.reduced) {
     cycle.reduced = reduced;
     if (reduced) {
@@ -77,14 +74,12 @@ export function stepHeroCycle(
     cycle.hold = 0;
   }
 
-  if (!playing || reduced) {
+  if (reduced) {
     return cycle.pending ? advance(cycle, true) : null;
   }
 
   const dt = Number.isFinite(delta) ? Math.max(0, Math.min(delta, 0.05)) : 0;
   cycle.time += dt;
-  const cooldown = cycle.cooldown - dt;
-  cycle.cooldown = cooldown > TIME_EPSILON ? cooldown : 0;
 
   if (cycle.elapsed < MORPH_DURATION) {
     cycle.elapsed = Math.min(MORPH_DURATION, cycle.elapsed + dt);
@@ -98,7 +93,7 @@ export function stepHeroCycle(
   if (cycle.pending) return advance(cycle, false);
 
   cycle.hold += dt;
-  if (cycle.hold >= HOLD - TIME_EPSILON && cycle.cooldown === 0) {
+  if (cycle.hold >= HOLD - TIME_EPSILON) {
     return advance(cycle, false);
   }
   return null;

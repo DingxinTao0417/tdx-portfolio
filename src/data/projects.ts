@@ -45,16 +45,16 @@ export const projects: Project[] = [
     index: "01",
     title: { en: "MultiMix", zh: "MultiMix" },
     tagline: {
-      en: "Make short videos through conversation, with scripts and source material kept in the same workspace.",
-      zh: "用对话做短视频，文案和素材也留在这里。",
+      en: "Create short videos through conversation, with scripts and source assets in one workspace.",
+      zh: "通过对话创作短视频，集中管理文案与素材。",
     },
     description: {
-      en: "MultiMix is a workspace I built for short video creation. Users can describe what they want to make, organize references, and save generated scripts, images, and videos in separate libraries. They can find that material again when they want to revise or reuse it.",
-      zh: "MultiMix 是我做的短视频创作工作台。用户可以提出创作需求、整理参考资料，再把生成的文案、图片和视频存进各自的资源库。需要时找回来，继续修改或复用。",
+      en: "MultiMix is a workspace for short video creation through conversation. Users can describe a creative brief, organize references, and save generated scripts, images, and videos in separate libraries for revision and reuse.",
+      zh: "MultiMix 是通过对话创作短视频的工作台。用户可以提出创作需求、整理参考资料，将生成的文案、图片和视频分类保存，便于后续修改与复用。",
     },
     problem: {
-      en: "When a brief, its references, and later revisions are scattered across tools, continuing the work means gathering the context again. MultiMix keeps them in one workspace alongside the generated material.",
-      zh: "创作需求、参考资料和修改记录散在不同工具里，继续做时就要重新整理上下文。MultiMix 把这些内容放到同一个工作区，生成的产物也一起保存。",
+      en: "When briefs, references, and revision history are scattered across tools, resuming a project requires rebuilding its context. MultiMix keeps this context and the generated assets in one workspace.",
+      zh: "创作需求、参考资料和修改记录分散在不同工具中，后续修改需要重新整理上下文。MultiMix 将这些内容与生成产物集中保存在同一工作区。",
     },
     approach: {
       en: "The Next.js interface uses the same conversation for creating content and organizing references. FastAPI handles assets and video tasks. PostgreSQL stores the data; Redis and RQ handle queued work. Generated files can be stored locally, in S3, or in Supabase.",
@@ -158,16 +158,16 @@ export const projects: Project[] = [
     index: "02",
     title: { en: "opc-workspace", zh: "opc-workspace" },
     tagline: {
-      en: "A desktop workspace for a one-person company, with data kept on your own computer.",
-      zh: "给一人公司用的桌面工作台，数据留在自己的电脑上。",
+      en: "An offline desktop workspace for one-person businesses, with local data storage.",
+      zh: "面向一人公司的离线桌面工作台，数据保存在本地。",
     },
     description: {
       en: "opc-workspace is a desktop application for tasks, projects, client records, an inbox, and focus sessions. It works offline. Core business data is stored in SQLite and controlled file directories on the user's computer.",
-      zh: "opc-workspace 是一个桌面应用，里面有任务、项目、客户记录、收件箱和专注计时。离线也能用，核心业务数据保存在用户电脑上的 SQLite 数据库和受控文件目录里。",
+      zh: "opc-workspace 是包含任务、项目、客户记录、收件箱和专注计时的桌面应用。核心流程支持离线运行，业务数据保存在用户电脑上的 SQLite 数据库和受控文件目录中。",
     },
     problem: {
-      en: "For an independent developer, freelancer, creator, or consultant, daily work can involve separate task tools, project sheets, client records, and timers. Here, those modules use the same local data so the work can stay in one application.",
-      zh: "独立开发者、自由职业者、内容创作者或顾问，日常工作可能要用到任务工具、项目表格、客户记录和计时器。这里让这些模块共用一套本地数据，减少在几个独立工具之间切换。",
+      en: "Independent developers, freelancers, creators, and consultants may rely on separate tools for tasks, project records, clients, and time tracking. opc-workspace combines these modules in one application with shared local data.",
+      zh: "独立开发者、自由职业者、内容创作者和顾问的日常工作，可能分散在任务工具、项目表格、客户记录和计时器中。opc-workspace 将这些模块集中在一个应用中，共用本地数据。",
     },
     approach: {
       en: "The React and TypeScript interface calls a Go sidecar through a versioned local API. Tauri handles the desktop shell and starts and stops the sidecar. Data handling includes SQLite migrations, controlled file storage, and backup and restore. Runtime dependencies are included in the installer.",
@@ -255,28 +255,28 @@ export const projects: Project[] = [
     index: "03",
     title: { en: "Omnigate", zh: "Omnigate" },
     tagline: {
-      en: "An AI API gateway based on new-api, with my branding, configuration, and deployment work.",
-      zh: "基于 new-api 二次开发的 AI API 网关，我做了品牌定制、配置和部署。",
+      en: "An AI API gateway based on new-api, with custom branding and a single-server deployment setup.",
+      zh: "基于 new-api 二次开发的 AI API 网关，包含品牌定制与单机部署配置。",
     },
     description: {
-      en: "Omnigate is based on the open-source new-api project. Protocol adapters, usage tracking, billing, and user management come from upstream. I customized the branding, reviewed the defaults for safer operation, and put together the deployment and operations setup for a single server.",
-      zh: "Omnigate 基于开源项目 new-api。多协议适配、用量统计、计费和用户管理来自上游。我做的是品牌定制、默认配置与安全设置整理，以及单机环境的部署和运维方案。",
+      en: "Omnigate is based on the open-source new-api project. Protocol adapters, usage tracking, billing, and user management come from upstream. The custom work covers branding, review of default and security settings, and deployment and operations for a single server.",
+      zh: "Omnigate 基于开源项目 new-api，多协议适配、用量统计、计费和用户管理来自上游。定制工作包括品牌调整、默认配置与安全设置整理，以及单机部署和运维方案。",
     },
     problem: {
       en: "Self-hosting the gateway means handling HTTPS, streamed responses through the proxy, the database, and the cache. Secret configuration and backups also need a defined place in the deployment process so it can be repeated when the service is updated.",
-      zh: "把网关部署到自己的服务器上，需要处理 HTTPS、代理的流式响应、数据库和缓存。密钥怎么配置、数据怎么备份，也要写进部署流程，更新时才能照着执行。",
+      zh: "在服务器上部署网关，需要处理 HTTPS、代理流式响应、数据库和缓存。密钥配置与数据备份也需要纳入部署流程，便于在服务更新时重复执行。",
     },
     approach: {
-      en: "Docker Compose builds the application from source and runs it alongside Caddy, PostgreSQL, and Redis. Caddy handles HTTPS with response buffering turned off for streaming. I also included environment variable templates, a database backup script with retention settings, and deployment notes in the repository.",
-      zh: "Docker Compose 从源码构建应用，并运行 Caddy、PostgreSQL 和 Redis。Caddy 处理 HTTPS，为流式输出关闭响应缓冲。仓库里还放了环境变量模板、可按保留期清理旧备份的数据库备份脚本，以及部署记录。",
+      en: "Docker Compose builds the application from source and runs it alongside Caddy, PostgreSQL, and Redis. Caddy handles HTTPS with response buffering turned off for streaming. The repository includes environment variable templates, a database backup script with retention settings, and deployment notes.",
+      zh: "Docker Compose 从源码构建应用，并运行 Caddy、PostgreSQL 和 Redis。Caddy 处理 HTTPS，为流式输出关闭响应缓冲。仓库包含环境变量模板、支持按保留期清理旧备份的数据库备份脚本，以及部署记录。",
     },
     impact: {
       en: "The service is deployed at omnigate.cc. OpenAI-compatible clients can use its base URL and an issued token to call different models. The repository records how the service is configured, backed up, and updated.",
       zh: "服务部署在 omnigate.cc。兼容 OpenAI 格式的客户端可以配置这个地址和系统签发的令牌，调用不同模型。服务的配置、备份和更新方式都记录在仓库里。",
     },
     learning: {
-      en: "I learned to read the Go and TypeScript code before deciding what to change, and to keep the custom work small enough to maintain. Deployment made several details concrete for me: why a reverse proxy can buffer streamed output, how HTTPS, PostgreSQL, and Redis are configured together, and how backups fit into an upgrade. I also had to read the license and separate my changes from the features supplied by new-api.",
-      zh: "这次二次开发让我学会先读清 Go 和 TypeScript 代码，再决定改哪里，尽量把定制范围控制在自己能维护的程度。部署时，一些细节也变得具体了：反向代理为什么会缓冲流式输出，HTTPS、PostgreSQL 和 Redis 怎样配合，升级前怎样备份。许可证和上游归属也需要认真处理，哪些是 new-api 已经做好的，哪些是我的修改，要分开说明。",
+      en: "This project provided practice in reading an existing Go and TypeScript codebase and limiting custom changes to a maintainable scope. Deployment work covered proxy buffering of streamed responses, HTTPS, PostgreSQL, Redis, and backups during upgrades. It also required license review and documentation of upstream features and custom changes.",
+      zh: "通过阅读现有 Go 和 TypeScript 代码确定修改范围，并将定制控制在可维护的规模。部署实践加深了对代理流式缓冲、HTTPS 配置、PostgreSQL 与 Redis 配合，以及升级备份流程的理解。同时检查许可证，在文档中区分上游功能与定制修改。",
     },
     highlights: [
       {
@@ -292,8 +292,8 @@ export const projects: Project[] = [
         zh: "备份数据库，按设置的保留期清理旧备份",
       },
       {
-        en: "Document which features come from new-api and which parts I customized",
-        zh: "文档分别说明 new-api 的功能和我的定制工作",
+        en: "Documentation distinguishes new-api features from custom changes",
+        zh: "文档明确区分 new-api 上游功能与定制修改",
       },
     ],
     role: { en: "Brand customization, deployment, and operations", zh: "品牌定制、部署与运维" },
@@ -359,28 +359,28 @@ export const projects: Project[] = [
     index: "04",
     title: { en: "As-a", zh: "As-a" },
     tagline: {
-      en: "An Arabic and English marketplace for finding professionals, discussing work, and managing orders.",
-      zh: "一个阿拉伯语与英语的服务平台，找人做事、沟通需求、跟进订单。",
+      en: "An Arabic and English service marketplace with conversations and order management.",
+      zh: "支持阿拉伯语与英语的专业服务平台，包含需求沟通与订单管理。",
     },
     description: {
-      en: "As-a connects people looking for professional services with providers. Buyers can browse services, check what is included, and discuss a job before ordering. Providers have their own workspace for listings, orders, and earnings. The interface supports Arabic and English, including right-to-left layouts.",
-      zh: "As-a 连接有需求的人和提供专业服务的人。买家可以按分类找服务，看清交付范围，再联系服务商、沟通和下单。服务商有自己的后台，管理上架内容、订单与收益。界面支持阿拉伯语和英语，也处理了从右向左的阅读布局。",
+      en: "As-a connects buyers with professional service providers. Buyers can browse services by category, review the delivery scope, and discuss requirements before ordering. Providers manage listings, orders, and earnings in a dedicated workspace. The interface supports Arabic and English, including right-to-left layouts.",
+      zh: "As-a 连接服务需求方与专业服务商。买家可以按分类浏览服务、查看交付范围，并与服务商沟通和下单。服务商后台支持管理上架内容、订单与收益。界面提供阿拉伯语、英语和从右向左的阅读布局。",
     },
     problem: {
-      en: "A service listing only answers part of a buyer's questions. The scope, price, and delivery still need to be agreed on. As-a keeps the conversation and its orders together, so both sides can refer back to the work they discussed and see its status.",
-      zh: "选中一个服务之后，事情还没结束：具体做什么、多少钱、什么时候算交付，都要讲清楚。As-a 把会话和订单放在一起，让双方能回头查看约定，知道工作进行到了哪一步。",
+      en: "Professional service orders require clear scope, pricing, and delivery terms. As-a links conversations with orders so buyers and providers can review agreements and track progress.",
+      zh: "专业服务交易需要明确服务范围、价格和交付条件。As-a 将会话与订单关联，便于买家和服务商查看约定并跟进进度。",
     },
     approach: {
       en: "The application uses Next.js and TypeScript, with Supabase for accounts, PostgreSQL data, file storage, and message subscriptions. Providers can create an order in a conversation; buyers can also order from a listing. The Tap checkout code checks payments on the server and handles repeated callbacks without settling an order twice. Database permissions and transactions govern who can read or change records.",
       zh: "应用使用 Next.js 和 TypeScript，账户、PostgreSQL 数据、文件存储与消息订阅交给 Supabase。服务商可以在会话里创建订单，买家也能从服务页直接下单。Tap 支付接入在服务端核对交易结果，并处理重复回调；哪些记录能看、哪些状态能改，由数据库权限和事务约束。",
     },
     impact: {
-      en: "The current version includes a service directory, provider onboarding, conversations, order delivery confirmation, and administrator review. The repository has local tests for permissions and payment logic. It remains a product demo: live payment integration, migration of the existing database, and refund and dispute procedures still need acceptance before real transactions are opened.",
-      zh: "目前已有服务目录、服务商入驻、站内会话、订单交付确认和管理员审核，仓库里也有针对权限与支付逻辑的本地测试。当前仍按产品演示来展示。真实支付联调、旧数据库迁移，以及退款和争议处理，还需要在开放交易前完成验收。",
+      en: "The product demo includes a service directory, provider onboarding, conversations, order delivery confirmation, and administrator review. The repository includes local tests for permissions and payment logic. Live payment integration, migration of the existing database, and refund and dispute procedures still require acceptance before real transactions can be enabled.",
+      zh: "当前产品演示包含服务目录、服务商入驻、站内会话、订单交付确认和管理员审核，仓库包含针对权限与支付逻辑的本地测试。真实支付联调、旧数据库迁移，以及退款和争议处理，仍需在开放交易前完成验收。",
     },
     learning: {
-      en: "This project made me pay more attention to what happens after a click. A payment callback can arrive twice, a price sent by the browser cannot be trusted, and each side needs different permissions on the same order. I want those rules to live in server and database code, with tests that check what each person can actually do.",
-      zh: "这个项目让我更在意点击按钮之后发生的事。支付回调可能来两次，浏览器传来的价格不能直接信，同一个订单对买家和服务商也有不同的操作权限。我更愿意把这些规则写进服务端和数据库，再用测试检查每种身份实际能做什么。",
+      en: "The project reinforced the need to handle repeated payment callbacks, validate prices received from the browser, and define separate buyer and provider permissions for the same order. These rules belong on the server and in the database, with tests that check what each role can do.",
+      zh: "重点学习了重复支付回调处理、浏览器传入价格的校验，以及买家和服务商对同一订单的权限划分。业务规则应由服务端和数据库约束，并通过测试检查各角色的操作范围。",
     },
     highlights: [
       {

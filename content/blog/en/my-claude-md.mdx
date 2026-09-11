@@ -1,6 +1,6 @@
 ---
-title: "My CLAUDE.md"
-description: "A real global CLAUDE.md that I use, with an explanation of why each section exists."
+title: "Configuring CLAUDE.md: global conventions and project rules"
+description: "Use an existing configuration to organize global conventions, project commands, compatibility requirements, and rules loaded when needed."
 date: "2026-07-27"
 tags: ["Claude Code", "CLAUDE.md", "Configuration"]
 hue: 28
@@ -8,18 +8,13 @@ cover: "/images/blog/my-claude-md-cover-v2.webp"
 coverAlt: "A dark terminal-style composition of a CLAUDE.md file and rules"
 ---
 
-> **This is my setup, not a standard.** These are personal tradeoffs, and you may reasonably prefer something else.
-> For objective parameter references, see Omnigate’s [advanced Claude Code guide](https://omnigate.cc/docs/claude-code-advanced).
->
-> - **Problem it addresses:** You do not know what belongs in a CLAUDE.md or how much is enough.
-> - **For:** People who want to see a file that is genuinely in use rather than another list of “best practices.”
-> - **Not for:** Anyone planning to copy the entire file unchanged. Half of it reflects my preferences, and the other half applies only to specific projects. Copying it blindly will make the agent follow the wrong conventions.
+> This article uses an existing configuration to explain what belongs in CLAUDE.md and how to keep its length manageable. The examples are specific to a project, so check the commands and conventions before reusing them. For tool settings, see Omnigate’s [advanced Claude Code guide](https://omnigate.cc/docs/claude-code-advanced).
 
-The syntax and loading order are covered in Omnigate’s [CLAUDE.md guide](https://omnigate.cc/docs/claude-md). Here I will focus only on what I actually wrote and which problem forced each line into the file.
+Syntax and loading order are covered in Omnigate’s [CLAUDE.md guide](https://omnigate.cc/docs/claude-md). This article focuses on the configuration contents and the problems they address.
 
-## The global file
+## Global conventions
 
-It lives at `~/.claude/CLAUDE.md` and applies to every project. Mine is short:
+`~/.claude/CLAUDE.md` applies to every project and is suitable for general collaboration requirements. This configuration contains:
 
 ```markdown
 ## General
@@ -35,25 +30,25 @@ If a file exceeds 200 lines, append it with multiple Edit operations rather than
 one large Write operation. A large write can fail midway and leave half a file behind.
 ```
 
-That is all. I deliberately keep the global file small because every project loads it. Anything unnecessary becomes a fixed token tax on every conversation.
+A short global file reduces the repeated instructions each project needs to read.
 
-The final rule about writing files deserves context. It is not a universal truth; it came from my environment. A few large writes failed and left truncated files, which were harder to notice than an explicit error. The rule is simply **a workaround for something I observed**, and other people may not need it.
+The file-writing rule came from a specific environment issue: I encountered large writes that failed and left truncated content. This configuration uses smaller writes to address that case. Whether the same limit is needed depends on the environment.
 
-## The project file
+## The project rules entry point
 
-At a project root, my `CLAUDE.md` often contains just one line:
+This setup uses the project root's `CLAUDE.md` as an entry point for the rules:
 
 ```markdown
 @AGENTS.md
 ```
 
-Codex and OpenCode read `AGENTS.md`, while Claude Code reads `CLAUDE.md`. I keep the actual rules in `AGENTS.md` and import it from `CLAUDE.md`, so all three tools share one source of truth instead of making me maintain two copies.
+Codex and OpenCode read `AGENTS.md`, while Claude Code reads `CLAUDE.md`. Keeping the rules in `AGENTS.md` and importing it from `CLAUDE.md` lets the tools share one set of rules.
 
-## The four kinds of project rules I actually write
+## Four kinds of project rules
 
-Consider Omnigate’s codebase. It has a Go backend and a React frontend. There are many rules, but they fit into four categories.
+Using Omnigate's Go backend and React frontend as an example, the configuration can be grouped by purpose.
 
-**First: commands.** These provide the highest return because the agent cannot infer them reliably:
+First are project commands, which specify the package manager and checks:
 
 ```markdown
 - Use bun for frontend packages, not npm, yarn, or pnpm.
@@ -62,9 +57,9 @@ Consider Omnigate’s codebase. It has a Go backend and a React frontend. There 
 - After changing TS or TSX, run typecheck and leave no errors behind.
 ```
 
-Without this section, an agent may default to `npm` and leave you with a `package-lock.json` that conflicts with `bun.lock`.
+Without an explicit package manager, the model may use `npm` and introduce a `package-lock.json` that is inconsistent with the project's `bun.lock`.
 
-**Second: mandatory conventions that are specific to the project.** I include a rule when violating it causes a bug while the code still looks normal:
+Second are project conventions for compatibility and correctness. These requirements may not be apparent from the code alone:
 
 ```markdown
 - All JSON serialization must use the wrappers in common/json.go.
@@ -74,9 +69,9 @@ Without this section, an agent may default to `npm` and leave you with a `packag
   so the wrong code does not report an error—the lock simply never happens.
 ```
 
-The final line is a perfect example: **the wrong code does not fail; the lock just stops working.** If the rule is absent, an agent may copy an outdated example from the web, and the mistake is difficult to catch in review.
+The row-locking rule addresses a case where the code does not report an error but the lock is ineffective. Recording the convention prompts a check of the actual call during implementation and review.
 
-**Third: restricted areas.** These state what must not be touched:
+Third are limits on the scope and method of changes:
 
 ```markdown
 - Do not edit committed migration files; add a new migration.
@@ -85,22 +80,22 @@ The final line is a perfect example: **the wrong code does not fail; the lock ju
   Do not use a bare int() conversion.
 ```
 
-**Fourth: mistakes we have already made.** This section grows gradually rather than being written upfront. My rule is simple: **when the same mistake happens a second time, add one line here.**
+Fourth are lessons from actual issues. This section can grow gradually. When a similar error recurs, check whether a clear convention is missing.
 
-For example, one rule says not to use a GORM `default:true` tag on boolean fields. MySQL and PostgreSQL handled the boolean default differently, so every restart triggered an unnecessary `ALTER TABLE`. Nobody was likely to predict that exact behavior. We had to hit it once and then record it.
+For example, the rule against a GORM `default:true` tag on boolean fields came from an issue involving different handling of boolean defaults in MySQL and PostgreSQL. Each restart triggered an unnecessary `ALTER TABLE`, so the case was recorded in the project rules.
 
-## What I leave out
+## Limit repeated explanations
 
-This matters just as much:
+Review the file for these types of content:
 
-- **A directory tour.** The agent can inspect the tree itself; documenting it consumes context for no reason.
-- **Instructions like “write high-quality code.”** They have no executable meaning.
-- **Complete API documentation.** Keep it in a separate file and let the agent read or import it with `@` when needed.
-- **Language fundamentals.** The model knows them better than I do.
+- Directory descriptions the model can inspect directly; retain the parts relevant to execution.
+- Broad requests such as "write high-quality code"; replace them with specific checks or conventions.
+- Complete API documentation; keep it in a separate file to read or import with `@` when needed.
+- General language fundamentals, which usually do not need repeating in project rules.
 
 ## Controlling the length
 
-My project `AGENTS.md` is now a little over two hundred lines, which is close to my limit. If it grows further, it should be split.
+When this configuration was documented, the project's `AGENTS.md` was a little over two hundred lines. That is a useful point to consider splitting it by purpose. Length is a prompt to review maintainability; the division depends on where each rule applies.
 
 Stable, mandatory conventions remain in the main file. Domain knowledge moves into `.claude/rules/` and loads only for matching paths. For example, rules for channel adapters are needed only when something under `relay/channel/**` changes:
 
@@ -114,7 +109,7 @@ When adding a channel, check whether the upstream provider supports StreamOption
 If it does, add the channel to streamSupportedChannels.
 ```
 
-That rule consumes no context during unrelated work and loads only when the agent touches the relevant files. In a large project, this is much more efficient than putting everything into one main file.
+This loads the corresponding rules for relevant files and reduces the instructions that unrelated tasks need to read.
 
 <BlogImage
   src="/images/blog/my-claude-md-rules-v2.webp"
@@ -124,14 +119,14 @@ That rule consumes no context during unrelated work and loads only when the agen
   height="1024"
 />
 
-## How to start your own
+## Build and maintain the configuration
 
-Do not try to make it perfect in one pass. This is my process:
+Start with an existing project and refine the file over time:
 
-1. Run `/init`, then **delete the automatically generated directory description**.
-2. Add the commands. This step has the highest immediate value.
-3. Whenever the agent makes the same mistake for the second time, add one rule.
+1. Run `/init`, review the generated directory description, and remove parts that do not help execution.
+2. Add project commands and required conventions.
+3. When a similar error recurs, add or revise the relevant rule.
 
-The third step is the important one. Every rule driven by a real failure has demonstrated value. Most of the rules imagined in advance are noise.
+Keep each instruction connected to a requirement, a check, or an issue that has occurred, so its purpose remains clear during maintenance.
 
 _Originally published in the [Omnigate documentation](https://omnigate.cc/docs/my-claude-md)._

@@ -33,8 +33,8 @@ export const skillCategories: SkillCategory[] = [
     id: "ai",
     title: { en: "AI Engineering", zh: "AI 工程" },
     blurb: {
-      en: "I build RAG applications and agent workflows with model APIs.",
-      zh: "把模型 API 接进应用，做 RAG 和智能体工作流。",
+      en: "Model API integration, RAG applications, and agent workflows.",
+      zh: "模型 API 接入、RAG 与智能体工作流的应用实践。",
     },
     skills: [
       { name: "LangGraph", icon: "langgraph", level: "expert" },
@@ -51,8 +51,8 @@ export const skillCategories: SkillCategory[] = [
     id: "frontend",
     title: { en: "Frontend", zh: "前端" },
     blurb: {
-      en: "I care about how a page looks and how it feels to use, including keyboard navigation.",
-      zh: "页面好不好看、操作顺不顺手，我都在意。键盘能不能用也会留意。",
+      en: "Responsive interfaces with React and Next.js, including interaction feedback and keyboard navigation.",
+      zh: "使用 React 和 Next.js 构建响应式界面，关注交互反馈与键盘操作。",
     },
     skills: [
       { name: "React", icon: "react", level: "expert" },
@@ -66,8 +66,8 @@ export const skillCategories: SkillCategory[] = [
     id: "backend",
     title: { en: "Backend & APIs", zh: "后端与 API" },
     blurb: {
-      en: "I work on APIs, databases and streaming responses. I prefer a structure that is easy to change.",
-      zh: "处理接口和数据库，也会做流式响应。我偏好方便后续修改的结构。",
+      en: "APIs, database integration, and streaming responses, with clear responsibilities for easier maintenance.",
+      zh: "开发 API、连接数据库与处理流式响应，保持接口职责清晰，便于维护。",
     },
     skills: [
       { name: "Node.js", icon: "nodedotjs", level: "expert" },
@@ -83,8 +83,8 @@ export const skillCategories: SkillCategory[] = [
     id: "data",
     title: { en: "Data & Analytics", zh: "数据与分析" },
     blurb: {
-      en: "I study analytics at USC and use SQL and Python to work with data.",
-      zh: "在 USC 读分析学，也在做项目时用 SQL 和 Python 处理数据。",
+      en: "Data processing and analysis with SQL and Python, alongside my Analytics studies at USC.",
+      zh: "结合在 USC 的分析学学习，用 SQL 和 Python 处理数据并开展分析。",
     },
     skills: [
       { name: "SQL", icon: "postgresql", level: "expert" },
@@ -100,8 +100,8 @@ export const skillCategories: SkillCategory[] = [
     id: "cloud",
     title: { en: "Cloud & DevOps", zh: "云与 DevOps" },
     blurb: {
-      en: "Deployment includes the less visible work: configuration, logs and keeping services running.",
-      zh: "把应用部署起来，再处理配置、日志和运行中的问题。",
+      en: "Application deployment, environment configuration, and log-based troubleshooting, including maintenance after launch.",
+      zh: "应用部署、环境配置与日志排查，关注服务上线后的运行和维护。",
     },
     skills: [
       { name: "AWS", level: "advanced" },
@@ -118,8 +118,8 @@ export const skillCategories: SkillCategory[] = [
     id: "fde",
     title: { en: "Forward Deployed", zh: "前沿部署" },
     blurb: {
-      en: "I start by clarifying the need, then discuss the approach and how it connects to existing systems.",
-      zh: "先把需求问清楚，再讨论方案和怎么接入现有系统。",
+      en: "Studying requirements analysis and system integration, connecting technical approaches to actual usage workflows.",
+      zh: "关注需求分析与系统集成，学习将技术方案与实际使用流程对接。",
     },
     skills: [
       { name: "Customer Discovery", label: { en: "Customer Discovery", zh: "客户需求调研" }, level: "advanced" },

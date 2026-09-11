@@ -2,17 +2,17 @@
   "Metadata": {
     "title": "陶鼎新 Dingxin Tao | AI Native 开发者",
     "titleTemplate": "%s | 陶鼎新",
-    "description": "陶鼎新（Dingxin Tao）的个人网站。记录 MultiMix、opc-workspace、Omnigate 和 As-a 的开发，以及我使用 AI 编程工具时的想法与取舍。",
+    "description": "陶鼎新（Dingxin Tao）的开发作品集，展示 MultiMix、opc-workspace、Omnigate 和 As-a 的实现，以及 AI 应用、全栈开发与技术实践记录。",
     "projects": "项目",
-    "projectsDescription": "MultiMix、opc-workspace、Omnigate 和 As-a：项目做了什么，我参与了哪些部分，还有哪些取舍。",
+    "projectsDescription": "MultiMix、opc-workspace、Omnigate 和 As-a 的项目介绍，包含功能演示、实现方案、开发职责与实践收获。",
     "skills": "技术与工具",
-    "skillsDescription": "我在学习和项目中接触的技术，以及使用 AI 协作开发的一些习惯。",
+    "skillsDescription": "学习与项目中接触的技术和工具，涵盖 AI 应用、全栈开发、数据分析与部署；项目详情说明实际使用的部分。",
     "blog": "博客",
-    "blogDescription": "我的 AI 使用心得、编程工作流和配置笔记。记录自己的用法，欢迎不同意见。",
+    "blogDescription": "AI 编程、项目配置与工程方法的实践记录，整理具体做法、适用条件和开发经验。",
     "about": "关于我",
-    "aboutDescription": "我是陶鼎新，一名 AI Native 开发者。这里写我的教育背景、做项目的习惯和一些个人偏好。",
+    "aboutDescription": "陶鼎新，AI Native 开发者。了解教育背景、项目实践、学术研究与开发协作方式。",
     "contact": "联系方式",
-    "contactDescription": "联系陶鼎新，聊工作、项目，或交流 AI 工具的使用经验。"
+    "contactDescription": "联系陶鼎新，交流 AI 应用、全栈开发和 FDE 相关工作机会及项目合作。"
   },
   "Nav": {
     "home": "首页",
@@ -21,7 +21,7 @@
     "blog": "博客",
     "about": "关于我",
     "contact": "联系方式",
-    "cta": "聊一聊",
+    "cta": "联系我",
     "menu": "菜单",
     "close": "关闭",
     "openMenu": "打开菜单",
@@ -30,14 +30,14 @@
     "light": "亮色",
     "dark": "暗色",
     "switchLocale": "切换语言",
-    "available": "开放求职中"
+    "available": "寻求工作机会"
   },
   "Common": {
     "viewAll": "查看全部",
     "readMore": "阅读更多",
     "learnMore": "了解更多",
     "viewProject": "查看项目",
-    "caseStudy": "项目记录",
+    "caseStudy": "项目详情",
     "back": "返回",
     "backToProjects": "全部项目",
     "backToBlog": "全部文章",
@@ -63,22 +63,19 @@
   },
   "Home": {
     "eyebrow": "陶鼎新 / AI Native 开发者",
-    "headline1": "借助 AI，",
-    "headline2": "做我想做的东西。",
-    "intro": "我用 AI 写代码、做产品，也会追着它问为什么。这里放着我做过的项目，以及使用这些工具时的想法和取舍。",
-    "ctaPrimary": "看看作品",
+    "headline1": "AI 应用与",
+    "headline2": "全栈开发。",
+    "intro": "围绕视频创作、个人工作台和模型服务开发应用，使用 AI 辅助实现、代码审查与问题排查。这里展示项目成果、实现方案与开发记录。",
+    "ctaPrimary": "查看项目",
     "ctaSecondary": "联系我",
-    "scrollHint": "往下看看",
+    "scrollHint": "浏览项目与实践",
     "particles": {
-      "description": "粒子依次组成 TDX、神经网络、三层立体数据库和六层薄片。点击或轻触切换形态，靠近网络节点可查看相连线路的信号，也可暂停查看细节。",
+      "description": "粒子自动轮播，依次组成 TDX、多层神经网络架构、三层立体数据库和六层薄片。点击或轻触可切换形态，靠近网络层可查看层间传递的信号。",
       "next": "切换粒子造型，当前为{shape}",
-      "hint": "点一下，换个形状",
       "monogram": "TDX",
       "database": "数据库",
       "network": "神经网络",
-      "lattice": "层叠",
-      "pause": "暂停粒子动画",
-      "play": "继续粒子动画"
+      "lattice": "层叠"
     },
     "marquee": [
       "React",
@@ -95,32 +92,32 @@
       "Docker"
     ],
     "whatIDo": {
-      "eyebrow": "01 / 关注的方向",
+      "eyebrow": "01 / 开发方向",
       "title": "开发",
       "titleAccent": "与实践。",
       "items": [
         {
-          "title": "AI 工程",
-          "body": "关注企业级 RAG、AI 智能体和工作流。比起又接入了几个模型，我更想弄清楚它们能帮人省下什么事。",
-          "tags": ["企业级 RAG", "AI 智能体", "工作流"]
+          "title": "AI 应用",
+          "body": "将模型 API 接入应用，探索 RAG 和智能体工作流在具体任务中的使用，关注输入、生成结果与用户确认的衔接。",
+          "tags": ["RAG", "AI 智能体", "工作流"]
         },
         {
           "title": "全栈产品",
-          "body": "做网页，也做桌面应用。接口和数据之外，我也在意页面读起来顺不顺、操作是不是别扭。",
+          "body": "开发 Web 与桌面应用，连接前端界面、API 和数据存储。通过项目实践处理交互、任务状态和异常反馈。",
           "tags": ["Next.js", "TypeScript", "FastAPI", "Postgres"]
         },
         {
           "title": "前沿部署（FDE）",
-          "body": "我对 FDE 感兴趣，因为写代码之前还有很多问题要问：谁会用、怎么用、需要接入什么系统。部署和后续维护也值得花时间学。",
+          "body": "关注需求分析、系统集成和部署维护。以 FDE 为职业方向，结合现有项目学习从需求确认到交付验收的过程。",
           "tags": ["需求梳理", "系统集成", "部署与维护"]
         }
       ]
     },
     "featured": {
       "eyebrow": "02 / 项目",
-      "title": "我做过的",
+      "title": "精选",
       "titleAccent": "项目。",
-      "body": "有自己做的应用，也有基于开源项目的二次开发。每个项目里都写了具体做了什么。",
+      "body": "涵盖独立开发与开源二次开发，展示具体功能、承担的工作，以及实现过程中的技术选择。",
       "cta": "全部项目"
     },
     "facts": {
@@ -136,7 +133,7 @@
       "eyebrow": "04 / GitHub",
       "title": "最近的",
       "titleAccent": "提交。",
-      "body": "代码和最近的改动都在这里。",
+      "body": "项目源码、开发动态与公开贡献记录。",
       "repos": "公开仓库",
       "followers": "关注者",
       "following": "正在关注",
@@ -154,13 +151,13 @@
           "detailThree": "PostgreSQL"
         },
         "multimix": {
-          "description": "用对话做短视频，文案、素材和生成结果放在同一个工作区。",
+          "description": "对话式短视频创作工作区，集中管理文案、素材与生成结果。",
           "detailOne": "Next.js",
           "detailTwo": "FastAPI",
           "detailThree": "视频任务队列"
         },
         "portfolio": {
-          "description": "这个作品集记录项目、博客，以及我使用 AI 写代码时的取舍。",
+          "description": "个人开发作品集，包含项目展示、双语技术博客与交互式可视化。",
           "detailOne": "Next.js",
           "detailTwo": "Three.js",
           "detailThree": "MDX"
@@ -195,26 +192,34 @@
         "day": "{date} · {count} 次贡献"
       }
     },
+    "aiUsage": {
+      "title": "AI 使用记录",
+      "total": "已记录的累计用量",
+      "ranking": "按用量从高到低",
+      "share": "占已记录总量",
+      "value": "{amount} Tokens，占已记录总量的 {share}",
+      "source": "数据由本人提供并手动更新，按工具 / 模型系列汇总；未限定统计起止时间，不代表实时用量。"
+    },
     "writing": {
       "eyebrow": "05 / 博客",
-      "title": "使用心得与",
-      "titleAccent": "笔记。",
+      "title": "开发实践与",
+      "titleAccent": "技术笔记。",
       "cta": "全部文章"
     },
     "cta": {
       "eyebrow": "06 / 联系",
-      "title": "想聊聊",
-      "titleAccent": "项目或合作？",
-      "body": "工作、项目，或对某篇文章有不同的看法，都可以聊。",
+      "title": "工作机会与",
+      "titleAccent": "项目合作。",
+      "body": "正在关注 AI 应用、全栈开发与 FDE 相关岗位，也欢迎交流项目合作。可以通过邮件或联系表单与我沟通。",
       "button": "联系我",
       "secondary": "了解我"
     }
   },
   "Projects": {
     "eyebrow": "项目",
-    "title": "我做过的",
+    "title": "开发",
     "titleAccent": "项目。",
-    "intro": "这里是几个开发记录。除了功能，也写我做了哪些部分、用了什么，以及二次开发与上游项目的关系。",
+    "intro": "展示项目功能、技术方案与开发职责。涉及开源二次开发的项目，会分别说明上游能力、自定义实现和当前进展。",
     "filters": {
       "all": "全部",
       "ai": "AI",
@@ -238,10 +243,10 @@
     },
     "detail": {
       "overview": "概览",
-      "problem": "要解决什么",
-      "approach": "怎么做的",
-      "impact": "目前做到了什么",
-      "learning": "我学到了什么",
+      "problem": "项目背景",
+      "approach": "实现方案",
+      "impact": "当前成果",
+      "learning": "实践收获",
       "highlights": "项目细节",
       "more": "更多项目",
       "nextProject": "下一个项目"
@@ -251,7 +256,7 @@
     "eyebrow": "技术与工具",
     "title": "技术",
     "titleAccent": "与工具。",
-    "intro": "这些是我在学习和项目中接触的技术。具体怎么用、做了什么，可以对照项目里的记录来看。",
+    "intro": "整理学习与项目中接触的技术，涵盖 AI 应用、前后端开发和部署。项目详情说明其中实际使用的技术与实现方式。",
     "sphereHint": "拖动旋转，点击分类查看",
     "categories": "分类",
     "all": "全部",
@@ -264,24 +269,24 @@
     },
     "principles": {
       "eyebrow": "工作方式",
-      "title": "我怎么和",
-      "titleAccent": "AI 一起写代码。",
+      "title": "AI 协作",
+      "titleAccent": "开发流程。",
       "items": [
         {
-          "title": "先确认要改什么",
-          "body": "让 AI 先看现有代码，讲清楚准备改哪里。有分歧就先讨论，别写了一半才发现理解错了。"
+          "title": "明确需求与上下文",
+          "body": "开发前整理需求与相关代码，确认修改位置、约束和预期结果，再进入实现。"
         },
         {
-          "title": "看不懂就继续问",
-          "body": "审查意见不能只看结论。我会问它：会影响什么，现在不改会怎样，再决定是否修改。"
+          "title": "核对审查依据",
+          "body": "结合具体代码和使用场景检查审查意见，分析问题影响、复现条件与修复优先级。"
         },
         {
           "title": "控制修改范围",
-          "body": "这次要改的事情先做好。模型顺手提出的重构或新功能，我会单独看，不默认一起接受。"
+          "body": "围绕当前需求组织改动，将额外重构和新功能分开处理，便于审查、验证与回溯。"
         },
         {
-          "title": "规则可以再改",
-          "body": "某个地方反复出错，我才把它写进项目规则。配置会跟着使用经验变，没有必要一次写得面面俱到。"
+          "title": "维护项目文档",
+          "body": "将反复遇到的问题、必要约束和验证方式整理进项目文档，随实现变化更新，供后续开发参考。"
         }
       ]
     },
@@ -293,9 +298,9 @@
   },
   "Blog": {
     "eyebrow": "博客",
-    "title": "使用心得与",
-    "titleAccent": "笔记。",
-    "intro": "写我怎么用 AI、怎么配工具，以及哪些做法对我有用。这些用法还在变，你不必照着做。",
+    "title": "开发实践与",
+    "titleAccent": "技术笔记。",
+    "intro": "记录 AI 编程工作流、项目配置与问题分析，整理具体做法、适用条件和实践中的经验。",
     "latest": "最新",
     "allPosts": "全部文章",
     "empty": "还没有发布文章，稍后再来看看。",
@@ -324,20 +329,20 @@
     "eyebrow": "关于我",
     "title": "我是",
     "titleAccent": "陶鼎新。",
-    "intro": "Dingxin Tao，AI Native 开发者。先在 Shoreline CC 学习计算机，之后在加州大学尔湾分校读计算机科学本科，目前在南加州大学读分析学研究生。",
+    "intro": "Dingxin Tao，AI Native 开发者。加州大学尔湾分校计算机科学本科毕业，目前在南加州大学攻读分析学硕士，关注 AI 应用与全栈开发。",
     "story": {
-      "eyebrow": "说说我自己",
+      "eyebrow": "背景与实践",
       "paragraphs": [
-        "AI 让我有机会尝试更多自己想做的东西。我把它用在写代码、审查和整理思路上。这个网站和这些项目也都有 AI 参与。",
-        "我不会把模型给的答案直接当成结论。看不懂一条审查意见，就继续问它会影响哪里；建议和我想做的事情不一致，就先停下来讨论。最后改不改，还是要自己拿主意。",
-        "我对页面有自己的偏好。字太大、动效卡一下、截图被裁掉，都会让我想再改一遍。文案也是，读着不像我会说的话，就换掉。",
-        "这里的项目包含独立开发和开源二次开发。比如 Omnigate 基于 new-api，我会把上游提供的能力和自己做的部分分开写。博客也是我当前的用法，有些只适合我，你完全可以不同意。"
+        "我的学习背景涵盖计算机科学与分析学。项目实践主要集中在 AI 应用、Web 与桌面产品开发，通过具体功能把编程、数据处理和界面设计联系起来。",
+        "目前的作品包括视频创作工作区 MultiMix、本地工作台 opc-workspace、基于 new-api 的 Omnigate，以及双语专业服务平台 As-a。项目详情中记录了各自的实现范围与当前状态。",
+        "AI 编程工具是我的日常开发方式之一。我用它们辅助分析代码、实现功能和审查改动，并通过阅读代码、运行检查与手动验证来确认结果。这个网站也采用了这样的协作方式。",
+        "我关注从需求到实际使用的完整过程，希望在 AI 应用、全栈开发或 FDE 相关岗位继续积累经验。博客记录开发方法与学习内容，便于复盘，也便于与他人交流。"
       ]
     },
     "education": {
       "eyebrow": "教育背景",
-      "title": "在哪里",
-      "titleAccent": "读书。"
+      "title": "教育",
+      "titleAccent": "背景。"
     },
     "publications": {
       "eyebrow": "学术经历",
@@ -353,33 +358,33 @@
       "titleAccent": "经历。"
     },
     "now": {
-      "eyebrow": "在做的事",
-      "title": "项目与记录",
+      "eyebrow": "项目实践",
+      "title": "项目概览",
       "items": [
-        "MultiMix：把对话、素材和视频创作放在一个工作区里。",
-        "opc-workspace：给一人公司用的本地桌面工作台。",
+        "MultiMix：对话式视频创作与素材管理。",
+        "opc-workspace：面向一人公司的本地桌面工作台。",
         "Omnigate：基于 new-api 的定制与部署。",
-        "在博客里记录 AI 编程工具的用法和配置。"
+        "As-a：阿拉伯语与英语专业服务平台。"
       ]
     },
     "values": {
-      "eyebrow": "一些个人偏好",
+      "eyebrow": "协作方式",
       "items": [
-        { "title": "保留自己的判断", "body": "模型可以提建议，工具也可以换。我想先弄懂理由，再决定是否采用。" },
-        { "title": "不把用法写成标准", "body": "对我有用的配置，换个项目未必合适。我愿意解释自己的选择，也接受不同意见。" },
-        { "title": "把来源写清楚", "body": "用了开源项目，就说明上游做了什么；有 AI 参与，也没有必要藏着。" },
-        { "title": "按自己的审美调整", "body": "不太喜欢堆满术语的介绍。页面和文字，我都希望简单一点，看着舒服，读着自然。" }
+        { "title": "沟通具体问题", "body": "讨论需求或审查意见时，提供场景、相关代码和预期结果，让问题能够被理解与核对。" },
+        { "title": "说明方案依据", "body": "结合项目约束比较方案，记录选择的理由与限制，并根据验证结果和反馈调整。" },
+        { "title": "清晰界定贡献", "body": "使用开源项目时注明来源，区分上游能力与自行实现的部分，说明 AI 工具参与的环节。" },
+        { "title": "关注使用体验", "body": "从阅读、操作和错误反馈检查界面，兼顾不同屏幕下的展示与键盘操作，让功能便于使用。" }
       ]
     },
-    "cta": "打个招呼"
+    "cta": "联系我"
   },
   "Contact": {
     "eyebrow": "联系方式",
-    "title": "想聊聊",
-    "titleAccent": "项目或合作？",
-    "intro": "可以聊工作和项目，也可以交流工具的用法。对文章有不同意见，同样欢迎写给我。",
+    "title": "工作机会与",
+    "titleAccent": "项目合作。",
+    "intro": "欢迎联系我，交流 AI 应用、全栈开发或 FDE 相关岗位，以及项目合作。附上岗位介绍或项目背景，便于进一步沟通。",
     "responseTime": "有相关链接或项目背景的话，可以一起发来。",
-    "directEmail": "更喜欢发邮件？",
+    "directEmail": "直接邮件联系",
     "elsewhere": "其他平台",
     "wechat": {
       "title": "微信联系",
@@ -401,7 +406,7 @@
       "emailPlaceholder": "you@example.com",
       "company": "公司（可选）",
       "companyPlaceholder": "你所在的公司",
-      "topic": "想聊什么？",
+      "topic": "联系主题",
       "topics": {
         "fde": "前沿部署工程师（FDE）岗位",
         "ai": "AI 工程岗位",
@@ -410,7 +415,7 @@
         "other": "其他"
       },
       "message": "留言",
-      "messagePlaceholder": "你想聊什么？如果是项目合作，可以说说背景和计划。",
+      "messagePlaceholder": "请简要介绍岗位或项目背景，以及希望进一步交流的内容。",
       "submit": "发送消息",
       "sending": "发送中…",
       "successTitle": "已收到你的消息。",
@@ -428,14 +433,14 @@
     }
   },
   "Footer": {
-    "tagline": "想聊聊",
-    "taglineAccent": "项目或合作？",
+    "tagline": "工作机会与",
+    "taglineAccent": "项目合作。",
     "cta": "联系我",
     "navigate": "导航",
     "connect": "联系",
     "wechat": "微信 · 添加好友",
     "colophon": "关于本站",
-    "colophonBody": "陶鼎新与 AI 协作设计、开发。代码放在 GitHub，欢迎看看实现。",
+    "colophonBody": "由陶鼎新与 AI 协作设计、开发。项目源码公开于 GitHub。",
     "source": "GitHub 源码",
     "rights": "© {year} 陶鼎新 Dingxin Tao. 保留所有权利。",
     "backToTop": "回到顶部"

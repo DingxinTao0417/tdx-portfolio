@@ -3,5 +3,4 @@ export type HeroInteraction = {
   x: number;
   y: number;
   inside: boolean;
-  activityVersion: number;
 };

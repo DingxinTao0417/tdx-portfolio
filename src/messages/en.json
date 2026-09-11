@@ -2,17 +2,17 @@
   "Metadata": {
     "title": "Dingxin Tao | AI Native developer",
     "titleTemplate": "%s | Dingxin Tao",
-    "description": "Dingxin Tao's personal website. Notes on building MultiMix, opc-workspace, Omnigate, and As-a, and the choices I make while using AI coding tools.",
+    "description": "Dingxin Tao's development portfolio, featuring MultiMix, opc-workspace, Omnigate, and As-a, with project details and notes on AI applications and full-stack development.",
     "projects": "Projects",
-    "projectsDescription": "MultiMix, opc-workspace, Omnigate, and As-a: what each project does, what I worked on, and the decisions involved.",
+    "projectsDescription": "Explore MultiMix, opc-workspace, Omnigate, and As-a through demos, implementation details, development responsibilities, and lessons learned.",
     "skills": "Tech & tools",
-    "skillsDescription": "Technologies I've used in my studies and projects, and some habits I've developed while working with AI.",
+    "skillsDescription": "Technologies explored in my studies and projects, covering AI applications, full-stack development, data analysis, and deployment. Project pages identify those used in each implementation.",
     "blog": "Blog",
-    "blogDescription": "Notes on using AI, my coding workflow, and tool configuration. This is how I work; other approaches are welcome.",
+    "blogDescription": "Practical notes on AI-assisted coding, project configuration, and engineering methods, with examples and guidance on when to use them.",
     "about": "About",
-    "aboutDescription": "I'm Dingxin Tao, an AI Native developer. Here's my educational background, how I approach projects, and a few personal preferences.",
+    "aboutDescription": "Dingxin Tao, AI Native developer. Learn about my education, projects, academic work, and approach to development and collaboration.",
     "contact": "Contact",
-    "contactDescription": "Contact Dingxin Tao about work or projects, or compare notes on using AI tools."
+    "contactDescription": "Contact Dingxin Tao about roles in AI applications, full-stack development, and forward deployed engineering, or project collaboration."
   },
   "Nav": {
     "home": "Home",
@@ -21,7 +21,7 @@
     "blog": "Blog",
     "about": "About",
     "contact": "Contact",
-    "cta": "Let's talk",
+    "cta": "Contact me",
     "menu": "Menu",
     "close": "Close",
     "openMenu": "Open menu",
@@ -30,14 +30,14 @@
     "light": "Light",
     "dark": "Dark",
     "switchLocale": "Switch language",
-    "available": "Available for roles"
+    "available": "Open to opportunities"
   },
   "Common": {
     "viewAll": "View all",
     "readMore": "Read more",
     "learnMore": "Learn more",
     "viewProject": "View project",
-    "caseStudy": "Project notes",
+    "caseStudy": "Project details",
     "back": "Back",
     "backToProjects": "All projects",
     "backToBlog": "All posts",
@@ -63,22 +63,19 @@
   },
   "Home": {
     "eyebrow": "Dingxin Tao / AI Native developer",
-    "headline1": "I use AI",
-    "headline2": "to build what I want.",
-    "intro": "I'm Dingxin Tao. I use AI to write code and build products, and I keep asking it to explain its choices. My projects are here, along with notes on what I've tried and why.",
-    "ctaPrimary": "See the work",
+    "headline1": "AI & full-stack",
+    "headline2": "development.",
+    "intro": "I develop applications for video creation, personal workspaces, and model services, using AI to support implementation, code review, and debugging. Explore the projects and their development notes below.",
+    "ctaPrimary": "View projects",
     "ctaSecondary": "Get in touch",
-    "scrollHint": "Keep scrolling",
+    "scrollHint": "Explore the projects",
     "particles": {
-      "description": "Particles form TDX, a neural network, a three-layer database, and six sheets. Click or tap to change shape, hover over a network node to follow its connections, or pause to inspect the details.",
+      "description": "Particles automatically cycle through TDX, a layered neural-network architecture, a three-layer database, and six sheets. Click or tap to change shape, or hover over a network layer to follow the signals between stages.",
       "next": "Change particle shape. Currently: {shape}",
-      "hint": "Click to change shape",
       "monogram": "TDX",
       "database": "Database",
       "network": "Neural net",
-      "lattice": "Layers",
-      "pause": "Pause particle animation",
-      "play": "Resume particle animation"
+      "lattice": "Layers"
     },
     "marquee": [
       "React",
@@ -95,32 +92,32 @@
       "Docker"
     ],
     "whatIDo": {
-      "eyebrow": "01 / Interests",
+      "eyebrow": "01 / Development focus",
       "title": "Development",
       "titleAccent": "in practice.",
       "items": [
         {
-          "title": "AI engineering",
-          "body": "I'm interested in enterprise RAG, AI agents, and workflows. I care more about the work they can save someone than how many models they connect to.",
-          "tags": ["Enterprise RAG", "AI agents", "Workflows"]
+          "title": "AI applications",
+          "body": "Integrating model APIs and exploring RAG and agent workflows for specific tasks, with attention to how user input, generated output, and confirmation fit together.",
+          "tags": ["RAG", "AI agents", "Workflows"]
         },
         {
           "title": "Full-stack products",
-          "body": "I build web and desktop apps. Alongside APIs and data, I pay attention to how a page reads and whether an interaction feels awkward.",
+          "body": "Building web and desktop applications that connect interfaces, APIs, and data storage. Project work includes interactions, task states, and error feedback.",
           "tags": ["Next.js", "TypeScript", "FastAPI", "Postgres"]
         },
         {
           "title": "Forward deployed engineering",
-          "body": "FDE interests me because there's plenty to ask before writing code: who will use it, how, and which systems it needs to connect to. Deployment and maintenance are worth spending time learning, too.",
+          "body": "A career direction focused on requirements, system integration, and deployment. I use my projects to learn the process from clarifying a need to checking the delivered result.",
           "tags": ["Requirements", "System integration", "Deployment & maintenance"]
         }
       ]
     },
     "featured": {
       "eyebrow": "02 / Projects",
-      "title": "Projects",
-      "titleAccent": "I've worked on.",
-      "body": "Some are apps I built myself; others build on open-source projects. Each write-up explains what I did.",
+      "title": "Selected",
+      "titleAccent": "projects.",
+      "body": "Independent applications and open-source customization, with details on features, my contributions, and implementation choices.",
       "cta": "All projects"
     },
     "facts": {
@@ -136,7 +133,7 @@
       "eyebrow": "04 / GitHub",
       "title": "Recent",
       "titleAccent": "commits.",
-      "body": "My code and recent changes are here.",
+      "body": "Project source code, development updates, and public contribution history.",
       "repos": "Public repos",
       "followers": "Followers",
       "following": "Following",
@@ -154,13 +151,13 @@
           "detailThree": "PostgreSQL"
         },
         "multimix": {
-          "description": "A conversation workspace for making short videos, with scripts, assets, and generated work kept together.",
+          "description": "A conversational workspace for short-video creation, with scripts, assets, and generated results in one place.",
           "detailOne": "Next.js",
           "detailTwo": "FastAPI",
           "detailThree": "Video task queue"
         },
         "portfolio": {
-          "description": "This portfolio: projects, a blog, and notes on the choices I make while coding with AI.",
+          "description": "A development portfolio with project showcases, a bilingual technical blog, and interactive visualizations.",
           "detailOne": "Next.js",
           "detailTwo": "Three.js",
           "detailThree": "MDX"
@@ -195,17 +192,25 @@
         "day": "{date} · {count, plural, one {# contribution} other {# contributions}}"
       }
     },
+    "aiUsage": {
+      "title": "AI usage log",
+      "total": "Recorded cumulative usage",
+      "ranking": "Highest usage first",
+      "share": "Share of recorded total",
+      "value": "{amount} tokens, {share} of the recorded total",
+      "source": "Self-reported and manually updated, grouped by tool / model family. No start or end date is specified; these are not live usage figures."
+    },
     "writing": {
       "eyebrow": "05 / Blog",
-      "title": "Notes on",
-      "titleAccent": "using AI.",
+      "title": "Development",
+      "titleAccent": "notes.",
       "cta": "All posts"
     },
     "cta": {
       "eyebrow": "06 / Contact",
-      "title": "Want to talk?",
-      "titleAccent": "Write to me.",
-      "body": "We can talk about work or a project, or a different take on something I've written.",
+      "title": "Opportunities &",
+      "titleAccent": "collaboration.",
+      "body": "I'm exploring roles in AI applications, full-stack development, and forward deployed engineering, and welcome project inquiries. Reach me by email or through the contact form.",
       "button": "Contact me",
       "secondary": "Read about me"
     }
@@ -213,8 +218,8 @@
   "Projects": {
     "eyebrow": "Projects",
     "title": "Projects",
-    "titleAccent": "I've worked on.",
-    "intro": "Each write-up explains what I worked on and the tools I used. For projects based on open source, I also explain what comes from upstream.",
+    "titleAccent": "and implementation.",
+    "intro": "Project features, technical approaches, and development responsibilities. For open-source customization, each write-up distinguishes upstream capabilities, custom work, and current progress.",
     "filters": {
       "all": "All",
       "ai": "AI",
@@ -238,10 +243,10 @@
     },
     "detail": {
       "overview": "Overview",
-      "problem": "What it aims to solve",
-      "approach": "How I built it",
-      "impact": "Where it stands",
-      "learning": "What I learned",
+      "problem": "Project context",
+      "approach": "Implementation",
+      "impact": "Current results",
+      "learning": "Lessons learned",
       "highlights": "Project details",
       "more": "More projects",
       "nextProject": "Next project"
@@ -251,7 +256,7 @@
     "eyebrow": "Tech & tools",
     "title": "Technologies",
     "titleAccent": "and tools.",
-    "intro": "These are technologies I've encountered in my studies and projects. The project notes explain how I've used them and what I've built.",
+    "intro": "Technologies explored in my studies and projects, spanning AI applications, frontend and backend development, and deployment. Project pages explain which technologies were used and how.",
     "sphereHint": "Drag to rotate, click a category to view",
     "categories": "Categories",
     "all": "All",
@@ -264,24 +269,24 @@
     },
     "principles": {
       "eyebrow": "How I work",
-      "title": "How I write code",
-      "titleAccent": "with AI.",
+      "title": "AI-assisted",
+      "titleAccent": "development.",
       "items": [
         {
-          "title": "Agree on the change first",
-          "body": "I ask AI to read the existing code and explain what it plans to change. If we understand the task differently, I'd rather discuss that before it's halfway through."
+          "title": "Clarify the task and context",
+          "body": "Review the requirements and relevant code, then confirm the scope, constraints, and expected result before implementation."
         },
         {
-          "title": "Keep asking until I understand",
-          "body": "I don't stop at a reviewer's conclusion. I ask what the issue affects and what happens if I leave it alone, then decide whether to make the change."
+          "title": "Check the basis of a review",
+          "body": "Check review comments against the code and use case, considering the impact, reproduction conditions, and priority of each issue."
         },
         {
-          "title": "Keep the scope in check",
-          "body": "I finish the change I set out to make. If the model suggests a refactor or a new feature along the way, I consider it separately instead of accepting it by default."
+          "title": "Keep changes scoped",
+          "body": "Organize changes around the current requirement. Handle extra refactoring and new features separately to keep review and verification manageable."
         },
         {
-          "title": "Revise the rules as I go",
-          "body": "When the same mistake keeps happening, I add a project rule for it. My configuration changes with experience; it doesn't need to cover everything on day one."
+          "title": "Document project conventions",
+          "body": "Record recurring issues, necessary constraints, and verification steps in project documentation, updating it as the implementation changes."
         }
       ]
     },
@@ -293,9 +298,9 @@
   },
   "Blog": {
     "eyebrow": "Blog",
-    "title": "Notes on",
-    "titleAccent": "using AI.",
-    "intro": "How I use AI, set up my tools, and decide what works for me. My setup keeps changing; you don't have to use it the same way.",
+    "title": "Development",
+    "titleAccent": "notes.",
+    "intro": "Practical notes on AI coding workflows, project configuration, and problem analysis, with examples, applicable conditions, and lessons from development.",
     "latest": "Latest",
     "allPosts": "All posts",
     "empty": "I haven't published any posts yet.",
@@ -324,20 +329,20 @@
     "eyebrow": "About",
     "title": "I'm",
     "titleAccent": "Dingxin Tao.",
-    "intro": "I'm Dingxin Tao, an AI Native developer. I studied Computer Science at Shoreline Community College and UC Irvine, and am now studying Analytics at USC.",
+    "intro": "AI Native developer with a B.S. in Computer Science from UC Irvine, currently pursuing an M.S. in Analytics at USC. My focus is AI applications and full-stack development.",
     "story": {
-      "eyebrow": "A bit about me",
+      "eyebrow": "Background",
       "paragraphs": [
-        "AI lets me try more of the things I want to make. I use it to write code, review changes, and think things through. It also helped build this website and the projects here.",
-        "I don't treat a model's answer as a decision. If I don't understand a review comment, I ask what it affects. If a suggestion doesn't fit what I'm trying to do, I stop and talk it through. I still have to decide what to change.",
-        "I have my own taste in interfaces. Oversized type, a hitch in an animation, or a cropped screenshot will make me want to go back and fix it. I'm the same with copy: if it doesn't sound like something I'd say, I change it.",
-        "Some projects here are independent work; others build on open source. Omnigate, for example, is based on new-api. I separate what the upstream project provides from what I changed. My blog describes how I work right now. Some of it may only suit me, and you're free to disagree."
+        "My studies span computer science and analytics. My projects focus on AI applications and web and desktop products, bringing together programming, data handling, and interface design through working features.",
+        "The portfolio includes MultiMix, a video-creation workspace; opc-workspace, a local desktop workspace; Omnigate, based on new-api; and As-a, a bilingual professional-services platform. Each project page explains its scope and current status.",
+        "AI coding tools are part of my daily development workflow. I use them to analyze code, implement features, and review changes, then check the results by reading code, running checks, and testing manually. This website was built with the same approach.",
+        "I'm interested in the process from understanding a requirement to putting an application into use, and am looking to develop further in an AI application, full-stack, or FDE role. The blog documents methods and learning notes for reference and discussion."
       ]
     },
     "education": {
       "eyebrow": "Education",
-      "title": "Where I've",
-      "titleAccent": "studied."
+      "title": "Academic",
+      "titleAccent": "background."
     },
     "publications": {
       "eyebrow": "Academic work",
@@ -353,33 +358,33 @@
       "titleAccent": "experience."
     },
     "now": {
-      "eyebrow": "What I'm working on",
-      "title": "Projects and notes",
+      "eyebrow": "Projects",
+      "title": "Project overview",
       "items": [
-        "MultiMix: one workspace for conversations, assets, and video creation.",
-        "opc-workspace: a local desktop workspace for a one-person business.",
+        "MultiMix: conversational video creation and asset management.",
+        "opc-workspace: a local desktop workspace for one-person businesses.",
         "Omnigate: customization and deployment based on new-api.",
-        "Writing down how I use and configure AI coding tools."
+        "As-a: a professional-services platform in Arabic and English."
       ]
     },
     "values": {
-      "eyebrow": "A few personal preferences",
+      "eyebrow": "Approach to collaboration",
       "items": [
-        { "title": "Make my own calls", "body": "A model can suggest changes, and I can switch tools. I want to understand the reasoning before I adopt a suggestion." },
-        { "title": "My setup isn't a standard", "body": "What works for me may not fit another project. I can explain my choices without expecting everyone to agree." },
-        { "title": "Be clear about sources", "body": "When I use an open-source project, I explain what it provides. If AI helped, I say so." },
-        { "title": "Follow my own taste", "body": "I don't like introductions packed with jargon. I prefer simple pages and writing that feels natural to read." }
+        { "title": "Discuss concrete problems", "body": "Include the use case, relevant code, and expected result when discussing a requirement or review comment, so others can understand and check the issue." },
+        { "title": "Explain implementation choices", "body": "Compare approaches against project constraints, record the reasons and limitations, and revise decisions based on verification and feedback." },
+        { "title": "Define contributions clearly", "body": "Credit open-source projects, distinguish upstream capabilities from custom work, and explain where AI tools contributed." },
+        { "title": "Consider the user experience", "body": "Check readability, interactions, and error feedback across screen sizes, including keyboard navigation, to make features easier to use." }
       ]
     },
-    "cta": "Say hello"
+    "cta": "Contact me"
   },
   "Contact": {
     "eyebrow": "Contact",
-    "title": "Want to talk?",
-    "titleAccent": "Write to me.",
-    "intro": "You can write about work or a project, compare notes on tools, or disagree with something I've written.",
+    "title": "Opportunities &",
+    "titleAccent": "collaboration.",
+    "intro": "Get in touch about roles in AI applications, full-stack development, or forward deployed engineering, or about a project. A role description or project overview is a helpful starting point.",
     "responseTime": "You can include relevant links or some background on your project.",
-    "directEmail": "Prefer email?",
+    "directEmail": "Email me directly",
     "elsewhere": "Elsewhere",
     "wechat": {
       "title": "Connect on WeChat",
@@ -401,7 +406,7 @@
       "emailPlaceholder": "you@example.com",
       "company": "Company (optional)",
       "companyPlaceholder": "Where you work",
-      "topic": "What is this about?",
+      "topic": "Subject",
       "topics": {
         "fde": "Forward deployed engineering (FDE) role",
         "ai": "AI engineering role",
@@ -410,7 +415,7 @@
         "other": "Something else"
       },
       "message": "Message",
-      "messagePlaceholder": "What would you like to discuss? If it's a project, a little background and your plans would help.",
+      "messagePlaceholder": "Please share a brief overview of the role or project and what you would like to discuss.",
       "submit": "Send message",
       "sending": "Sending…",
       "successTitle": "Message received.",
@@ -428,14 +433,14 @@
     }
   },
   "Footer": {
-    "tagline": "Want to talk?",
-    "taglineAccent": "Write to me.",
+    "tagline": "Opportunities &",
+    "taglineAccent": "collaboration.",
     "cta": "Contact me",
     "navigate": "Navigate",
     "connect": "Connect",
     "wechat": "WeChat · Add me",
     "colophon": "About this site",
-    "colophonBody": "Dingxin Tao designed and built this site with AI. The source is on GitHub if you'd like to see how it works.",
+    "colophonBody": "Designed and developed by Dingxin Tao with AI collaboration. Source code is available on GitHub.",
     "source": "Source on GitHub",
     "rights": "© {year} Dingxin Tao. All rights reserved.",
     "backToTop": "Back to top"
