@@ -68,7 +68,7 @@ export function stepHeroCycle(
       cycle.pending = false;
       return REDUCED_PHASE;
     }
-    // Reduced-motion clicks may have selected another static phase.
+    // Resume autoplay with a full hold on the manually selected static phase.
     cycle.from = cycle.to;
     cycle.elapsed = MORPH_DURATION;
     cycle.hold = 0;

@@ -70,8 +70,8 @@
     "ctaSecondary": "Get in touch",
     "scrollHint": "Explore the projects",
     "particles": {
-      "description": "Particles automatically cycle through TDX, a layered neural-network architecture, a three-layer database, and six sheets. Click or tap to change shape, or hover over a network layer to follow the signals between stages.",
-      "next": "Change particle shape. Currently: {shape}",
+      "description": "Particles automatically cycle through TDX, a layered neural-network architecture, a three-layer database, and six sheets. You can also click or tap to change shape, or hover over a network layer to follow the signals between stages.",
+      "next": "Next particle shape. Currently: {shape}. Autoplay will continue.",
       "monogram": "TDX",
       "database": "Database",
       "network": "Neural net",

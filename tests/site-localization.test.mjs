@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import test from "node:test";
 import { parse } from "@formatjs/icu-messageformat-parser";
+import { createTranslator } from "next-intl";
 
 const messages = Object.fromEntries(await Promise.all(
   ["zh", "en"].map(async (locale) => [
@@ -54,3 +55,30 @@ test("localized message rewrites preserve the same interpolation arguments", () 
     assert.deepEqual(argumentsIn(parse(value)), argumentsIn(parse(english.get(key))), key);
   }
 });
+
+// Key parity alone cannot detect a key removed from both catalogs while the UI
+// still uses it. Exercise the particle controls' actual translation contract.
+for (const [locale, catalog] of Object.entries(messages)) {
+  test(`${locale} particle controls resolve their description and every next-shape label`, () => {
+    const t = createTranslator({
+      locale,
+      messages: catalog,
+      namespace: "Home.particles",
+      onError(error) { throw error; },
+    });
+
+    assert.ok(t.has("description"));
+    assert.ok(t("description").trim());
+    assert.ok(t.has("next"), `${locale} is missing Home.particles.next`);
+    assert.deepEqual(argumentsIn(parse(catalog.Home.particles.next)), ["shape"]);
+
+    for (const phase of ["monogram", "database", "network", "lattice"]) {
+      assert.ok(t.has(phase), `${locale} is missing Home.particles.${phase}`);
+      const shapeName = t(phase);
+      const label = t("next", { shape: shapeName });
+      assert.ok(shapeName.trim());
+      assert.ok(label.includes(shapeName), `${locale}.${phase} label omits the current shape`);
+      assert.doesNotMatch(label, /Home\.particles\.|\{shape\}/);
+    }
+  });
+}

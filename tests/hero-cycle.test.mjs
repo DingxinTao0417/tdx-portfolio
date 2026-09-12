@@ -47,7 +47,6 @@ test("autoplay starts at lettering and repeats the complete intended order for s
     assert.equal(cycle.from, previous);
     assert.equal(cycle.to, next);
     assert.equal(cycle.elapsed, 0);
-    assert.equal(cycle.pending, false);
   }
 
   assert.deepEqual(seen, Array.from({ length: 25 }, (_, index) => [0, 2, 1, 3][index % 4]));
@@ -66,108 +65,81 @@ test("every automatic transition keeps the same hold and morph cadence without u
   }
 });
 
-test("manual requests during a morph coalesce into one transition after the target is complete", () => {
+test("each morph finishes before the next shape begins its full hold", () => {
   const cycle = createHeroCycle();
-  requestNext(cycle);
-  assert.equal(stepHeroCycle(cycle, 0, ACTIVE), 2);
-
-  for (let frame = 0; frame < 10; frame += 1) {
-    requestNext(cycle);
-    assert.equal(stepHeroCycle(cycle, FRAME, ACTIVE), null);
-    assert.equal(cycle.from, 0);
-    assert.equal(cycle.to, 2);
-  }
-
-  const queued = nextTransition(cycle);
-  assert.equal(queued.next, 1);
-  assert.equal(cycle.from, 2);
-  assert.equal(cycle.to, 1);
-  assert.equal(cycle.elapsed, 0);
-  assert.equal(cycle.pending, false);
+  assert.equal(nextTransition(cycle).next, 2);
 
   assert.deepEqual(runFrames(cycle, Math.ceil(MORPH_DURATION / FRAME)), []);
-  assert.equal(cycle.to, 1);
-  assert.equal(nextTransition(cycle).next, 3);
-});
-
-test("a manual request at the automatic deadline advances only once", () => {
-  const cycle = createHeroCycle();
-  cycle.hold = HOLD - FRAME;
-  requestNext(cycle);
-  assert.equal(stepHeroCycle(cycle, FRAME, ACTIVE), 2);
-  assert.equal(cycle.index, 1);
-  assert.equal(cycle.pending, false);
-  assert.equal(cycle.hold, 0);
-  assert.equal(stepHeroCycle(cycle, 0, ACTIVE), null);
+  assert.equal(cycle.from, 0);
   assert.equal(cycle.to, 2);
+  assert.equal(cycle.elapsed, MORPH_DURATION);
+  assert.equal(cycle.hold, 0);
+  assert.deepEqual(runFrames(cycle, Math.round(HOLD / FRAME) - 1), []);
+  assert.equal(cycle.to, 2);
+  assert.equal(stepHeroCycle(cycle, FRAME, ACTIVE), 1);
+  assert.equal(cycle.from, 2);
+  assert.equal(cycle.elapsed, 0);
 });
 
-test("offscreen or background frames freeze state and retain any queued manual request", () => {
+test("offscreen or background frames freeze hold and morph, then autoplay resumes without input", () => {
   const cycle = createHeroCycle();
   runFrames(cycle, 20);
-  requestNext(cycle);
   const before = structuredClone(cycle);
   assert.deepEqual(runFrames(cycle, 400, INACTIVE), []);
   assert.deepEqual(cycle, before);
 
-  assert.equal(stepHeroCycle(cycle, 0, ACTIVE), 2);
+  assert.equal(stepHeroCycle(cycle, 0, ACTIVE), null);
+  assert.deepEqual(cycle, before);
+  const resumedHold = nextTransition(cycle);
+  assert.equal(resumedHold.next, 2);
+  assert.ok(Math.abs(resumedHold.frames * FRAME - (HOLD - before.hold)) <= FRAME);
+
   runFrames(cycle, 12);
   const midMorph = structuredClone(cycle);
   assert.deepEqual(runFrames(cycle, 400, INACTIVE), []);
   assert.deepEqual(cycle, midMorph);
   assert.equal(stepHeroCycle(cycle, 0, ACTIVE), null);
   assert.deepEqual(cycle, midMorph);
+
+  const resumedMorph = nextTransition(cycle);
+  assert.equal(resumedMorph.next, 1);
+  assert.equal(cycle.from, 2);
+  assert.ok(Math.abs(resumedMorph.frames * FRAME - (MORPH_DURATION - midMorph.elapsed + HOLD)) <= FRAME);
 });
 
-test("reduced motion stays static indefinitely while allowing instantaneous manual changes", () => {
+test("reduced motion stays static indefinitely", () => {
   const cycle = createHeroCycle(true);
   const before = structuredClone(cycle);
   assert.equal(cycle.to, REDUCED_PHASE);
   assert.deepEqual(runFrames(cycle, 2000, REDUCED), []);
   assert.deepEqual(cycle, before);
-
-  for (let step = 0; step < 8; step += 1) {
-    const expected = PLAYBACK_ORDER[(cycle.index + 1) % PLAYBACK_ORDER.length];
-    requestNext(cycle);
-    requestNext(cycle);
-    assert.equal(stepHeroCycle(cycle, FRAME, REDUCED), expected);
-    assert.equal(cycle.from, expected);
-    assert.equal(cycle.to, expected);
-    assert.equal(cycle.elapsed, MORPH_DURATION);
-    assert.equal(cycle.pending, false);
-    assert.equal(cycle.time, 0);
-    assert.deepEqual(runFrames(cycle, 300, REDUCED), []);
-  }
 });
 
 test("turning reduced motion on settles immediately and turning it off restores autoplay", () => {
   const cycle = createHeroCycle();
-  requestNext(cycle);
-  stepHeroCycle(cycle, 0, ACTIVE);
+  nextTransition(cycle);
   runFrames(cycle, 10);
-  requestNext(cycle);
   assert.equal(stepHeroCycle(cycle, FRAME, REDUCED), REDUCED_PHASE);
   assert.equal(cycle.from, REDUCED_PHASE);
   assert.equal(cycle.to, REDUCED_PHASE);
   assert.equal(cycle.elapsed, MORPH_DURATION);
-  assert.equal(cycle.pending, false);
+  const staticState = structuredClone(cycle);
+  assert.deepEqual(runFrames(cycle, 2000, REDUCED), []);
+  assert.deepEqual(cycle, staticState);
 
-  requestNext(cycle);
-  const staticPhase = stepHeroCycle(cycle, 0, REDUCED);
   assert.equal(stepHeroCycle(cycle, 0, ACTIVE), null);
-  assert.equal(cycle.from, staticPhase);
-  assert.equal(cycle.to, staticPhase);
-  assert.equal(nextTransition(cycle).next, PLAYBACK_ORDER[(PLAYBACK_ORDER.indexOf(staticPhase) + 1) % 4]);
+  assert.equal(cycle.from, REDUCED_PHASE);
+  assert.equal(cycle.to, REDUCED_PHASE);
+  const resumed = nextTransition(cycle);
+  assert.equal(resumed.next, PLAYBACK_ORDER[(PLAYBACK_ORDER.indexOf(REDUCED_PHASE) + 1) % 4]);
+  assert.ok(Math.abs(resumed.frames * FRAME - HOLD) <= FRAME);
 });
 
 test("invalid or negative delta cannot corrupt time, hold, or an in-progress morph", () => {
   const invalid = [Number.NaN, Infinity, -Infinity, -1, -0.05, 0];
   for (const midMorph of [false, true]) {
     const cycle = createHeroCycle();
-    if (midMorph) {
-      requestNext(cycle);
-      stepHeroCycle(cycle, 0, ACTIVE);
-    }
+    if (midMorph) nextTransition(cycle);
     runFrames(cycle, 10);
     const before = structuredClone(cycle);
     for (const delta of invalid) {
@@ -183,9 +155,87 @@ test("large frame gaps are bounded instead of skipping through multiple shapes",
   assert.ok(cycle.time > 0 && cycle.time <= FRAME);
   assert.ok(cycle.hold > 0 && cycle.hold <= FRAME);
   assert.equal(cycle.to, PLAYBACK_ORDER[0]);
-  requestNext(cycle);
-  assert.equal(stepHeroCycle(cycle, 0, ACTIVE), 2);
+  assert.equal(nextTransition(cycle).next, 2);
   assert.equal(stepHeroCycle(cycle, 3600, ACTIVE), null);
   assert.ok(cycle.elapsed > 0 && cycle.elapsed <= FRAME);
   assert.equal(cycle.to, 2);
+});
+
+test("a click advances during a hold and autoplay continues with a full morph and hold", () => {
+  const cycle = createHeroCycle();
+  runFrames(cycle, 20);
+  requestNext(cycle);
+  assert.equal(stepHeroCycle(cycle, FRAME, ACTIVE), 2);
+  assert.equal(cycle.from, 0);
+  assert.equal(cycle.elapsed, 0);
+  assert.equal(cycle.hold, 0);
+  assert.equal(cycle.pending, false);
+
+  const resumed = nextTransition(cycle);
+  assert.equal(resumed.next, 1);
+  assert.ok(Math.abs(resumed.frames * FRAME - (MORPH_DURATION + HOLD)) <= FRAME);
+  assert.equal(nextTransition(cycle).next, 3);
+});
+
+test("clicks during a morph merge into one queued transition without interrupting its origin", () => {
+  const cycle = createHeroCycle();
+  assert.equal(nextTransition(cycle).next, 2);
+  runFrames(cycle, 12);
+
+  for (let click = 0; click < 5; click += 1) requestNext(cycle);
+  const remainingFrames = Math.round((MORPH_DURATION - cycle.elapsed) / FRAME);
+  assert.deepEqual(runFrames(cycle, remainingFrames - 1), []);
+  assert.equal(cycle.from, 0);
+  assert.equal(cycle.to, 2);
+  assert.equal(cycle.pending, true);
+
+  assert.equal(stepHeroCycle(cycle, FRAME, ACTIVE), 1);
+  assert.equal(cycle.from, 2);
+  assert.equal(cycle.elapsed, 0);
+  assert.equal(cycle.pending, false);
+  const resumed = nextTransition(cycle);
+  assert.equal(resumed.next, 3);
+  assert.ok(Math.abs(resumed.frames * FRAME - (MORPH_DURATION + HOLD)) <= FRAME);
+});
+
+test("a click on the automatic deadline advances once and starts a fresh cadence", () => {
+  const cycle = createHeroCycle();
+  runFrames(cycle, Math.round(HOLD / FRAME) - 1);
+  requestNext(cycle);
+  assert.equal(stepHeroCycle(cycle, FRAME, ACTIVE), 2);
+  assert.equal(cycle.pending, false);
+  assert.equal(stepHeroCycle(cycle, FRAME, ACTIVE), null);
+  assert.equal(cycle.to, 2);
+  const resumed = nextTransition(cycle);
+  assert.equal(resumed.next, 1);
+  assert.ok(Math.abs((resumed.frames + 1) * FRAME - (MORPH_DURATION + HOLD)) <= FRAME);
+});
+
+test("offscreen frames preserve a queued click until rendering resumes", () => {
+  const cycle = createHeroCycle();
+  requestNext(cycle);
+  const before = structuredClone(cycle);
+  assert.deepEqual(runFrames(cycle, 400, INACTIVE), []);
+  assert.deepEqual(cycle, before);
+  assert.equal(stepHeroCycle(cycle, 0, ACTIVE), 2);
+  assert.equal(cycle.pending, false);
+});
+
+test("reduced motion allows immediate manual changes and restores autoplay from the selected shape", () => {
+  const cycle = createHeroCycle(true);
+  for (const expected of [3, 0]) {
+    requestNext(cycle);
+    assert.equal(stepHeroCycle(cycle, FRAME, REDUCED), expected);
+    assert.equal(cycle.from, expected);
+    assert.equal(cycle.to, expected);
+    assert.equal(cycle.elapsed, MORPH_DURATION);
+    const selected = structuredClone(cycle);
+    assert.deepEqual(runFrames(cycle, 2000, REDUCED), []);
+    assert.deepEqual(cycle, selected);
+  }
+
+  assert.equal(stepHeroCycle(cycle, 0, ACTIVE), null);
+  const resumed = nextTransition(cycle);
+  assert.equal(resumed.next, 2);
+  assert.ok(Math.abs(resumed.frames * FRAME - HOLD) <= FRAME);
 });

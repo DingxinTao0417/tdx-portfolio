@@ -46,7 +46,7 @@ function Fallback() {
   );
 }
 
-/** Automatically cycling particle silhouettes with click-to-switch interaction. */
+/** Particle silhouettes autoplay independently of pointer interaction. */
 export function HeroCanvas({ className }: { className?: string }) {
   const t = useTranslations("Home.particles");
   const wrapper = useRef<HTMLElement>(null);
@@ -99,7 +99,7 @@ export function HeroCanvas({ className }: { className?: string }) {
         </div>
         <button
           type="button" data-particle-surface
-          className="absolute inset-x-[6%] inset-y-[8%] touch-manipulation cursor-pointer rounded-2xl bg-transparent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
+          className="absolute inset-x-[6%] inset-y-[8%] touch-pan-y cursor-pointer rounded-2xl bg-transparent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
           aria-label={t("next", { shape: t(phaseNames[phase]) })}
           onPointerEnter={updatePointer}
           onPointerMove={updatePointer}
@@ -114,6 +114,7 @@ export function HeroCanvas({ className }: { className?: string }) {
             const dragged = event.detail !== 0 && gesture.current?.moved;
             gesture.current = null;
             if (dragged) return;
+            // Optional skip only; autoplay starts and continues without this event.
             setNextRequest((request) => request + 1);
           }}
         />
