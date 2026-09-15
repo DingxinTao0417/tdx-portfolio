@@ -15,8 +15,11 @@ export const site = {
   location: { en: "Los Angeles, CA", zh: "美国 · 洛杉矶" },
   timeZone: "America/Los_Angeles",
   repo: "https://github.com/DingxinTao0417/tdx-portfolio",
-  // Optional: drop a PDF into /public and set this to "/resume.pdf" to show the button.
-  resumeUrl: undefined as string | undefined,
+  /** Comprehensive resume PDFs under /public/resume — pick by locale. */
+  resumes: {
+    en: "/resume/dingxin-tao-comprehensive-en.pdf",
+    zh: "/resume/dingxin-tao-comprehensive-zh.pdf",
+  },
   socials: [
     {
       id: "github",
@@ -36,3 +39,8 @@ export const site = {
 } as const;
 
 export type SocialId = (typeof site.socials)[number]["id"];
+
+/** Locale-aware resume PDF path (falls back to English). */
+export function resumeUrlFor(locale: string): string {
+  return locale === "zh" ? site.resumes.zh : site.resumes.en;
+}

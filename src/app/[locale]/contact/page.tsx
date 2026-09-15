@@ -1,4 +1,4 @@
-import { ArrowUpRight, Clock, Mail, MapPin } from "lucide-react";
+import { ArrowUpRight, Clock, Download, Mail, MapPin } from "lucide-react";
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 import { ContactForm } from "@/components/contact/contact-form";
@@ -8,7 +8,7 @@ import { LocalClock } from "@/components/layout/local-clock";
 import { PageHeader } from "@/components/ui/page-header";
 import { Reveal } from "@/components/ui/reveal";
 import { TechIcon } from "@/components/ui/tech-icon";
-import { site } from "@/data/site";
+import { resumeUrlFor, site } from "@/data/site";
 import { languageAlternates, localizedPath } from "@/i18n/paths";
 import { routing } from "@/i18n/routing";
 
@@ -93,17 +93,19 @@ export default async function ContactPage() {
                       </a>
                     </li>
                   ))}
-                {site.resumeUrl && (
-                  <li>
-                    <a
-                      href={site.resumeUrl}
-                      className="flex items-center justify-between py-4 transition-colors hover:text-accent"
-                    >
-                      <span className="font-medium">Resume</span>
-                      <span className="font-mono text-xs text-muted">PDF</span>
-                    </a>
-                  </li>
-                )}
+                <li>
+                  <a
+                    href={resumeUrlFor(locale)}
+                    download
+                    className="group flex items-center justify-between gap-3 py-4 transition-colors hover:text-accent"
+                  >
+                    <span className="flex min-w-0 items-center gap-3">
+                      <Download className="h-4 w-4 text-fg/80 group-hover:text-accent" aria-hidden />
+                      <span className="font-medium">{t("resume")}</span>
+                    </span>
+                    <span className="font-mono text-xs text-muted">{t("resumeFormat")}</span>
+                  </a>
+                </li>
               </ul>
             </div>
           </Reveal>

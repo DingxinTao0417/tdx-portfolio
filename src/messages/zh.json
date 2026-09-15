@@ -68,6 +68,7 @@
     "intro": "围绕视频创作、个人工作台和模型服务开发应用，使用 AI 辅助实现、代码审查与问题排查。这里展示项目成果、实现方案与开发记录。",
     "ctaPrimary": "查看项目",
     "ctaSecondary": "联系我",
+    "ctaResume": "下载简历",
     "scrollHint": "浏览项目与实践",
     "particles": {
       "description": "粒子自动轮播，依次组成 TDX、多层神经网络架构、三层立体数据库和六层薄片。也可点击或轻触切换形态，靠近网络层可查看层间传递的信号。",
@@ -386,6 +387,8 @@
     "responseTime": "有相关链接或项目背景的话，可以一起发来。",
     "directEmail": "直接邮件联系",
     "elsewhere": "其他平台",
+    "resume": "简历",
+    "resumeFormat": "PDF",
     "wechat": {
       "title": "微信联系",
       "trigger": "添加微信",

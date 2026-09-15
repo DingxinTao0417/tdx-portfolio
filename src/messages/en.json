@@ -68,6 +68,7 @@
     "intro": "I develop applications for video creation, personal workspaces, and model services, using AI to support implementation, code review, and debugging. Explore the projects and their development notes below.",
     "ctaPrimary": "View projects",
     "ctaSecondary": "Get in touch",
+    "ctaResume": "Download resume",
     "scrollHint": "Explore the projects",
     "particles": {
       "description": "Particles automatically cycle through TDX, a layered neural-network architecture, a three-layer database, and six sheets. You can also click or tap to change shape, or hover over a network layer to follow the signals between stages.",
@@ -386,6 +387,8 @@
     "responseTime": "You can include relevant links or some background on your project.",
     "directEmail": "Email me directly",
     "elsewhere": "Elsewhere",
+    "resume": "Resume",
+    "resumeFormat": "PDF",
     "wechat": {
       "title": "Connect on WeChat",
       "trigger": "Add me on WeChat",
