@@ -1,4 +1,4 @@
-# 项目截图与 As-a 内容依据
+# 项目截图与内容依据
 
 ## 截图轮播
 
@@ -43,3 +43,29 @@
 - 首页与项目列表均显示 4 张等宽卡片；全栈筛选显示 opc-workspace 和 As-a。
 - 未测试实体手机触摸；横向手势使用浏览器原生滚动，桌面水平滚动已经检查。
 - 临时浏览器验证标签页已关闭。开发服务保留在 3000 端口；修改仅在本地，未提交、推送或部署。
+
+## 2026-09-15：Conuo 与 DSH Session Conductor
+
+两项均接入现有项目数据，出现在首页精选、项目列表、中英文详情页和站点地图中。沿用现有完整图片展示与手动轮播。
+
+### Conuo
+
+- 内容依据：本地 `D:/workspace/conuo/README.md`、`docs/IMPLEMENTATION_STATUS.md`、`apps/web/package.json`，以及实际登录后的工作台。GitHub 查询确认仓库为私有且没有公开演示地址，因此不添加源码或在线演示按钮。
+- 定位为开发中的 AI 学习工作台。介绍资料导入、PDF 阅读、原文问答、引用定位、知识页审核与云端保存；不把区域视觉称为 OCR，也不声称语义检索、生产调度或公开部署已完成。
+- 本次通过浏览器采集 `127.0.0.1:3000` 的学习概览、PDF 阅读与已有问答、书封式资料库、已接受知识页。内容是项目已有的自编 QA 材料，没有新增模型请求或学习资料。
+- 文件为 `public/projects/conuo-{overview,reader,library,knowledge}.jpg`，均为 1280 × 720。保留浏览器截图原始 JPEG 字节，不拼接、不改写内容。阅读器截图使用应用内 80% 缩放，采集后恢复 100%。
+
+### DSH Session Conductor
+
+- 内容依据：[公开仓库](https://github.com/DingxinTao0417/dsh-session-conductor) 的 `README.md`、`package.json`、`docs/IMPLEMENTATION.md`、`docs/ACCEPTANCE.md` 和 `src/service/completion-return.ts`。检查时版本为 0.1.6，本地提交为 `2b96b0d`。
+- 定位为 DeepSeek Harness Desktop 原生多会话协调插件。区分创建任务、消息投递、轮次结束与成果验收；明确完整桌面验证尚未结束，没有 npm 发布。没有将规划性能指标、测试数量或截图中的状态用作生产可靠性指标。
+- 图片原样复制自本地 `.verification/navigation-2026-09-15T10-01-35-586Z/parent-1.png` 与 `child-1.png`，目标为 `public/projects/dsh-session-conductor-{parent,child}.png`，均为 1200 × 820。
+- 这两张是 v0.1.5 的真实本地验证界面，使用独立测试数据，展示创建卡片、历史读取与返回发起会话。图注不将它们当作 v0.1.6 首轮结果回传的实机验证证明。未使用已停用的管理面板截图。
+
+### 本次验证与环境
+
+- TypeScript 检查、项目数据文件 ESLint、5 项站点本地化测试和 `git diff --check` 通过。
+- 浏览器确认首页精选、项目列表均有 6 个项目，两项新增详情可正常进入；中英文内容、6 张新增主图加载、缩略图与箭头切换、原图链接均已检查。
+- 1280px 桌面与 390px 手机布局无页面横向溢出，手机轮播按钮与缩略图可用；未测试实体手机触摸。测试视口已恢复。
+- 语言切换时可复现已有的 React 内联 script 告警；未改动的 MultiMix 详情也出现同一告警。项目详情 JSON-LD script 与本次之前的 HEAD 相同，未在本任务中修改。
+- 网站预览保留在 `http://localhost:3001`。Conuo 的 3000 端口临时服务仅用于截图，采集结束后停止。不修改两个源项目的代码、不新增模型调用；作品集改动仅在本地，未提交、推送或部署。

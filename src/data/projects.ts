@@ -28,6 +28,7 @@ export type Project = {
   category: ProjectCategory;
   stack: string[];
   links: { github?: string; githubPrivate?: boolean; demo?: string };
+  article?: { slug: string; label: Localized };
   cover?: ProjectImage;
   gallery?: ProjectImage[];
   galleryNote?: Localized;
@@ -462,6 +463,204 @@ export const projects: Project[] = [
     metrics: [
       { value: "AR / EN", label: { en: "bilingual interface", zh: "双语界面" } },
       { value: "RTL", label: { en: "right-to-left layout", zh: "从右向左布局" } },
+    ],
+  },
+  {
+    slug: "conuo",
+    index: "05",
+    title: { en: "Conuo", zh: "Conuo" },
+    tagline: {
+      en: "Read source material beside AI answers, then organize what you learn into notes and knowledge pages.",
+      zh: "对照原文向 AI 提问，将学习内容整理为笔记与知识页。",
+    },
+    description: {
+      en: "Conuo is an AI learning workspace in development. It brings imported documents and webpages together with a PDF reader, conversations with source citations, notes, and knowledge pages that users can review and edit.",
+      zh: "Conuo 是正在开发的 AI 学习工作台。用户可以导入文档和网页，在 PDF 原文旁进行带来源引用的问答，并将学习内容整理为可审核、编辑的笔记与知识页。",
+    },
+    problem: {
+      en: "Reading material, AI answers, and notes often sit in separate tools. Checking an answer against its source requires switching views, while useful discussion can remain buried in chat history.",
+      zh: "学习资料、AI 回答和笔记常常分散在不同工具里。核对回答需要反复切换原文，有用的讨论也容易留在聊天记录中，难以继续整理。",
+    },
+    approach: {
+      en: "The Next.js and React interface places PDF.js source reading beside the conversation. Questions can use source text or a selected PDF region sent to a vision model. Tiptap supports notes and knowledge pages; Supabase handles accounts and cloud storage, with save results shown in the interface.",
+      zh: "Next.js 与 React 界面将 PDF.js 原文阅读器和对话并排展示。提问可以引用资料文本，也可以把框选的 PDF 区域交给视觉模型解释。Tiptap 用于笔记和知识页编辑，Supabase 处理账户与云端存储，界面显示保存结果。",
+    },
+    impact: {
+      en: "The core flow covers importing materials, reading and asking questions, checking sources, and saving notes. Live-model and account checks have covered document Q&A, PDF region study, and cloud recovery. The first web release remains in development and has not been publicly deployed; production background tasks and vector retrieval still need complete validation.",
+      zh: "已实现资料导入、阅读问答、原文核对与笔记保存，并用真实模型和账号验证问答、区域学习与云端恢复。首版仍在开发，尚未公开部署；生产后台和向量检索链路仍待完整验证。",
+    },
+    learning: {
+      en: "The work involved keeping answers connected to source passages and distinguishing generated drafts from reviewed knowledge. It also required clear save feedback so users can tell whether an edit has reached cloud storage.",
+      zh: "实践重点是保留回答与原文的关联，区分生成草稿和经过审核的知识内容。云端保存也需要明确反馈，让用户知道编辑内容是否已经保存成功。",
+    },
+    highlights: [
+      {
+        en: "Import PDF, DOCX, Markdown, text files, and webpages",
+        zh: "导入 PDF、DOCX、Markdown、文本文件和网页",
+      },
+      {
+        en: "Read the source PDF beside conversations with citations",
+        zh: "PDF 原文与带引用的问答并排阅读",
+      },
+      {
+        en: "Ask a vision model about a selected region of a PDF page",
+        zh: "框选 PDF 页面区域，向视觉模型提问",
+      },
+      {
+        en: "Edit notes and review knowledge pages, with cloud save feedback",
+        zh: "编辑笔记、审核知识页，并查看云端保存结果",
+      },
+    ],
+    role: { en: "Product and full-stack development", zh: "产品与全栈开发" },
+    year: "2026",
+    category: "ai",
+    stack: ["Next.js", "React", "TypeScript", "Supabase", "PDF.js", "Tiptap"],
+    links: {},
+    article: {
+      slug: "conuo",
+      label: { en: "Read the development and usage article", zh: "阅读开发与使用文章" },
+    },
+    cover: {
+      src: "/projects/conuo-overview.jpg",
+      width: 1280,
+      height: 720,
+      alt: {
+        en: "Conuo learning workspace overview with sample study material",
+        zh: "Conuo 学习工作台概览，展示测试学习资料",
+      },
+      caption: { en: "Learning workspace", zh: "学习工作台" },
+    },
+    gallery: [
+      {
+        src: "/projects/conuo-reader.jpg",
+        width: 1280,
+        height: 720,
+        alt: {
+          en: "Conuo PDF source reader beside the AI conversation",
+          zh: "Conuo PDF 原文阅读器与 AI 对话并排展示",
+        },
+        caption: { en: "Source reading and questions", zh: "原文阅读与提问" },
+      },
+      {
+        src: "/projects/conuo-library.jpg",
+        width: 1280,
+        height: 720,
+        alt: {
+          en: "Conuo source library with knowledge collections arranged as book covers",
+          zh: "Conuo 资料库，以书封形式展示不同知识库",
+        },
+        caption: { en: "Source library", zh: "资料库" },
+      },
+      {
+        src: "/projects/conuo-knowledge.jpg",
+        width: 1280,
+        height: 720,
+        alt: {
+          en: "Conuo knowledge page for reviewing and editing study notes",
+          zh: "Conuo 知识页，支持审核与编辑学习内容",
+        },
+        caption: { en: "Knowledge page", zh: "知识页" },
+      },
+    ],
+    galleryNote: {
+      en: "Screenshots show the local development interface with original test material. They contain no real users' study content.",
+      zh: "截图为本地开发界面，使用自编测试资料，不含真实用户学习内容。",
+    },
+    featured: true,
+    hue: 195,
+    motif: "graph",
+    metrics: [
+      { value: "Web", label: { en: "in development", zh: "开发中" } },
+      { value: "PDF", label: { en: "source reading", zh: "原文阅读" } },
+    ],
+  },
+  {
+    slug: "dsh-session-conductor",
+    index: "06",
+    title: { en: "DSH Session Conductor", zh: "DSH Session Conductor" },
+    tagline: {
+      en: "Create and coordinate tasks across native DeepSeek Harness conversations.",
+      zh: "在 DeepSeek Harness 原生聊天中创建任务、协调多个会话。",
+    },
+    description: {
+      en: "DSH Session Conductor is a plugin for DeepSeek Harness Desktop. Users can create or fork a task from a conversation, inherit its workspace, and open the new session through an inline card. The first delegated turn can return its result to that card without starting another parent-model turn.",
+      zh: "DSH Session Conductor 是面向 DeepSeek Harness Desktop 的插件。用户可以从当前聊天创建或分叉任务，继承工作区，通过卡片打开新会话。首轮委派结束后，结果可回传到原卡片，无须再次启动主会话模型。",
+    },
+    problem: {
+      en: "Working across several AI conversations requires keeping track of task origins, context, and progress. Creating a task also needs to remain distinct from confirming that its instruction arrived or its work passed review.",
+      zh: "在多个 AI 会话中安排工作，需要记住任务来源、上下文和执行进度。创建任务、指令送达和成果通过验收，也需要分别确认。",
+    },
+    approach: {
+      en: "The TypeScript plugin uses Cordis services and React extensions to add creation cards and return links to native chat. Durable task and operation records track each session. Completion returns match the exact initial instruction and turn, then check the original conversation's read permission before displaying a result.",
+      zh: "TypeScript 插件通过 Cordis 服务和 React 扩展，在原生聊天中加入创建卡片与返回链接。持久化的任务和操作记录用于追踪会话，结果回传精确匹配首条指令及其执行轮次，并在展示前检查发起会话的读取权限。",
+    },
+    impact: {
+      en: "Task creation, native navigation, and authorized history reading have passed local runtime checks. The 0.1.6 candidate includes the first-turn return implementation and local tests, while complete desktop validation remains in progress. The package has not been published to npm; remote connections and sharing are off by default.",
+      zh: "任务创建、原生跳转和授权历史读取已通过本地运行验证。0.1.6 候选包含首轮结果回传实现与本地测试，完整桌面实机验证仍在进行中。插件尚未发布到 npm，远程连接和分享默认关闭。",
+    },
+    learning: {
+      en: "The project required separate states for message delivery, turn completion, and artifact acceptance. Stable operation IDs and permission checks help preserve those distinctions through retries, session handoffs, and access changes.",
+      zh: "项目需要分别记录消息投递、轮次结束和成果验收状态。稳定的操作身份与权限检查，有助于在重试、会话转交和授权变化时保留准确的任务记录。",
+    },
+    highlights: [
+      {
+        en: "Create or fork sessions with inherited workspaces and explicit titles",
+        zh: "创建或分叉会话，继承工作区并指定标题",
+      },
+      {
+        en: "Open child sessions from chat cards and return through the session header",
+        zh: "通过聊天卡片打开子会话，从标题栏返回发起会话",
+      },
+      {
+        en: "Return the exact first delegated turn's result to its original card",
+        zh: "精确匹配首轮委派，将结果一次性回传到原创建卡片",
+      },
+      {
+        en: "Read authorized public history and control queued instructions",
+        zh: "读取已授权的公开历史，管理排队指令",
+      },
+    ],
+    role: { en: "Plugin design and development", zh: "插件设计与开发" },
+    year: "2026",
+    category: "ai",
+    stack: ["TypeScript", "Node.js", "React", "Cordis", "DeepSeek Harness", "Vitest", "Playwright"],
+    links: { github: "https://github.com/DingxinTao0417/dsh-session-conductor" },
+    article: {
+      slug: "dsh-session-conductor",
+      label: { en: "Read the development and usage article", zh: "阅读开发与使用文章" },
+    },
+    cover: {
+      src: "/projects/dsh-session-conductor-parent.png",
+      width: 1200,
+      height: 820,
+      alt: {
+        en: "DSH Session Conductor creation card and public-history result in the parent conversation",
+        zh: "DSH Session Conductor 发起会话中的创建卡片与公开历史读取结果",
+      },
+      caption: { en: "Task creation and history reading", zh: "创建任务与读取历史" },
+    },
+    gallery: [
+      {
+        src: "/projects/dsh-session-conductor-child.png",
+        width: 1200,
+        height: 820,
+        alt: {
+          en: "DSH Session Conductor child conversation with a return link in its header",
+          zh: "DSH Session Conductor 子会话，标题栏提供返回发起会话的链接",
+        },
+        caption: { en: "Return to the parent conversation", zh: "返回发起会话" },
+      },
+    ],
+    galleryNote: {
+      en: "Screenshots come from version 0.1.5 running in a real local test environment with separate test data. They show creation, navigation, and public-history reading. The latest first-turn return still needs desktop validation.",
+      zh: "截图来自 v0.1.5 的真实本地测试环境，使用独立测试数据，仅展示创建、会话跳转和公开历史读取。最新首轮结果回传仍需桌面实机验证。",
+    },
+    featured: true,
+    hue: 230,
+    motif: "orbit",
+    metrics: [
+      { value: "Native", label: { en: "native sessions", zh: "原生会话" } },
+      { value: "1st", label: { en: "delegated-turn return", zh: "首轮结果回传" } },
     ],
   },
 ];

@@ -1,0 +1,68 @@
+{
+  "generatedOn": "2026-09-15",
+  "generator": "built-in image_gen",
+  "article": "dsh-session-conductor",
+  "generatedSourceDirectory": "C:/Users/20825/.codex/generated_images/01a06534-e958-76d3-9762-9d7667919a4d",
+  "assets": [
+    {
+      "name": "dsh-session-conductor-cover",
+      "source": "exec-b41a7ac3-ffd2-438b-9b48-312e41d4d59e.png",
+      "output": "public/images/blog/dsh-session-conductor-cover.webp",
+      "width": 1536,
+      "height": 1024,
+      "quality": 88,
+      "locales": [
+        "zh",
+        "en"
+      ],
+      "prompt": "Use case: stylized-concept.\nAsset type: one finished blog cover, 1536x1024 pixels, landscape 3:2.\nPrimary request: an editorial illustration about DSH Session Conductor, coordinating ordinary AI conversations with a task creation link and a result returning to the original conversation.\nScene: deep midnight-blue studio backdrop. In a clean axonometric view, one large matte cobalt conversation window and two smaller mint and lavender conversation windows hover on slightly offset planes. Their contents consist only of simple abstract message-line shapes. A slender cobalt path splits outward from the main window to the two smaller windows; a single muted teal ribbon loops back to a small inset card on the main window. The image expresses delegation, continuity and navigation in ordinary chats. Large simple shapes with careful negative space, a compact composition that remains readable as a thumbnail.\nStyle: refined editorial 3D miniature, crisp restrained geometry, lightly textured matte surfaces, softly lit edges, subtle shadows, no glassmorphism, no neon or sci-fi clutter. Preserve a rich blue visual identity distinct from beige paper diagrams elsewhere in the blog.\nText: none. All marks must be abstract non-readable strokes.\nConstraints: no fake interface claims, no readable code, no words or letters, no logos, no checkmark or success badge, no robots, no brains, no planets, no people, no keyboard, no watermark, no charts or performance numbers, no enclosing webpage. Exactly three conversation windows and one inset result card. Entire composition fits comfortably within 1536x1024, generous margins."
+    },
+    {
+      "name": "dsh-session-conductor-architecture-en",
+      "source": "exec-c93c26f3-5bc5-429b-b33b-cbaef6d560e9.png",
+      "output": "public/images/blog/dsh-session-conductor-architecture-en.webp",
+      "width": 1536,
+      "height": 1024,
+      "quality": 90,
+      "locale": "en",
+      "prompt": "Use case: infographic-diagram.\nAsset type: one finished 1536x1024 landscape architecture illustration for a bilingual engineering blog about DSH Session Conductor, a DeepSeek Harness Desktop plugin.\nPrimary request: Explain a user-created child conversation and one terminal result returned to its original creation card. A precise, elegant technical infographic, not a screenshot and not decorative concept art.\nStyle: light warm-white engineering sheet, exceptionally legible large dark-slate sans-serif labels, fine grey geometry, cobalt-blue delegation path and muted teal return path. Subtle dimension in the cards with restrained shadows, spacious editorial layout, no neon. Every label must fit comfortably inside the image with generous margins.\nTitle at top: \"DSH SESSION CONDUCTOR\".\nUpper flow, left to right, exactly three large aligned cards:\nleft card heading \"Parent conversation\", text \"User request\", text \"Creation card\";\ncenter card heading \"Conductor service\", text \"Task / Binding / Operation\";\nright card heading \"Child session\", text \"Initial instruction\", text \"First delegated turn\".\nA blue arrow from left to center labelled \"Create task\", then a blue arrow from center to right labelled \"Delegate\".\nLower flow, right to left: directly below the child card is a small terminal-result card labelled \"Public result\"; an arrow leads left to a verification card below the central service labelled \"Exact turn match\" and \"Read permission\"; a teal arrow continues left into a small card directly beneath the parent labelled \"Original creation card\". That final card contains \"One terminal return\" and a clear small badge \"No parent model turn\".\nJoin child session to Public result using a short down arrow. The lower teal return arrow must have its arrowhead pointing left toward Original creation card. A thin vertical line may connect Original creation card to Creation card in the parent, showing it is the same UI card.\nBelow central service, a quiet storage capsule connected to the center only, labelled \"Persistent records\".\nSmall footer: \"Conceptual architecture\". The architecture illustrates a candidate implementation; no claims of deployment or universal compatibility.\nConstraints: exact wording only, no Chinese, no additional invented labels, no robots, no brains, no planets, no developer avatars, no brands or logos, no metrics, no fake code, no watermark, no automatic approval badge, no cyclical parent-model activation, no implied isolated files. All arrows must match the directions above. Only the finished diagram, full canvas.",
+      "edit": {
+        "inputSource": "exec-f74ff5f6-5f7a-4fe7-9792-e91c322c8b4f.png",
+        "prompt": "Use case: precise-object-edit.\nImage 1 is the edit target. Keep the entire 1536x1024 architecture diagram unchanged in layout, card geometry, all labels, arrow directions, colors, shadows and title, with exactly two small editorial corrections:\n1. Remove the single small sentence at the very bottom that starts \"The architecture illustrates a candidate implementation\", filling that line with the same white background. Keep the short footer \"Conceptual architecture\" above it.\n2. In the \"Public result\" card, replace the mint circle with a white checkmark by a neutral slate-grey circle containing one small white horizontal line. This is a terminal result, not a claim that a task passed acceptance.\nDo not modify any other text or objects. Keep all other card labels exactly and legible, particularly \"One terminal return\" and \"No parent model turn\". Add no new text, icons or watermark."
+      }
+    },
+    {
+      "name": "dsh-session-conductor-architecture-zh",
+      "source": "exec-27dddb04-f8c3-478c-abf8-671f87ec56d0.png",
+      "output": "public/images/blog/dsh-session-conductor-architecture-zh.webp",
+      "width": 1536,
+      "height": 1024,
+      "quality": 90,
+      "locale": "zh",
+      "edit": {
+        "inputSource": "exec-c93c26f3-5bc5-429b-b33b-cbaef6d560e9.png",
+        "prompt": "Use case: text-localization.\nAsset type: the Simplified Chinese version of a finished 1536x1024 architecture diagram for a bilingual engineering blog.\nInput image 1 is the edit target, the English DSH Session Conductor architecture diagram.\nPrimary request: replace all in-image English labels with the exact Simplified Chinese wording below. Preserve the entire layout, all cards, icons, arrows and arrow directions, cobalt blue delegation path, muted teal return path, slate-neutral terminal icon, light background and refined dimensional illustration style.\nExact text replacements:\n\"DSH SESSION CONDUCTOR\" -> \"DSH 会话协调架构\"\n\"Parent conversation\" -> \"原会话\"\n\"User request\" -> \"用户请求\"\n\"Creation card\" -> \"创建卡片\"\n\"Create task\" -> \"创建任务\"\n\"Conductor service\" -> \"会话协调服务\"\n\"Task / Binding / Operation\" -> \"任务 / 绑定 / 操作\"\n\"Delegate\" -> \"分派\"\n\"Child session\" -> \"子会话\"\n\"Initial instruction\" -> \"初始指令\"\n\"First delegated turn\" -> \"首轮执行\"\n\"Persistent records\" -> \"持久化记录\"\n\"Original creation card\" -> \"原创建卡片\"\n\"One terminal return\" -> \"一次终态回传\"\n\"No parent model turn\" -> \"不触发原会话模型\"\n\"Exact turn match\" -> \"精确匹配首轮\"\n\"Read permission\" -> \"读取权限\"\n\"Public result\" -> \"公开结果\"\n\"Conceptual architecture\" -> \"概念架构示意\"\nTypography: clean, highly legible Simplified Chinese sans-serif. Use correct Chinese characters verbatim. Keep comfortable margins and a visual hierarchy equivalent to the English target. Adapt text font size only as needed to fit without clipping.\nConstraints: edit text only; preserve image size 1536x1024 and all geometry. No extra labels, no English text beyond the product initials DSH in the title, no checkmarks or acceptance badges, no parent-model activation, no watermark. Final image only."
+      }
+    },
+    {
+      "name": "dsh-session-conductor-parent",
+      "sourceBase": "workspace",
+      "source": "public/projects/dsh-session-conductor-parent.png",
+      "output": "public/images/blog/dsh-session-conductor-parent.webp",
+      "width": 1200,
+      "height": 820,
+      "quality": 90,
+      "provenance": "Actual v0.1.5 local QA screenshot. Re-encoded only; interface language and content are not altered."
+    },
+    {
+      "name": "dsh-session-conductor-child",
+      "sourceBase": "workspace",
+      "source": "public/projects/dsh-session-conductor-child.png",
+      "output": "public/images/blog/dsh-session-conductor-child.webp",
+      "width": 1200,
+      "height": 820,
+      "quality": 90,
+      "provenance": "Actual v0.1.5 local QA screenshot. Re-encoded only; interface language and content are not altered."
+    }
+  ]
+}

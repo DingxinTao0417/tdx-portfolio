@@ -238,10 +238,19 @@ export default async function ProjectPage({ params }: Props) {
                   ))}
                 </ul>
               </div>
-              {(project.links.github || project.links.demo) && (
+              {(project.links.github || project.links.demo || project.article) && (
                 <div>
                   <p className="eyebrow mb-3">{tc("links")}</p>
                   <div className="flex flex-col gap-2">
+                    {project.article && (
+                      <Link
+                        href={`/blog/${project.article.slug}`}
+                        className="inline-flex items-center justify-between gap-3 rounded-xl border border-line px-4 py-3 text-sm transition-colors hover:border-accent hover:text-accent"
+                      >
+                        {pick(project.article.label, locale)}
+                        <ArrowUpRight className="h-4 w-4 shrink-0" />
+                      </Link>
+                    )}
                     {project.links.github && (
                       <a
                         href={project.links.github}

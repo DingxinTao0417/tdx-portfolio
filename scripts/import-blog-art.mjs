@@ -1,5 +1,5 @@
 // Re-encode approved, already-generated PNGs without cropping or resizing.
-// Usage: node scripts/import-blog-art.mjs <image-generation-output-directory>
+// Usage: node scripts/import-blog-art.mjs <image-generation-output-directory> [manifest-path]
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -8,10 +8,13 @@ import sharp from "sharp";
 const root = fileURLToPath(new URL("../", import.meta.url));
 const sourceDir = process.argv[2];
 if (!sourceDir) throw new Error("Provide the directory containing the approved generated PNGs.");
-const manifest = JSON.parse(await fs.readFile(path.join(root, "docs/blog-visual-assets.json"), "utf8"));
+const manifestPath = process.argv[3]
+  ? path.resolve(process.argv[3])
+  : path.join(root, "docs/blog-visual-assets.json");
+const manifest = JSON.parse(await fs.readFile(manifestPath, "utf8"));
 await fs.mkdir(path.join(root, "public/images/blog"), { recursive: true });
 for (const asset of manifest.assets) {
-  const source = path.resolve(sourceDir, asset.source);
+  const source = path.resolve(asset.sourceBase === "workspace" ? root : sourceDir, asset.source);
   const output = path.resolve(root, asset.output);
   const metadata = await sharp(source).metadata();
   if (metadata.width !== asset.width || metadata.height !== asset.height) {

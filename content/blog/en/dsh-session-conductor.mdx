@@ -1,0 +1,186 @@
+---
+title: "After delegating to AI, how does the result return to the original conversation?"
+description: "Building and using DSH Session Conductor: create tasks in native chat, preserve their origins, read progress, and return the first delegated turn to its creation card."
+date: "2026-09-15"
+tags: ["DSH Session Conductor", "AI coding", "Plugin development"]
+hue: 220
+cover: "/images/blog/dsh-session-conductor-cover.webp"
+coverAlt: "A blue conversation window delegates work to two smaller windows, with a teal path returning to its original card"
+status: version-scoped
+verification: source-reviewed-local-evidence-desktop-validation-pending
+---
+
+An AI conversation about a project often produces another piece of work. A UI change needs an API check, a fix needs a review, or an investigation raises an alternative worth pursuing separately. Keeping all of those discussions in one chat makes individual decisions and results harder to find later.
+
+I am building [DSH Session Conductor](/en/projects/dsh-session-conductor), a plugin for coordinating conversations in DeepSeek Harness Desktop. It keeps delegation inside ordinary chat: create a child conversation with a title and initial instruction, open it through its creation card, and return through a link in the child's header.
+
+The plugin records the relationships and operations between these conversations. Each child continues to use the host's native chat interface and model, and users can open it to continue the discussion directly.
+
+## What it helps users do
+
+Consider reviewing a set of API changes. Without a coordinating plugin, you would open another chat, provide its background, remember which work it belongs to, and bring its findings back to the original discussion. The plugin connects several of those steps.
+
+| Work to organize | How the plugin helps |
+| --- | --- |
+| Separate a focused assignment | Ask in the current chat to create an ordinary child session with a title and first instruction |
+| Provide relevant background | Start with a summary of confirmed goals, constraints, and references, or explicitly use empty context |
+| Remember where it came from | Keep a creation card in the parent and a return link in the child's header |
+| Find out what has happened | Explicitly request progress and read authorized public messages and tool records |
+| Bring back this turn's result | The 0.1.6 candidate returns the exact first turn's terminal state and a limited public preview to the original creation card |
+
+This reduces the manual work of organizing chats, copying background, and locating results. You could put an API review in a child session while keeping the requirements discussion in the original chat. Open the child for detail, then explicitly ask the parent to analyze the findings when needed.
+
+Separate chat history and separate files are different things. A child has its own conversation history but inherits the initiating session's directory and workspace by default. If several sessions will edit code concurrently, explicitly choose independent Git worktrees and give each its own working directory. Creating another chat does not automatically isolate file changes.
+
+## Prepare the runtime
+
+The plugin runs inside DeepSeek Harness Desktop. Its source repository is public, but it has not been published to npm. To use it on another machine, prepare a compatible environment and load the local bundle according to the [installation and operations guide](https://github.com/DingxinTao0417/dsh-session-conductor/blob/main/docs/OPERATIONS.md).
+
+Development requires Node.js matching `^22.19.0 || >=24.0.0`. After cloning the repository and entering its directory, run the source checks:
+
+```sh
+npm install
+npm run check
+npm run lint
+npm run smoke
+```
+
+These commands install dependencies and check the source and build outputs. Loading the plugin into a Desktop Profile is a separate step described in the repository. Some model-selection and fork capabilities require a separate Host compatibility package. If an interface is missing, the plugin explains why the affected operation is unavailable.
+
+In a session where the plugin is loaded, first request `conductor_capabilities` to check the operations the current Host supports. The examples below illustrate usage; they are not model tasks executed for this article.
+
+## Walk through an API review
+
+### 1. Give the child a specific assignment
+
+You can write this in the original conversation:
+
+```text
+Create a child session titled "API change review".
+Use the current workspace and start with empty context.
+Initial instruction: Read the repository's API implementation and related tests.
+Check for definite issues in parameter validation, permissions, and error handling.
+Review only; do not modify files. For each finding, give its file location,
+triggering conditions, and supporting evidence.
+End this parent response after presenting the creation result.
+```
+
+If the assignment relies on decisions from the current discussion, request a background summary instead. It hands over goals, constraints, and references; the assignment still needs a clear scope and checks. [Structured tasks and workflows](/en/blog/structured-workflows) explains how to write that brief.
+
+The model creates the task through `conductor_create`. Developers can compare the request with this parameter example:
+
+```json
+{
+  "title": "API change review",
+  "instruction": "Read the repository's API implementation and related tests. Check parameter validation, permissions, and error handling. Review only; do not modify files. Give each finding's file location, triggering conditions, and evidence.",
+  "contextMode": "empty",
+  "operationId": "api-review-example-001"
+}
+```
+
+Omitting workspace options inherits the initiating session's directory and workspace. `operationId` identifies this creation request. Retry the same request with its original ID and parameters; use a new ID for a separate task. To prepare an idle session, omit `instruction`. That session has no initial delegation to return.
+
+### 2. Open the child through its creation card
+
+Once preparation finishes, the parent chat shows a card with the chosen title. Its open action takes you to the host's native conversation. The child header contains a link back to the initiating session.
+
+Both actions are navigation. Opening or returning does not send an instruction, start a model task, or stop one.
+
+<BlogImage
+  src="/images/blog/dsh-session-conductor-parent.webp"
+  alt="A real DSH test interface with the creation card and public history read after an explicit request"
+  caption="Figure 1: The local version 0.1.5 test interface preserves a creation card in the original chat. It also shows public history read after an explicit request."
+  width="1200"
+  height="820"
+/>
+
+### 3. Request progress when you need it
+
+After successful creation, the parent presents the creation result by default. The child executes the initial assignment independently. The parent does not repeat its review or automatically wait, summarize, or validate it.
+
+To check progress, continue in the parent chat:
+
+```text
+Read the public history of "API change review".
+Tell me which files it has checked and which questions remain unresolved.
+Do not modify files.
+```
+
+The model can now use the `history` view of `conductor_read` to retrieve authorized public messages, tool calls, and tool results. It can describe progress from those records without asking the child to write a separate report file.
+
+For a narrower addition, write: "Add this requirement to the child: also check unauthenticated requests." Explicitly request a queued instruction if it should run in a separate subsequent turn. Ongoing monitoring also requires a clear request before the plugin uses `conductor_watch` or another corresponding tool.
+
+Reading existing records, adding an instruction, queueing a later turn, and following ongoing work are different operations. Creating a child session covers the request made at creation.
+
+<BlogImage
+  src="/images/blog/dsh-session-conductor-child.webp"
+  alt="A real child-session test interface with a return link in its native header"
+  caption="Figure 2: The child keeps its native input area and a link to its origin in the header. This image also comes from the local version 0.1.5 test."
+  width="1200"
+  height="820"
+/>
+
+### 4. Keep the first turn's result on its original card
+
+The 0.1.6 candidate implements one return for the initial delegation. When creation includes a non-empty instruction, the plugin tracks the execution turn that actually carries that instruction. Once the turn reaches a terminal state, the original card can display its state, reason, and a limited public-answer preview.
+
+This updates the card without creating another parent-model turn. The complete conversation remains in the child, which you can open to read it.
+
+The card distinguishes a failed execution, interruption, a state needing attention, and a definite failure to deliver the initial instruction. A normally completed turn still needs its output checked against the assignment. Later discussions in the child do not overwrite this first-turn return.
+
+To have the parent assess the review, make another request:
+
+```text
+Read the results of "API change review" and compare them with the requirements.
+Explain which issues should be fixed before merging and which findings
+need more evidence. Give the judgment first; do not edit code.
+```
+
+The parent now participates in the analysis. [AI coding: implementation, review, and decisions](/en/blog/my-usage) describes that separation of roles.
+
+## Why save task identities rather than just titles?
+
+Users recognize the title "API change review". The service also needs to know which logical task it represents, which host session executes it, and which initial message belongs to this creation request.
+
+<BlogImage
+  src="/images/blog/dsh-session-conductor-architecture-en.webp"
+  alt="The DSH service delegates from parent to child, then matches the exact turn and checks read permission before returning a public terminal result to the original card"
+  caption="Figure 3: An AI-generated conceptual diagram based on the source relationships. Blue arrows represent creation and delegation; teal arrows represent the first terminal return. The service persists task and operation records."
+  width="1536"
+  height="1024"
+/>
+
+`Task` is the logical assignment. `Binding` records its Host and Session with a version. `Operation` records a particular creation or modification request. The plugin persists these relationships in its own storage domain rather than inferring origins from titles or answer text.
+
+The callback also records the exact initial message ID. It forms a return only after observing the terminal event for the turn associated with that message. This excludes a possible mistake: treating a later answer in the child as the result of the original assignment.
+
+Before displaying the result, the service checks whether the original session still has read permission and whether the card belongs to the original creation operation. The preview uses permitted public content. It excludes reasoning drafts, raw token streams, and private Session logs. If read access is revoked, navigation may remain while return details are hidden.
+
+## Record creation, execution, and acceptance separately
+
+A single success message can end up suggesting too much. In the implementation, I record these facts separately.
+
+| Recorded fact | What it establishes |
+| --- | --- |
+| Session ready | The child and its environment are prepared; execution is not yet proven |
+| Instruction accepted | The Host received the input; the assignment is not yet proven complete |
+| First turn terminal | This delegation ended as completed, failed, interrupted, blocked, or another corresponding terminal outcome |
+| Artifact accepted | The output passed the specified acceptance checks |
+
+An API review saying "review complete" gives you a result to read. Whether it covered the required endpoints, supported each finding with code, and supplied reproducible checks belongs to acceptance. The card presents execution facts; workflow acceptance has its own rules and records.
+
+That distinction also matters for retries. If the request's outcome is uncertain, the plugin retains the original operation identity and reconciles it. Resending with a new ID can create another task. An accurate stage record is more useful than presenting an unknown outcome as success or failure.
+
+## Current scope and verification
+
+This article describes the 0.1.6 source candidate and repository evidence reviewed on September 15, 2026. Creation cards, bidirectional native navigation, and public-history reading on request have real local Host/Edge evidence from version 0.1.5. The two interface images come from that environment.
+
+The 0.1.6 first-turn return implementation has passed local source, test, and build checks, and a candidate bundle has been linked to a local Desktop Profile. Final verification of desktop loading, Host/Edge flows, and recovery scenarios is still pending. The architecture image explains the implementation; the earlier screenshots do not establish that the new return has passed desktop validation.
+
+The plugin suits assignments that benefit from a separate research, review, or alternative-design conversation. For a short task requiring one answer, staying in the original chat is often simpler. Remote connections and online sharing are off by default. The source is public, but the package has not been published to npm and no license has been declared.
+
+## Related reading and source
+
+The [project detail page](/en/projects/dsh-session-conductor) brings together screenshots, the stack, and implementation notes. Use [structured task briefs](/en/blog/structured-workflows) to prepare the first instruction, [the AI coding workflow](/en/blog/my-usage) for review and decisions, and [context and verification practices](/en/blog/insights) for deciding what background to hand over.
+
+Source and tool usage are available in the [GitHub repository](https://github.com/DingxinTao0417/dsh-session-conductor). Implementation references include the [native links guide](https://github.com/DingxinTao0417/dsh-session-conductor/blob/main/docs/NATIVE-LINKS.md), [tool parameter examples](https://github.com/DingxinTao0417/dsh-session-conductor/blob/main/docs/DEMO.md), and [acceptance record](https://github.com/DingxinTao0417/dsh-session-conductor/blob/main/docs/ACCEPTANCE.md). For installation and adaptation, use the repository's current documentation and actual capability checks.

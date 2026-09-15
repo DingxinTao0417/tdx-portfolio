@@ -1,0 +1,98 @@
+{
+  "generatedOn": "2026-09-15",
+  "generator": "built-in image_gen",
+  "article": "conuo",
+  "generatedSourceDirectory": "C:/Users/20825/.codex/generated_images/01a06534-e958-76d3-9762-9d7667919a4d",
+  "assets": [
+    {
+      "name": "conuo-cover",
+      "source": "exec-93beea74-df62-41e2-b887-4469a7142ca1.png",
+      "output": "public/images/blog/conuo-cover-v2.webp",
+      "width": 1536,
+      "height": 1024,
+      "quality": 88,
+      "locales": [
+        "zh",
+        "en"
+      ],
+      "prompt": "Use case: stylized-concept\nAsset type: editorial cover illustration for a technical blog article about Conuo, an AI-assisted reading and learning workspace.\nPrimary request: Create a refined, tactile illustration about reading original source material, checking an AI explanation against it, and retaining one's understanding as reviewed notes. This is a conceptual cover, not a screenshot or a product interface.\nComposition: exactly 1536 by 1024 pixels, landscape 3:2. Three related paper objects arranged with a clear quiet hierarchy: an open document with an abstract plotted curve and a highlighted paragraph, a translucent explanation sheet beside it, and a small stack of annotated note cards. Fine restrained connector lines visually join a highlighted source area to the explanation and then the notes. Preserve generous margins; all subjects fully within the canvas. Strong thumbnail readability.\nStyle/medium: sophisticated editorial paper sculpture and subtle 3D illustration, warm ivory paper, muted sage green, peach annotation accents, graphite lines, soft daylight and real shallow shadows, understated tactile grain. Not a generic futuristic AI image.\nConstraints: no readable text anywhere, no letters or numbers, no logo, no watermark, no person, no brain, no robot, no laptop, no glowing circuitry. Marks on paper are abstract diagram strokes and non-readable typographic lines only. Do not invent a fake Conuo UI. No composition cropping.",
+      "initialGeneration": {
+        "source": "exec-20ac8825-e40a-4c5a-a3b6-e1c499d84977.png",
+        "retainedOutput": "public/images/blog/conuo-cover.webp"
+      },
+      "brandEdit": {
+        "inputSource": "public/images/blog/conuo-cover.webp",
+        "logoReference": "public/projects/conuo-logo.png",
+        "prompt": "Use case: compositing\nAsset type: Conuo technical-blog cover, exactly 1536x1024 pixels, landscape 3:2.\nInput image 1 is the edit target: the warm ivory and sage editorial illustration with an open source book, translucent explanation sheet, connected study-note cards and a pencil.\nInput image 2 is a supporting insert: the actual Conuo app logo, a violet rounded-square icon with the white folded abstract mark. Use this exact product logo and preserve its identity, shape, violet-white color and rounded corners.\nPrimary request: Add one clean Conuo brand mark as a small flat editorial overlay in the upper-left corner, inset about 46 pixels from the top and left, about 128x128 pixels. It should read as a deliberate product identifier, not an object on the desk. The overlay may cover only the small decorative plant/background area in that corner; it must not cover the book, diagrams, explanation sheet, connector lines or notes.\nInvariants: all original imagery, camera angle, objects, textures, diagram strokes, lighting and colors remain unchanged. No readable text is added. Preserve transparency around the logo's rounded square; do not add a black rectangle, white backing card, border or extra shadow.\nConstraints: no personal avatar, no peach cat, no other logos, no additional watermark, no extra words, no cropped image, no new scene objects. Keep 1536x1024. Only the finished edited cover."
+      }
+    },
+    {
+      "name": "conuo-workflow-en",
+      "source": "exec-56bbcbe7-c629-4e55-825f-dcaeb18f0b91.png",
+      "output": "public/images/blog/conuo-workflow-en-v2.webp",
+      "width": 1536,
+      "height": 1024,
+      "quality": 90,
+      "locale": "en",
+      "prompt": "Use case: infographic-diagram\nAsset type: a finished English conceptual workflow illustration for the Conuo engineering blog, exactly 1536x1024 pixels, landscape 3:2.\nPrimary request: Explain how original reading material, source-scoped AI questions, checking citations and human-reviewed notes connect. This must be an accurate workflow diagram, not a fake interface.\nStyle: clean warm-white editorial sheet, large legible graphite sans-serif labels, muted sage-green arrows, restrained peach source highlights, simple paper-document icons, subtle shallow dimension, generous spacing and margins. Visually related to the accompanying tactile book-and-note cover, but flat enough to read.\nTitle, top: \"CONUO\"\nSubtitle: \"FROM ORIGINAL SOURCES TO REVIEWED NOTES\"\nFour equal, spacious cards in one left-to-right row, each with its own small line icon and exactly these labels:\nCard 1: heading \"Original sources\"; smaller line \"Import & allow AI use\".\nCard 2: heading \"Ask AI\"; smaller line \"Choose source scope\".\nCard 3: heading \"Check citations\"; smaller line \"Open the cited original\".\nCard 4: heading \"Notes & drafts\"; smaller line \"Edit notes / review drafts\".\nExactly three directional arrows connect card 1 to 2, 2 to 3, and 3 to 4. Arrowheads point right.\nTwo wide explanatory panels below the row, aligned neatly and without cross-wiring:\nPanel left: heading \"Source boundaries\"; body \"File + version + location\".\nPanel right: heading \"Human review\"; body \"Accept / edit / ignore AI drafts\".\nA quiet footer, exact text: \"Conceptual workflow\" and \"Cloud save requires confirmation\".\nConstraints: Render only the exact English wording specified above, no extra text, no Chinese, no repeated headings, no unreadable filler, no logo, no checkmark, no success or automatic approval badge, no model icons, no robot, no brain, no watermark. Do not imply drafts are automatically accepted. Entire diagram must fit within the canvas, readable at blog width, no cropped edge text.",
+      "initialGeneration": {
+        "source": "exec-28010cfb-ae87-40bb-a43f-3eb1580908a1.png",
+        "retainedOutput": "public/images/blog/conuo-workflow-en.webp"
+      },
+      "brandEdit": {
+        "inputSource": "public/images/blog/conuo-workflow-en.webp",
+        "logoReference": "public/projects/conuo-logo.png",
+        "prompt": "Use case: compositing\nAsset type: English Conuo blog workflow diagram, exactly 1536x1024 pixels.\nInput image 1 is the edit target: the completed English workflow diagram.\nInput image 2 is a supporting insert: the actual Conuo application logo, a violet rounded-square icon with a white folded abstract mark. Use that exact logo; do not redesign it.\nPrimary request: Add the real Conuo logo to the main title group at the top. Make the square logo about 90 pixels tall, immediately to the left of the existing \"CONUO\" wordmark with about 22 pixels of spacing. Center the combined logo-and-wordmark group on the canvas. Preserve the existing wordmark font, weight and height; move that wordmark horizontally only as needed to center the combined group.\nInvariants: preserve all four workflow cards, both explanatory panels, every other label and spelling, all three right-pointing green arrows, document icons, background, colors, margins, geometry and footer unchanged. Do not replace workflow icons with logos. Do not recolor the violet logo to green; retain its violet and white identity and rounded corners, with transparency outside the square rather than a black rectangle.\nText: every existing English label must remain verbatim and fully readable. Add no text. Keep \"CONUO\" uppercase and the subtitle \"FROM ORIGINAL SOURCES TO REVIEWED NOTES\".\nAvoid: personal avatars, peach cats, other brands, additional watermarks, new labels, changed arrows, automatic approval badges. Only the finished edited diagram."
+      }
+    },
+    {
+      "name": "conuo-workflow-zh",
+      "source": "exec-37af4dca-427e-4127-9cab-737ea45ec9c1.png",
+      "output": "public/images/blog/conuo-workflow-zh-v2.webp",
+      "width": 1536,
+      "height": 1024,
+      "quality": 90,
+      "locale": "zh",
+      "edit": {
+        "inputSource": "exec-28010cfb-ae87-40bb-a43f-3eb1580908a1.png",
+        "prompt": "Use case: text-localization\nAsset type: the Simplified Chinese version of a finished 1536x1024 Conuo workflow illustration.\nInput image 1 is the edit target, the already approved English Conuo workflow diagram.\nPrimary request: Change only in-image text to exact Simplified Chinese labels below. Keep the whole composition, document icons, three right-pointing sage-green arrows, paper texture, peach accents, subtle shadows, white margins, card sizes and canvas dimensions unchanged. Preserve the large product title \"CONUO\" exactly.\nExact replacements:\n\"FROM ORIGINAL SOURCES TO REVIEWED NOTES\" -> \"从原始资料到核对后的学习笔记\"\n\"Original sources\" -> \"原始资料\"\n\"Import & allow AI use\" -> \"导入资料并授权 AI 使用\"\n\"Ask AI\" -> \"向 AI 提问\"\n\"Choose source scope\" -> \"选择本次提问范围\"\n\"Check citations\" -> \"核对引用\"\n\"Open the cited original\" -> \"打开引用对应的原文\"\n\"Notes & drafts\" -> \"笔记与草稿\"\n\"Edit notes / review drafts\" -> \"编辑笔记 / 审核草稿\"\n\"Source boundaries\" -> \"来源边界\"\n\"File + version + location\" -> \"资料 + 版本 + 原文位置\"\n\"Human review\" -> \"人工审核\"\n\"Accept / edit / ignore AI drafts\" -> \"接受 / 修改 / 忽略 AI 草稿\"\n\"Conceptual workflow\" -> \"概念流程示意\"\n\"Cloud save requires confirmation\" -> \"云端确认后才算保存成功\"\nTypography: highly legible Simplified Chinese sans-serif, correct characters verbatim, equivalent text hierarchy, comfortable spacing. Fit Chinese within existing cards without clipping. All English text except the product name CONUO must be replaced.\nConstraints: edit text only; no new objects or labels, no altered arrows, no checkmarks or automatic approval badge, no watermark. Keep exactly 1536 by 1024 pixels."
+      },
+      "initialGeneration": {
+        "source": "exec-518eb1b8-a8cc-4412-b040-b70a8af4d436.png",
+        "retainedOutput": "public/images/blog/conuo-workflow-zh.webp"
+      },
+      "brandEdit": {
+        "inputSource": "exec-56bbcbe7-c629-4e55-825f-dcaeb18f0b91.png",
+        "logoReference": "public/projects/conuo-logo.png",
+        "prompt": "Use case: text-localization\nAsset type: Simplified Chinese Conuo blog workflow diagram, exactly 1536x1024 pixels.\nInput image 1 is the edit target: the approved English workflow with the real violet Conuo logo beside the title.\nPrimary request: Replace every English label except the product name CONUO with the exact Simplified Chinese wording below. Preserve the Conuo logo's violet-white identity, exact shape, rounded corners, size and placement, and the centered combined logo-and-wordmark group.\nExact replacements:\n\"FROM ORIGINAL SOURCES TO REVIEWED NOTES\" -> \"从原始资料到核对后的学习笔记\"\n\"Original sources\" -> \"原始资料\"\n\"Import & allow AI use\" -> \"导入资料并授权 AI 使用\"\n\"Ask AI\" -> \"向 AI 提问\"\n\"Choose source scope\" -> \"选择本次提问范围\"\n\"Check citations\" -> \"核对引用\"\n\"Open the cited original\" -> \"打开引用对应的原文\"\n\"Notes & drafts\" -> \"笔记与草稿\"\n\"Edit notes / review drafts\" -> \"编辑笔记 / 审核草稿\"\n\"Source boundaries\" -> \"来源边界\"\n\"File + version + location\" -> \"资料 + 版本 + 原文位置\"\n\"Human review\" -> \"人工审核\"\n\"Accept / edit / ignore AI drafts\" -> \"接受 / 修改 / 忽略 AI 草稿\"\n\"Conceptual workflow\" -> \"概念流程示意\"\n\"Cloud save requires confirmation\" -> \"云端确认后才算保存成功\"\nInvariants: keep all four cards, both explanatory panels, three right-pointing green arrows, document icons, textures, background, margins and footer positions unchanged. Adapt Chinese typography only as needed to fit. Text must be highly legible, correct characters verbatim, no clipping.\nConstraints: text-only localization, preserve the real product logo. No peach cat or personal avatar, no other logos, no new icons or labels, no checkmarks or automatic approval badges, no extra watermark. Only the finished Chinese diagram."
+      }
+    },
+    {
+      "name": "conuo-reader",
+      "sourceBase": "workspace",
+      "source": "public/projects/conuo-reader.jpg",
+      "output": "public/images/blog/conuo-reader.webp",
+      "width": 1280,
+      "height": 720,
+      "quality": 90,
+      "provenance": "Actual authenticated local development screenshot, with original derivative-and-tangent QA material. Re-encoded only; Chinese interface and content unchanged."
+    },
+    {
+      "name": "conuo-knowledge",
+      "sourceBase": "workspace",
+      "source": "public/projects/conuo-knowledge.jpg",
+      "output": "public/images/blog/conuo-knowledge.webp",
+      "width": 1280,
+      "height": 720,
+      "quality": 90,
+      "provenance": "Actual authenticated local knowledge-page screenshot, with original QA material. Re-encoded only; Chinese interface and content unchanged."
+    }
+  ],
+  "revision": "2026-09-15: added the actual Conuo product logo; no personal avatar or DSH edits",
+  "brandReference": {
+    "source": "D:/workspace/conuo/apps/web/public/conuo-logo.png",
+    "workspaceCopy": "public/projects/conuo-logo.png",
+    "sha256": "ffa5360d0e3c2f016494fc894a8e13f61e5a9681c1f36bcd355211fde0f10f7b",
+    "provenance": "The same logo used by Conuo's workspace-shell. Copied byte-for-byte, not redesigned."
+  }
+}
