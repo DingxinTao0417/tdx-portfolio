@@ -1,8 +1,9 @@
 export const HOLD = 6.8;
 export const POINT_DURATION = 2;
 export const MORPH_DURATION = POINT_DURATION + 0.4;
-// Shader IDs stay fixed: lettering, database, network, sheets.
-export const PLAYBACK_ORDER = [0, 2, 1, 3] as const;
+// Shader IDs stay fixed: lettering(0), database(1), network(2), lattice(3).
+// Monogram/TDX phase removed from playback.
+export const PLAYBACK_ORDER = [2, 1, 3] as const;
 export const REDUCED_PHASE = 1;
 const TIME_EPSILON = 1e-9;
 

@@ -8,7 +8,7 @@ export function Portrait() {
       {/* Crop only the bottom attribution strip, keeping the full subject width. */}
       <div className="relative aspect-[10/9] overflow-hidden rounded-2xl border border-line bg-bg-elevated">
         <Image
-          src="/peach-cat-avatar.png"
+          src="/avatar.png"
           alt={site.name}
           fill
           sizes="(max-width: 640px) 80vw, 352px"

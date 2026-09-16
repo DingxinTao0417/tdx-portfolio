@@ -72,9 +72,9 @@
     "ctaResume": "Download resume",
     "scrollHint": "Explore the projects",
     "particles": {
-      "description": "Particles automatically cycle through TDX, a layered neural-network architecture, a three-layer database, and six sheets. You can also click or tap to change shape, or hover over a network layer to follow the signals between stages.",
+      "description": "Particles automatically cycle through a layered neural-network architecture, a three-layer database, and six sheets. You can also click or tap to change shape, or hover over a network layer to follow the signals between stages.",
       "next": "Next particle shape. Currently: {shape}. Autoplay will continue.",
-      "monogram": "TDX",
+      "monogram": "Monogram",
       "database": "Database",
       "network": "Neural net",
       "lattice": "Layers"

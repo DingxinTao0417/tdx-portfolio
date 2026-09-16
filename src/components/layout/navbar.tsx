@@ -95,19 +95,13 @@ export function Navbar() {
             {/* Brand */}
             <Link
               href="/"
-              className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-lg sm:h-[52px] sm:w-[52px]"
+              className="inline-flex h-12 shrink-0 items-center justify-center px-2 sm:h-[52px]"
               aria-label={`${locale === "zh" ? site.nameZh : site.name} — ${t("home")}`}
               onClick={() => setOpen(false)}
             >
-              <Image
-                src="/peach-cat-logo.png"
-                alt=""
-                width={52}
-                height={52}
-                sizes="(min-width: 640px) 52px, 48px"
-                loading="eager"
-                className="h-12 w-12 shrink-0 object-contain sm:h-[52px] sm:w-[52px]"
-              />
+              <span className="font-display text-2xl font-semibold tracking-tight text-gradient-accent sm:text-[28px]">
+                TDX
+              </span>
             </Link>
 
             {/* Desktop links */}

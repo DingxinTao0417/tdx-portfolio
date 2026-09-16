@@ -10,6 +10,8 @@ import { cn } from "@/lib/utils";
 import { palettes } from "./palette";
 import type { HeroInteraction } from "./hero-interaction";
 
+// Indexed by shader ID: 0=monogram, 1=database, 2=network, 3=lattice.
+// Monogram is no longer played back but the ID mapping must stay intact.
 const phaseNames = ["monogram", "database", "network", "lattice"] as const;
 
 const HeroScene = dynamic(() => import("./hero-scene"), { ssr: false });
@@ -36,9 +38,6 @@ class SceneBoundary extends Component<{ children: ReactNode; fallback: ReactNode
 function Fallback() {
   return (
     <div className="absolute inset-0 flex items-center justify-center gap-3 text-accent/50 sm:gap-6">
-      <span className="font-mono text-3xl font-semibold tracking-tight">
-        <span className="text-accent">T</span><span className="text-fg">DX</span>
-      </span>
       <Network className="h-10 w-10 sm:h-14 sm:w-14" strokeWidth={1} />
       <Database className="h-10 w-10 sm:h-14 sm:w-14" strokeWidth={1} />
       <Layers className="h-10 w-10 sm:h-14 sm:w-14" strokeWidth={1} />

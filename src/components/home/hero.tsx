@@ -1,13 +1,12 @@
 "use client";
 
-import { ArrowDown, Download } from "lucide-react";
+import { ArrowDown } from "lucide-react";
 import { motion, useScroll, useTransform } from "motion/react";
 import { useLocale, useTranslations } from "next-intl";
 import { useRef } from "react";
 import { HeroCanvas } from "@/components/three/hero-canvas";
-import { ButtonLink, buttonClasses } from "@/components/ui/button";
+import { ButtonLink } from "@/components/ui/button";
 import { Magnetic } from "@/components/ui/magnetic";
-import { resumeUrlFor } from "@/data/site";
 import { cn } from "@/lib/utils";
 
 const ease = [0.16, 1, 0.3, 1] as const;
@@ -107,14 +106,9 @@ export function Hero() {
               </ButtonLink>
             </Magnetic>
             <Magnetic strength={0.25}>
-              <a
-                href={resumeUrlFor(locale)}
-                download
-                className={buttonClasses({ variant: "secondary", size: "lg" })}
-              >
-                <Download className="h-4 w-4" aria-hidden />
-                {t("ctaResume")}
-              </a>
+              <ButtonLink href="/contact" size="lg" variant="secondary">
+                {t("ctaSecondary")}
+              </ButtonLink>
             </Magnetic>
           </motion.div>
         </div>
