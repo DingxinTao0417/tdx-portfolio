@@ -32,6 +32,8 @@ export type Project = {
   cover?: ProjectImage;
   gallery?: ProjectImage[];
   galleryNote?: Localized;
+  /** Optional maintenance notice shown above the case study sections. */
+  notice?: Localized;
   featured?: boolean;
   /** Hue (0-360) used to tint the generative cover artwork. */
   hue: number;
@@ -595,8 +597,8 @@ export const projects: Project[] = [
       zh: "TypeScript 插件通过 Cordis 服务和 React 扩展，在原生聊天中加入创建卡片与返回链接。持久化的任务和操作记录用于追踪会话，结果回传精确匹配首条指令及其执行轮次，并在展示前检查发起会话的读取权限。",
     },
     impact: {
-      en: "Task creation, native navigation, and authorized history reading have passed local runtime checks. The 0.1.6 candidate includes the first-turn return implementation and local tests, while complete desktop validation remains in progress. The package has not been published to npm; remote connections and sharing are off by default.",
-      zh: "任务创建、原生跳转和授权历史读取已通过本地运行验证。0.1.6 候选包含首轮结果回传实现与本地测试，完整桌面实机验证仍在进行中。插件尚未发布到 npm，远程连接和分享默认关闭。",
+      en: "Task creation, native navigation, and authorized history reading passed local runtime checks in version 0.1.5. The 0.1.6 candidate adds the first-turn return implementation and local tests, but full desktop validation was never completed before development stopped. The package was never published to npm; remote connections and sharing are off by default.",
+      zh: "任务创建、原生跳转和授权历史读取已通过 v0.1.5 的本地运行验证。0.1.6 候选包含首轮结果回传实现与本地测试，但在停止更新前没有完成完整的桌面实机验证。插件一直没有发布到 npm，远程连接和分享默认关闭。",
     },
     learning: {
       en: "The project required separate states for message delivery, turn completion, and artifact acceptance. Stable operation IDs and permission checks help preserve those distinctions through retries, session handoffs, and access changes.",
@@ -652,8 +654,12 @@ export const projects: Project[] = [
       },
     ],
     galleryNote: {
-      en: "Screenshots come from version 0.1.5 running in a real local test environment with separate test data. They show creation, navigation, and public-history reading. The latest first-turn return still needs desktop validation.",
-      zh: "截图来自 v0.1.5 的真实本地测试环境，使用独立测试数据，仅展示创建、会话跳转和公开历史读取。最新首轮结果回传仍需桌面实机验证。",
+      en: "Screenshots come from version 0.1.5 running in a real local test environment with separate test data. They show creation, navigation, and public-history reading. The 0.1.6 first-turn return only passed local source and build checks; it was never validated on the desktop.",
+      zh: "截图来自 v0.1.5 的真实本地测试环境，使用独立测试数据，仅展示创建、会话跳转和公开历史读取。0.1.6 的首轮结果回传只通过本地源码与构建检查，未做桌面实机验证。",
+    },
+    notice: {
+      en: "Updates have stopped. DeepSeek Harness Desktop ships frequent releases, and the plugin interfaces this project depends on change in nearly every version, so each release needs its own adaptation work. Keeping up with that costs more than this side project is worth, so it is no longer updated. The repository and this write-up stay online as they are and are not adapted to newer DSH releases.",
+      zh: "目前不再更新。DeepSeek Harness Desktop 更新频繁，插件依赖的接口几乎每个版本都会变化，需要逐版重新适配，继续跟进的开发难度和维护成本都太高。仓库与项目记录保持现状，不再适配更新后的 DSH 版本。",
     },
     featured: true,
     hue: 230,

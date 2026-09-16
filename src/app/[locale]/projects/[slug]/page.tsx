@@ -1,4 +1,4 @@
-import { ArrowLeft, ArrowUpRight, Check } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Check, CircleAlert } from "lucide-react";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -210,6 +210,18 @@ export default async function ProjectPage({ params }: Props) {
               </ul>
             </section>
           </Reveal>
+
+          {project.notice && (
+            <Reveal>
+              <div className="mt-2 flex gap-3 rounded-2xl border border-line bg-bg-elevated p-5 sm:p-6">
+                <CircleAlert className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden />
+                <div>
+                  <p className="eyebrow mb-2">{t("detail.notice")}</p>
+                  <p className="text-sm leading-7 text-fg/85">{pick(project.notice, locale)}</p>
+                </div>
+              </div>
+            </Reveal>
+          )}
         </div>
 
         {/* Sidebar */}
