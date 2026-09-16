@@ -1,0 +1,961 @@
+{
+  "schema_version": "1.0",
+  "course_id": "fde-practical-v01",
+  "version": "0.1",
+  "answers": [
+    {
+      "question_id": "m01-l01-q01",
+      "correct_option_ids": [
+        "B"
+      ],
+      "explanation": "接口超时不能证明失败，也不能证明成功，应说明状态未确认并核对实际记录。A依据模型文字误报成功；C可能重复建单；D不能代替系统状态。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m01-l01-q02",
+      "correct_option_ids": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "项目卡需要范围、可检查的成功标准和依赖责任。视觉主题可以后续讨论，不能取代这些交付条件。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m01-l02-q01",
+      "correct_option_ids": [
+        "A"
+      ],
+      "explanation": "有效且支持结论的制度原文是可核验依据。重复生成、篇幅和自报置信度不能证明正确；自报99%没有经过校准。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m01-l02-q02",
+      "correct_option_ids": [
+        "C"
+      ],
+      "explanation": "精确总数需要对完整且定义明确的数据范围进行查询或计算。对话、样例和向量相似度都不能支持精确计数。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m01-l03-q01",
+      "correct_option_ids": [
+        "B"
+      ],
+      "explanation": "检索内容属于资料，不能覆盖应用规则或授予外发权限。内部来源也可能夹带恶意文字；系统层应阻止越权执行。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m01-l03-q02",
+      "correct_option_ids": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "必要历史帮助解释指代，获准制度提供依据，任务和输出规则控制调用。用户自报身份不能作为授权，权限须来自应用认证上下文。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m01-l04-q01",
+      "correct_option_ids": [
+        "C"
+      ],
+      "explanation": "已知SOP适合明确的工作流，模型用于语义理解，规则和确认由系统保证。自由规划或仅写提示词可能跳过必要步骤。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m01-l04-q02",
+      "correct_option_ids": [
+        "B"
+      ],
+      "explanation": "先明确基线不足，再用同组样本比较质量、时间与成本。功能数量、产品模式和单条演示都不是收益证据。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m01-case01",
+      "correct_option_ids": [],
+      "explanation": "项目卡应把问题转成可验证任务，区分资料问答与实际建单，并显式记录边界和未知依赖。",
+      "reference_answer": "目标用户为认证员工；第一期只覆盖一组有效制度和一种模拟服务工单。制度回答使用获准范围内的资料并引用原文，未覆盖时说明无法确认。建单收集必填字段、校验权限、显示确认，再调mock接口；以工单记录作为完成证据，超时核对状态并防重复。禁止审批、付款、删除和访问其他角色资料；资料负责人、字段规范和规则确认人列为依赖。正常请求按依据或接口状态回答，资料不足时追问或转负责人，越权请求由系统拒绝并留最小必要记录。",
+      "rubric": [
+        {
+          "criterion": "用户、现状和第一期范围明确",
+          "max_points": 2
+        },
+        {
+          "criterion": "资料、接口及待确认依赖完整",
+          "max_points": 2
+        },
+        {
+          "criterion": "问答与建单有可核验完成证据",
+          "max_points": 2
+        },
+        {
+          "criterion": "禁止事项和三类预期行为清楚",
+          "max_points": 2
+        },
+        {
+          "criterion": "只用合成资料与mock，说明确认和异常策略",
+          "max_points": 2
+        }
+      ],
+      "critical_failures": [
+        "使用真实客户数据或正式系统进行未授权演练",
+        "将用户自报身份当作系统授权",
+        "未确认接口结果却声称业务动作完成"
+      ]
+    },
+    {
+      "question_id": "m02-l01-q01",
+      "correct_option_ids": [
+        "B"
+      ],
+      "explanation": "B 用最近一次事件取得起点、资料、动作与完成依据，适合还原现状。A、C 主要询问未来采用或界面偏好，不能证明当前任务怎样完成；D 涉及授权角色，但不能替代事件访谈，也不能由员工回答形成授权。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m02-l01-q02",
+      "correct_option_ids": [
+        "A",
+        "B",
+        "D"
+      ],
+      "explanation": "A 区分陈述与已确认事实，B 限定观察只发生在这次模拟，D 补充不同角色掌握的交接和异常路径。C 没有全体样本、统计分母和解决标准，不能从角色陈述与一次观察推出失败比例。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m02-l02-q01",
+      "correct_option_ids": [
+        "C"
+      ],
+      "explanation": "C 明确样本范围、时间、分母和解决证据，并留下重算记录。A 把生成答复混同于有依据地解决任务；B 在挑选结果后才定标准，存在选择偏差；D 删除未解决任务，会改变分母并隐藏失败。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m02-l02-q02",
+      "correct_option_ids": [
+        "A",
+        "B",
+        "D"
+      ],
+      "explanation": "A 防止只报成功耗时而隐藏失败，B 将安全失败与教学样本边界显式呈现，D 支持重算和复核。C 缺少真实采用率、成本及长期数据；模拟比较不能证明真实全年收益，更不能忽略越权风险。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m02-l03-q01",
+      "correct_option_ids": [
+        "B"
+      ],
+      "explanation": "B 保持现有边界，并使新增需求进入可追索的变更决策。A 提前开放高影响动作且缺授权；C 造成口头承诺与范围记录冲突；D 用不同任务的验收替代退款所需的权限、接口与风险证据，不能成立。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m02-l03-q02",
+      "correct_option_ids": [
+        "A",
+        "B",
+        "D"
+      ],
+      "explanation": "A 规定字段缺失时的行为与未执行证据，B 规定确认后成功所需的实际模拟记录，D 规定禁止行为及可复查拒绝证据，均可独立判断。C 可以作为体验反馈，但没有清楚的输入、行为与完成凭证，不能单独充当本题的验收条件。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m02-l04-q01",
+      "correct_option_ids": [
+        "C"
+      ],
+      "explanation": "C 在已有练习范围内继续工作，同时保留未获批准的依赖。A 将不同角色的决定混同；B 即使不展示也已读取真实数据，仍需要授权和边界确认；D 删除审查角色不会消除安全依赖。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m02-l04-q02",
+      "correct_option_ids": [
+        "A",
+        "C",
+        "D"
+      ],
+      "explanation": "A 让关键事项有明确决定和执行责任，C 让方案追溯证据而不掩盖未知，D 保留冲突的处理与授权状态。B 把所有人都标为负责人，看似覆盖完整，实际难以确定谁处理问题或有权批准。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m02-case01",
+      "correct_option_ids": [],
+      "explanation": "本案例用自评检查从访谈到方案的证据链。范围选择可以不同，但必须给出价值、证据、成本与风险理由；真实授权、真实收益和模拟表现不可混同。先检查重大安全或复现缺失，再逐项评分。",
+      "reference_answer": "一种可行方案是：员工先查公共制度，再找主管确认；故障需要设备编号并交工单维护者，流程图注明等待、交接和完成凭证。角色陈述、模拟观察与假设分别标记。用二十条合成任务定义有依据的首次解决率、有效提交率、耗时口径，并单列越权和重复建单；保留分母、逐条结果和失败。一期只做授权制度问答与用户确认后的 mock 建单，审批、退款列为范围外。正常用例检查引用和工单记录，失败用例检查缺资料、缺字段、超时，禁止用例检查跨店访问与未授权动作。画布注明资料维护者、权限决定者、接口执行者、验收决定者和变更决定者，保留未确认依赖。所有数据、决定和收益结论明确属于教学模拟。",
+      "rubric": [
+        {
+          "criterion": "现状流程包含触发、输入、动作、交接、结果与例外，且区分陈述、观察、假设",
+          "max_points": 2
+        },
+        {
+          "criterion": "基线与指标有任务范围、分母、解决证据和逐条记录，包含安全失败及样本局限",
+          "max_points": 3
+        },
+        {
+          "criterion": "一期范围与排除项明确，取舍有理由，正常、失败、禁止验收具备可观察证据",
+          "max_points": 3
+        },
+        {
+          "criterion": "方案画布可追溯证据，关键依赖有决定者与执行者，未批准事项和变更路径清晰",
+          "max_points": 2
+        }
+      ],
+      "critical_failures": [
+        "未经授权接入真实员工资料、账号或企业接口，或将角色扮演决定当成真实授权。",
+        "允许未授权退款、跨店访问或未经确认写入，且未将其判为必须修正的安全失败。",
+        "编造已实现业务收益，删除失败行或缺少指标口径与记录，导致核心结论不能复核。"
+      ]
+    },
+    {
+      "question_id": "m03-l01-q01",
+      "correct_option_ids": [
+        "C"
+      ],
+      "explanation": "C 在实际执行前用可信身份与确定性规则约束资源、参数和确认。A 把控制依赖于模型是否遵从提示；B 把用户措辞当身份依据；D 已产生越权副作用，之后隐藏名称不能恢复执行边界。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m03-l01-q02",
+      "correct_option_ids": [
+        "A",
+        "B",
+        "D"
+      ],
+      "explanation": "A 保持比较条件并保留失败，B 检查重要输出与边界在候选间是否变化，D 从任务约束出发并限定模拟证据。C 混淆模拟脚本与真实模型；练习可以证明比较方法可执行，不能证明某个真实模型的性能排名。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m03-l02-q01",
+      "correct_option_ids": [
+        "B"
+      ],
+      "explanation": "B 承认未知状态，先取得状态证据，并通过同一幂等键避免重复业务请求。A 将超时误判成未执行，新键重试可能重复建单；C 用模型文本替代接口证据；D 破坏追踪记录，也未处理潜在的已创建工单。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m03-l02-q02",
+      "correct_option_ids": [
+        "A",
+        "B",
+        "D"
+      ],
+      "explanation": "A 约束调用的权限与副作用，B 约定可检查的结果和重复行为，D 约定报告成功的证据与安全错误提示。C 将业务文本提升为控制指令，可能使工具权限被输入内容修改，违反固定契约与授权边界。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m03-l03-q01",
+      "correct_option_ids": [
+        "D"
+      ],
+      "explanation": "D 遵循权限未知时停止受保护操作的原则。A、B 都把自然语言声明或模型判断当可信身份；C 隐藏门店名称不等于没有读取或泄露受保护资料。公共资料是否允许匿名读取可另有规则，但不能因此默认开放受保护资料。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m03-l03-q02",
+      "correct_option_ids": [
+        "A",
+        "C",
+        "D"
+      ],
+      "explanation": "A 让边界在读取与执行前生效，C 验证控制不只存在于聊天入口，D 将日志也纳入最小必要数据范围。B 已让未授权资料进入系统，最终删句不能证明未读取、未传递或未泄露。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m03-l04-q01",
+      "correct_option_ids": [
+        "B"
+      ],
+      "explanation": "B 不让平均分遮住高影响失败，并保留复现证据与后续决定。A 将质量成绩错误地用于抵消未经确认的副作用；C 删除失败破坏实验；D 在结果出现后修改口径，且忽略确认这一安全要求。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m03-l04-q02",
+      "correct_option_ids": [
+        "A",
+        "C",
+        "D"
+      ],
+      "explanation": "A 固定并保留实验条件与逐条证据，C 说明怎样判断、怎样复现及谁补证，D 限制结论在实际测试范围内。B 只有成功展示，不能复核完整结果，也会掩盖失败与知识缺口。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m03-case01",
+      "correct_option_ids": [],
+      "explanation": "本案例检查组件边界、执行证据与可复现验证。架构可以不同，但权限与确认不能只依赖模型，未知状态不能冒报结果，重大安全失败必须影响评审结论。模拟通过也不构成真实环境授权。",
+      "reference_answer": "一种可行包包含入口身份、编排、检索、模型、工具与日志评测六层，注明各层输入输出和失败责任；用同一固定任务集比较候选并保留配置与失败，模拟结果不外推真实模型。mock 建单契约要求门店、设备编号、描述、请求键，应用校验参数、资源权限和确认，工具端去重；缺字段追问，拒绝授权不执行，超时先查询，同键重试，得到记录后才报告模拟成功。权限矩阵限定员工本店读与建单、主管指定区域读，身份来自合成可信会话；检索前过滤，工具前再次授权，日志只保留必要标识和状态。验证有效引用及超时去重两个假设，冻结资料、配置、任务与 mock 行为，保留正常、失败、禁止用例的输入、预期、实际、证据和复现步骤。跨店、冒充、未确认写入若失败就停止相关路径并补证，风险表列影响、控制、剩余风险和负责人；结论仅为继续模拟、补证或停止，真实集成与授权仍待确认。",
+      "rubric": [
+        {
+          "criterion": "架构职责与模型外控制清晰，候选比较条件一致且结论限定于已测范围",
+          "max_points": 2
+        },
+        {
+          "criterion": "工具契约包含参数、授权、确认、输出和错误，超时查询与同键去重有可检查执行证据",
+          "max_points": 3
+        },
+        {
+          "criterion": "角色资源动作矩阵完整，可信身份、检索前限制、工具再授权和最小日志均有禁止测试",
+          "max_points": 3
+        },
+        {
+          "criterion": "两项假设有通过与停止条件，条件冻结且能复现，风险有负责人，评审不超出模拟证据",
+          "max_points": 2
+        }
+      ],
+      "critical_failures": [
+        "接入真实企业数据、持久凭据或真实写入接口，违反仅合成资料与 mock API 的练习边界。",
+        "把用户或文档指令当可信身份，允许跨店读取或未经确认写入，且未判定为必须修正的安全失败。",
+        "超时状态未知仍报告成功，或使用新请求键导致重复工单却未识别风险。",
+        "缺少任务、配置、mock 行为或逐条记录，导致关键实验无法复现；删改失败或用平均分掩盖重大安全失败。"
+      ]
+    },
+    {
+      "question_id": "m04-l01-q01",
+      "correct_option_ids": [
+        "B"
+      ],
+      "explanation": "B 正确：规则选择需要核对生效时间与适用范围，本月仍应使用有效的旧版本，并保留依据。A 把上传时间误当生效时间。C 把系统应核对的适用性问题交给员工随意选择，可能执行未生效规则。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m04-l01-q02",
+      "correct_option_ids": [
+        "A",
+        "B"
+      ],
+      "explanation": "A 提供服务端可执行的可信授权依据；B 使制度及其衍生内容的边界可检查，两项共同支持权限治理。C 中用户自报角色不是可信身份。D 先把受限内容送入模型再靠 Prompt 隐藏，已经绕过读取边界，不能替代授权。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m04-l02-q01",
+      "correct_option_ids": [
+        "A"
+      ],
+      "explanation": "A 正确：原表格关系已在解析阶段损坏，应先修复并对照原文。B 和 C 调整检索或切分，不能恢复已经错位的条件对应。D 增加生成文字也不会使错误输入重新变成可靠证据。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m04-l02-q02",
+      "correct_option_ids": [
+        "A",
+        "C"
+      ],
+      "explanation": "A 保留条件与规则的联系，C 用有区分度且一致的测试集验证调整，均可检查本次切分缺陷。B 错在把检索分数解释成回答正确概率。D 只测一个顺利命中的问法，无法发现非紧急情形被错误放宽的问题。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m04-l03-q01",
+      "correct_option_ids": [
+        "C"
+      ],
+      "explanation": "C 正确：可以提供已确认的响应规则，同时标明更换时限缺口和核验下一步。A 的引用只支持响应时限，不能支持更换承诺。B 丢弃了可用信息。D 的模型自评不是经过校准的概率，更不能补足缺失的制度依据。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m04-l03-q02",
+      "correct_option_ids": [
+        "A",
+        "B",
+        "D"
+      ],
+      "explanation": "A 保留冲突并安排核验，B 将不可信正文与系统行为权限分离，D 使已确认结论可追溯，均正确。C 把检索资料中的文字当作执行指令，可能造成未授权导出；资料不能自行改变授权或工具策略。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m04-l04-q01",
+      "correct_option_ids": [
+        "B"
+      ],
+      "explanation": "B 正确：缓存返回同样必须遵守当前用户权限，并与知识版本匹配。A 仅按问题文本复用会泄露经理可见内容。C 移除引用和 D 改写语句都没有改变内容的受限性质，不能修复越权。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m04-l04-q02",
+      "correct_option_ids": [
+        "A",
+        "C",
+        "D"
+      ],
+      "explanation": "A 检查版本切换的链路残留，C 支持追踪与复现，D 覆盖重要回归风险，均需要完成。B 错在把回退当成随意恢复旧规则；旧版本可能含已失效政策，回退前也要核对时间适用性。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m04-case01",
+      "correct_option_ids": [],
+      "explanation": "案例考查资料、权限、检索、回答和更新的协作关系，不要求唯一技术选型。先根据时间与范围选有效资料，再用服务端授权限制检索和读取。回归记录必须检查最终回答及引用，不能只展示索引构建成功。按各项评分清单自评，发现严重问题后先修正再评分。",
+      "reference_answer": "资料清单为每份合成资料登记来源、负责人、适用区域、版本、生效时间、状态和权限标签。本月使用适用的 V1，V2 标为未来生效，不作为当前承诺依据；受限附件的权限也覆盖摘要。链路从可信身份进入服务端授权，再限定检索范围，生成有版本和位置的引用并记录请求编号；缓存按权限和知识版本使用。切分示例把表格的条件、规则和例外放在同一完整片段，附资料编号及位置。资料充分时回答受理规则并引用；资料未覆盖更换时限时只说已确认部分，说明缺口并给核验渠道。更新先解析核对、构建独立索引和回归，再按生效时间切换，清理旧片段及失效缓存；回退目标必须仍适用。六条以上测试记录固定日期、身份、知识版本、问题、应命中依据、预期回答和实际结果，例如普通员工查受限附件、经理读取附件、本月问新版时段、下月问新版时段、问未覆盖更换期限、同文问题跨权限缓存、引用指向错误版本。",
+      "rubric": [
+        {
+          "criterion": "资料清单包含来源、责任、时间、版本、范围与权限，正确处理未来生效和待核验资料",
+          "max_points": 2
+        },
+        {
+          "criterion": "可信身份与服务端授权覆盖检索、读取和缓存，未用 Prompt 或用户自报角色代替权限",
+          "max_points": 2
+        },
+        {
+          "criterion": "解析和切分保留表格关系、条件及例外，并用具体问题验证检索结果",
+          "max_points": 2
+        },
+        {
+          "criterion": "两种回答的关键结论有适用引用，资料不足时不编造承诺并说明核验下一步",
+          "max_points": 2
+        },
+        {
+          "criterion": "更新、回退和缓存处理有检查单，至少六条测试含固定输入、版本、预期及结果，能够复现",
+          "max_points": 2
+        }
+      ],
+      "critical_failures": [
+        "把受限资料送给未授权用户，或在未通过服务端授权时放入模型上下文，或用 Prompt、用户自报角色替代服务端授权",
+        "将未来生效或已失效规则当作本月的有效承诺，且没有指出适用性问题",
+        "把真实员工资料或真实企业系统用于本课程练习",
+        "缺少身份、日期、资料版本、具体问题或预期结果等核心测试信息，无法复现主要结论"
+      ]
+    },
+    {
+      "question_id": "m05-l01-q01",
+      "correct_option_ids": [
+        "B"
+      ],
+      "explanation": "B 正确：设备目标与既有工单情况会影响是否建单，应先补齐或在授权范围内核对。A 和 D 都把猜测变成执行参数，可能报错设备。C 在关键目标不明确时先写入，既难以校验也可能制造重复或无效工单。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m05-l01-q02",
+      "correct_option_ids": [
+        "A",
+        "C"
+      ],
+      "explanation": "A 保留输入可信度和未知项，C 区分信息服务与实际动作并便于确认，均正确。B 的字段完整并不代表操作已获授权。D 只是把用户自报身份换成结构化形式，没有成为可信服务端身份。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m05-l02-q01",
+      "correct_option_ids": [
+        "B"
+      ],
+      "explanation": "B 正确：查询失败表示没有取得可靠证据，不等于对应工单不存在。A 和 D 都可能据此创建重复工单。C 用模型估计替代业务状态核对，而自报置信也不是错误概率，不能作为写入分支的许可。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m05-l02-q02",
+      "correct_option_ids": [
+        "A",
+        "B"
+      ],
+      "explanation": "A 确认当前操作者确有权限，B 防止工单在对话期间变化后仍按旧状态操作，两项都应在服务端执行。C 假设状态不会变化，遗漏并发风险。D 让不确定分类进入写入分支，可能执行错误动作，应先追问、拆分或转人工。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m05-l03-q01",
+      "correct_option_ids": [
+        "C"
+      ],
+      "explanation": "C 正确：超时后系统掌握的结果仍未知，先按稳定动作标识查状态，再依据接口约定处理，取得可靠编号或记录后才报告完成。A 和 D 的新键可能被当作新动作，制造重复工单。B 把发出请求误当成完成证据。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m05-l03-q02",
+      "correct_option_ids": [
+        "A",
+        "C",
+        "D"
+      ],
+      "explanation": "A 正确，因为确认绑定具体目标，AC-01 改为 AC-02 需要重新确认。C 保证实际执行参数仍合法且获授权。D 将意图、授权确认和业务结果关联，支持核对完成。B 只保留任务类别，没有覆盖已改变的设备目标。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m05-l04-q01",
+      "correct_option_ids": [
+        "B"
+      ],
+      "explanation": "B 正确：端到端测试需要固定输入和初始状态，检查恢复过程及最终业务效果，尤其要排除超时后的重复写入。A 和 C 只核对界面或文字。D 的其他正常案例不能替代这条异常路径的最终状态验证。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m05-l04-q02",
+      "correct_option_ids": [
+        "A",
+        "B",
+        "D"
+      ],
+      "explanation": "A 按输入和授权问题分别处理，B 对暂时读取故障限次恢复，D 对可能已写入的未知状态先核对，均正确。C 把写入与读取混为一类且无限重试，可能产生重复效果并放大故障。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m05-case01",
+      "correct_option_ids": [],
+      "explanation": "案例重点是把任务、授权、确认、执行和最终状态连起来。题干说明接口实际已写入，但系统超时时尚不知道结果；正确方案应通过状态查询取得证据，而不是直接采用题干的全知视角报告成功。测试要证明没有越权或重复写入，并给出可复现输入和状态记录。",
+      "reference_answer": "字段表将含糊设备记为最初未知，再记录通过授权 mock 查询确认 AC-01 的来源；记录门店、故障描述、任务类型及其他必要字段。路由先查询对应工单，失败进入恢复出口，确认无对应未关闭工单后补齐字段。服务端校验身份、门店归属和当前业务状态，展示新建设备、门店及故障摘要，由员工确认；参数实质改变时重新确认。为该确认后的动作建立稳定幂等键，例如 action-001，记录 mock 建单调用。响应超时后对用户说明结果待核对，按 action-001 查状态；查到唯一工单编号后报告已创建并提供编号。如状态仍未知则记录交接，不盲重发；只有接口支持且符合约定时才沿用同一动作标识重试。至少八条测试分别固定请求、权限、初始工单表、mock 响应和预期最终状态，覆盖正常一单、缺字段无写入、越权拒绝、确认前取消无写入、并发关闭后拒绝修改、读取限次失败后交接、写入后超时查到一单、返回缺编号进入核对。每条保留实际回复、状态及差异。",
+      "rubric": [
+        {
+          "criterion": "字段、来源和未知项明确，咨询查询与写入任务拆分合理，未猜填关键目标",
+          "max_points": 2
+        },
+        {
+          "criterion": "分支有进入条件与异常出口，服务端执行授权和当前业务状态校验",
+          "max_points": 2
+        },
+        {
+          "criterion": "确认摘要绑定具体动作和目标，参数变化需重新确认，记录稳定幂等键及调用",
+          "max_points": 2
+        },
+        {
+          "criterion": "超时先核对原动作状态，不盲重发，只有可靠业务结果才能报告完成，未知状态有交接",
+          "max_points": 2
+        },
+        {
+          "criterion": "至少八条测试覆盖指定风险，含固定输入、初始状态、mock 响应、预期及实际最终状态，可复现",
+          "max_points": 2
+        }
+      ],
+      "critical_failures": [
+        "未确认、越权或未通过服务端业务校验仍执行写入",
+        "写入超时后换新幂等键盲目创建，或未核对状态就反复重发写操作",
+        "仅凭请求发出或模型回复报告完成，没有可靠工单编号或状态证据",
+        "连接真实企业 API 或使用真实员工数据进行练习",
+        "测试缺少核心输入、初始状态、mock 结果或预期最终状态，无法复现主要异常路径"
+      ]
+    },
+    {
+      "question_id": "m06-l01-q01",
+      "correct_option_ids": [
+        "B"
+      ],
+      "explanation": "B 正确：连接不等于授权，创建工单还需字段、权限、确认和可靠执行证据。A 把连接当许可；C 用文字代替执行；D 将任务说明误当授权机制。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m06-l01-q02",
+      "correct_option_ids": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "A、B、C 正确：工具执行具体能力，Skill 组织可复用任务说明，MCP 承载能力连接。D 错在把连接方式当成自动授权；身份和范围仍需检查。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m06-l02-q01",
+      "correct_option_ids": [
+        "C"
+      ],
+      "explanation": "C 正确：转交必须保留来源、未知项和责任边界。A 把猜测写成事实；B 丢失依据；D 的投票不能补足缺失证据。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m06-l02-q02",
+      "correct_option_ids": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "A、B、C 正确：基线用于判断收益，职责模板减少转交损失，证据与标准支持复核。D 会扩大写权限；协作便利不能替代最小权限。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m06-l03-q01",
+      "correct_option_ids": [
+        "A"
+      ],
+      "explanation": "A 正确：必须核对解析后的精确目标是否处于允许目录。B 依赖名称而非真实路径；C 先实施后确认；D 把恢复措施误当扩展范围的许可。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m06-l03-q02",
+      "correct_option_ids": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "A、B、C 正确：隔离目标、预览确认、实际核验形成受控闭环。D 不能证明文件真实改变或内容正确。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m06-l04-q01",
+      "correct_option_ids": [
+        "D"
+      ],
+      "explanation": "D 正确：超时只说明未及时取得结果，写入状态仍需查询。A 可能造成重复；B 无成功证据；C 不属于该请求授权且无法解决未知状态。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m06-l04-q02",
+      "correct_option_ids": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "A、B、C 正确：时间与范围、执行状态和渠道许可都需明确。D 留下关键歧义，也会让系统越过授权边界。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m07-l01-q01",
+      "correct_option_ids": [
+        "B"
+      ],
+      "explanation": "B 正确：已确认的最早偏差是进入上下文的资料过期。A 不解决资料问题；C 不提供正确性证据；D 在没有定位检索原因前增加复杂度。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m07-l01-q02",
+      "correct_option_ids": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "A、B、C 正确：它们帮助关联步骤、重建条件和定位异常，同时保留脱敏要求。D 会暴露秘密和无关信息，不符合日志边界。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m07-l02-q01",
+      "correct_option_ids": [
+        "C"
+      ],
+      "explanation": "C 正确：自报置信不等于经过验证的校准概率。A 把文本声明当统计证据；B、D 都在缺少验证时赋予它不应有的可靠性。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m07-l02-q02",
+      "correct_option_ids": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "A、B、C 正确：覆盖风险、保留独立验收和校准裁判可降低误判。D 错在用平均分抵消安全准入失败。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m07-l03-q01",
+      "correct_option_ids": [
+        "B"
+      ],
+      "explanation": "B 正确：改动对应检索原因，单类变量和版本记录便于比较，独立验收防止仅适配开发题。A 难以归因；C 污染验收；D 会强化无依据回答。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m07-l03-q02",
+      "correct_option_ids": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "A、B、C 正确：生成约束、可复现比较和缺口处理对应问题并保持安全边界。D 扩大权限不能合理解决已检索到正确原文的条件遗漏。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m07-l04-q01",
+      "correct_option_ids": [
+        "D"
+      ],
+      "explanation": "D 正确：应减少重复与无收益的复杂度，同时保持权限范围。A 无明确依据；B 隐藏链路成本；C 用越权共享换速度。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m07-l04-q02",
+      "correct_option_ids": [
+        "C"
+      ],
+      "explanation": "C 正确：可减少无效读操作，但写入控制必须保留。A 未获确认即写入；B 移除授权控制；D 可能重复写入且缺少重试上限。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m08-l01-q01",
+      "correct_option_ids": [
+        "A"
+      ],
+      "explanation": "A 正确：服务端必须依据可信身份强制校验访问范围，客户端检查和提示词均不能替代授权。B 只有文字承诺；C 用语气替代授权；D 的确认不能增加员工本来没有的访问权。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m08-l01-q02",
+      "correct_option_ids": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "A、B、C 正确：资料中的指令不能升级权限，需保持控制并记录必要风险证据。D 将知识库内容误当最高层操作指令。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m08-l02-q01",
+      "correct_option_ids": [
+        "B"
+      ],
+      "explanation": "B 正确：应提供可复现的脱敏说明，秘密单独管理，环境隔离。A 泄露秘密；C 不足以复跑；D 越过练习与正式系统边界。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m08-l02-q02",
+      "correct_option_ids": [
+        "C"
+      ],
+      "explanation": "C 正确：完整任务成本包括为结果付出的失败与重试消耗。A、D 会低估成本；B 混淆存活监控与业务表现，也不能提供成本口径。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m08-l03-q01",
+      "correct_option_ids": [
+        "D"
+      ],
+      "explanation": "D 正确：先停止有风险的写入，再恢复已知版本并对账；未知动作要查询。A 忽略安全问题；B 把程序回滚当业务撤销；C 移除证据且不解决状态。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m08-l03-q02",
+      "correct_option_ids": [
+        "A",
+        "B",
+        "C"
+      ],
+      "explanation": "A、B、C 正确：它们明确试用决策、恢复对象和业务核验。D 缺少可执行的阈值、人员与恢复步骤。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m08-l04-q01",
+      "correct_option_ids": [
+        "A"
+      ],
+      "explanation": "A 正确：未实现时应明确模板状态和验证缺口。B 虚构上线；C 不足以独立执行；D 开放案例仅自评或人工评阅，不是自动专业判定。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m08-l04-q02",
+      "correct_option_ids": [
+        "D"
+      ],
+      "explanation": "D 正确：课程要求可重建流程与指标，不承诺生成逐字一致，并区分模拟验收和真实上线。A 过度定义复现；B 混淆阶段；C 用总分掩盖准入失败。",
+      "reference_answer": null,
+      "rubric": [],
+      "critical_failures": []
+    },
+    {
+      "question_id": "m06-case01",
+      "correct_option_ids": [],
+      "explanation": "本题没有唯一表达方式。按清单自评或由人工核对设计与证据，不进行自动专业判分；若出现准入失败，应先整改，不能用其他得分抵消。",
+      "reference_answer": "先识别门店并检查身份，检索适用合成资料且记录来源。任务说明组织收集字段、查询重复工单、请求用户确认等步骤，具体工具完成读写；MCP 仅连接能力，不授予权限。转交保留目标、来源、未知项和责任人。受控创建工具使用幂等键，提交后查询可靠状态；超时标记结果未知，先查状态而非盲目再建单。通知只在明确许可的模拟渠道发生，定时计划如有则写明时区与停止条件。保存模拟请求、响应、配置和状态，供他人纸面重跑。可选择单智能体，不以角色数量评分。",
+      "rubric": [
+        {
+          "criterion": "说明、连接与实际工具执行分工清楚，不把它们当授权。",
+          "max_points": 2
+        },
+        {
+          "criterion": "身份范围、读写权限、字段检查与提交确认明确。",
+          "max_points": 2
+        },
+        {
+          "criterion": "转交保留证据与未知项；单智能体方案也明确责任。",
+          "max_points": 2
+        },
+        {
+          "criterion": "状态图覆盖未知结果、重复触发、查询和停止行为。",
+          "max_points": 2
+        },
+        {
+          "criterion": "有合成输入、mock 响应、配置和复跑步骤，交付状态准确。",
+          "max_points": 2
+        }
+      ],
+      "critical_failures": [
+        "使用真实客户资料、生产接口或未授权外部发送。",
+        "工具或转交使权限升级，或未确认即执行写入。",
+        "写操作超时后盲目重复创建，且无幂等或可靠状态核对。",
+        "没有可重跑的输入、模拟响应或步骤，却宣称复现通过。"
+      ]
+    },
+    {
+      "question_id": "m07-case01",
+      "correct_option_ids": [],
+      "explanation": "本题没有唯一表达方式。按清单自评或由人工核对设计与证据，不进行自动专业判分；若出现准入失败，应先整改，不能用其他得分抵消。",
+      "reference_answer": "旧制度先检查资料有效性与检索过滤；条件遗漏在正确原文已进入上下文的前提下检查生成约束；协作耗时用链路记录确认重复步骤；写入超时先查询可靠状态。评测集覆盖正常、拒绝、缺字段、未知与重复请求，开发和独立验收分开。实验一只调整有效期过滤，实验二只减少重复检索或角色，并保留版本、同条件基线和成本耗时记录。模型自报置信不是校准概率，裁判对照人工标注并复核关键分歧。保留权限、用户确认、幂等及安全准入；没有实际运行只报告拟定计划，不能声称效果已改善。",
+      "rubric": [
+        {
+          "criterion": "用链路证据区分检索、生成、协作和未知写入，不把假设写成事实。",
+          "max_points": 2
+        },
+        {
+          "criterion": "固定集覆盖正常与异常，开发/独立验收分开。",
+          "max_points": 2
+        },
+        {
+          "criterion": "两次改动分别对应原因，保留基线、版本与复跑条件。",
+          "max_points": 2
+        },
+        {
+          "criterion": "指标兼顾任务效果、耗时和成本；裁判有人工校准或复核计划。",
+          "max_points": 2
+        },
+        {
+          "criterion": "安全控制不因优化而省略，结果未知先查状态，结论与证据匹配。",
+          "max_points": 2
+        }
+      ],
+      "critical_failures": [
+        "为提高指标放开无权资料、移除提交确认或未授权写入。",
+        "把模型自报置信直接作为验收真值，忽略安全失败。",
+        "写入超时后直接重复提交而不核对状态。",
+        "使用验收答案反复调优却宣称独立验收，或没有记录条件无法复跑。"
+      ]
+    },
+    {
+      "question_id": "m08-case01",
+      "correct_option_ids": [],
+      "explanation": "本题没有唯一表达方式。按清单自评或由人工核对设计与证据，不进行自动专业判分；若出现准入失败，应先整改，不能用其他得分抵消。",
+      "reference_answer": "准入先核对合成数据、隔离资源、秘密不入仓库/日志、最小权限、注入与越权测试、提交确认及幂等。配置交付依赖版本、脱敏样例、资料/提示词/模型版本、固定测试与运行步骤。监控明确任务完成、拒绝、工具异常、耗时和含失败重试的成本，设预算停止条件。灰度限定模拟范围并设负责人和停止阈值；风险出现时关闭写入口、保留查询，恢复已知版本组合后重跑验收。程序回滚不等于撤销工单，未知动作逐项查询或转人工对账。培训覆盖确认、未知状态及求助，交接含限制和责任。证据缺失标待整改，不把模拟验收写成真实上线。",
+      "rubric": [
+        {
+          "criterion": "安全与复现准入明确，控制和测试可检查，秘密与环境隔离。",
+          "max_points": 2
+        },
+        {
+          "criterion": "配置、合成资料、固定测试和步骤足以由他人复跑。",
+          "max_points": 2
+        },
+        {
+          "criterion": "监控含业务、异常、耗时和完整成本，预算与响应责任明确。",
+          "max_points": 2
+        },
+        {
+          "criterion": "灰度停止、降级、版本回滚及业务动作对账可执行。",
+          "max_points": 2
+        },
+        {
+          "criterion": "培训与维护交接覆盖异常、限制、责任和准确交付状态。",
+          "max_points": 2
+        }
+      ],
+      "critical_failures": [
+        "使用真实客户数据、生产资源、持久付费服务或未授权外部写入。",
+        "泄露密钥，缺少身份权限控制，或未确认写入仍判准入通过。",
+        "把程序回滚当作业务动作已全部撤销，未知状态未核对。",
+        "缺少必要配置/资料/测试/步骤不能复跑，却以总分或演示宣称通过。",
+        "把纸面计划或模拟验收宣称为真实已部署或获准使用。"
+      ]
+    }
+  ]
+}

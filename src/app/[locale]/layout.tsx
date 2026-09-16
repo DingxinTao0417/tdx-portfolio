@@ -11,6 +11,7 @@ import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
 import { Footer } from "@/components/layout/footer";
+import { FooterVisibility } from "@/components/layout/footer-visibility";
 import { Navbar } from "@/components/layout/navbar";
 import { ScrollProgress } from "@/components/layout/scroll-progress";
 import { SmoothScroll } from "@/components/providers/smooth-scroll";
@@ -141,7 +142,9 @@ export default async function LocaleLayout({ children, params }: Props) {
             <div className="grain-overlay" aria-hidden />
             <Navbar />
             <main className="flex-1">{children}</main>
-            <Footer />
+            <FooterVisibility>
+              <Footer />
+            </FooterVisibility>
           </NextIntlClientProvider>
         </ThemeProvider>
       </body>

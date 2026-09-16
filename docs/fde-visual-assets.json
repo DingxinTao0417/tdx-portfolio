@@ -1,0 +1,61 @@
+{
+  "mode": "builtin-imagegen",
+  "created": "2026-09-15",
+  "review": "Inspected generated image text and arrow logic; first lesson checked in browser before expanding.",
+  "assets": [
+    {
+      "name": "fde-architecture-zh",
+      "output": "public/images/learn/fde-architecture-zh.png",
+      "original": "C:/Users/20825/.codex/generated_images/01a06534-e958-76d3-9762-9d7667919a4d/exec-1808ce78-a2b3-4405-8d40-5277b7194430.png",
+      "width": 1672,
+      "height": 941,
+      "prompt": "Use case: scientific-educational.\nAsset type: explanatory illustration for an independent online FDE course, Chinese edition.\nCreate a polished landscape 16:9 educational architecture illustration of a fictional employee knowledge and service-ticket assistant. Purpose: teach that an LLM proposes a response, while the application enforces permissions and controlled actions, and only a mock service result proves ticket creation.\nStyle: technical editorial illustration, precise architectural cutaway/isometric objects with crisp flat infographic labels, warm ivory background, graphite typography, burnt-orange highlights, restrained teal for verified evidence. Spacious, calm, legible, not sci-fi, no robots or brains.\nComposition: left a simple employee chat interface; center a large application boundary containing an identity/permission gate above two clearly separated paths. Upper path authorized policy documents -> retrieval -> model-generated answer -> answer with citation. Lower path collect ticket fields -> human confirmation -> mock ticket API -> ticket receipt. The model must not connect directly to the ticket API. Thin directional connectors exactly following these paths. Mock API result comes before the receipt. Show a small lock on restricted policy documents. Distinguish policy documents from a ticket database.\nChinese text ONLY, render these labels verbatim and no extra wording:\nTitle \"员工知识与工单助手\"\nBoundary \"应用层：控制权限与动作\"\nEmployee \"员工请求\"\nGate \"身份与权限\"\nUpper path \"授权资料\", \"检索\", \"模型回答\", \"引用依据\"\nLower path \"字段校验\", \"用户确认\", \"模拟工单 API\", \"工单回执\"\nBottom takeaway \"模型提出建议，系统验证执行结果\"\nUse large readable Chinese sans-serif, careful spelling, generous safe margins. Keep arrows unambiguous and labels beside the correct objects. No vendor logos, no certification claims, no fabricated metrics, no watermarks. This is a conceptual teaching illustration, not a screenshot.",
+      "refinement": "Use case: precise-object-edit. Edit target: the provided Chinese FDE teaching architecture illustration. Change only one thing: remove both floating external objects at the far right (the locked blue document stack and the blue ticket database), together with their dashed connectors. Leave clean ivory space there, and center the remaining complete composition within the canvas with generous margins. Preserve all other objects, the two internal paths, internal arrows, readable Chinese labels, title, application boundary, bottom takeaway, colors, and proportions. Reason: the result must not show a database write occurring AFTER the ticket receipt, nor suggest the cited answer is sending data to the policy documents. Do not add anything. No new labels."
+    },
+    {
+      "name": "fde-architecture-en",
+      "output": "public/images/learn/fde-architecture-en.png",
+      "original": "C:/Users/20825/.codex/generated_images/01a06534-e958-76d3-9762-9d7667919a4d/exec-d991a7bf-487b-43fd-8eb2-3dcb1f78fed0.png",
+      "width": 1672,
+      "height": 941,
+      "prompt": "Edit this teaching architecture diagram. Keep the exact composition, canvas aspect ratio, warm ivory background, charcoal type, orange application boundary and arrows, teal details, isometric paper illustration style, and all correct arrow directions. Only localize every Chinese label into clear natural English. Replace title with 'Employee Knowledge & Service Ticket Assistant'; boundary label 'Application: permissions & actions'; left label 'Employee request'; small chat bubble 'Policy question or service ticket'; entry gate 'Identity & access'; upper row left-to-right 'Authorized docs', 'Retrieval', 'Model answer', 'Cited evidence'; lower row left-to-right 'Field validation', 'User confirmation', 'Mock ticket API', 'Ticket receipt'; bottom takeaway 'The model suggests. The system verifies the result.' Use readable editorial typography, wrapping onto two short lines where needed. Leave generous spacing. Do not add objects, logos, arrows, claims or Chinese text. The two lanes are knowledge answers above and service ticket execution below. No outside database or external arrows.",
+      "reference": "public/images/learn/fde-architecture-zh.png"
+    },
+    {
+      "name": "fde-retrieval-zh",
+      "output": "public/images/learn/fde-retrieval-zh.png",
+      "original": "C:/Users/20825/.codex/generated_images/01a06534-e958-76d3-9762-9d7667919a4d/exec-20633319-95f2-49b3-9b50-510b8888b526.png",
+      "width": 1672,
+      "height": 941,
+      "prompt": "Create a NEW educational diagram in the same warm ivory, charcoal, burnt orange and teal editorial illustration style as the reference. Wide 16:9 canvas, spacious three-column layout, very legible simplified Chinese text, subtle isometric paper cards. Not a remake of the reference architecture. Topic: a RAG answer must use an authorized, current source and preserve its conditions. Exact title at top: '引用必须支持结论'. Small subtitle '虚构制度教学示例'. LEFT column header '先筛选资料'. Show three paper document cards: '当前版本 · 有权限' with teal check; '已失效' with gray crossed status; '无权限' with closed orange lock. A single clear orange arrow goes ONLY from the checked current authorized document to the MIDDLE evidence card, no arrows from rejected documents. MIDDLE header '保留原文条件'. Evidence card exact text large on separate lines: '模拟报修制度 v1' / '紧急报修：两小时内响应' / '不承诺当日更换'. Highlight '响应' and '不承诺' in burnt orange. One clear orange arrow from this evidence card to the RIGHT answer area. RIGHT header '回答不超出证据'. Two stacked response cards: teal check card text '紧急报修会在两小时内响应。' with footer '依据：模拟制度 v1'; below gray/orange crossed card text '今天一定更换。' with footer '原文不支持'. Bottom takeaway ribbon in teal: '检索到了，不等于可以照单全说'. Exactly these labels only; avoid any fake statistics, logos, long text, futuristic graphics, brain or planet. All rejected-card indications are gray/orange, not confusing red/green alone. The graphic should teach a specific source-to-claim comparison, not decorate.",
+      "reference": "public/images/learn/fde-architecture-zh.png"
+    },
+    {
+      "name": "fde-retrieval-en",
+      "output": "public/images/learn/fde-retrieval-en.png",
+      "original": "C:/Users/20825/.codex/generated_images/01a06534-e958-76d3-9762-9d7667919a4d/exec-059ae309-8e4d-496a-9690-ea0efb723382.png",
+      "width": 1672,
+      "height": 941,
+      "prompt": "Localize this exact educational source-to-claim diagram into English. Preserve the three-column layout, arrows, colors, document icons, current-source check, rejected-source cross and lock, citation comparison and wide canvas. All typography must be clear and readable, with shorter lines where necessary. Replace all Chinese text, leaving no Chinese. Title 'Citations must support the claim'. Subtitle 'Fictional policy for practice'. Left column header 'Filter the sources'; document labels 'Current · authorized', 'Expired', 'No access'. Middle header 'Keep the conditions'; source card 'Mock repair policy v1' / 'Urgent repairs: respond within two hours' / 'No promise of same-day replacement'. Highlight 'respond' and 'No promise'. Right header 'Stay within the evidence'; checked answer 'Urgent repairs receive a response within two hours.' with footer 'Source: mock policy v1'; crossed answer 'It will be replaced today.' with footer 'Not supported by the source'. Bottom takeaway 'Keep the source conditions in the answer'. Do not change logic or add arrows, illustrations, logos, claims or data. This is an independently authored teaching diagram, not a real company's service promise.",
+      "reference": "public/images/learn/fde-retrieval-zh.png"
+    },
+    {
+      "name": "fde-execution-zh",
+      "output": "public/images/learn/fde-execution-zh.png",
+      "original": "C:/Users/20825/.codex/generated_images/01a06534-e958-76d3-9762-9d7667919a4d/exec-49809220-501b-4716-a347-5ac6444ede49.png",
+      "width": 1672,
+      "height": 941,
+      "prompt": "Create a NEW teaching diagram, using the reference only for the warm ivory editorial illustration style, orange arrows and section labels, charcoal text, teal verified states and spacious paper-card look. Wide 16:9, legible Simplified Chinese. Topic: a service ticket is written but its response times out; verify the original action rather than creating a duplicate. Top title exact '超时之后，先核对原动作'. Subtitle exact '模拟情境：已写入，但响应超时'. Draw six large clearly numbered cards in two rows, a precise flow. TOP ROW left-to-right: '1 用户确认' with small text '动作标识 demo-001'; orange arrow to '2 接口已写入' with a single ticket card '工单 T-001'; orange arrow to '3 响应超时' with text '客户端：结果未知' and a clock/question icon. From card 3 draw ONE clear orange connector that goes down and around the outside of the cards, without crossing text, to BOTTOM ROW LEFT card '4 查询原动作' with text '仍用 demo-001'. Bottom row flows left-to-right with orange arrows: card4 to '5 找到同一工单' with single ticket 'T-001' and teal check; then to '6 告知已核实' with text '实际工单：1 张'. Bottom takeaway ribbon '不要换新标识直接重建'. Keep separate step numbers and every arrow correct: 1→2→3→4→5→6. No arrows imply that a timeout always means success; the subtitle explicitly describes one mock scenario. No decorative external databases, branching guesses, model-confidence claims, logos, real customer data or extra labels. The emphasis is the difference between server state and client knowledge.",
+      "reference": "public/images/learn/fde-architecture-zh.png"
+    },
+    {
+      "name": "fde-execution-en",
+      "output": "public/images/learn/fde-execution-en.png",
+      "original": "C:/Users/20825/.codex/generated_images/01a06534-e958-76d3-9762-9d7667919a4d/exec-569b99ac-a273-4531-8e43-cae5878d37b4.png",
+      "width": 1672,
+      "height": 941,
+      "prompt": "Localize this exact teaching flowchart into English. Preserve all six cards, the arrow order 1→2→3→4→5→6, the outside connector from top right to bottom left, the mock ticket identifier T-001, the stable action identifier demo-001, colors, layout and editorial illustration style. Replace all Chinese text, with readable short lines and no Chinese remaining. Title 'After a timeout, verify the original action'. Subtitle 'Mock scenario: written, but the response timed out'. Card1 '1 User confirms' / 'Action ID demo-001'. Card2 '2 Server writes' / 'Ticket T-001'. Card3 '3 Response times out' / 'Client: result unknown'. Card4 '4 Query original action' / 'Keep demo-001'. Card5 '5 Find the same ticket' / 'Ticket T-001'. Card6 '6 Report verified result' / 'Actual tickets: 1'. Bottom takeaway 'Do not recreate with a new action ID'. The subtitle must stay visible: this is one written-then-timeout simulation, not a claim that every timeout means success. Do not add arrows, states, logos or data.",
+      "reference": "public/images/learn/fde-execution-zh.png"
+    }
+  ]
+}

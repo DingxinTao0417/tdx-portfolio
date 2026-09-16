@@ -22,6 +22,7 @@ export function Navbar() {
   const t = useTranslations("Nav");
   const locale = useLocale();
   const pathname = usePathname();
+  const learningDetail = pathname.startsWith("/learn/");
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -110,7 +111,7 @@ export function Navbar() {
             </Link>
 
             {/* Desktop links */}
-            <ul className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 lg:flex">
+            <ul className="absolute left-1/2 hidden w-max -translate-x-1/2 items-center gap-1 lg:flex">
               {navItems.map((item) => {
                 const active = isActive(pathname, item.href);
                 return (
@@ -119,7 +120,7 @@ export function Navbar() {
                       href={item.href}
                       aria-current={active ? "page" : undefined}
                       className={cn(
-                        "relative z-10 inline-flex h-10 items-center rounded-lg px-3 text-[13px] font-medium transition-colors",
+                        "relative z-10 inline-flex h-10 items-center whitespace-nowrap rounded-lg px-3 text-[13px] font-medium transition-colors",
                         active ? "text-accent" : "text-muted hover:text-fg",
                       )}
                     >
@@ -142,11 +143,11 @@ export function Navbar() {
               <LocaleSwitcher label={t("switchLocale")} className="hidden sm:flex" onNavigate={() => setOpen(false)} />
               <ThemeToggle label={t("toggleTheme")} />
               {/* Hidden between lg and xl: the centred link row would collide with it there. */}
-              <div className="hidden md:block lg:hidden xl:block">
+              {!learningDetail && <div className="hidden md:block lg:hidden xl:block">
                 <ButtonLink href="/contact" size="sm" arrow onClick={() => setOpen(false)}>
                   {t("cta")}
                 </ButtonLink>
-              </div>
+              </div>}
               <button
                 ref={menuToggleRef}
                 type="button"
@@ -217,9 +218,9 @@ export function Navbar() {
               transition={{ delay: 0.35 }}
             >
               <LocaleSwitcher label={t("switchLocale")} onNavigate={() => setOpen(false)} />
-              <ButtonLink href="/contact" size="sm" arrow onClick={() => setOpen(false)}>
+              {!learningDetail && <ButtonLink href="/contact" size="sm" arrow onClick={() => setOpen(false)}>
                 {t("cta")}
-              </ButtonLink>
+              </ButtonLink>}
             </motion.div>
           </motion.div>
         )}

@@ -1,0 +1,591 @@
+{
+  "schema_version": "1.0",
+  "id": "fde-practical-v01",
+  "version": "0.1",
+  "title": "FDE实战：把AI应用交付给客户",
+  "language": "zh-CN",
+  "status": "content_draft",
+  "author_display_name": null,
+  "created": "2026-09-15",
+  "audience": "有基础编程能力的AI应用开发者与技术交付人员",
+  "estimated_hours": {
+    "guided_lessons": 24,
+    "project": 16,
+    "total": 40,
+    "condition": "教学脚手架、合成资料和mock接口齐备后；本包尚未提供这些工程材料"
+  },
+  "lesson_count": 32,
+  "question_counts": {
+    "objective": 64,
+    "open_response": 8,
+    "total": 72
+  },
+  "question_file": "questions.json",
+  "answer_key_file": "answer-key.json",
+  "preview_path": "preview/practice.html",
+  "grading_policy": {
+    "objective": "exact_set_match",
+    "objective_points_per_question": 1,
+    "open_response": "rubric_self_assessment_or_human_review",
+    "project_pass_score": 70,
+    "mandatory_gates": [
+      "safety",
+      "reproducibility"
+    ],
+    "not_a_professional_certification": true
+  },
+  "modules": [
+    {
+      "id": "m01",
+      "order": 1,
+      "title": "FDE角色与AI基础",
+      "estimated_minutes": 300,
+      "lessons": [
+        {
+          "id": "m01-l01",
+          "order": 1,
+          "title": "FDE的职责与交付证据",
+          "content_path": "lessons/01-01.md",
+          "duration_minutes": 45,
+          "content_status": "draft",
+          "learning_objective": "你能把一个模糊的 AI 应用需求拆成任务、依赖、验证方法和交接责任，并区分演示成功与业务动作完成。",
+          "practice_required": true,
+          "implementation_track": "core",
+          "objective_question_ids": [
+            "m01-l01-q01",
+            "m01-l01-q02"
+          ]
+        },
+        {
+          "id": "m01-l02",
+          "order": 2,
+          "title": "语言模型与能力边界",
+          "content_path": "lessons/01-02.md",
+          "duration_minutes": 45,
+          "content_status": "draft",
+          "learning_objective": "你能解释模型输出为什么需要核验，并为知识、计算和业务动作选择可靠的结果来源。",
+          "practice_required": true,
+          "implementation_track": "core",
+          "objective_question_ids": [
+            "m01-l02-q01",
+            "m01-l02-q02"
+          ]
+        },
+        {
+          "id": "m01-l03",
+          "order": 3,
+          "title": "Prompt、上下文、记忆与检索",
+          "content_path": "lessons/01-03.md",
+          "duration_minutes": 45,
+          "content_status": "draft",
+          "learning_objective": "你能列出一次模型调用需要的信息，并区分业务规则、会话历史、长期信息和检索资料。",
+          "practice_required": true,
+          "implementation_track": "core",
+          "objective_question_ids": [
+            "m01-l03-q01",
+            "m01-l03-q02"
+          ]
+        },
+        {
+          "id": "m01-l04",
+          "order": 4,
+          "title": "Agent与Workflow架构判断",
+          "content_path": "lessons/01-04.md",
+          "duration_minutes": 45,
+          "content_status": "draft",
+          "learning_objective": "你能根据任务路径是否固定，判断单次调用、工作流或动态智能体是否合适。",
+          "practice_required": true,
+          "implementation_track": "core",
+          "objective_question_ids": [
+            "m01-l04-q01",
+            "m01-l04-q02"
+          ]
+        }
+      ],
+      "case_question_id": "m01-case01"
+    },
+    {
+      "id": "m02",
+      "order": 2,
+      "title": "客户发现与方案设计",
+      "estimated_minutes": 300,
+      "lessons": [
+        {
+          "id": "m02-l01",
+          "order": 1,
+          "title": "客户访谈与流程现状",
+          "content_path": "lessons/02-01.md",
+          "duration_minutes": 45,
+          "content_status": "draft",
+          "learning_objective": "你能通过具体事件还原现有工作流程，区分用户陈述、直接观察与待验证假设，找出助手可以介入的位置。",
+          "practice_required": true,
+          "implementation_track": "core",
+          "objective_question_ids": [
+            "m02-l01-q01",
+            "m02-l01-q02"
+          ]
+        },
+        {
+          "id": "m02-l02",
+          "order": 2,
+          "title": "业务基线与价值指标",
+          "content_path": "lessons/02-02.md",
+          "duration_minutes": 45,
+          "content_status": "draft",
+          "learning_objective": "你能给业务目标写出可重复计算的指标，建立当前流程的基线，并避免把演示效果直接换算成收益。",
+          "practice_required": true,
+          "implementation_track": "core",
+          "objective_question_ids": [
+            "m02-l02-q01",
+            "m02-l02-q02"
+          ]
+        },
+        {
+          "id": "m02-l03",
+          "order": 3,
+          "title": "范围、优先级与验收",
+          "content_path": "lessons/02-03.md",
+          "duration_minutes": 45,
+          "content_status": "draft",
+          "learning_objective": "你能把需求拆成边界明确的任务，说明取舍理由，并写出正常、失败和禁止行为的验收条件。",
+          "practice_required": true,
+          "implementation_track": "core",
+          "objective_question_ids": [
+            "m02-l03-q01",
+            "m02-l03-q02"
+          ]
+        },
+        {
+          "id": "m02-l04",
+          "order": 4,
+          "title": "方案画布与利益相关者",
+          "content_path": "lessons/02-04.md",
+          "duration_minutes": 45,
+          "content_status": "draft",
+          "learning_objective": "你能用一页方案画布对齐业务、技术和安全责任，并明确哪些决定需要谁确认。",
+          "practice_required": true,
+          "implementation_track": "core",
+          "objective_question_ids": [
+            "m02-l04-q01",
+            "m02-l04-q02"
+          ]
+        }
+      ],
+      "case_question_id": "m02-case01"
+    },
+    {
+      "id": "m03",
+      "order": 3,
+      "title": "架构与企业系统集成",
+      "estimated_minutes": 300,
+      "lessons": [
+        {
+          "id": "m03-l01",
+          "order": 1,
+          "title": "架构分层与模型选型",
+          "content_path": "lessons/03-01.md",
+          "duration_minutes": 45,
+          "content_status": "draft",
+          "learning_objective": "你能画出助手的职责分层，用同一组任务比较候选模型，并将关键权限与执行控制放在模型之外。",
+          "practice_required": true,
+          "implementation_track": "core",
+          "objective_question_ids": [
+            "m03-l01-q01",
+            "m03-l01-q02"
+          ]
+        },
+        {
+          "id": "m03-l02",
+          "order": 2,
+          "title": "工具契约与企业API集成",
+          "content_path": "lessons/03-02.md",
+          "duration_minutes": 45,
+          "content_status": "draft",
+          "learning_objective": "你能定义一个可验证的建单工具契约，处理缺字段、重复请求与未知执行状态，而不把模型文本当作执行凭证。",
+          "practice_required": true,
+          "implementation_track": "core",
+          "objective_question_ids": [
+            "m03-l02-q01",
+            "m03-l02-q02"
+          ]
+        },
+        {
+          "id": "m03-l03",
+          "order": 3,
+          "title": "身份权限与数据边界",
+          "content_path": "lessons/03-03.md",
+          "duration_minutes": 45,
+          "content_status": "draft",
+          "learning_objective": "你能为角色、资料与动作建立权限矩阵，验证跨门店访问被阻止，并限制日志中的敏感信息。",
+          "practice_required": true,
+          "implementation_track": "core",
+          "objective_question_ids": [
+            "m03-l03-q01",
+            "m03-l03-q02"
+          ]
+        },
+        {
+          "id": "m03-l04",
+          "order": 4,
+          "title": "POC验证与风险评审",
+          "content_path": "lessons/03-04.md",
+          "duration_minutes": 45,
+          "content_status": "draft",
+          "learning_objective": "你能让 POC 回答一个明确的不确定问题，整理可复现证据，并给出继续、补证或停止的判断。",
+          "practice_required": true,
+          "implementation_track": "core",
+          "objective_question_ids": [
+            "m03-l04-q01",
+            "m03-l04-q02"
+          ]
+        }
+      ],
+      "case_question_id": "m03-case01"
+    },
+    {
+      "id": "m04",
+      "order": 4,
+      "title": "企业知识助手与RAG",
+      "estimated_minutes": 300,
+      "lessons": [
+        {
+          "id": "m04-l01",
+          "order": 1,
+          "title": "知识治理与资料准备",
+          "content_path": "lessons/04-01.md",
+          "duration_minutes": 45,
+          "content_status": "draft",
+          "learning_objective": "你能把散落的制度资料整理成有来源、有版本、有权限边界的知识清单，判断哪些内容可以进入助手。",
+          "practice_required": true,
+          "implementation_track": "core",
+          "objective_question_ids": [
+            "m04-l01-q01",
+            "m04-l01-q02"
+          ]
+        },
+        {
+          "id": "m04-l02",
+          "order": 2,
+          "title": "解析、切分与检索",
+          "content_path": "lessons/04-02.md",
+          "duration_minutes": 45,
+          "content_status": "draft",
+          "learning_objective": "你能检查资料解析结果，设计保留业务上下文的切分方案，并用小型问题集验证检索是否找到正确依据。",
+          "practice_required": true,
+          "implementation_track": "core",
+          "objective_question_ids": [
+            "m04-l02-q01",
+            "m04-l02-q02"
+          ]
+        },
+        {
+          "id": "m04-l03",
+          "order": 3,
+          "title": "依据生成、引用与拒答",
+          "content_path": "lessons/04-03.md",
+          "duration_minutes": 45,
+          "content_status": "draft",
+          "learning_objective": "你能区分“找到相关文字”与“证据足以回答”，设计可核对的引用，并为资料不足或冲突设置响应方式。",
+          "practice_required": true,
+          "implementation_track": "core",
+          "objective_question_ids": [
+            "m04-l03-q01",
+            "m04-l03-q02"
+          ]
+        },
+        {
+          "id": "m04-l04",
+          "order": 4,
+          "title": "知识助手集成与版本更新",
+          "content_path": "lessons/04-04.md",
+          "duration_minutes": 45,
+          "content_status": "draft",
+          "learning_objective": "你能画出知识助手的请求链路，为资料更新设计验证、切换和回退步骤，并识别权限或缓存带来的旧结果。",
+          "practice_required": true,
+          "implementation_track": "core",
+          "objective_question_ids": [
+            "m04-l04-q01",
+            "m04-l04-q02"
+          ]
+        }
+      ],
+      "case_question_id": "m04-case01"
+    },
+    {
+      "id": "m05",
+      "order": 5,
+      "title": "客服工作流与可靠执行",
+      "estimated_minutes": 300,
+      "lessons": [
+        {
+          "id": "m05-l01",
+          "order": 1,
+          "title": "客服任务拆解与结构化输入",
+          "content_path": "lessons/05-01.md",
+          "duration_minutes": 45,
+          "content_status": "draft",
+          "learning_objective": "你能把一句员工请求拆成业务任务和必要字段，保留未知项，区分提供信息、准备动作与实际执行。",
+          "practice_required": true,
+          "implementation_track": "core",
+          "objective_question_ids": [
+            "m05-l01-q01",
+            "m05-l01-q02"
+          ]
+        },
+        {
+          "id": "m05-l02",
+          "order": 2,
+          "title": "路由、分支与业务校验",
+          "content_path": "lessons/05-02.md",
+          "duration_minutes": 45,
+          "content_status": "draft",
+          "learning_objective": "你能设计咨询、查询和写入的分支，为业务动作定义可执行条件，并安排不确定或不支持请求的出口。",
+          "practice_required": true,
+          "implementation_track": "core",
+          "objective_question_ids": [
+            "m05-l02-q01",
+            "m05-l02-q02"
+          ]
+        },
+        {
+          "id": "m05-l03",
+          "order": 3,
+          "title": "工具执行、确认与幂等",
+          "content_path": "lessons/05-03.md",
+          "duration_minutes": 45,
+          "content_status": "draft",
+          "learning_objective": "你能为模拟建单设计确认摘要、执行凭据和幂等策略，正确处理写操作超时后的未知状态。",
+          "practice_required": true,
+          "implementation_track": "core",
+          "objective_question_ids": [
+            "m05-l03-q01",
+            "m05-l03-q02"
+          ]
+        },
+        {
+          "id": "m05-l04",
+          "order": 4,
+          "title": "异常恢复与端到端测试",
+          "content_path": "lessons/05-04.md",
+          "duration_minutes": 45,
+          "content_status": "draft",
+          "learning_objective": "你能把异常分成可重试、需补充信息和需人工处理几类，用 mock API 验证从请求到业务结果的完整链路。",
+          "practice_required": true,
+          "implementation_track": "core",
+          "objective_question_ids": [
+            "m05-l04-q01",
+            "m05-l04-q02"
+          ]
+        }
+      ],
+      "case_question_id": "m05-case01"
+    },
+    {
+      "id": "m06",
+      "order": 6,
+      "title": "工具与智能体扩展",
+      "estimated_minutes": 300,
+      "lessons": [
+        {
+          "id": "m06-l01",
+          "order": 1,
+          "title": "工具、Skills与MCP的分工",
+          "content_path": "lessons/06-01.md",
+          "duration_minutes": 45,
+          "content_status": "draft",
+          "learning_objective": "你能说明工具、Skills 和 MCP 分别解决什么问题，并为一次工单操作列出权限和执行证据。",
+          "practice_required": true,
+          "implementation_track": "core",
+          "objective_question_ids": [
+            "m06-l01-q01",
+            "m06-l01-q02"
+          ]
+        },
+        {
+          "id": "m06-l02",
+          "order": 2,
+          "title": "多智能体职责、转交与复核",
+          "content_path": "lessons/06-02.md",
+          "duration_minutes": 45,
+          "content_status": "draft",
+          "learning_objective": "你能为多个智能体写清职责、转交材料和复核条件，并判断何时不需要多智能体。",
+          "practice_required": true,
+          "implementation_track": "optional_extension",
+          "objective_question_ids": [
+            "m06-l02-q01",
+            "m06-l02-q02"
+          ]
+        },
+        {
+          "id": "m06-l03",
+          "order": 3,
+          "title": "受控文件与代码自动化",
+          "content_path": "lessons/06-03.md",
+          "duration_minutes": 45,
+          "content_status": "draft",
+          "learning_objective": "你能给文件和代码自动化划定操作目录，并设计执行前预览和执行后检查。",
+          "practice_required": true,
+          "implementation_track": "optional_extension",
+          "objective_question_ids": [
+            "m06-l03-q01",
+            "m06-l03-q02"
+          ]
+        },
+        {
+          "id": "m06-l04",
+          "order": 4,
+          "title": "异步任务、定时执行与渠道",
+          "content_path": "lessons/06-04.md",
+          "duration_minutes": 45,
+          "content_status": "draft",
+          "learning_objective": "你能区分请求受理与任务完成，设计异步状态、重复触发处理和通知边界。",
+          "practice_required": true,
+          "implementation_track": "optional_extension",
+          "objective_question_ids": [
+            "m06-l04-q01",
+            "m06-l04-q02"
+          ]
+        }
+      ],
+      "case_question_id": "m06-case01"
+    },
+    {
+      "id": "m07",
+      "order": 7,
+      "title": "调试、评测与专项优化",
+      "estimated_minutes": 300,
+      "lessons": [
+        {
+          "id": "m07-l01",
+          "order": 1,
+          "title": "链路观察与错误归因",
+          "content_path": "lessons/07-01.md",
+          "duration_minutes": 45,
+          "content_status": "draft",
+          "learning_objective": "你能沿一次请求的执行记录定位故障，区分观察到的事实和仍待验证的原因。",
+          "practice_required": true,
+          "implementation_track": "core",
+          "objective_question_ids": [
+            "m07-l01-q01",
+            "m07-l01-q02"
+          ]
+        },
+        {
+          "id": "m07-l02",
+          "order": 2,
+          "title": "评测集、指标与裁判校准",
+          "content_path": "lessons/07-02.md",
+          "duration_minutes": 45,
+          "content_status": "draft",
+          "learning_objective": "你能设计小型固定评测集，选择可检查的指标，并说明模型裁判的使用限制。",
+          "practice_required": true,
+          "implementation_track": "core",
+          "objective_question_ids": [
+            "m07-l02-q01",
+            "m07-l02-q02"
+          ]
+        },
+        {
+          "id": "m07-l03",
+          "order": 3,
+          "title": "Prompt与RAG专项优化",
+          "content_path": "lessons/07-03.md",
+          "duration_minutes": 45,
+          "content_status": "draft",
+          "learning_objective": "你能根据错误类型选择提示词或检索改动，并用固定条件判断是否真的改善。",
+          "practice_required": true,
+          "implementation_track": "core",
+          "objective_question_ids": [
+            "m07-l03-q01",
+            "m07-l03-q02"
+          ]
+        },
+        {
+          "id": "m07-l04",
+          "order": 4,
+          "title": "Workflow与协作链路优化",
+          "content_path": "lessons/07-04.md",
+          "duration_minutes": 45,
+          "content_status": "draft",
+          "learning_objective": "你能检查工作流里的等待、重复和转交损失，并在优化时保留安全控制。",
+          "practice_required": true,
+          "implementation_track": "core",
+          "objective_question_ids": [
+            "m07-l04-q01",
+            "m07-l04-q02"
+          ]
+        }
+      ],
+      "case_question_id": "m07-case01"
+    },
+    {
+      "id": "m08",
+      "order": 8,
+      "title": "安全、上线方法与客户交接",
+      "estimated_minutes": 300,
+      "lessons": [
+        {
+          "id": "m08-l01",
+          "order": 1,
+          "title": "系统安全与责任边界",
+          "content_path": "lessons/08-01.md",
+          "duration_minutes": 45,
+          "content_status": "draft",
+          "learning_objective": "你能列出系统资产、信任边界和责任人，并识别必须停止交付的安全问题。",
+          "practice_required": true,
+          "implementation_track": "core",
+          "objective_question_ids": [
+            "m08-l01-q01",
+            "m08-l01-q02"
+          ]
+        },
+        {
+          "id": "m08-l02",
+          "order": 2,
+          "title": "部署配置、监控与成本",
+          "content_path": "lessons/08-02.md",
+          "duration_minutes": 45,
+          "content_status": "draft",
+          "learning_objective": "你能写出隔离部署的配置清单、监控指标和预算停止条件。",
+          "practice_required": true,
+          "implementation_track": "core",
+          "objective_question_ids": [
+            "m08-l02-q01",
+            "m08-l02-q02"
+          ]
+        },
+        {
+          "id": "m08-l03",
+          "order": 3,
+          "title": "灰度发布、降级与回滚",
+          "content_path": "lessons/08-03.md",
+          "duration_minutes": 45,
+          "content_status": "draft",
+          "learning_objective": "你能设计小范围试用、停止阈值和恢复方案，并区分应用回滚与业务动作撤销。",
+          "practice_required": true,
+          "implementation_track": "core",
+          "objective_question_ids": [
+            "m08-l03-q01",
+            "m08-l03-q02"
+          ]
+        },
+        {
+          "id": "m08-l04",
+          "order": 4,
+          "title": "客户培训、交接与复盘",
+          "content_path": "lessons/08-04.md",
+          "duration_minutes": 45,
+          "content_status": "draft",
+          "learning_objective": "你能制作可由他人执行的交接材料，并把模拟验收结果与真实上线状态分开。",
+          "practice_required": true,
+          "implementation_track": "core",
+          "objective_question_ids": [
+            "m08-l04-q01",
+            "m08-l04-q02"
+          ]
+        }
+      ],
+      "case_question_id": "m08-case01"
+    }
+  ]
+}

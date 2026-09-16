@@ -5,6 +5,7 @@ import { FeaturedProjects } from "@/components/home/featured-projects";
 import { GitHubPanel, GitHubPanelSkeleton } from "@/components/home/github-panel";
 import { Hero } from "@/components/home/hero";
 import { LatestPosts } from "@/components/home/latest-posts";
+import { LearningSpotlight } from "@/components/home/learning-spotlight";
 import { TechMarquee } from "@/components/home/tech-marquee";
 import { WhatIDo } from "@/components/home/what-i-do";
 
@@ -21,6 +22,7 @@ export default function HomePage() {
       </Suspense>
       <AIUsagePanel />
       <LatestPosts />
+      <LearningSpotlight />
     </>
   );
 }

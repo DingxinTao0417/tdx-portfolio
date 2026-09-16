@@ -1,5 +1,17 @@
 @import "tailwindcss";
 
+.learning-progress {
+  appearance: none;
+  overflow: hidden;
+  border: 0;
+  border-radius: 999px;
+  background: var(--line);
+  color: var(--accent);
+}
+.learning-progress::-webkit-progress-bar { background: var(--line); border-radius: 999px; }
+.learning-progress::-webkit-progress-value { background: var(--accent); border-radius: 999px; }
+.learning-progress::-moz-progress-bar { background: var(--accent); border-radius: 999px; }
+
 /* Dark mode is driven by the `.dark` class set by next-themes */
 @custom-variant dark (&:where(.dark, .dark *));
 /* Short viewports (small laptops, landscape phones): tighten vertical rhythm so
