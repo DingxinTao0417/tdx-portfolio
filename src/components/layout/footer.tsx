@@ -3,7 +3,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { navItems } from "@/data/nav";
 import { site } from "@/data/site";
 import { Link } from "@/i18n/navigation";
-import { ButtonLink } from "@/components/ui/button";
+import { ContactBanner } from "@/components/layout/contact-banner";
 import { TechIcon } from "@/components/ui/tech-icon";
 import { WeChatDialog } from "@/components/contact/wechat-dialog";
 
@@ -17,15 +17,7 @@ export async function Footer() {
     <footer className="relative mt-16 border-t border-line bg-bg-elevated/50 sm:mt-20">
       <div className="container-x">
         {/* CTA band */}
-        <div className="flex flex-col gap-7 py-12 md:flex-row md:items-center md:justify-between sm:py-16">
-          <h2 className="max-w-2xl font-display text-2xl font-medium leading-[1.35] tracking-tight sm:text-3xl lg:text-4xl">
-            {t("tagline")}{" "}
-            <span className="font-serif font-normal italic text-accent">{t("taglineAccent")}</span>
-          </h2>
-          <ButtonLink href="/contact" size="lg" arrow>
-            {t("cta")}
-          </ButtonLink>
-        </div>
+        <ContactBanner />
 
         <div className="grid gap-x-10 gap-y-8 border-t border-line py-10 sm:grid-cols-2 lg:grid-cols-12">
           {/* Brand */}

@@ -1,0 +1,12 @@
+.banner { position: relative; isolation: isolate; overflow: hidden; margin: 2.5rem 0; border: 1px solid #ffffff1a; border-radius: 1.5rem; background: #0b0b0c; color: #fff; }
+.artwork { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+.content { position: relative; max-width: 60%; padding: 3rem; }
+.button { display: inline-flex; min-height: 44px; align-items: center; justify-content: center; gap: 1.5rem; margin-top: 1.5rem; padding: .7rem 1.2rem; border: 1px solid #ffffff52; border-radius: .75rem; background: #ffffff0a; backdrop-filter: blur(4px); color: #fff; font-size: .8125rem; transition: background-color 180ms, border-color 180ms; }
+.button:hover { border-color: #ffffff99; background: #ffffff14; }
+.button:focus-visible { outline: 2px solid #ff9b64; outline-offset: 4px; }
+@media (max-width: 767px) {
+  .content { max-width: none; padding: 2rem 1.5rem 12rem; }
+  .artwork { inset: auto 0 0; height: 12rem; mask-image: linear-gradient(transparent, #000 35%); }
+  .artwork img { object-position: right bottom; }
+}
+@media (prefers-reduced-motion: reduce) { .button { transition: none; } }

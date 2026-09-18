@@ -1,0 +1,48 @@
+{
+  "generator": "Built-in image_gen",
+  "purpose": "Four language-neutral background images for Home.whatIDo, rendered as decorative artwork behind localized HTML copy.",
+  "style": "Dark editorial 3D still lifes with graphite, smoked glass, copper-orange accents and reserved copy areas. Subjects differ by card.",
+  "notes": [
+    "Original generated PNGs remain in the image generation output folder.",
+    "WebP assets are re-encoded at original dimensions, without cropping or resizing.",
+    "Only the link hover scale animates inside the cards; background artwork is static."
+  ],
+  "assets": [
+    {
+      "name": "AI applications",
+      "source": "exec-ae9993d7-6b51-4ffd-a914-0c755f1c1f42.png",
+      "output": "public/images/home/feature-ai.webp",
+      "width": 1024,
+      "height": 1536,
+      "quality": 88,
+      "prompt": "Use case: stylized-concept.\nAsset type: a full-bleed portrait background illustration for the tall left card of a developer portfolio's four-card features section. Generate one single image, portrait 2:3 composition, preferably 1024x1536.\nPrimary request: illustrate turning raw information into an AI application, through a beautifully crafted physical metaphor. A loose fan of three thin smoked-glass rectangular input sheets on the upper left feeds three precise warm copper light paths into a compact translucent amber rectangular core, with a few clean glass output tiles emerging on the upper right. The components form one coherent sculptural object, with tangible depth and excellent silhouette, not a diagram or UI screenshot.\nScene/backdrop: near-black charcoal studio, subtle warm slate depth, no horizon or scenery.\nStyle/medium: high-end editorial 3D still-life render, photographic material realism, softly frosted glass and dark brushed metal, restrained copper-orange edges. Quiet and sophisticated, fitting an existing warm off-white / charcoal / orange portfolio.\nComposition/framing: the sculpture fits entirely inside the central 78% of width and vertical 16%-57% of the image. Leave the top 12% and bottom 38% very dark, clean and low detail for HTML copy to be added later. The object must not enter that lower copy zone. Keep all meaningful geometry away from image edges for responsive cropping.\nLighting/mood: soft studio key light, modest amber glow, detailed material edges, subtle film grain, deep contrast without excessive bloom.\nConstraints: NO text, letters, numbers, logos, watermark, UI, buttons, card borders, labels or typography anywhere. No brain, humanoid robot, planet, sphere, stars, neon-purple cyberpunk, or busy particles. This is only the background artwork, not a finished website mockup. One image only."
+    },
+    {
+      "name": "Full-stack products",
+      "source": "exec-b30daf69-a702-45df-a070-5d793583afdb.png",
+      "output": "public/images/home/feature-fullstack.webp",
+      "width": 1774,
+      "height": 887,
+      "quality": 88,
+      "prompt": "Use case: stylized-concept.\nAsset type: full-bleed background artwork for a wide horizontal feature card in a developer portfolio. One landscape image, approximately 2:1 aspect ratio, preferably 1536x768.\nPrimary request: a sculptural, tangible representation of a full-stack product: three parallel floating smoked-glass panels, one suggesting a clean interface through large empty rectangular cutouts, one dark brushed metal service layer with orderly copper connections, and one compact stack of rounded rectangular data slabs. The layers are visibly connected into one coherent assembled system, with air gaps and warm orange-copper light tracing their edges.\nScene/backdrop: near-black warm charcoal seamless studio, subtly illuminated ground, no scenery or horizon.\nStyle/medium: refined editorial 3D product still-life, photographic glass and brushed graphite metal, understated architectural precision, not a diagram or a screenshot.\nComposition/framing: place the complete sculptural assembly entirely in the RIGHT 48% of the canvas, centered vertically, sized generously with all edges visible. Leave the entire LEFT 48% plain dark and quiet for HTML heading, short description and button. Keep the top 10% dark for a small label. No objects or bright lines crossing into the left copy area.\nLighting/mood: soft amber rim light, soft neutral studio key light, controlled reflections, detailed textures, no intense bloom.\nColor palette: black, warm graphite, smoked clear glass, copper-orange accents, restrained and compatible with an off-white/charcoal/orange website.\nConstraints: no text, letters, numbers, logos, watermark, labels, UI typography, buttons, border or card mockup. No brain, planet, robot, rainbow neon, starfield, or decorative clutter. One image, no contact sheet."
+    },
+    {
+      "name": "FDE practice",
+      "source": "exec-8ae9ce04-8cbb-4584-b8bb-62bbb062515a.png",
+      "output": "public/images/home/feature-fde.webp",
+      "width": 1254,
+      "height": 1254,
+      "quality": 88,
+      "prompt": "Use case: stylized-concept.\nAsset type: square full-bleed background illustration for a small FDE learning card in a developer portfolio. One square 1024x1024 image.\nPrimary request: a carefully engineered miniature bridge made of three substantial graphite stone platforms, joined by one precise copper-orange route that starts on the nearest platform, steps across a glass connector, and reaches a solid upright rectangular gateway on the furthest platform. A clear physical metaphor for moving from requirements to an implemented delivery. Exactly one simple purposeful path, not a maze.\nScene/backdrop: deep near-black slate studio with quiet atmospheric depth.\nStyle/medium: high-end architectural 3D miniature photography, tactile matte stone, restrained brushed copper and a little translucent smoked glass, crisp edges and soft shadows. Contemporary editorial rather than sci-fi.\nComposition/framing: a slightly elevated three-quarter view. All bridge geometry occupies the central 76% of width and vertical 13%-51% of the canvas; the bottom 44% is dark, clean, smooth negative space for a heading, paragraph and button added in HTML. Top 10% stays dark for a small label. Strong silhouette at thumbnail size and safe margins for responsive cropping.\nLighting/mood: warm copper edge light, soft cool-neutral fill, deep blacks, no harsh glowing bloom.\nConstraints: absolutely no text, letters, numbers, logos, labels, watermark, UI, arrows, borders, or written symbols. No people, brain, sphere, planet, or decorative particles. Background artwork only, not a web page. One image only."
+    },
+    {
+      "name": "Development notes",
+      "source": "exec-4a87e6db-c9c7-4f81-8cbd-8b75bcdda90b.png",
+      "output": "public/images/home/feature-notes.webp",
+      "width": 1254,
+      "height": 1254,
+      "quality": 88,
+      "prompt": "Use case: stylized-concept.\nAsset type: square full-bleed background illustration for a developer's blog / development-notes card. One square 1024x1024 image.\nPrimary request: a tactile small open charcoal-covered notebook viewed in three-quarter perspective, with carefully fanned thin warm-gray paper pages and a single curved copper-orange ribbon bookmark. Above the open pages hover two very thin translucent smoked-glass rectangular sheets, evoking notes turning into reusable knowledge. Paper surfaces remain blank and clean.\nScene/backdrop: near-black warm graphite studio, almost invisible dark tabletop, no unrelated props.\nStyle/medium: sophisticated editorial still-life, photorealistic materials with a restrained surreal 3D touch. Real paper edge texture, soft leather-like graphite cover, subtle glass refraction, copper satin bookmark. Quiet, thoughtful, precise.\nComposition/framing: notebook and floating sheets form one unified object within the central 78% of the width and vertical 13%-51% of the canvas. Entire bottom 44% is empty, dark and low contrast for HTML copy and a button. Top 10% is empty dark space for a small label. Keep all objects away from the edges.\nLighting/mood: low-key neutral studio lighting, small warm orange reflections, soft shadows, no aggressive bloom. Ivory only on thin paper edges, the large page surfaces remain dark gray to avoid a bright white patch.\nConstraints: no text, letters, code, numbers, logos, watermark, labels, card borders, UI elements, pencils, hands, people, planets, or stars. One background illustration only, not a complete website or collage."
+    }
+  ]
+}

@@ -5,7 +5,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 import type { Project, ProjectCategory } from "@/data/projects";
 import { cn } from "@/lib/utils";
-import { ProjectCard } from "./project-card";
+import { ProjectPreviewCard } from "./project-preview-card";
 
 type Filter = "all" | ProjectCategory;
 const allFilters: Filter[] = ["all", "ai", "fullstack", "data", "fde"];
@@ -21,7 +21,7 @@ export function ProjectsGrid({ projects }: { projects: Project[] }) {
     (f) => f === "all" || projects.some((p) => p.category === f),
   );
   const visible = filter === "all" ? projects : projects.filter((p) => p.category === filter);
-  const hasLeadCard = visible.length % 2 === 1;
+  const leadSlug = filter === "all" ? projects[0]?.slug : undefined;
 
   return (
     <div className="mt-8 sm:mt-10">
@@ -65,7 +65,7 @@ export function ProjectsGrid({ projects }: { projects: Project[] }) {
 
       <motion.ul layout={!reducedMotion} className="mt-8 grid gap-5 sm:gap-6 md:grid-cols-2">
         <AnimatePresence mode="popLayout">
-          {visible.map((project, i) => (
+          {visible.map((project) => (
             <motion.li
               key={project.slug}
               layout={!reducedMotion}
@@ -73,14 +73,15 @@ export function ProjectsGrid({ projects }: { projects: Project[] }) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: reducedMotion ? 0 : -8 }}
               transition={{ duration: reducedMotion ? 0 : 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className={cn("h-full", hasLeadCard && i === 0 && "md:col-span-2")}
+              className={cn("h-full min-w-0", project.slug === leadSlug && "md:col-span-2")}
             >
-              <ProjectCard
+              <ProjectPreviewCard
                 project={project}
                 locale={locale}
-                categoryLabel={t(`filters.${project.category}`)}
-                ctaLabel={tc("viewProject")}
-                size={hasLeadCard && i === 0 ? "lg" : "md"}
+                category={t(`filters.${project.category}`)}
+                cta={tc("viewProject")}
+                featuredLabel={t("featuredCase")}
+                lead={project.slug === leadSlug}
               />
             </motion.li>
           ))}

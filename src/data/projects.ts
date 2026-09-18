@@ -24,6 +24,9 @@ export type Project = {
   learning?: Localized;
   highlights: Localized[];
   role: Localized;
+  /** Display labels summarize the case study, not a live service-health check. */
+  kind: Localized;
+  stage: { label: Localized; tone: "ready" | "preview" | "paused" };
   year: string;
   category: ProjectCategory;
   stack: string[];
@@ -45,6 +48,8 @@ export type Project = {
 export const projects: Project[] = [
   {
     slug: "multimix",
+    kind: { en: "Product development", zh: "产品开发" },
+    stage: { label: { en: "Frontend deployed", zh: "前端已部署" }, tone: "ready" },
     index: "01",
     title: { en: "MultiMix", zh: "MultiMix" },
     tagline: {
@@ -158,6 +163,8 @@ export const projects: Project[] = [
   },
   {
     slug: "opc-workspace",
+    kind: { en: "Desktop development", zh: "桌面应用开发" },
+    stage: { label: { en: "Windows test build", zh: "Windows 测试版" }, tone: "preview" },
     index: "02",
     title: { en: "opc-workspace", zh: "opc-workspace" },
     tagline: {
@@ -255,6 +262,8 @@ export const projects: Project[] = [
   },
   {
     slug: "omnigate",
+    kind: { en: "Open-source customization", zh: "开源二次开发" },
+    stage: { label: { en: "Deployed", zh: "已部署" }, tone: "ready" },
     index: "03",
     title: { en: "Omnigate", zh: "Omnigate" },
     tagline: {
@@ -359,6 +368,8 @@ export const projects: Project[] = [
   },
   {
     slug: "as-a",
+    kind: { en: "Full-stack development", zh: "全栈开发" },
+    stage: { label: { en: "Demo available", zh: "在线演示" }, tone: "preview" },
     index: "04",
     title: { en: "As-a", zh: "As-a" },
     tagline: {
@@ -469,6 +480,8 @@ export const projects: Project[] = [
   },
   {
     slug: "conuo",
+    kind: { en: "Product development", zh: "产品开发" },
+    stage: { label: { en: "In development", zh: "开发中" }, tone: "preview" },
     index: "05",
     title: { en: "Conuo", zh: "Conuo" },
     tagline: {
@@ -578,6 +591,8 @@ export const projects: Project[] = [
   },
   {
     slug: "dsh-session-conductor",
+    kind: { en: "Plugin development", zh: "插件开发" },
+    stage: { label: { en: "Updates stopped", zh: "停止更新" }, tone: "paused" },
     index: "06",
     title: { en: "DSH Session Conductor", zh: "DSH Session Conductor" },
     tagline: {

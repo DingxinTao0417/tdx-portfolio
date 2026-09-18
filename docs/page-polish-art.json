@@ -1,0 +1,56 @@
+{
+  "generator": "Built-in image_gen",
+  "purpose": "Language-neutral workflow illustrations and the contact banner. Real project screenshots remain unchanged.",
+  "notes": [
+    "Original PNGs retained in the generation output folder.",
+    "WebP files are re-encoded without resizing or cropping.",
+    "Illustrations are decorative; bilingual labels and links remain in HTML."
+  ],
+  "assets": [
+    {
+      "name": "context",
+      "source": "exec-ebf92a90-8259-4971-a5d5-98280380156c.png",
+      "output": "public/images/workflow/context.webp",
+      "width": 1536,
+      "height": 1024,
+      "quality": 85,
+      "prompt": "Use case: stylized-concept. Asset: a decorative editorial illustration for a software developer portfolio. Generate one single image, landscape 3:2, 1536x1024. Refined tactile 3D still life: warm ivory matte paper, frosted clear glass, graphite details, one restrained burnt-orange accent, soft side lighting, gentle shadows on a warm off-white studio background. Three-quarter slightly elevated camera. The sculptural subject occupies the central 75% width and 70% height with ample breathing room. Meaningful and restrained, not sci-fi, not glossy neon. No text, letters, numbers, logos, watermark, people, code, buttons, UI screenshot, or card frame. This is illustration only; all labels will be accessible HTML outside the image.\nSubject: three loose cream paper note cards and one translucent reference panel being aligned into a neat upright brief held by a slim orange clip. One understated connecting line guides the loose pieces into the organized brief. Express gathering scattered requirements and context into a clear task. Physical objects, believable construction, very few elements."
+    },
+    {
+      "name": "review",
+      "source": "exec-b948805b-3fee-48c3-803d-7e5767e0dcb2.png",
+      "output": "public/images/workflow/review.webp",
+      "width": 1536,
+      "height": 1024,
+      "quality": 85,
+      "prompt": "Use case: stylized-concept. Asset: a decorative editorial illustration for a software developer portfolio. Generate one single image, landscape 3:2, 1536x1024. Refined tactile 3D still life: warm ivory matte paper, frosted clear glass, graphite details, one restrained burnt-orange accent, soft side lighting, gentle shadows on a warm off-white studio background. Three-quarter slightly elevated camera. The sculptural subject occupies the central 75% width and 70% height with ample breathing room. Meaningful and restrained, not sci-fi, not glossy neon. No text, letters, numbers, logos, watermark, people, code, buttons, UI screenshot, or card frame. This is illustration only; all labels will be accessible HTML outside the image.\nSubject: a clear optical inspection lens held above two overlapping cream document sheets, revealing one precise graphite rule and a single burnt-orange discrepancy marker underneath. Express checking evidence against source material, not automatic approval. The lens is a physical circular glass object with a fine dark handle; paper has sparse abstract geometric marks only, absolutely no readable writing."
+    },
+    {
+      "name": "scope",
+      "source": "exec-38be2865-b3c8-425f-ad82-a7f21c913b04.png",
+      "output": "public/images/workflow/scope.webp",
+      "width": 1536,
+      "height": 1024,
+      "quality": 85,
+      "prompt": "Use case: stylized-concept. Asset: a decorative editorial illustration for a software developer portfolio. Generate one single image, landscape 3:2, 1536x1024. Refined tactile 3D still life: warm ivory matte paper, frosted clear glass, graphite details, one restrained burnt-orange accent, soft side lighting, gentle shadows on a warm off-white studio background. Three-quarter slightly elevated camera. The sculptural subject occupies the central 75% width and 70% height with ample breathing room. Meaningful and restrained, not sci-fi, not glossy neon. No text, letters, numbers, logos, watermark, people, code, buttons, UI screenshot, or card frame. This is illustration only; all labels will be accessible HTML outside the image.\nSubject: a precise 3 by 3 arrangement of low ivory rectangular building blocks; only the center block is lifted a little and has a restrained burnt-orange side, the other eight remain aligned and unchanged. A thin frosted glass frame outlines that single selected module. Express a small scoped software change without rebuilding the whole system. Tangible architectural model, not interface."
+    },
+    {
+      "name": "docs",
+      "source": "exec-6d86865d-acf1-4f44-9394-30af5ac1371c.png",
+      "output": "public/images/workflow/docs.webp",
+      "width": 1536,
+      "height": 1024,
+      "quality": 85,
+      "prompt": "Use case: stylized-concept. Asset: a decorative editorial illustration for a software developer portfolio. Generate one single image, landscape 3:2, 1536x1024. Refined tactile 3D still life: warm ivory matte paper, frosted clear glass, graphite details, one restrained burnt-orange accent, soft side lighting, gentle shadows on a warm off-white studio background. Three-quarter slightly elevated camera. The sculptural subject occupies the central 75% width and 70% height with ample breathing room. Meaningful and restrained, not sci-fi, not glossy neon. No text, letters, numbers, logos, watermark, people, code, buttons, UI screenshot, or card frame. This is illustration only; all labels will be accessible HTML outside the image.\nSubject: a slim open cream field notebook with a burnt-orange cloth bookmark beside a neat pair of standing frosted glass index dividers and two tucked-in note slips. Sparse abstract graphite rules only, no text. Express keeping decisions and reusable knowledge in project documentation. Calm, tactile, grounded."
+    },
+    {
+      "name": "contact",
+      "source": "exec-e4590450-417f-4001-aa50-2a0fcaf316b6.png",
+      "output": "public/images/contact/collaboration.webp",
+      "width": 2172,
+      "height": 724,
+      "quality": 85,
+      "prompt": "Use case: stylized-concept. Asset: ultrawide decorative background for a developer portfolio contact banner, 3:1 landscape composition, about 1536x512. Near-black charcoal studio, subtle copper-orange lighting and matte graphite materials matching a warm orange-accent portfolio. On the RIGHTMOST 40% only, two beautifully crafted smoked-glass and brushed-copper arcs approach one another and meet through a small precise orange connecting joint, suggesting collaboration and a connection being made. Physical sculptural objects, elegant soft reflections, grounded soft shadows. Keep the LEFT 58% almost empty, dark, extremely low detail for heading and button that will be added as HTML. Keep the whole object within the image and clear of the edges. No text, letters, numbers, logos, UI, hands, people, envelope icon, planet, sci-fi neon, busy particles or watermark. One image only, not a website mockup."
+    }
+  ]
+}

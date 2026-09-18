@@ -97,21 +97,31 @@
       "eyebrow": "01 / Development focus",
       "title": "Development",
       "titleAccent": "in practice.",
+      "cta": "View projects",
       "items": [
         {
           "title": "AI applications",
-          "body": "Integrating model APIs and exploring RAG and agent workflows for specific tasks, with attention to how user input, generated output, and confirmation fit together.",
-          "tags": ["RAG", "AI agents", "Workflows"]
+          "body": "Putting models to work on specific tasks. In Conuo, source reading, AI conversations, and notes share one workspace.",
+          "label": "Models & workflows",
+          "cta": "Explore Conuo"
         },
         {
           "title": "Full-stack products",
-          "body": "Building web and desktop applications that connect interfaces, APIs, and data storage. Project work includes interactions, task states, and error feedback.",
-          "tags": ["Next.js", "TypeScript", "FastAPI", "Postgres"]
+          "body": "Connecting interfaces, APIs, and storage in web and desktop apps. A personal workspace brings tasks and knowledge together.",
+          "label": "Interface to service",
+          "cta": "Explore the workspace"
         },
         {
-          "title": "Forward deployed engineering",
-          "body": "A career direction focused on requirements, system integration, and deployment. I use my projects to learn the process from clarifying a need to checking the delivered result.",
-          "tags": ["Requirements", "System integration", "Deployment & maintenance"]
+          "title": "FDE in practice",
+          "body": "Work through requirements and delivery with lessons, examples, and interactive self-checks.",
+          "label": "Learn & practice",
+          "cta": "Start learning"
+        },
+        {
+          "title": "Development notes",
+          "body": "Project walkthroughs, tool workflows, and the problems and trade-offs behind implementation decisions.",
+          "label": "Process & decisions",
+          "cta": "Read the blog"
         }
       ]
     },
@@ -120,7 +130,20 @@
       "title": "Selected",
       "titleAccent": "projects.",
       "body": "Independent applications and open-source customization, with details on features, my contributions, and implementation choices.",
-      "cta": "All projects"
+      "cta": "All projects",
+      "carousel": {
+        "label": "Selected project showcase",
+        "role": "carousel",
+        "slide": "project",
+        "previous": "Previous project",
+        "next": "Next project",
+        "pause": "Pause automatic rotation",
+        "play": "Start automatic rotation",
+        "choose": "Choose a project",
+        "select": "Show {name}",
+        "open": "View {name} project details",
+        "position": "Project {index} of {count}: {name}"
+      }
     },
     "facts": {
       "eyebrow": "03 / Background",
@@ -218,6 +241,7 @@
     }
   },
   "Projects": {
+    "featuredCase": "Featured case / 01",
     "eyebrow": "Projects",
     "title": "Projects",
     "titleAccent": "and implementation.",
@@ -277,19 +301,23 @@
       "items": [
         {
           "title": "Clarify the task and context",
-          "body": "Review the requirements and relevant code, then confirm the scope, constraints, and expected result before implementation."
+          "body": "Review the requirements and relevant code, then confirm the scope, constraints, and expected result before implementation.",
+          "link": "Read about task structure"
         },
         {
           "title": "Check the basis of a review",
-          "body": "Check review comments against the code and use case, considering the impact, reproduction conditions, and priority of each issue."
+          "body": "Check review comments against the code and use case, considering the impact, reproduction conditions, and priority of each issue.",
+          "link": "Explore the As-a case"
         },
         {
           "title": "Keep changes scoped",
-          "body": "Organize changes around the current requirement. Handle extra refactoring and new features separately to keep review and verification manageable."
+          "body": "Organize changes around the current requirement. Handle extra refactoring and new features separately to keep review and verification manageable.",
+          "link": "Explore Omnigate customization"
         },
         {
           "title": "Document project conventions",
-          "body": "Record recurring issues, necessary constraints, and verification steps in project documentation, updating it as the implementation changes."
+          "body": "Record recurring issues, necessary constraints, and verification steps in project documentation, updating it as the implementation changes.",
+          "link": "Read development notes"
         }
       ]
     },
@@ -438,6 +466,8 @@
     }
   },
   "Footer": {
+    "bannerEyebrow": "Start a conversation",
+    "bannerBody": "Get in touch about AI applications, full-stack development, or a specific product challenge.",
     "tagline": "Opportunities &",
     "taglineAccent": "collaboration.",
     "cta": "Contact me",

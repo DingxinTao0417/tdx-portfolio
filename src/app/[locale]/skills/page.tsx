@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 import { SkillMatrix, SkillsExplorer } from "@/components/skills/skills-explorer";
+import { WorkflowCards } from "@/components/skills/workflow-cards";
 import { PageHeader } from "@/components/ui/page-header";
 import { Reveal, Stagger, StaggerItem } from "@/components/ui/reveal";
 import { SectionHeading } from "@/components/ui/section-heading";
@@ -29,12 +30,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-type Principle = { title: string; body: string };
-
 export default async function SkillsPage() {
   const locale = await getLocale();
   const t = await getTranslations("Skills");
-  const principles = t.raw("principles.items") as Principle[];
 
   return (
     <>
@@ -61,24 +59,14 @@ export default async function SkillsPage() {
       </section>
 
       {/* Principles */}
-      <section className="section-space border-y border-line bg-bg-elevated/35">
+      <section id="workflow" className="section-space scroll-mt-24 border-y border-line bg-bg-elevated/35">
         <div className="container-x">
           <SectionHeading
             eyebrow={t("principles.eyebrow")}
             title={t("principles.title")}
             accent={t("principles.titleAccent")}
           />
-          <Stagger className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-7">
-            {principles.map((p, i) => (
-              <StaggerItem key={p.title} className="h-full">
-                <article className="flex h-full flex-col gap-4 border-t border-line pt-5">
-                  <span className="font-mono text-[11px] text-accent">0{i + 1}</span>
-                  <h3 className="font-display text-xl font-semibold tracking-tight">{p.title}</h3>
-                  <p className="text-sm leading-[1.8] text-muted">{p.body}</p>
-                </article>
-              </StaggerItem>
-            ))}
-          </Stagger>
+          <WorkflowCards />
         </div>
       </section>
 
