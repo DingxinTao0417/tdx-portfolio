@@ -1,6 +1,7 @@
 import { useLocale, useTranslations } from "next-intl";
 import { ProjectShowcase } from "@/components/home/project-showcase";
 import { ButtonLink } from "@/components/ui/button";
+import { Magnetic } from "@/components/ui/magnetic";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { featuredProjects } from "@/data/projects";
 import { pick } from "@/data/types";
@@ -20,9 +21,11 @@ export function FeaturedProjects() {
             accent={t("titleAccent")}
             body={t("body")}
           />
-          <ButtonLink href="/projects" variant="secondary" arrow className="shrink-0">
-            {t("cta")}
-          </ButtonLink>
+          <Magnetic className="shrink-0">
+            <ButtonLink href="/projects" variant="secondary" arrow className="w-full">
+              {t("cta")}
+            </ButtonLink>
+          </Magnetic>
         </div>
 
         <ProjectShowcase
@@ -35,6 +38,8 @@ export function FeaturedProjects() {
             cover: project.cover && {
               src: project.cover.src,
               alt: pick(project.cover.alt, locale),
+              width: project.cover.width,
+              height: project.cover.height,
             },
           }))}
         />

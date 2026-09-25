@@ -1,12 +1,16 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
+import { pad } from "@/components/projects/gallery-utils";
 import { ProjectsGrid } from "@/components/projects/projects-grid";
 import { PageHeader } from "@/components/ui/page-header";
+import { navItems } from "@/data/nav";
 import { projects } from "@/data/projects";
 import { languageAlternates, localizedPath } from "@/i18n/paths";
 import { routing } from "@/i18n/routing";
 
 type Props = { params: Promise<{ locale: string }> };
+
+const navIndex = navItems.findIndex((item) => item.key === "projects") + 1;
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -35,6 +39,7 @@ export default async function ProjectsPage() {
         title={t("title")}
         accent={t("titleAccent")}
         body={t("intro")}
+        index={`${pad(navIndex)} / ${pad(navItems.length)}`}
       />
       <section className="container-x pb-16 sm:pb-24">
         <ProjectsGrid projects={projects} />

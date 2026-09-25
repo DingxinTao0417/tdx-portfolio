@@ -1,14 +1,14 @@
 "use client";
 
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { useEffect, useMemo, useRef, useState, type ReactNode, type RefObject } from "react";
+import { useEffect, useEffectEvent, useRef, useState, type ReactNode, type RefObject } from "react";
 import * as THREE from "three";
 import type { ScenePalette } from "./palette";
-import { fragmentShader, vertexShader } from "./hero-shaders";
-import { buildTargets } from "./hero-targets";
-import { getNetworkLayers, NETWORK_SCALE, NETWORK_SWAY } from "./hero-network";
-import { createHeroCycle, MORPH_DURATION, POINT_DURATION, requestNext, stepHeroCycle } from "./hero-cycle";
-import type { HeroInteraction } from "./hero-interaction";
+import { createHeroCycle, createHeroEntrance, requestNext } from "./hero-cycle";
+import { HeroEngine, type HeroFrame } from "./hero-engine";
+import { createHeroTelemetry, scrollScatter, type HeroInteraction, type HeroTelemetry } from "./hero-interaction";
+import { packShapeAtlasAsync, playbackShapeIds, type ShapeAtlas } from "./hero-shapes";
+import { detectSimulationType, isSoftwareRenderer } from "./hero-simulation";
 
 type SceneProps = {
   palette: ScenePalette;
@@ -19,67 +19,104 @@ type SceneProps = {
   onInvalidateReady: (invalidate: (() => void) | null) => void;
   onPhaseChange: (phase: number) => void;
   fallback: ReactNode;
+  /** Keep particles as drifting dust until true is released (e.g. while a site intro plays). */
+  holdEntrance?: boolean;
+  /** Written every rendered frame for a HUD; never triggers React renders. */
+  telemetry?: RefObject<HeroTelemetry | null>;
 };
 
-function pickQuality() {
+/** Particle grid sides: 256² = 65,536 on capable desktops, 120² = 14,400 on phones/weak devices. */
+const HIGH_SIDE = 256;
+const LOW_SIDE = 120;
+
+type Quality = { count: number; dpr: number };
+
+function pickQuality(): Quality {
   const small = window.innerWidth < 768;
   const weak = (navigator.hardwareConcurrency ?? 8) <= 4;
+  const memory = (navigator as Navigator & { deviceMemory?: number }).deviceMemory;
+  const coarse = window.matchMedia("(pointer: coarse)").matches;
+  const low = small || weak || coarse || (memory !== undefined && memory <= 4);
+  const side = low ? LOW_SIDE : HIGH_SIDE;
   return {
-    count: small || weak ? 7200 : 11000,
+    count: side * side,
     // Fixed for this mount; never resize the canvas for a mid-morph quality change.
     dpr: Math.min(window.devicePixelRatio || 1, 1.5),
   };
 }
 
+// Shape data is deterministic, so remounts (navigating back home) reuse it.
+let atlasCache: { key: string; atlas: Promise<ShapeAtlas> } | null = null;
+function loadAtlas(count: number) {
+  const ids = playbackShapeIds();
+  const key = `${count}:${ids.join(",")}`;
+  if (atlasCache?.key !== key) atlasCache = { key, atlas: packShapeAtlasAsync(ids, count) };
+  const pending = atlasCache.atlas;
+  pending.catch(() => { if (atlasCache?.atlas === pending) atlasCache = null; });
+  return pending;
+}
+
 function Field({
-  palette, reduced, active, nextRequest, interaction, onInvalidateReady, onPhaseChange, count,
-}: Pick<SceneProps, "palette" | "reduced" | "active" | "nextRequest" | "interaction" | "onInvalidateReady" | "onPhaseChange"> & { count: number }) {
-  const points = useRef<THREE.Points>(null);
-  const material = useRef<THREE.ShaderMaterial>(null);
+  palette, reduced, active, nextRequest, interaction, onInvalidateReady, onPhaseChange, holdEntrance = false, telemetry: telemetryRef, quality,
+}: Omit<SceneProps, "fallback"> & { quality: Quality }) {
+  const gl = useThree((state) => state.gl);
+  const camera = useThree((state) => state.camera);
   const invalidate = useThree((state) => state.invalidate);
   const cycle = useRef(createHeroCycle(reduced));
+  const entrance = useRef(createHeroEntrance(reduced));
   const skipNextDelta = useRef(true);
-  const hoverTime = useRef(0);
-  const networkLayers = useMemo(() => getNetworkLayers(), []);
-  const probes = useRef({ corner: new THREE.Vector3(), axis: new THREE.Vector3(0, 1, 0) });
+  const scroll = useRef(0);
+  const frame = useRef<HeroFrame | null>(null);
+  const [engine, setEngine] = useState<HeroEngine | null>(null);
+  const [failure, setFailure] = useState<Error | null>(null);
+  // Surfaces async setup errors to the wrapper's SceneBoundary (icon fallback).
+  if (failure) throw failure;
 
-  const geometry = useMemo(() => {
-    const targets = buildTargets(count);
-    const result = new THREE.BufferGeometry();
-    result.setAttribute("position", new THREE.BufferAttribute(targets.monogram, 3));
-    result.setAttribute("aDatabase", new THREE.BufferAttribute(targets.database, 3));
-    result.setAttribute("aDatabaseStyle", new THREE.BufferAttribute(targets.databaseStyles, 3));
-    result.setAttribute("aDatabaseDetail", new THREE.BufferAttribute(targets.databaseDetails, 3));
-    result.setAttribute("aNetwork", new THREE.BufferAttribute(targets.network, 3));
-    result.setAttribute("aNetworkStyle", new THREE.BufferAttribute(targets.networkStyles, 3));
-    result.setAttribute("aNetworkLink", new THREE.BufferAttribute(targets.networkLinks, 3));
-    result.setAttribute("aLattice", new THREE.BufferAttribute(targets.lattice, 3));
-    result.setAttribute("aSeed", new THREE.BufferAttribute(targets.seeds, 3));
-    result.boundingSphere = new THREE.Sphere(new THREE.Vector3(), 4);
-    return result;
-  }, [count]);
-  useEffect(() => () => geometry.dispose(), [geometry]);
-
-  const uniforms = useMemo(() => ({
-    uTime: { value: 0 },
-    uElapsed: { value: MORPH_DURATION },
-    uFrom: { value: 0 },
-    uTo: { value: 0 },
-    uMorphDur: { value: POINT_DURATION },
-    uSize: { value: 2.4 },
-    uPixelRatio: { value: 1 },
-    uMovement: { value: 1 },
-    uHoverNode: { value: -1 },
-    uHoverTime: { value: 0 },
-    uHoverStrength: { value: 0 },
-    uColor: { value: new THREE.Color(palette.point) },
-    uAccent: { value: new THREE.Color(palette.accent) },
-    uOpacity: { value: palette.additive ? 0.95 : 0.9 },
-  }), [palette.point, palette.accent, palette.additive]);
+  const initialSetup = useEffectEvent(() => ({ palette, reduced }));
+  useEffect(() => {
+    let cancelled = false;
+    let created: HeroEngine | null = null;
+    const software = isSoftwareRenderer(gl);
+    const count = software ? LOW_SIDE * LOW_SIDE : quality.count;
+    const type = software ? null : detectSimulationType(gl);
+    (async () => {
+      const atlas = await loadAtlas(count);
+      if (cancelled) return;
+      const setup = initialSetup();
+      const instance = new HeroEngine(atlas, cycle.current, entrance.current, type, setup.palette, setup.reduced);
+      await instance.prepare(gl, camera);
+      if (cancelled) {
+        instance.dispose();
+        return;
+      }
+      created = instance;
+      setEngine(instance);
+    })().catch((error: unknown) => {
+      if (!cancelled) setFailure(error instanceof Error ? error : new Error(String(error)));
+    });
+    return () => {
+      cancelled = true;
+      created?.dispose();
+      setEngine(null);
+    };
+  }, [gl, camera, quality.count]);
 
   useEffect(() => {
+    if (!engine) return;
+    engine.setPalette(palette);
     invalidate();
-  }, [palette, invalidate]);
+  }, [engine, palette, invalidate]);
+
+  useEffect(() => {
+    if (!engine) return;
+    const canvas = gl.domElement;
+    const restored = () => {
+      engine.restoreContext();
+      invalidate();
+    };
+    canvas.addEventListener("webglcontextrestored", restored);
+    return () => canvas.removeEventListener("webglcontextrestored", restored);
+  }, [engine, gl, invalidate]);
 
   useEffect(() => {
     onInvalidateReady(invalidate);
@@ -87,116 +124,90 @@ function Field({
     return () => onInvalidateReady(null);
   }, [onInvalidateReady, invalidate, onPhaseChange]);
 
+  const handleRequest = useEffectEvent(() => {
+    requestNext(cycle.current);
+    const input = interaction.current;
+    // Keyboard requests carry the centre; clicks and taps carry the pointer.
+    const x = input.clickX ?? (input.inside ? input.x : 0);
+    const y = input.clickY ?? (input.inside ? input.y : 0);
+    engine?.shock(x, y, camera, reduced);
+    invalidate();
+  });
   useEffect(() => {
     if (nextRequest === 0) return;
-    requestNext(cycle.current);
-    invalidate();
-  }, [nextRequest, invalidate]);
+    handleRequest();
+  }, [nextRequest]);
 
+  // A paused HUD should show "stopped" rather than the last running frame.
+  const pause = useEffectEvent(() => {
+    const target = telemetryRef?.current;
+    if (engine && target && !(active && !reduced)) engine.writeTelemetry(target, interaction.current, false, reduced);
+  });
   // Returning onscreen must not count time spent hidden in the next frame.
   useEffect(() => {
     skipNextDelta.current = true;
+    pause();
     invalidate();
   }, [active, reduced, invalidate]);
 
+  // Scroll dispersal: one cheap rect read per scroll event, stored in a ref.
+  useEffect(() => {
+    const canvas = gl.domElement;
+    const update = () => {
+      const rect = canvas.getBoundingClientRect();
+      scroll.current = scrollScatter(rect.top, rect.height, window.innerHeight);
+    };
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+    };
+  }, [gl]);
+
   useFrame((state, delta) => {
-    const m = material.current;
-    if (!m) return;
-    const dt = skipNextDelta.current ? 0 : Math.min(delta, 0.05);
+    if (!engine) return;
+    const input = frame.current ?? (frame.current = {
+      delta: 0, resume: true, active: false, reduced: false, holdEntrance: false, interaction: interaction.current,
+      camera: state.camera, width: 1, height: 1, pixelRatio: 1, scroll: 0,
+    });
+    input.delta = delta;
+    input.resume = skipNextDelta.current;
+    input.active = active;
+    input.reduced = reduced;
+    input.holdEntrance = holdEntrance;
+    input.interaction = interaction.current;
+    input.camera = state.camera;
+    input.width = state.size.width;
+    input.height = state.size.height;
+    input.pixelRatio = state.viewport.dpr;
+    input.scroll = scroll.current;
     skipNextDelta.current = false;
-    const u = m.uniforms;
-    const c = cycle.current;
-    const input = interaction.current;
-    const probe = probes.current;
-    u.uPixelRatio.value = state.gl.getPixelRatio();
-    // Keep the point-grid coverage consistent as the drawing surface grows.
-    u.uSize.value = 2.4 * Math.max(1, state.size.width / (560 * Math.sqrt(count / 11000)));
-    u.uMovement.value = reduced ? 0 : 1;
-
-    const changedPhase = stepHeroCycle(c, dt, { active, reduced });
-    if (changedPhase !== null) onPhaseChange(changedPhase);
-    u.uTime.value = c.time;
-    u.uFrom.value = c.from;
-    u.uTo.value = c.to;
-    u.uElapsed.value = c.elapsed;
-
-    if (points.current) {
-      // Gentle parallax exposes slab thickness without overlapping nearby layers.
-      const progress = THREE.MathUtils.smoothstep(c.elapsed, 0, MORPH_DURATION);
-      const networkWeight = THREE.MathUtils.lerp(Number(c.from === 2), Number(c.to === 2), progress);
-      const x = reduced || !input.inside ? 0 : -input.y * THREE.MathUtils.lerp(0.045, 0.028, networkWeight);
-      const y = reduced || !input.inside ? 0 : input.x * THREE.MathUtils.lerp(0.065, 0.040, networkWeight);
-      if (reduced) points.current.rotation.set(0, 0, 0);
-      else if (active) {
-        points.current.rotation.x = THREE.MathUtils.damp(points.current.rotation.x, x, 3, dt);
-        points.current.rotation.y = THREE.MathUtils.damp(points.current.rotation.y, y, 3, dt);
-      }
-
-      // Project the cuboid bounds so tall feature maps have layer-shaped hit areas.
-      let hovered = -1;
-      let nearest = Infinity;
-      if (input.inside && c.to === 2 && c.elapsed >= MORPH_DURATION) {
-        points.current.updateMatrixWorld();
-        const angle = reduced ? 0 : Math.sin(c.time * 0.26) * NETWORK_SWAY;
-        for (const layer of networkLayers) {
-          let left = Infinity, right = -Infinity, bottom = Infinity, top = -Infinity;
-          for (const corner of layer.corners) {
-            probe.corner.fromArray(corner).multiplyScalar(NETWORK_SCALE)
-              .applyAxisAngle(probe.axis, angle).applyMatrix4(points.current.matrixWorld).project(state.camera);
-            left = Math.min(left, probe.corner.x);
-            right = Math.max(right, probe.corner.x);
-            bottom = Math.min(bottom, probe.corner.y);
-            top = Math.max(top, probe.corner.y);
-          }
-          const padX = 12 / state.size.width;
-          const padY = 12 / state.size.height;
-          if (input.x < left - padX || input.x > right + padX || input.y < bottom - padY || input.y > top + padY) continue;
-          const score = Math.abs(input.x - (left + right) / 2) / (right - left + padX * 2)
-            + 0.15 * Math.abs(input.y - (top + bottom) / 2) / (top - bottom + padY * 2);
-          if (score < nearest) { hovered = layer.id; nearest = score; }
-        }
-      }
-      if (hovered >= 0 && hovered !== u.uHoverNode.value) {
-        u.uHoverNode.value = hovered;
-        hoverTime.current = 0;
-      }
-      const strength = hovered >= 0 ? 1 : 0;
-      u.uHoverStrength.value = active && !reduced
-        ? THREE.MathUtils.damp(u.uHoverStrength.value, strength, 12, dt) : strength;
-      if (hovered < 0 && u.uHoverStrength.value < 0.002) u.uHoverNode.value = -1;
-      if (active && !reduced) hoverTime.current += dt;
-      u.uHoverTime.value = hoverTime.current;
+    const changed = engine.frame(state.gl, input);
+    if (changed !== null) onPhaseChange(changed);
+    if (telemetryRef) {
+      if (!telemetryRef.current) telemetryRef.current = createHeroTelemetry();
+      engine.writeTelemetry(telemetryRef.current, interaction.current, active && !reduced, reduced);
     }
   });
 
-  return (
-    <points ref={points} geometry={geometry} frustumCulled={false}>
-      <shaderMaterial
-        ref={material} uniforms={uniforms}
-        vertexShader={vertexShader} fragmentShader={fragmentShader}
-        transparent depthWrite={false} depthTest={false}
-      />
-    </points>
-  );
+  return engine ? <primitive object={engine.object} /> : null;
 }
 
-export default function HeroScene({ palette, reduced, active, nextRequest, interaction, onInvalidateReady, onPhaseChange, fallback }: SceneProps) {
+export default function HeroScene({ fallback, ...props }: SceneProps) {
   const [quality] = useState(pickQuality);
   return (
     <Canvas
       dpr={quality.dpr}
-      frameloop={active && !reduced ? "always" : "demand"}
+      frameloop={props.active && !props.reduced ? "always" : "demand"}
       camera={{ position: [0, 0, 7], fov: 38 }}
       gl={{ antialias: false, alpha: true, powerPreference: "low-power" }}
       style={{ background: "transparent" }}
       fallback={fallback}
       onCreated={({ gl }) => { gl.toneMapping = THREE.NoToneMapping; }}
     >
-      <Field
-        palette={palette} reduced={reduced} active={active}
-        nextRequest={nextRequest} interaction={interaction} onInvalidateReady={onInvalidateReady}
-        onPhaseChange={onPhaseChange} count={quality.count}
-      />
+      <Field {...props} quality={quality} />
     </Canvas>
   );
 }

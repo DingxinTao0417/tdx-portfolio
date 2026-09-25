@@ -1,6 +1,7 @@
 import Image from "next/image";
+import { ZoomImage } from "./zoom-image";
 
-/** Local editorial artwork; the original remains available without cropping. */
+/** Local editorial artwork; click to zoom (uncropped), or open the original with a modified click. */
 export function BlogImage({ src, alt, caption, width, height }: {
   src: string;
   alt: string;
@@ -16,7 +17,7 @@ export function BlogImage({ src, alt, caption, width, height }: {
   }
   return (
     <figure className="my-8">
-      <a href={src} target="_blank" rel="noopener noreferrer" className="block rounded-xl">
+      <ZoomImage src={src} alt={alt} caption={caption} className="rounded-xl">
         <Image
           src={src}
           alt={alt}
@@ -25,8 +26,13 @@ export function BlogImage({ src, alt, caption, width, height }: {
           sizes="(max-width: 767px) 100vw, (max-width: 1023px) 90vw, 736px"
           className="h-auto w-full bg-[#f6f3ed]"
         />
-      </a>
-      {caption && <figcaption className="mt-3 text-sm leading-6 text-muted">{caption}</figcaption>}
+      </ZoomImage>
+      {caption && (
+        <figcaption className="mt-3 flex gap-3 text-sm leading-6 text-muted">
+          <span aria-hidden="true" className="mt-[0.7em] h-px w-5 shrink-0 bg-accent" />
+          {caption}
+        </figcaption>
+      )}
     </figure>
   );
 }

@@ -21,9 +21,9 @@ export async function LatestPosts() {
           {t("cta")}
         </ButtonLink>
       </div>
-      <Stagger className="mt-10 grid gap-5 md:grid-cols-3">
+      <Stagger className="mt-10 grid gap-5 md:grid-cols-3" stagger={0.12}>
         {posts.map((post) => (
-          <StaggerItem key={post.slug} className="h-full">
+          <StaggerItem key={post.slug} variant="clip" className="h-full">
             <PostCard
               post={post}
               locale={locale}

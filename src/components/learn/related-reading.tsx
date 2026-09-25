@@ -14,7 +14,10 @@ export function RelatedReading({ module, locale }: { module: number; locale: str
   const copy = getFdeCopy(locale);
   const selected = module === 4 ? links.knowledge : module === 3 ? links.integration : module === 6 ? links.collaboration : module === 1 ? links.general : links.workflow;
   return <aside className="mt-10 border-t border-line pt-6">
-    <h2 className="eyebrow">{copy.related}</h2>
-    <ul className="mt-3 space-y-1">{selected.map((link) => <li key={link.href}><Link href={link.href} className="inline-flex min-h-11 items-center gap-2 text-sm leading-7 text-muted hover:text-accent">{link[locale === "en" ? "en" : "zh"]}<ArrowUpRight className="h-3.5 w-3.5 shrink-0" /></Link></li>)}</ul>
+    <h2 className="eyebrow flex items-center gap-3"><span aria-hidden="true" className="h-px w-6 bg-accent" />{copy.related}</h2>
+    <ul className="mt-3 space-y-1">{selected.map((link) => <li key={link.href}><Link href={link.href} className="group/rel inline-flex min-h-11 items-center gap-2 text-sm leading-7 text-muted transition-colors hover:text-accent">
+      <span className="bg-[linear-gradient(currentColor,currentColor)] bg-[length:0%_1px] bg-[position:0_100%] bg-no-repeat transition-[background-size] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/rel:bg-[length:100%_1px] group-focus-visible/rel:bg-[length:100%_1px]">{link[locale === "en" ? "en" : "zh"]}</span>
+      <ArrowUpRight className="h-3.5 w-3.5 shrink-0 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/rel:-translate-y-0.5 group-hover/rel:translate-x-0.5" />
+    </Link></li>)}</ul>
   </aside>;
 }

@@ -1,29 +1,51 @@
-import { ArrowUp, Mail } from "lucide-react";
+import { ArrowUpRight, Mail } from "lucide-react";
 import { getLocale, getTranslations } from "next-intl/server";
+import { ScrambleText } from "@/components/fx/scramble-text";
+import { SpotlightGroup } from "@/components/fx/spotlight";
+import { FxTrigger } from "@/components/fx/trigger";
+import { ContactBanner } from "@/components/layout/contact-banner";
+import { Reveal } from "@/components/ui/reveal";
+import { TechIcon } from "@/components/ui/tech-icon";
+import { WeChatDialog } from "@/components/contact/wechat-dialog";
 import { navItems } from "@/data/nav";
 import { site } from "@/data/site";
 import { Link } from "@/i18n/navigation";
-import { ContactBanner } from "@/components/layout/contact-banner";
-import { TechIcon } from "@/components/ui/tech-icon";
-import { WeChatDialog } from "@/components/contact/wechat-dialog";
+import { cn } from "@/lib/utils";
+import { BackToTop } from "./back-to-top";
+import { FooterWordmark } from "./footer-wordmark";
+import { LocalClock } from "./local-clock";
+import { pad } from "./nav-utils";
+import styles from "./footer.module.css";
+
+function Eyebrow({ text }: { text: string }) {
+  return (
+    <FxTrigger as="p" className="eyebrow mb-5 flex items-center gap-3">
+      <span className="fx-line inline-block h-px w-5 bg-accent" />
+      <ScrambleText text={text} />
+    </FxTrigger>
+  );
+}
 
 export async function Footer() {
   const t = await getTranslations("Footer");
   const tNav = await getTranslations("Nav");
+  const tCommon = await getTranslations("Common");
+  const tCursor = await getTranslations("FX.common.cursor");
   const locale = await getLocale();
   const year = new Date().getFullYear();
+  const linkClass = cn(styles.link, "group text-sm text-muted transition-colors duration-300 hover:text-accent pointer-coarse:min-h-11");
 
   return (
-    <footer className="relative mt-16 border-t border-line bg-bg-elevated/50 sm:mt-20">
+    <SpotlightGroup as="footer" className="relative mt-16 border-t border-line bg-bg-elevated/50 sm:mt-20">
       <div className="container-x">
         {/* CTA band */}
         <ContactBanner />
 
         <div className="grid gap-x-10 gap-y-8 border-t border-line py-10 sm:grid-cols-2 lg:grid-cols-12">
           {/* Brand */}
-          <div className="sm:col-span-2 lg:col-span-5">
-            <Link href="/" className="inline-flex items-center gap-3">
-              <span className="grid h-10 w-10 place-items-center rounded-xl bg-fg font-display text-sm font-bold text-bg">
+          <Reveal className="sm:col-span-2 lg:col-span-5">
+            <Link href="/" className="group inline-flex items-center gap-3">
+              <span className="grid h-10 w-10 place-items-center rounded-xl bg-fg font-display text-sm font-bold text-bg transition-[rotate,scale] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-rotate-6 group-hover:scale-105">
                 {site.initials}
               </span>
               <span className="flex flex-col leading-tight">
@@ -36,81 +58,85 @@ export async function Footer() {
               </span>
             </Link>
             <p className="mt-5 max-w-sm text-[13px] leading-[1.85] text-muted">{t("colophonBody")}</p>
-          </div>
+          </Reveal>
 
           {/* Navigate */}
-          <div className="lg:col-span-3">
-            <p className="eyebrow mb-5">{t("navigate")}</p>
-            <ul className="grid grid-cols-2 gap-x-6 gap-y-3">
-              {navItems.map((item) => (
+          <Reveal delay={0.08} className="lg:col-span-3">
+            <Eyebrow text={t("navigate")} />
+            <ul className="grid grid-cols-2 gap-x-6 gap-y-3 pointer-coarse:gap-y-0">
+              {navItems.map((item, i) => (
                 <li key={item.key}>
-                  <Link
-                    href={item.href}
-                    className="text-sm text-muted transition-colors hover:text-accent"
-                  >
-                    {tNav(item.key)}
+                  <Link href={item.href} className={cn(linkClass, "inline-flex items-baseline gap-2.5 pointer-coarse:items-center")}>
+                    <span
+                      aria-hidden="true"
+                      className="font-mono text-[10px] tracking-[0.1em] text-muted/60 transition-colors duration-300 group-hover:text-accent"
+                    >
+                      {pad(i)}
+                    </span>
+                    <span className={styles.underline}>{tNav(item.key)}</span>
                   </Link>
                 </li>
               ))}
             </ul>
-          </div>
+          </Reveal>
 
           {/* Connect */}
-          <div className="min-w-0 lg:col-span-4">
-            <p className="eyebrow mb-5">{t("connect")}</p>
-            <ul className="flex flex-col gap-3">
+          <Reveal delay={0.16} className="min-w-0 lg:col-span-4">
+            <Eyebrow text={t("connect")} />
+            <ul className="flex flex-col gap-3 pointer-coarse:gap-0">
               <li>
                 <WeChatDialog compact label={t("wechat")} />
               </li>
-              {site.socials.map((s) => (
-                <li key={s.id}>
-                  <a
-                    href={s.href}
-                    target={s.href.startsWith("http") ? "_blank" : undefined}
-                    rel={s.href.startsWith("http") ? "noreferrer noopener" : undefined}
-                    className="group inline-flex max-w-full flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted transition-colors hover:text-accent"
-                  >
-                    {s.id === "email" ? (
-                      <Mail className="h-4 w-4" />
-                    ) : (
-                      <TechIcon icon={s.id} name={s.label} size={16} />
-                    )}
-                    <span>{s.label}</span>
-                    <span className="break-all font-mono text-[10px] text-muted transition-colors group-hover:text-accent">
-                      {s.handle}
-                    </span>
-                  </a>
-                </li>
-              ))}
+              {site.socials.map((s) => {
+                const external = s.href.startsWith("http");
+                return (
+                  <li key={s.id}>
+                    <a
+                      href={s.href}
+                      target={external ? "_blank" : undefined}
+                      rel={external ? "noreferrer noopener" : undefined}
+                      data-cursor-text={external ? tCursor("visit") : tCursor("open")}
+                      className={cn(linkClass, "inline-flex max-w-full flex-wrap items-center gap-x-3 gap-y-1")}
+                    >
+                      {s.id === "email" ? (
+                        <Mail className="h-4 w-4" aria-hidden="true" />
+                      ) : (
+                        <TechIcon icon={s.id} name={s.label} size={16} />
+                      )}
+                      <span className={styles.underline}>{s.label}</span>
+                      <span className="break-all font-mono text-[10px] text-muted transition-colors duration-300 group-hover:text-accent">
+                        {s.handle}
+                      </span>
+                      {external && <ArrowUpRight aria-hidden="true" className={cn(styles.arrow, "h-3.5 w-3.5")} />}
+                    </a>
+                  </li>
+                );
+              })}
               <li>
                 <a
                   href={site.repo}
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="inline-flex items-center gap-3 text-sm text-muted transition-colors hover:text-accent"
+                  data-cursor-text={tCursor("visit")}
+                  className={cn(linkClass, "inline-flex items-center gap-3")}
                 >
                   <TechIcon icon="github" name="GitHub" size={16} />
-                  {t("source")}
+                  <span className={styles.underline}>{t("source")}</span>
+                  <ArrowUpRight aria-hidden="true" className={cn(styles.arrow, "h-3.5 w-3.5")} />
                 </a>
               </li>
             </ul>
-          </div>
-
+          </Reveal>
         </div>
 
-        <div className="flex flex-col gap-4 border-t border-line py-6 text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-x-8 gap-y-5 border-t border-line py-6 text-xs text-muted md:flex-row md:flex-wrap md:items-center md:justify-between">
           <p>{t("rights", { year })}</p>
-          <div className="flex items-center gap-6">
-            <a
-              href="#top"
-              className="inline-flex items-center gap-2 font-mono uppercase tracking-[0.16em] transition-colors hover:text-accent"
-            >
-              {t("backToTop")}
-              <ArrowUp className="h-3.5 w-3.5" />
-            </a>
-          </div>
+          <LocalClock label={tCommon("localTime")} seconds />
+          <BackToTop label={t("backToTop")} className="self-start md:self-auto" />
         </div>
       </div>
-    </footer>
+
+      <FooterWordmark text={site.name} />
+    </SpotlightGroup>
   );
 }

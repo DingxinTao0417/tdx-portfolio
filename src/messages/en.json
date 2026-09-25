@@ -493,5 +493,204 @@
     "body": "The page couldn't load. Please try again. If it still won't open, you can return home.",
     "retry": "Try again",
     "home": "Back home"
+  },
+  "FX": {
+    "common": {
+      "preloader": {
+        "label": "Portfolio",
+        "loading": "Loading",
+        "ready": "Ready"
+      },
+      "cursor": {
+        "open": "Open",
+        "view": "View",
+        "read": "Read",
+        "visit": "Visit",
+        "drag": "Drag",
+        "play": "Play",
+        "copy": "Copy",
+        "close": "Close"
+      }
+    },
+    "nav": {
+      "search": "Search",
+      "command": "Search and quick actions",
+      "clock": "LA",
+      "current": "Current"
+    },
+    "command": {
+      "title": "Command palette",
+      "hud": "Command",
+      "inputLabel": "Search pages, projects, posts and actions",
+      "placeholder": "Search or jump to…",
+      "close": "Close command palette",
+      "results": "Results",
+      "count": "{count, plural, one {# item} other {# items}}",
+      "announce": "{count, plural, =0 {No results} one {# result} other {# results}}",
+      "current": "Here",
+      "groups": {
+        "pages": "Pages",
+        "projects": "Projects",
+        "posts": "Posts",
+        "actions": "Actions",
+        "shortcuts": "Keyboard shortcuts"
+      },
+      "empty": {
+        "eyebrow": "No signal",
+        "title": "Nothing matches <q>“{query}”</q>",
+        "hint": "Try a page or project name, or type ? to see the keyboard shortcuts."
+      },
+      "footer": {
+        "navigate": "Navigate",
+        "open": "Open",
+        "newTab": "New tab",
+        "shortcuts": "Shortcuts"
+      },
+      "actions": {
+        "themeDark": "Switch to dark theme",
+        "themeLight": "Switch to light theme",
+        "language": "Switch language to 中文",
+        "copyEmail": "Copy email address",
+        "github": "Open GitHub profile",
+        "source": "View this site’s source code",
+        "resume": "Download resume",
+        "top": "Back to top",
+        "intro": "Replay the intro animation",
+        "fireworks": "Launch fireworks"
+      },
+      "shortcuts": {
+        "palette": "Open the command palette",
+        "search": "Search the site",
+        "help": "Show keyboard shortcuts",
+        "goto": "Go to {page}",
+        "then": "then",
+        "secret": "A classic cheat code"
+      },
+      "leader": {
+        "title": "Go to",
+        "hint": "Press a key"
+      },
+      "toast": {
+        "copied": "Email address copied",
+        "copyFailed": "Couldn’t copy. The address is:",
+        "resume": "Resume download started",
+        "konami": "Cheat code accepted",
+        "konamiBody": "+30 lives. Thanks for exploring the details."
+      },
+      "console": {
+        "source": "This site’s source code: {url}",
+        "hint": "Tip: ⌘K / Ctrl K opens the command palette anywhere. Classic cheat codes work too."
+      }
+    },
+    "hero": {
+      "cursor": "Morph",
+      "marquee": "Technologies",
+      "hud": {
+        "shape": "Shape",
+        "engine": "WebGL · GLSL",
+        "standby": "Standby",
+        "morphing": "Morphing",
+        "stable": "Stable",
+        "static": "Static",
+        "hint": "Click to morph · drag to orbit",
+        "hintTouch": "Tap to morph"
+      }
+    },
+    "home": {
+      "showcaseCursorPrev": "Prev",
+      "showcaseCursorNext": "Next",
+      "githubViewLabel": "Contribution view",
+      "githubViewGrid": "Grid",
+      "githubViewCity": "Skyline",
+      "githubOrbitHint": "Move the pointer to orbit",
+      "githubUnit": "{count, plural, one {contribution} other {contributions}}",
+      "githubActiveDays": "Active days",
+      "githubLongestStreak": "Longest streak",
+      "githubCurrentStreak": "Current streak",
+      "githubBusiestDay": "Busiest day",
+      "githubDayUnit": "{count, plural, one {day} other {days}}",
+      "githubPeak": "Peak",
+      "learningMap": "Course map"
+    },
+    "projects": {
+      "filterLabel": "Filter projects by category",
+      "unit": "{count, plural, =1 {project} other {projects}}",
+      "layout": "Layout",
+      "grid": "Grid",
+      "list": "Index",
+      "screens": "{count, plural, =1 {# screen} other {# screens}}",
+      "columns": {
+        "project": "Project",
+        "category": "Category"
+      },
+      "caseIndex": "Case {index} / {total}",
+      "expandLabel": "Open screenshot {index} in the full-screen viewer",
+      "lightbox": {
+        "label": "Screenshot viewer",
+        "close": "Close viewer",
+        "zoomIn": "Zoom in",
+        "zoomOut": "Zoom out",
+        "reset": "Fit to screen",
+        "zoom": "Zoom level",
+        "hint": "Scroll or pinch to zoom, drag to pan, use the arrow keys to switch screenshots, and press Esc to close."
+      },
+      "nextLabel": "Next project: {title}"
+    },
+    "blog": {
+      "entries": "{count, plural, one {# entry} other {# entries}}",
+      "tags": "Filter by tag",
+      "allTags": "All",
+      "moreTags": "{count} more",
+      "fewerTags": "Fewer",
+      "clearSearch": "Clear search",
+      "readArticle": "Read article",
+      "copyCode": "Copy code",
+      "codeLines": "{count, plural, one {# line} other {# lines}}",
+      "readingProgress": "Progress",
+      "sections": "{count, plural, one {# section} other {# sections}}",
+      "backToTop": "Back to top",
+      "zoomImage": "Enlarge image",
+      "closeImage": "Close image",
+      "openOriginal": "Open original",
+      "zoomHint": "Esc, click or scroll to close",
+      "upNext": "Up next",
+      "endOfArticle": "End of article",
+      "learn": {
+        "modules": "Modules",
+        "modulesBody": "Each module builds one part of the course project. Open a card to start with its first lesson.",
+        "output": "Output",
+        "minutes": "{minutes} min",
+        "readCount": "{read}/{total} read",
+        "lessonOf": "Lesson {current} of {total}",
+        "track": "Module track"
+      }
+    },
+    "about": {
+      "portrait": {
+        "label": "Profile"
+      },
+      "skills": {
+        "nodes": "{count} nodes",
+        "share": "Share of directory"
+      }
+    },
+    "contact": {
+      "form": {
+        "ready": "Ready",
+        "sending": "Sending",
+        "sent": "Received",
+        "failed": "Failed",
+        "shortcut": "⌘ / Ctrl + Enter to send"
+      },
+      "notFound": {
+        "status": "Route not found",
+        "jump": "Or jump to",
+        "search": "Search the site"
+      },
+      "error": {
+        "status": "Runtime error"
+      }
+    },
+    "footer": {}
   }
 }

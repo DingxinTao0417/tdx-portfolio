@@ -2,10 +2,14 @@
 
 import Lenis from "lenis";
 import { useEffect } from "react";
+import { lockScroll, setLenis, unlockScroll } from "@/components/fx/lenis";
+
+const MODAL_OPEN = "dialog[open], [aria-modal='true']";
 
 /**
  * Buttery wheel scrolling on desktop. Disabled for touch devices and users
  * who prefer reduced motion — native scrolling is used in those cases.
+ * The instance is shared through `fx/lenis` (`getLenis`, `lockScroll`).
  */
 export function SmoothScroll() {
   useEffect(() => {
@@ -19,11 +23,12 @@ export function SmoothScroll() {
       wheelMultiplier: 0.9,
       anchors: true,
     });
+    setLenis(lenis);
 
     // A modal must also stop inertia that began before it opened.
     const syncDialogState = () => {
-      if (document.querySelector("dialog[open]")) lenis.stop();
-      else lenis.start();
+      if (document.querySelector(MODAL_OPEN)) lockScroll("dialog");
+      else unlockScroll("dialog");
     };
     document.addEventListener("site:dialog-change", syncDialogState);
     syncDialogState();
@@ -38,6 +43,8 @@ export function SmoothScroll() {
     return () => {
       cancelAnimationFrame(frame);
       document.removeEventListener("site:dialog-change", syncDialogState);
+      unlockScroll("dialog");
+      setLenis(null);
       lenis.destroy();
     };
   }, []);

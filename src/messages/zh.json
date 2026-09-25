@@ -493,5 +493,204 @@
     "body": "页面暂时出了问题，请重试。如果仍然打不开，可以返回首页。",
     "retry": "重试",
     "home": "返回首页"
+  },
+  "FX": {
+    "common": {
+      "preloader": {
+        "label": "作品集",
+        "loading": "加载中",
+        "ready": "就绪"
+      },
+      "cursor": {
+        "open": "打开",
+        "view": "查看",
+        "read": "阅读",
+        "visit": "访问",
+        "drag": "拖动",
+        "play": "播放",
+        "copy": "复制",
+        "close": "关闭"
+      }
+    },
+    "nav": {
+      "search": "搜索",
+      "command": "搜索与快捷操作",
+      "clock": "洛杉矶",
+      "current": "当前"
+    },
+    "command": {
+      "title": "命令面板",
+      "hud": "命令",
+      "inputLabel": "搜索页面、项目、文章与操作",
+      "placeholder": "搜索或跳转…",
+      "close": "关闭命令面板",
+      "results": "搜索结果",
+      "count": "{count, plural, other {# 项}}",
+      "announce": "{count, plural, =0 {没有结果} other {# 个结果}}",
+      "current": "当前",
+      "groups": {
+        "pages": "页面",
+        "projects": "项目",
+        "posts": "文章",
+        "actions": "操作",
+        "shortcuts": "键盘快捷键"
+      },
+      "empty": {
+        "eyebrow": "无信号",
+        "title": "没有与<q>“{query}”</q>匹配的结果",
+        "hint": "试试页面或项目名称，或输入 ? 查看键盘快捷键。"
+      },
+      "footer": {
+        "navigate": "选择",
+        "open": "打开",
+        "newTab": "新标签页",
+        "shortcuts": "快捷键"
+      },
+      "actions": {
+        "themeDark": "切换到暗色主题",
+        "themeLight": "切换到亮色主题",
+        "language": "切换语言为 English",
+        "copyEmail": "复制邮箱地址",
+        "github": "打开 GitHub 主页",
+        "source": "查看本站源码",
+        "resume": "下载简历",
+        "top": "回到顶部",
+        "intro": "重播开场动画",
+        "fireworks": "放一场烟花"
+      },
+      "shortcuts": {
+        "palette": "打开命令面板",
+        "search": "搜索全站",
+        "help": "显示键盘快捷键",
+        "goto": "前往{page}",
+        "then": "再按",
+        "secret": "经典秘籍"
+      },
+      "leader": {
+        "title": "前往",
+        "hint": "按下对应按键"
+      },
+      "toast": {
+        "copied": "邮箱地址已复制",
+        "copyFailed": "复制失败，邮箱地址为：",
+        "resume": "简历开始下载",
+        "konami": "秘籍已激活",
+        "konamiBody": "+30 条命。感谢你留意这些细节。"
+      },
+      "console": {
+        "source": "本站源码：{url}",
+        "hint": "提示：随处按 ⌘K / Ctrl K 打开命令面板，经典秘籍同样有效。"
+      }
+    },
+    "hero": {
+      "cursor": "切换",
+      "marquee": "技术栈",
+      "hud": {
+        "shape": "形态",
+        "engine": "WebGL · GLSL",
+        "standby": "待机",
+        "morphing": "变形中",
+        "stable": "稳定",
+        "static": "静态",
+        "hint": "点击切换形态 · 拖动旋转",
+        "hintTouch": "轻触切换形态"
+      }
+    },
+    "home": {
+      "showcaseCursorPrev": "上一个",
+      "showcaseCursorNext": "下一个",
+      "githubViewLabel": "贡献视图",
+      "githubViewGrid": "平面",
+      "githubViewCity": "立体",
+      "githubOrbitHint": "移动指针旋转视角",
+      "githubUnit": "{count, plural, other {次贡献}}",
+      "githubActiveDays": "活跃天数",
+      "githubLongestStreak": "最长连续",
+      "githubCurrentStreak": "当前连续",
+      "githubBusiestDay": "单日最多",
+      "githubDayUnit": "{count, plural, other {天}}",
+      "githubPeak": "峰值",
+      "learningMap": "课程地图"
+    },
+    "projects": {
+      "filterLabel": "按类别筛选项目",
+      "unit": "{count, plural, other {个项目}}",
+      "layout": "布局",
+      "grid": "卡片",
+      "list": "索引",
+      "screens": "{count} 张截图",
+      "columns": {
+        "project": "项目",
+        "category": "类别"
+      },
+      "caseIndex": "案例 {index} / {total}",
+      "expandLabel": "在全屏查看器中打开第 {index} 张截图",
+      "lightbox": {
+        "label": "截图查看器",
+        "close": "关闭查看器",
+        "zoomIn": "放大",
+        "zoomOut": "缩小",
+        "reset": "适应屏幕",
+        "zoom": "缩放比例",
+        "hint": "滚轮或双指缩放，拖动平移，方向键切换截图，按 Esc 关闭。"
+      },
+      "nextLabel": "下一个项目：{title}"
+    },
+    "blog": {
+      "entries": "{count, plural, other {# 篇文章}}",
+      "tags": "按标签筛选",
+      "allTags": "全部",
+      "moreTags": "更多 {count}",
+      "fewerTags": "收起",
+      "clearSearch": "清空搜索",
+      "readArticle": "阅读全文",
+      "copyCode": "复制代码",
+      "codeLines": "{count, plural, other {# 行}}",
+      "readingProgress": "阅读进度",
+      "sections": "{count, plural, other {# 节}}",
+      "backToTop": "回到顶部",
+      "zoomImage": "放大图片",
+      "closeImage": "关闭图片",
+      "openOriginal": "打开原图",
+      "zoomHint": "按 Esc、点击或滚动即可关闭",
+      "upNext": "下一篇",
+      "endOfArticle": "全文完",
+      "learn": {
+        "modules": "课程模块",
+        "modulesBody": "每个模块完成贯穿项目的一部分，点击卡片从该模块的第一课开始。",
+        "output": "产出",
+        "minutes": "{minutes} 分钟",
+        "readCount": "已读 {read}/{total}",
+        "lessonOf": "第 {current} 课 · 共 {total} 课",
+        "track": "模块进度"
+      }
+    },
+    "about": {
+      "portrait": {
+        "label": "个人档案"
+      },
+      "skills": {
+        "nodes": "{count} 个节点",
+        "share": "目录占比"
+      }
+    },
+    "contact": {
+      "form": {
+        "ready": "就绪",
+        "sending": "发送中",
+        "sent": "已接收",
+        "failed": "发送失败",
+        "shortcut": "⌘ / Ctrl + Enter 发送"
+      },
+      "notFound": {
+        "status": "未找到该路由",
+        "jump": "或前往",
+        "search": "搜索全站"
+      },
+      "error": {
+        "status": "运行时错误"
+      }
+    },
+    "footer": {}
   }
 }

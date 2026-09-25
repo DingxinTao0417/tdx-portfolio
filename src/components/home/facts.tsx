@@ -1,5 +1,12 @@
 import { useTranslations } from "next-intl";
-import { Reveal } from "@/components/ui/reveal";
+import type { CSSProperties } from "react";
+import { ScrambleText } from "@/components/fx/scramble-text";
+import { SplitText } from "@/components/fx/split-text";
+import { SpotlightGroup } from "@/components/fx/spotlight";
+import { FxTrigger } from "@/components/fx/trigger";
+import { FactValue } from "@/components/home/hero/fact-value";
+import styles from "@/components/home/hero/facts.module.css";
+import { cn } from "@/lib/utils";
 
 type Fact = { value: string; label: string };
 
@@ -9,29 +16,42 @@ export function Facts() {
 
   return (
     <section className="container-x pt-16 sm:pt-20">
-      <Reveal>
-        <p className="eyebrow mb-6 flex items-center gap-3">
-          <span className="inline-block h-px w-6 bg-accent" />
-          {t("eyebrow")}
-        </p>
-      </Reveal>
-      <div className="grid grid-cols-2 border-y border-line lg:grid-cols-4">
-        {items.map((item, i) => (
-          <Reveal
-            key={item.label}
-            delay={i * 0.06}
-            className="relative flex flex-col gap-2 border-line p-5 nth-[-n+2]:border-b odd:border-r lg:nth-[-n+2]:border-b-0 lg:not-last:border-r sm:p-7"
-          >
-            <span className="font-display text-2xl font-semibold tracking-tight text-fg sm:text-3xl">
-              {item.value}
-            </span>
-            <span className="text-sm text-muted">{item.label}</span>
-            <span className="absolute right-3 top-3 font-mono text-[9px] text-muted/60">
-              0{i + 1}
-            </span>
-          </Reveal>
-        ))}
-      </div>
+      <FxTrigger as="p" className="eyebrow mb-6 flex items-center gap-3">
+        <span className="fx-line inline-block h-px w-6 bg-accent" />
+        <ScrambleText text={t("eyebrow")} />
+      </FxTrigger>
+      <SpotlightGroup data-fx-spot="" className={styles.grid}>
+        {items.map((item, i) => {
+          const index = String(i + 1).padStart(2, "0");
+          const delay = i * 0.07;
+          return (
+            <FxTrigger
+              key={item.label}
+              data-fx-spot=""
+              className={styles.cell}
+              style={{ "--delay": `${delay}s` } as CSSProperties}
+            >
+              <span aria-hidden="true" className={styles.sweep} />
+              <span aria-hidden="true" className={styles.index}>
+                <SplitText text={index} by="char" delay={delay} stagger={0.07} className={styles.indexBase} />
+                <span data-fx-spot="" className={cn("fx-spot-lit", styles.indexLit)}>
+                  <SplitText text={index} by="char" delay={delay} stagger={0.07} />
+                </span>
+              </span>
+              <div className={styles.body}>
+                <FactValue
+                  value={item.value}
+                  delay={delay + 0.12}
+                  className="font-display text-2xl font-semibold tracking-tight text-fg sm:text-3xl"
+                />
+                <span data-reveal="" className={cn(styles.label, "text-sm text-muted")}>
+                  {item.label}
+                </span>
+              </div>
+            </FxTrigger>
+          );
+        })}
+      </SpotlightGroup>
     </section>
   );
 }

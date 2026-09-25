@@ -1,11 +1,16 @@
+import type { CSSProperties } from "react";
 import type { Project } from "@/data/projects";
 import { cn } from "@/lib/utils";
 
 type Motif = Project["motif"];
 
+const delay = (seconds: number) => ({ animationDelay: `${seconds.toFixed(2)}s` }) as CSSProperties;
+
 /**
  * Procedural cover artwork: every project gets a unique, theme-aware SVG
- * composition driven by its hue + motif. No image assets to load.
+ * composition driven by its hue + motif. No image assets to load. Each motif idles with a slow
+ * CSS loop (orbiting, drifting, twinkling) under a HUD scan band; static under reduced motion,
+ * and skipped entirely while off-screen.
  */
 export function GenerativeCover({
   hue,
@@ -26,7 +31,7 @@ export function GenerativeCover({
   return (
     <div
       className={cn(
-        "relative isolate h-full w-full overflow-hidden bg-bg-elevated dark:bg-[#0d0f15]",
+        "fx-scan relative isolate h-full w-full overflow-hidden bg-bg-elevated [content-visibility:auto] dark:bg-[#0d0f15]",
         className,
       )}
       aria-hidden
@@ -55,7 +60,13 @@ export function GenerativeCover({
         <rect width="800" height="500" fill={`url(#${id}-grid)`} className="text-fg" />
 
         {motif === "orbit" && (
-          <g fill="none" stroke={`url(#${id}-line)`} strokeWidth="1.5">
+          <g
+            fill="none"
+            stroke={`url(#${id}-line)`}
+            strokeWidth="1.5"
+            className="motion-safe:animate-[spin_64s_linear_infinite]"
+            style={{ transformOrigin: "520px 250px" }}
+          >
             <ellipse cx="520" cy="250" rx="240" ry="90" transform="rotate(-18 520 250)" />
             <ellipse cx="520" cy="250" rx="180" ry="66" transform="rotate(24 520 250)" opacity="0.7" />
             <ellipse cx="520" cy="250" rx="300" ry="112" transform="rotate(6 520 250)" opacity="0.4" />
@@ -74,14 +85,21 @@ export function GenerativeCover({
                 {arr.slice(i + 1, i + 3).map(([x2, y2], j) => (
                   <line key={j} x1={x} y1={y} x2={x2} y2={y2} stroke={`url(#${id}-line)`} strokeWidth="1.2" opacity="0.7" />
                 ))}
-                <circle cx={x} cy={y} r={i % 3 === 0 ? 10 : 6} fill={i % 2 ? c1 : c3} />
+                <circle
+                  cx={x}
+                  cy={y}
+                  r={i % 3 === 0 ? 10 : 6}
+                  fill={i % 2 ? c1 : c3}
+                  className="motion-safe:animate-pulse"
+                  style={delay(i * 0.35)}
+                />
               </g>
             ))}
           </g>
         )}
 
         {motif === "wave" && (
-          <g fill="none" strokeWidth="1.6">
+          <g fill="none" strokeWidth="1.6" className="motion-safe:animate-drift">
             {[0, 1, 2, 3, 4].map((i) => (
               <path
                 key={i}
@@ -108,6 +126,8 @@ export function GenerativeCover({
                     rx="6"
                     fill={v > 0.6 ? c1 : v > 0.35 ? c3 : c2}
                     opacity={0.25 + v * 0.7}
+                    className={v > 0.6 ? "motion-safe:animate-pulse" : undefined}
+                    style={delay((r * 9 + c) * 0.13)}
                   />
                 );
               }),
@@ -125,6 +145,8 @@ export function GenerativeCover({
                 opacity={0.9 - i * 0.18}
                 stroke={c3}
                 strokeWidth="1"
+                className="motion-safe:animate-float"
+                style={delay(i * 0.45)}
               />
             ))}
           </g>
@@ -136,9 +158,23 @@ export function GenerativeCover({
             <polygon points="400,170 580,400 220,400" fill={c2} opacity="0.5" />
             <polygon points="400,250 500,380 300,380" fill={c1} opacity="0.85" />
             <line x1="0" y1="330" x2="400" y2="250" stroke={c3} strokeWidth="1.2" />
-            <line x1="400" y1="250" x2="800" y2="200" stroke={c1} strokeWidth="1.2" />
-            <line x1="400" y1="250" x2="800" y2="240" stroke={c3} strokeWidth="1.2" />
-            <line x1="400" y1="250" x2="800" y2="280" stroke={c2} strokeWidth="1.2" />
+            {[
+              [200, c1],
+              [240, c3],
+              [280, c2],
+            ].map(([y, color], i) => (
+              <line
+                key={i}
+                x1="400"
+                y1="250"
+                x2="800"
+                y2={y}
+                stroke={String(color)}
+                strokeWidth="1.2"
+                className="motion-safe:animate-pulse"
+                style={delay(i * 0.5)}
+              />
+            ))}
           </g>
         )}
 

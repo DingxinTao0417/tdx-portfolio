@@ -2,7 +2,7 @@
 
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Html, OrbitControls, PerspectiveCamera } from "@react-three/drei";
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
 import type { ScenePalette } from "./palette";
 
@@ -23,6 +23,9 @@ type Props = {
 
 const sphereRadius = 2.45;
 const cameraDistance = 6.4;
+/** Seconds for the nodes to assemble the first time the sphere comes into view. */
+const assembleTime = 1.6;
+const arcSteps = 8;
 
 type LabelLayout = {
   left: number;
@@ -70,6 +73,43 @@ function fibonacciSphere(count: number, radius: number) {
   return pts;
 }
 
+/** Great-circle arcs joining each node to its two nearest neighbours of the same category. */
+function constellations(items: SphereItem[], positions: THREE.Vector3[]) {
+  const byCategory = new Map<string, number[]>();
+  items.forEach((item, i) => byCategory.set(item.category, [...(byCategory.get(item.category) ?? []), i]));
+  const a = new THREE.Vector3();
+  const b = new THREE.Vector3();
+  return Array.from(byCategory, ([category, indices]) => {
+    const pairs = new Set<string>();
+    const points: number[] = [];
+    for (const i of indices) {
+      const nearest = indices
+        .filter((j) => j !== i)
+        .sort((x, y) => positions[i].distanceToSquared(positions[x]) - positions[i].distanceToSquared(positions[y]))
+        .slice(0, 2);
+      for (const j of nearest) {
+        const key = i < j ? `${i}-${j}` : `${j}-${i}`;
+        if (pairs.has(key)) continue;
+        pairs.add(key);
+        for (let s = 0; s < arcSteps; s++) {
+          a.copy(positions[i]).lerp(positions[j], s / arcSteps).setLength(sphereRadius * 1.004);
+          b.copy(positions[i]).lerp(positions[j], (s + 1) / arcSteps).setLength(sphereRadius * 1.004);
+          points.push(a.x, a.y, a.z, b.x, b.y, b.z);
+        }
+      }
+    }
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute("position", new THREE.Float32BufferAttribute(points, 3));
+    return { category, geometry };
+  });
+}
+
+/** easeOutBack: a small overshoot so each node pops into place. */
+function pop(t: number) {
+  const c = 1.70158;
+  return t <= 0 ? 0 : 1 + (c + 1) * (t - 1) ** 3 + c * (t - 1) ** 2;
+}
+
 function Cloud({
   items,
   palette,
@@ -78,6 +118,9 @@ function Cloud({
   reduced,
 }: Omit<Props, "active">) {
   const group = useRef<THREE.Group>(null);
+  const inner = useRef<THREE.Group>(null);
+  const linkMaterials = useRef<(THREE.LineBasicMaterial | null)[]>([]);
+  const assembled = useRef(0);
   const labelRefs = useRef<(HTMLDivElement | null)[]>([]);
   const labelSizes = useRef<{ width: number; height: number }[]>([]);
   const labelLayouts = useRef<LabelLayout[]>([]);
@@ -92,13 +135,29 @@ function Cloud({
   const projected = useMemo(() => new THREE.Vector3(), []);
   const towardCamera = useMemo(() => new THREE.Vector3(), []);
   const color = useMemo(() => new THREE.Color(), []);
+  const links = useMemo(() => constellations(items, positions), [items, positions]);
 
-  useFrame((_, delta) => {
+  useEffect(() => () => links.forEach((link) => link.geometry.dispose()), [links]);
+
+  useFrame(({ clock }, delta) => {
     const g = group.current;
     if (!g) return;
     if (!reduced) g.rotation.y += delta * 0.12;
     g.updateWorldMatrix(true, false);
     towardCamera.copy(camera.position).normalize();
+
+    // Assemble once: the first frame after a long pause can carry a huge delta, so clamp it.
+    assembled.current = reduced ? 1 : Math.min(1, assembled.current + Math.min(delta, 1 / 20) / assembleTime);
+    const assemble = assembled.current;
+    const settle = 1 - (1 - assemble) ** 3;
+    inner.current?.scale.setScalar(0.72 + 0.28 * settle);
+    const time = clock.elapsedTime;
+    linkMaterials.current.forEach((material, i) => {
+      if (!material) return;
+      const category = links[i]?.category;
+      const target = activeCategory === null ? 0.22 : category === activeCategory ? 0.7 : 0.04;
+      material.opacity = THREE.MathUtils.damp(material.opacity, target * settle, 6, delta);
+    });
 
     if (labelLayouts.current.length !== items.length) {
       labelLayouts.current = Array.from({ length: items.length }, () => ({
@@ -125,7 +184,7 @@ function Cloud({
       projected.copy(world).project(camera);
       const x = (projected.x * 0.5 + 0.5) * size.width;
       const y = (-projected.y * 0.5 + 0.5) * size.height;
-      const width = labelSizes.current[i]?.width ?? item.name.length * 7.5 + 22;
+      const width = labelSizes.current[i]?.width ?? item.name.length * 7.5 + 34;
       const height = labelSizes.current[i]?.height ?? 28;
       layout.left = x - width / 2;
       layout.right = x + width / 2;
@@ -140,7 +199,10 @@ function Cloud({
 
       if (mesh) {
         tmp.position.copy(positions[i]);
-        const s = (0.045 + item.weight * 0.05) * (dimmed ? 0.5 : 1);
+        // Nodes pop in from the north pole down, then highlighted ones breathe.
+        const grow = pop(Math.min(1, Math.max(0, assemble * 1.7 - (i / positions.length) * 0.7)));
+        const breathe = !reduced && activeCategory === item.category ? 1 + Math.sin(time * 3.2 + i) * 0.14 : 1;
+        const s = (0.045 + item.weight * 0.05) * (dimmed ? 0.5 : 1) * grow * breathe;
         tmp.scale.setScalar(s);
         tmp.updateMatrix();
         mesh.setMatrixAt(i, tmp.matrix);
@@ -180,7 +242,7 @@ function Cloud({
         ? THREE.MathUtils.damp(layout.opacity, layout.targetOpacity, 14, delta)
         : 0;
       const el = labelRefs.current[i];
-      if (el) el.style.opacity = String(layout.opacity);
+      if (el) el.style.opacity = String(layout.opacity * settle * settle);
     }
 
     if (mesh) {
@@ -205,11 +267,29 @@ function Cloud({
         <meshBasicMaterial color={palette.amber} transparent opacity={0.3} />
       </mesh>
 
-      {/* Nodes */}
-      <instancedMesh ref={nodes} args={[undefined, undefined, items.length]}>
-        <sphereGeometry args={[1, 12, 12]} />
-        <meshBasicMaterial toneMapped={false} />
-      </instancedMesh>
+      <group ref={inner}>
+        {/* Constellations: one arc set per category, brightened while it is previewed. */}
+        {links.map((link, i) => (
+          <lineSegments key={link.category} geometry={link.geometry}>
+            <lineBasicMaterial
+              ref={(material: THREE.LineBasicMaterial | null) => {
+                linkMaterials.current[i] = material;
+              }}
+              color={categoryColors[link.category] ?? palette.accent}
+              transparent
+              opacity={0}
+              depthWrite={false}
+              toneMapped={false}
+            />
+          </lineSegments>
+        ))}
+
+        {/* Nodes */}
+        <instancedMesh ref={nodes} args={[undefined, undefined, items.length]}>
+          <sphereGeometry args={[1, 12, 12]} />
+          <meshBasicMaterial toneMapped={false} />
+        </instancedMesh>
+      </group>
 
       {/* Labels */}
       {items.map((item, i) => (
@@ -225,7 +305,7 @@ function Cloud({
               labelRefs.current[i] = el;
               if (el) {
                 labelSizes.current[i] = {
-                  width: el.offsetWidth || item.name.length * 7.5 + 22,
+                  width: el.offsetWidth || item.name.length * 7.5 + 34,
                   height: el.offsetHeight || 28,
                 };
               }
@@ -239,6 +319,11 @@ function Cloud({
               fontWeight: item.weight > 0.85 ? 600 : 400,
             }}
           >
+            <span
+              aria-hidden
+              className="mr-1.5 inline-block h-1.5 w-1.5 rounded-full align-middle"
+              style={{ background: categoryColors[item.category] ?? palette.accent }}
+            />
             {item.name}
           </div>
         </Html>

@@ -1,19 +1,23 @@
 "use client";
 
-import { motion, useReducedMotion } from "motion/react";
-import type { ReactNode } from "react";
+import { ViewTransition, type ReactNode } from "react";
+import { usePathname } from "@/i18n/navigation";
 
-/** Mounted via `template.tsx`, so every navigation replays the entrance. */
+// First two segments: /projects -> /projects/x animates, lessons inside /learn/fde keep their shell.
+function routeKey(pathname: string) {
+  return pathname.split("/").slice(0, 3).join("/") || "/";
+}
+
+/**
+ * Route transitions via React's <ViewTransition> (see the `page-enter`/`page-exit` CSS in
+ * globals.css): the old page lifts away, the new one is wiped in from the bottom.
+ * Mounted from `template.tsx`; browsers without the API just swap pages.
+ */
 export function PageTransition({ children }: { children: ReactNode }) {
-  const reducedMotion = useReducedMotion();
+  const pathname = usePathname();
   return (
-    <motion.div
-      data-reveal
-      initial={{ opacity: 0.8 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: reducedMotion ? 0 : 0.25 }}
-    >
-      {children}
-    </motion.div>
+    <ViewTransition key={routeKey(pathname)} enter="page-enter" exit="page-exit" default="none">
+      <div>{children}</div>
+    </ViewTransition>
   );
 }
