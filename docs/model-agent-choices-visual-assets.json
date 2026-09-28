@@ -1,0 +1,44 @@
+{
+  "generatedOn": "2026-09-27",
+  "generator": "owner-generated from the prompts below",
+  "article": "model-agent-choices",
+  "style": "isometric editorial illustration; warm bone-white, charcoal ink, single signal-orange accent, soft paper grain",
+  "assets": [
+    {
+      "name": "model-agent-choices-cover",
+      "output": "public/images/blog/model-agent-choices-cover.webp",
+      "width": 1536,
+      "height": 1024,
+      "quality": 82,
+      "locales": [
+        "zh",
+        "en"
+      ],
+      "prompt": "Use case: stylized-concept. Create one finished 1536x1024 landscape editorial blog cover about choosing the right AI model for each task. Art direction: clean isometric illustration with a restrained palette of warm bone-white (#f8f6f2), charcoal ink (#24221f) and a single signal-orange accent (#c94720), soft paper grain, crisp geometric shapes, gentle long shadows. A tidy workbench viewed from above at an isometric angle: a pegboard holds a row of distinct specialised tools of different sizes, and in front of it sit three different workpieces (one small and simple, one medium, one large and intricate). A single hand reaches for the one tool that matches the large workpiece, highlighted in signal orange; every other element stays neutral. The idea is fitting the tool to the job, not \"the biggest tool wins\". Large simple forms that stay readable as a thumbnail, generous margins. No readable text, numbers, logos, robots, brains, glowing circuits, neon, or watermark."
+    },
+    {
+      "name": "model-agent-choices-timeline",
+      "output": "public/images/blog/model-agent-choices-timeline.webp",
+      "width": 1536,
+      "height": 1024,
+      "quality": 82,
+      "locales": [
+        "zh",
+        "en"
+      ],
+      "prompt": "Use case: illustration-story. Create one 1536x1024 landscape editorial illustration showing how a developer's way of working changed over time, from writing code by hand to delegating to an AI agent. Art direction: same isometric style as the cover, warm bone-white background, charcoal ink line work, a single signal-orange accent, soft paper grain. Five small isometric workstations sit on one gently rising path from left to right. At the first, a hand writes on a keyboard with a tiny assist spark; at each next station the human's hands do less and an abstract automated arm or panel does more; at the last, the person only points at a goal marker while the station works on its own, with the goal marker in signal orange. Clear rhythm, even spacing, readable as five steps. No readable text, numbers, logos, faces, robots, brains or watermark."
+    },
+    {
+      "name": "model-agent-choices-division",
+      "output": "public/images/blog/model-agent-choices-division.webp",
+      "width": 1536,
+      "height": 1024,
+      "quality": 82,
+      "locales": [
+        "zh",
+        "en"
+      ],
+      "prompt": "Use case: stylized-concept. Create one 1536x1024 landscape editorial illustration about one AI planning work and another AI executing it. Art direction: same isometric style, warm bone-white, charcoal ink, one signal-orange accent, soft paper grain. On the left, an elevated drafting table holds a large plan broken into a few clear blocks; thin orange guide lines run from each block down to a row of three compact workstations on the right, where abstract mechanisms build matching pieces. A small returning line carries a finished piece back up to the drafting table for checking. The metaphor is planning, delegating and checking, not a factory. No readable text, numbers, logos, robots, humanoid figures, brains or watermark."
+    }
+  ]
+}
