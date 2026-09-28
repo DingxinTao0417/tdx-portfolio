@@ -583,7 +583,6 @@
       }
     },
     "hero": {
-      "cursor": "Morph",
       "marquee": "Technologies",
       "hud": {
         "shape": "Shape",

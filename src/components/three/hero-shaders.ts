@@ -26,11 +26,13 @@ export const HERO_TUNING = {
   flowScale: 0.55,
   flowSpeed: 0.16,
   maxSpeed: 7.5,
-  /** Pointer field (fine pointers only), radius in model units. */
-  pointerRadius: 0.46,
-  pointerPush: 24,
-  pointerSwirl: 15,
-  pointerStir: 2.4,
+  /** Pointer brush (fine pointers only), radius in model units. It only acts while the pointer
+   *  moves: a resting cursor leaves the shape untouched, a stroke combs particles along it. */
+  pointerRadius: 0.36,
+  pointerPush: 5,
+  pointerStir: 4.2,
+  /** Pointer speed (model units/s) at which the brush reaches full strength. */
+  pointerFullSpeed: 2.2,
   /** Click/Enter shockwave. */
   shockSpeed: 4.2,
   shockWidth: 0.3,
@@ -421,9 +423,10 @@ void main() {
     vec3 rel = pos - uPointerOrigin;
     vec3 radial = rel - dot(rel, uPointerDir) * uPointerDir;
     float d2 = dot(radial, radial);
-    float w = uPointerStrength * exp(-d2 / (uPointerRadius * uPointerRadius));
+    float brush = clamp(length(uPointerVelocity) / ${f(T.pointerFullSpeed)}, 0.0, 1.0);
+    float w = uPointerStrength * brush * exp(-d2 / (uPointerRadius * uPointerRadius));
     vec3 n = radial * inversesqrt(max(d2, 1e-6));
-    acc += (n * ${f(T.pointerPush)} + cross(uPointerDir, n) * ${f(T.pointerSwirl)} + uPointerVelocity * ${f(T.pointerStir)}) * w;
+    acc += (n * ${f(T.pointerPush)} + uPointerVelocity * ${f(T.pointerStir)}) * w;
     energy = w;
   }
   acc += shockForce(pos, uShockA0, uShockB0, energy);
@@ -587,9 +590,10 @@ void main() {
       vec3 rel = position - uPointerOrigin;
       vec3 radial = rel - dot(rel, uPointerDir) * uPointerDir;
       float d2 = dot(radial, radial);
-      float w = uPointerStrength * exp(-d2 / (uPointerRadius * uPointerRadius));
+      float brush = clamp(length(uPointerVelocity) / ${f(T.pointerFullSpeed)}, 0.0, 1.0);
+      float w = uPointerStrength * brush * exp(-d2 / (uPointerRadius * uPointerRadius));
       vec3 n = radial * inversesqrt(max(d2, 1e-6));
-      position += (n * 0.2 + cross(uPointerDir, n) * 0.07) * w;
+      position += (n * 0.05 + uPointerVelocity * 0.03) * w;
       heat = w * 0.8;
     }
     position += shockOffset(position, uShockA0, uShockB0, heat);
@@ -705,7 +709,7 @@ void main() {
 }
 `;
 
-/** Screen-space accent halo at the cursor plus thin shockwave rings. */
+/** Screen-space shockwave rings for click / Enter. */
 export const overlayVertexShader = /* glsl */ `
 uniform vec4 uRect;
 varying vec2 vNdc;
@@ -717,9 +721,6 @@ void main() {
 
 export const overlayFragmentShader = /* glsl */ `
 uniform float uAspect;
-uniform vec2 uPointer;
-uniform float uHalo;
-uniform float uHaloRadius;
 uniform vec4 uRing0;
 uniform vec4 uRing1;
 uniform vec3 uColor;
@@ -734,9 +735,7 @@ float ring(vec4 r) {
 }
 
 void main() {
-  float r = length((vNdc - uPointer) * vec2(uAspect, 1.0)) / uHaloRadius;
-  float halo = exp(-r * r * 2.4) * uHalo * 0.5;
-  float alpha = (halo + ring(uRing0) + ring(uRing1)) * uStrength;
+  float alpha = (ring(uRing0) + ring(uRing1)) * uStrength;
   if (alpha < 0.002) discard;
   gl_FragColor = vec4(uColor, min(alpha, 1.0));
   #include <colorspace_fragment>

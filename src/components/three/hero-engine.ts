@@ -92,7 +92,6 @@ export class HeroEngine {
   private readonly tilt = { x: 0, y: 0 };
   private hasLastHit = false;
   private pointerStrength = 0;
-  private halo = 0;
   private hoverTime = 0;
   private simTime = 0;
   private scatter = 0;
@@ -202,9 +201,6 @@ export class HeroEngine {
       uniforms: {
         uRect: { value: new THREE.Vector4(-1, -1, 1, 1) },
         uAspect: { value: 1 },
-        uPointer: { value: new THREE.Vector2() },
-        uHalo: { value: 0 },
-        uHaloRadius: { value: 0.24 },
         uRing0: { value: new THREE.Vector4() },
         uRing1: { value: new THREE.Vector4() },
         uColor: { value: new THREE.Color() },
@@ -462,7 +458,6 @@ export class HeroEngine {
     // 5. Pointer force field in model space. A hovered node is only nudged so it stays legible.
     const pointerTarget = inside ? (hovered >= 0 ? 0.35 : 1) : 0;
     this.pointerStrength = THREE.MathUtils.damp(this.pointerStrength, pointerTarget, inside ? 8 : 4, dt);
-    this.halo = THREE.MathUtils.damp(this.halo, inside ? 1 : 0, 6, dt);
     const velocity = u.uPointerVelocity.value as THREE.Vector3;
     if (inside) {
       this.modelRay(pointer.x, pointer.y, camera);
@@ -504,7 +499,7 @@ export class HeroEngine {
     }
     u.uSimulated.value = simulate ? 1 : 0;
 
-    // 7. Cursor halo and shockwave rings (screen space, drawn only while visible).
+    // 7. Shockwave rings (screen space, drawn only while visible).
     this.updateOverlay(input, reduced);
 
     if (dt > 0) {
@@ -529,11 +524,6 @@ export class HeroEngine {
     b.minX = b.minY = Infinity;
     b.maxX = b.maxY = -Infinity;
     o.uAspect.value = b.aspect;
-    if (!reduced && this.halo > 0.01) {
-      (o.uPointer.value as THREE.Vector2).set(input.interaction.x, input.interaction.y);
-      this.include(input.interaction.x, input.interaction.y, (o.uHaloRadius.value as number) * 1.6);
-    }
-    o.uHalo.value = reduced ? 0 : this.halo;
     for (let index = 0; index < this.shocks.length; index++) {
       const shock = this.shocks[index];
       const ring = (index === 0 ? o.uRing0.value : o.uRing1.value) as THREE.Vector4;

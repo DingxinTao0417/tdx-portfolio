@@ -583,7 +583,6 @@
       }
     },
     "hero": {
-      "cursor": "切换",
       "marquee": "技术栈",
       "hud": {
         "shape": "形态",

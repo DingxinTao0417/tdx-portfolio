@@ -131,7 +131,7 @@ export function HeroCanvas({ className }: { className?: string }) {
         </div>
         <button
           type="button" data-particle-surface
-          data-cursor-text={fx("cursor")}
+          data-cursor="hide"
           className="absolute inset-x-[6%] inset-y-[8%] touch-pan-y cursor-pointer rounded-2xl bg-transparent focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
           aria-label={t("next", { shape: t(phaseNames[phase]) })}
           onPointerEnter={updatePointer}

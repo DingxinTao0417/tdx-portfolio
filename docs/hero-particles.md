@@ -51,7 +51,7 @@
 - 物理与画面在 `hero-shaders.ts` 的 `HERO_TUNING`：
   - 弹簧：`restStiffness`/`restDamping`（静止时的锐利度与回弹），`looseStiffness`/`looseDamping`（飞行中），`landingStiffness`/`landingDamping` 与 `lockAt`（落位阶段）。
   - 流场：`restFlow`、`looseFlow`、`flowScale`、`flowSpeed`、`maxSpeed`。
-  - 指针：`pointerRadius`、`pointerPush`、`pointerSwirl`、`pointerStir`；冲击波：`shockSpeed`、`shockWidth`、`shockLife`、`shockPush`、`shockLift`；`heatDecay` 控制受扰粒子的余热。
+  - 指针：`pointerRadius`、`pointerPush`、`pointerStir`、`pointerFullSpeed`（笔刷只在指针移动时生效，静止不扰动形状）；冲击波：`shockSpeed`、`shockWidth`、`shockLife`、`shockPush`、`shockLift`；`heatDecay` 控制受扰粒子的余热。
   - 画面：`sparkFraction`、`streakTime`、`streakMax`、`focus`、`dofRange`、`dofGain`、`bokehSize`、`dustKeep`、`dustAlpha`、`maxPointSize`。
 - 粒子数在 `hero-scene.tsx` 的 `HIGH_SIDE`（256）与 `LOW_SIDE`（120）；粒子数等于边长平方。点径随画布宽度与粒子数自动换算，改数量不需要另调点径。
 
