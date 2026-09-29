@@ -204,6 +204,14 @@ export const projects: Project[] = [
         en: "Search tasks, projects, clients, and inbox items locally or open them from the command palette",
         zh: "通过本地搜索和命令面板查找任务、项目、客户与收件箱事项",
       },
+      {
+        en: "Workbench and agent modes in one shell; agent mode adds a right-side workspace with review, terminal, browser, and file tabs",
+        zh: "工作台与智能体两种模式共用一个外壳；智能体模式右侧提供变更审查、终端、浏览器和文件等标签",
+      },
+      {
+        en: "Tasks, projects, and client records can be handed to the agent, and its suggestions wait for the user's confirmation",
+        zh: "任务、项目和客户记录都可以交给智能体处理，智能体的建议需要用户确认后才会生效",
+      },
     ],
     role: { en: "Product design and full-stack development", zh: "产品设计与全栈开发" },
     year: "2026",
@@ -211,25 +219,85 @@ export const projects: Project[] = [
     stack: ["React", "TypeScript", "Go", "SQLite", "Tauri", "Rust", "Vite", "Tailwind CSS"],
     links: { github: "https://github.com/DingxinTao0417/opc-workspace" },
     cover: {
-      src: "/projects/opc-workspace-today.png",
+      src: "/projects/opc-workspace-demo-today.png",
       width: 1920,
       height: 911,
       alt: {
-        en: "opc-workspace today dashboard with inbox, focus timer, and task overview",
-        zh: "opc-workspace 今日工作台界面",
+        en: "opc-workspace Today view with inbox counts, client follow-ups, overdue and scheduled tasks, and a right rail with focus timer, milestones, revenue, and client activity",
+        zh: "opc-workspace 今日工作台，包含收件箱统计、客户回访、逾期与今日任务，以及右侧的专注计时、项目节点、本月收入和客户动态",
       },
-      caption: { en: "Today workspace", zh: "今日工作台" },
+      caption: { en: "Today workspace (demo data)", zh: "今日工作台（演示数据）" },
     },
     gallery: [
       {
-        src: "/projects/opc-workspace-new-task.png",
+        src: "/projects/opc-workspace-demo-tasks.png",
         width: 1920,
         height: 911,
         alt: {
-          en: "opc-workspace new task dialog with project, deadline, priority, and acceptance settings",
-          zh: "opc-workspace 新建任务窗口，包含项目、截止时间、优先级和验收设置",
+          en: "opc-workspace task list grouped by status, with project, priority, and estimated time on each row",
+          zh: "opc-workspace 任务列表，按状态分组并显示所属项目、优先级和预计时长",
         },
-        caption: { en: "Create a task", zh: "新建任务" },
+        caption: { en: "Tasks by status", zh: "按状态分组的任务" },
+      },
+      {
+        src: "/projects/opc-workspace-demo-review.png",
+        width: 1920,
+        height: 911,
+        alt: {
+          en: "opc-workspace task detail showing a submitted deliverable with accept and request-rework actions",
+          zh: "opc-workspace 任务详情，显示已提交的产出以及“接受并完成”“要求返工”操作",
+        },
+        caption: { en: "Deliverable acceptance", zh: "产出验收与返工" },
+      },
+      {
+        src: "/projects/opc-workspace-demo-project.png",
+        width: 1920,
+        height: 911,
+        alt: {
+          en: "opc-workspace project detail with progress, contract amount, project tasks, and deliverables",
+          zh: "opc-workspace 项目详情，包含完成进度、合同金额、项目任务和项目产出",
+        },
+        caption: { en: "Project detail", zh: "项目详情" },
+      },
+      {
+        src: "/projects/opc-workspace-demo-client.png",
+        width: 1920,
+        height: 911,
+        alt: {
+          en: "opc-workspace client detail with linked projects, local activity notes, and scheduled follow-ups",
+          zh: "opc-workspace 客户详情，包含关联项目、本地活动记录和客户回访计划",
+        },
+        caption: { en: "Client records and follow-ups", zh: "客户记录与回访" },
+      },
+      {
+        src: "/projects/opc-workspace-demo-income.png",
+        width: 1920,
+        height: 911,
+        alt: {
+          en: "opc-workspace income and expense list with monthly confirmed totals and net cash flow",
+          zh: "opc-workspace 收入与支出列表，包含本月已确认金额和净现金流",
+        },
+        caption: { en: "Income and expenses", zh: "收入与支出" },
+      },
+      {
+        src: "/projects/opc-workspace-demo-search.png",
+        width: 1920,
+        height: 911,
+        alt: {
+          en: "opc-workspace command palette searching tasks, projects, milestones, and inbox items at once",
+          zh: "opc-workspace 命令面板，同时搜索任务、项目、里程碑和收件箱事项",
+        },
+        caption: { en: "Command palette search", zh: "命令面板跨模块搜索" },
+      },
+      {
+        src: "/projects/opc-workspace-agent-workspace.png",
+        width: 1920,
+        height: 911,
+        alt: {
+          en: "opc-workspace agent mode with a conversation area and a right-side workspace for review, terminal, browser, files, side chat, and agent runs",
+          zh: "opc-workspace 智能体模式，左侧为对话区，右侧工作区提供变更审查、终端、浏览器、文件、侧边聊天和 Agent 执行",
+        },
+        caption: { en: "Agent mode workspace", zh: "智能体模式的右侧工作区" },
       },
       {
         src: "/projects/opc-workspace-ai-assistant.png",
@@ -240,16 +308,6 @@ export const projects: Project[] = [
           zh: "opc-workspace AI 助手根据对话建议创建网站开发任务",
         },
         caption: { en: "AI task assistant", zh: "AI 任务助手" },
-      },
-      {
-        src: "/projects/opc-workspace-tasks.png",
-        width: 1920,
-        height: 911,
-        alt: {
-          en: "opc-workspace task list with search, filters, sorting, and a task row",
-          zh: "opc-workspace 任务列表，包含搜索、筛选、排序和任务条目",
-        },
-        caption: { en: "Task list", zh: "任务列表" },
       },
     ],
     featured: true,
