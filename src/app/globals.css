@@ -1304,97 +1304,126 @@ html[data-theme-reveal]::view-transition-new(root) {
     }
   }
 
-  /* Cursor (fx/cursor.tsx). Named so it stays on top of route transitions. */
+  /* Cursor (fx/cursor.tsx): a targeting frame. Named so it stays on top of route transitions.
+     The system cursor is only hidden while `data-fx-cursor="on"` (set once the frame is live). */
+  html[data-fx-cursor="on"],
+  html[data-fx-cursor="on"] * {
+    cursor: none !important;
+  }
   .fx-cursor {
     position: fixed;
     inset: 0;
-    z-index: 80;
+    z-index: 200;
     pointer-events: none;
     contain: strict;
     view-transition-name: fx-cursor;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transition: opacity 0.25s ease;
   }
   .fx-cursor[data-visible] {
     opacity: 1;
   }
-  .fx-cursor-anchor {
-    position: absolute;
+  .fx-cursor > * {
+    position: fixed;
     left: 0;
     top: 0;
+    will-change: transform;
   }
-  .fx-cursor-ring {
+  .fx-cursor[data-mode="native"] > * {
+    opacity: 0 !important;
+  }
+  .fx-cursor-box {
+    width: 30px;
+    height: 30px;
+  }
+  .fx-cursor-corner {
     position: absolute;
+    width: 9px;
+    height: 9px;
+    border: 0 solid var(--accent);
+    filter: drop-shadow(0 0 4px var(--accent-glow));
+  }
+  .fx-cursor-corner[data-c="tl"] {
     left: 0;
     top: 0;
-    translate: -50% -50%;
-    border: 1px solid color-mix(in oklab, var(--accent) 55%, transparent);
-    background: color-mix(in oklab, var(--accent) 6%, transparent);
-    opacity: 0;
-    scale: 0.5;
-    transition:
-      opacity 0.25s ease,
-      scale 0.45s var(--fx-ease),
-      background-color 0.3s ease,
-      border-color 0.3s ease;
+    border-width: 1.5px 0 0 1.5px;
   }
-  .fx-cursor:is([data-mode="hover"], [data-mode="snap"]) .fx-cursor-ring {
-    opacity: 1;
-    scale: 1;
+  .fx-cursor-corner[data-c="tr"] {
+    right: 0;
+    top: 0;
+    border-width: 1.5px 1.5px 0 0;
   }
-  .fx-cursor[data-mode="snap"] .fx-cursor-ring {
-    border-color: color-mix(in oklab, var(--accent) 70%, transparent);
-    background: var(--accent-soft);
+  .fx-cursor-corner[data-c="bl"] {
+    left: 0;
+    bottom: 0;
+    border-width: 0 0 1.5px 1.5px;
   }
-  .fx-cursor[data-pressed] .fx-cursor-ring {
-    scale: 0.88;
+  .fx-cursor-corner[data-c="br"] {
+    right: 0;
+    bottom: 0;
+    border-width: 0 1.5px 1.5px 0;
   }
-  .fx-cursor-dot {
+  .fx-cursor-cross {
+    width: 13px;
+    height: 13px;
+    transition: scale 0.25s var(--fx-ease), opacity 0.2s ease;
+  }
+  .fx-cursor-cross::before,
+  .fx-cursor-cross::after {
+    content: "";
     position: absolute;
-    left: -3px;
-    top: -3px;
-    width: 6px;
-    height: 6px;
+    background: var(--fg);
+  }
+  .fx-cursor-cross::before {
+    left: 6px;
+    top: 0;
+    width: 1px;
+    height: 13px;
+  }
+  .fx-cursor-cross::after {
+    left: 0;
+    top: 6px;
+    width: 13px;
+    height: 1px;
+  }
+  .fx-cursor-cross i {
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    width: 3px;
+    height: 3px;
     border-radius: 50%;
     background: var(--accent);
-    box-shadow: 0 0 10px var(--accent-glow);
-    transition:
-      scale 0.3s var(--fx-ease),
-      opacity 0.2s ease;
   }
-  .fx-cursor[data-mode="hover"] .fx-cursor-dot {
-    scale: 0.6;
+  .fx-cursor[data-pressed] .fx-cursor-cross {
+    scale: 0.7;
   }
-  .fx-cursor[data-pressed] .fx-cursor-dot {
-    scale: 1.6;
+  .fx-cursor-chip {
+    padding: 4px 7px;
+    border-radius: 6px;
+    background: color-mix(in oklab, var(--bg) 78%, transparent);
+    backdrop-filter: blur(6px);
+    color: var(--muted);
+    font: 500 10px/1 var(--font-mono);
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+    transition: color 0.2s ease, background-color 0.2s ease;
   }
-  .fx-cursor:is([data-mode="text"], [data-mode="hidden"]) :is(.fx-cursor-dot, .fx-cursor-ring) {
+  .fx-cursor[data-mode="hover"] .fx-cursor-chip {
+    color: var(--accent);
+  }
+  .fx-cursor[data-bare] .fx-cursor-chip {
     opacity: 0;
-    scale: 0.3;
   }
-  .fx-cursor-label {
-    position: absolute;
-    left: 14px;
-    top: 14px;
+  .fx-cursor[data-mode="label"] .fx-cursor-chip {
     padding: 6px 10px;
     border-radius: 999px;
     background: var(--accent);
     color: var(--fx-on-accent);
-    font: 500 10px/1 var(--font-mono);
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    white-space: nowrap;
     box-shadow: var(--shadow-glow);
-    transform-origin: 0 0;
-    opacity: 0;
-    scale: 0.6;
-    transition:
-      opacity 0.2s ease,
-      scale 0.4s var(--fx-ease);
-  }
-  .fx-cursor[data-mode="label"] .fx-cursor-label {
-    opacity: 1;
-    scale: 1;
   }
 
   /* Preloader: a pure-CSS timeline (curtain opens at 1.2s, overlay gone at 1.8s). */

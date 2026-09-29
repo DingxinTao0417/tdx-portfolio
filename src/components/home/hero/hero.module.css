@@ -213,8 +213,7 @@
   pointer-events: none;
 }
 /* 65px: the cell's far edges land on the next 1px grid line. */
-.trailCell,
-.marker {
+.trailCell {
   position: absolute;
   left: 0;
   top: 0;
@@ -225,35 +224,6 @@
   opacity: 0;
   background: color-mix(in oklab, var(--accent) 6%, transparent);
   box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--accent) 24%, transparent);
-}
-.marker {
-  --tick: color-mix(in oklab, var(--accent) 85%, transparent);
-  opacity: 0;
-  background:
-    linear-gradient(var(--tick), var(--tick)) left top / 9px 1.5px no-repeat,
-    linear-gradient(var(--tick), var(--tick)) left top / 1.5px 9px no-repeat,
-    linear-gradient(var(--tick), var(--tick)) right top / 9px 1.5px no-repeat,
-    linear-gradient(var(--tick), var(--tick)) right top / 1.5px 9px no-repeat,
-    linear-gradient(var(--tick), var(--tick)) left bottom / 9px 1.5px no-repeat,
-    linear-gradient(var(--tick), var(--tick)) left bottom / 1.5px 9px no-repeat,
-    linear-gradient(var(--tick), var(--tick)) right bottom / 9px 1.5px no-repeat,
-    linear-gradient(var(--tick), var(--tick)) right bottom / 1.5px 9px no-repeat;
-  transition:
-    opacity 0.3s ease,
-    translate 0.32s var(--fx-ease);
-}
-.markerLabel {
-  position: absolute;
-  left: 7px;
-  bottom: 5px;
-  font-family: var(--font-mono);
-  font-size: 8.5px;
-  letter-spacing: 0.12em;
-  white-space: nowrap;
-  color: var(--accent);
-}
-:global([data-fx-spot-active]) .trail:not([data-quiet]) .marker {
-  opacity: 1;
 }
 
 @media (prefers-reduced-motion: reduce) {
