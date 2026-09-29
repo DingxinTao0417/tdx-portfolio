@@ -1,4 +1,5 @@
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Download } from "lucide-react";
+import type { ReactNode } from "react";
 import Image from "next/image";
 import { ViewTransition } from "react";
 import { Aurora } from "@/components/fx/aurora";
@@ -11,6 +12,7 @@ import { SplitText } from "@/components/fx/split-text";
 import { SpotlightGroup } from "@/components/fx/spotlight";
 import { TerminalPath } from "@/components/fx/terminal-path";
 import { TextRoll } from "@/components/fx/text-roll";
+import { ButtonLink } from "@/components/ui/button";
 import { GenerativeCover } from "@/components/ui/generative-cover";
 import { Stagger, StaggerItem } from "@/components/ui/reveal";
 import { Tag } from "@/components/ui/tag";
@@ -52,6 +54,7 @@ export function ProjectHero({
   images,
   note,
   cursorLabel,
+  actions = [],
 }: {
   project: Pick<Project, "slug" | "index" | "year" | "hue" | "motif">;
   title: string;
@@ -65,6 +68,8 @@ export function ProjectHero({
   images: GalleryImage[];
   note?: string;
   cursorLabel: string;
+  /** Primary outbound links (download, source, demo) shown under the tagline. */
+  actions?: { href: string; label: string; kind: "download" | "source" | "demo"; icon?: ReactNode; cursor: string }[];
 }) {
   const coverName = `project-cover-${project.slug}`;
   const taglineDelay = TITLE_DELAY + countUnits(title, "char") * TITLE_STAGGER + 0.1;
@@ -138,6 +143,25 @@ export function ProjectHero({
               duration={0.8}
               className="mt-6 max-w-2xl text-base leading-8 text-muted sm:text-lg"
             />
+            {actions.length > 0 && (
+              <Stagger className="mt-8 flex flex-wrap items-center gap-3" stagger={0.08}>
+                {actions.map((action, i) => (
+                  <StaggerItem key={action.href} variant="scale">
+                    <ButtonLink
+                      href={action.href}
+                      variant={i === 0 ? "primary" : "secondary"}
+                      arrow={action.kind !== "download"}
+                      data-cursor-text={action.cursor}
+                    >
+                      <span className="inline-flex items-center gap-2">
+                        {action.kind === "download" ? <Download aria-hidden="true" className="h-4 w-4 shrink-0" /> : action.icon}
+                        {action.label}
+                      </span>
+                    </ButtonLink>
+                  </StaggerItem>
+                ))}
+              </Stagger>
+            )}
           </div>
           <dl className="grid grid-cols-2 gap-x-6 gap-y-5 border-y border-line py-6 lg:col-span-4">
             {metrics.map((metric, i) => (

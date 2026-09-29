@@ -1366,27 +1366,33 @@ html[data-theme-reveal]::view-transition-new(root) {
   .fx-cursor-cross {
     width: 13px;
     height: 13px;
-    transition: scale 0.25s var(--fx-ease), opacity 0.2s ease;
   }
-  .fx-cursor-cross::before,
-  .fx-cursor-cross::after {
+  /* Press feedback scales this inner mark: an individual `scale` on the positioned element would
+     also scale its translate and throw the crosshair towards the viewport origin. */
+  .fx-cursor-mark {
+    position: absolute;
+    inset: 0;
+    transition: scale 0.25s var(--fx-ease);
+  }
+  .fx-cursor-mark::before,
+  .fx-cursor-mark::after {
     content: "";
     position: absolute;
     background: var(--fg);
   }
-  .fx-cursor-cross::before {
+  .fx-cursor-mark::before {
     left: 6px;
     top: 0;
     width: 1px;
     height: 13px;
   }
-  .fx-cursor-cross::after {
+  .fx-cursor-mark::after {
     left: 0;
     top: 6px;
     width: 13px;
     height: 1px;
   }
-  .fx-cursor-cross i {
+  .fx-cursor-mark i {
     position: absolute;
     left: 5px;
     top: 5px;
@@ -1395,7 +1401,7 @@ html[data-theme-reveal]::view-transition-new(root) {
     border-radius: 50%;
     background: var(--accent);
   }
-  .fx-cursor[data-pressed] .fx-cursor-cross {
+  .fx-cursor[data-pressed] .fx-cursor-mark {
     scale: 0.7;
   }
   .fx-cursor-chip {

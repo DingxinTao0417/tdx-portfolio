@@ -206,7 +206,7 @@ export function ProjectGallery({
                   tabIndex={0}
                   aria-label={t("hint")}
                   data-gallery-viewport
-                  data-lenis-prevent
+                  data-lenis-prevent-horizontal
                   data-cursor-text={cursorLabel}
                   onScroll={onScroll}
                   onKeyDown={onKeyDown}

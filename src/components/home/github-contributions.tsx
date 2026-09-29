@@ -333,7 +333,7 @@ function ContributionGrid({
       <div
         ref={scrollArea}
         className={cn("mt-4 min-w-0 overflow-x-auto transition-opacity duration-300 lg:overflow-visible", busy && "opacity-45")}
-        data-lenis-prevent
+        data-lenis-prevent-horizontal
         data-contribution-scroll
         onScroll={hideTip}
       >

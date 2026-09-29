@@ -37,7 +37,7 @@ const pad4 = (value: number) => String(Math.max(0, Math.round(value))).padStart(
 
 /**
  * Targeting-frame cursor: a crosshair at the pointer, four corner brackets that lock onto small
- * interactive elements, and a mono readout (coordinates, or the `data-cursor-text` label). The
+ * interactive (and labelled) elements, and a mono readout (coordinates, or the `data-cursor-text` label). The
  * system cursor is hidden only while the frame is live, and comes back over text fields, selects,
  * modal dialogs and `data-cursor="native"` zones; `data-cursor="bare"` drops the readout. Mounts only for fine pointers without reduced motion.
  */
@@ -101,9 +101,7 @@ function CursorLayer() {
       let tw = state.down ? IDLE_SIZE - PRESS_SHRINK : IDLE_SIZE;
       let th = tw;
       let snapped = false;
-      if (state.mode === "label") {
-        tw = th = state.down ? LABEL_SIZE - PRESS_SHRINK : LABEL_SIZE;
-      } else if (state.mode === "hover" && state.element) {
+      if ((state.mode === "hover" || state.mode === "label") && state.element) {
         if (!state.element.isConnected) refresh();
         const rect = state.element?.getBoundingClientRect();
         if (rect && rect.width > 0 && rect.width <= SNAP_MAX.width && rect.height <= SNAP_MAX.height) {
@@ -117,7 +115,8 @@ function CursorLayer() {
           th = rect.height + SNAP_PAD - shrink;
           snapped = true;
         } else {
-          tw = th = state.down ? LABEL_SIZE - PRESS_SHRINK : LABEL_SIZE - 6;
+          const size = state.mode === "label" ? LABEL_SIZE : LABEL_SIZE - 6;
+          tw = th = state.down ? size - PRESS_SHRINK : size;
         }
       }
       const k = 1 - Math.exp(-dt * (snapped ? 16 : 24));
@@ -237,7 +236,9 @@ function CursorLayer() {
         <i className="fx-cursor-corner" data-c="br" />
       </div>
       <div ref={cross} className="fx-cursor-cross">
-        <i />
+        <span className="fx-cursor-mark">
+          <i />
+        </span>
       </div>
       <div ref={chip} className="fx-cursor-chip" />
     </div>

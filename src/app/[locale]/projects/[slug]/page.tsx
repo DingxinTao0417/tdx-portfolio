@@ -107,6 +107,24 @@ export default async function ProjectPage({ params }: Props) {
     links.push({ href: project.links.demo, label: tc("liveDemo"), external: true, cursor: cursor("visit") });
   }
 
+  // The hero leads with what a visitor can do right away: install it, read the code, try it.
+  const actions: NonNullable<Parameters<typeof ProjectHero>[0]["actions"]> = [];
+  if (project.links.download) {
+    actions.push({ href: project.links.download, label: tc("download"), kind: "download", cursor: cursor("visit") });
+  }
+  if (project.links.github && !project.links.githubPrivate) {
+    actions.push({
+      href: project.links.github,
+      label: tc("source"),
+      kind: "source",
+      cursor: cursor("visit"),
+      icon: <TechIcon icon="github" name="GitHub" size={16} />,
+    });
+  }
+  if (project.links.demo) {
+    actions.push({ href: project.links.demo, label: tc("liveDemo"), kind: "demo", cursor: cursor("visit") });
+  }
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "CreativeWork",
@@ -137,6 +155,7 @@ export default async function ProjectPage({ params }: Props) {
         images={images}
         note={project.galleryNote && pick(project.galleryNote, locale)}
         cursorLabel={cursor("open")}
+        actions={actions}
       />
 
       <div className="container-x mt-16 grid gap-10 sm:mt-24 lg:grid-cols-12 lg:gap-14">
