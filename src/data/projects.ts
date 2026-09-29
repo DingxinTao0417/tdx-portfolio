@@ -30,7 +30,7 @@ export type Project = {
   year: string;
   category: ProjectCategory;
   stack: string[];
-  links: { github?: string; githubPrivate?: boolean; demo?: string };
+  links: { github?: string; githubPrivate?: boolean; demo?: string; download?: string };
   article?: { slug: string; label: Localized };
   cover?: ProjectImage;
   gallery?: ProjectImage[];
@@ -217,7 +217,10 @@ export const projects: Project[] = [
     year: "2026",
     category: "fullstack",
     stack: ["React", "TypeScript", "Go", "SQLite", "Tauri", "Rust", "Vite", "Tailwind CSS"],
-    links: { github: "https://github.com/DingxinTao0417/opc-workspace" },
+    links: {
+      github: "https://github.com/DingxinTao0417/opc-workspace",
+      download: "https://github.com/DingxinTao0417/opc-workspace/releases/tag/opc-workspace-v0.1.1-20260929",
+    },
     cover: {
       src: "/projects/opc-workspace-demo-today.png",
       width: 1920,

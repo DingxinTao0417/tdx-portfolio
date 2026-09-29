@@ -100,6 +100,9 @@ export default async function ProjectPage({ params }: Props) {
       icon: <TechIcon icon="github" name="GitHub" size={16} />,
     });
   }
+  if (project.links.download) {
+    links.push({ href: project.links.download, label: tc("download"), external: true, cursor: cursor("visit") });
+  }
   if (project.links.demo) {
     links.push({ href: project.links.demo, label: tc("liveDemo"), external: true, cursor: cursor("visit") });
   }

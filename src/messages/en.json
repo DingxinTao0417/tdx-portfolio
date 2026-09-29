@@ -52,6 +52,7 @@
     "source": "Source",
     "sourcePrivate": "GitHub (private repository)",
     "liveDemo": "Live demo",
+    "download": "Download installer (Windows, unsigned)",
     "tableOfContents": "On this page",
     "scroll": "Scroll",
     "localTime": "Local time · Los Angeles",
