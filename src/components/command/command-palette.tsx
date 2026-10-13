@@ -1,9 +1,9 @@
 import { getLocale, getTranslations } from "next-intl/server";
 import { navItems } from "@/data/nav";
-import { projects } from "@/data/projects";
 import { pick } from "@/data/types";
 import { routing } from "@/i18n/routing";
 import { getAllPosts } from "@/lib/blog";
+import { getProjects } from "@/lib/projects";
 import { formatDate } from "@/lib/utils";
 import { CommandRoot } from "./command-root";
 import type { CommandData } from "./types";
@@ -15,10 +15,11 @@ import type { CommandData } from "./types";
 export async function CommandPalette() {
   const locale = await getLocale();
   const other = routing.locales.find((code) => code !== locale) ?? routing.defaultLocale;
-  const [tNav, tAlias, posts] = await Promise.all([
+  const [tNav, tAlias, posts, projects] = await Promise.all([
     getTranslations("Nav"),
     getTranslations({ locale: other, namespace: "Nav" }),
     getAllPosts(locale),
+    getProjects(),
   ]);
 
   const data: CommandData = {

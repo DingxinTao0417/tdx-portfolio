@@ -1,9 +1,9 @@
 import type { MetadataRoute } from "next";
 import { fdeLessons } from "@/data/fde";
-import { projects } from "@/data/projects";
 import { absoluteUrl } from "@/i18n/paths";
 import { routing } from "@/i18n/routing";
 import { getAllSlugs } from "@/lib/blog";
+import { getProjects } from "@/lib/projects";
 
 const staticPaths = ["/", "/projects", "/skills", "/blog", "/learn", "/learn/fde", "/about", "/contact"];
 
@@ -20,7 +20,7 @@ function entry(path: string, priority: number, changeFrequency: MetadataRoute.Si
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const slugs = await getAllSlugs();
+  const [slugs, projects] = await Promise.all([getAllSlugs(), getProjects()]);
   return [
     ...fdeLessons.flatMap((lesson) => entry("/learn/fde/" + lesson.slug, 0.6, "monthly")),
     ...staticPaths.flatMap((p) => entry(p, p === "/" ? 1 : 0.8, "weekly")),

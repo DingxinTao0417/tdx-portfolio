@@ -4,7 +4,7 @@ import { pad } from "@/components/projects/gallery-utils";
 import { ProjectsGrid } from "@/components/projects/projects-grid";
 import { PageHeader } from "@/components/ui/page-header";
 import { navItems } from "@/data/nav";
-import { projects } from "@/data/projects";
+import { getProjects } from "@/lib/projects";
 import { languageAlternates, localizedPath } from "@/i18n/paths";
 import { routing } from "@/i18n/routing";
 
@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ProjectsPage() {
-  const t = await getTranslations("Projects");
+  const [t, projects] = await Promise.all([getTranslations("Projects"), getProjects()]);
 
   return (
     <>

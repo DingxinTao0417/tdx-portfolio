@@ -6,7 +6,8 @@ import { ScrambleText } from "@/components/fx/scramble-text";
 import { SpotlightCard } from "@/components/fx/spotlight";
 import { FxTrigger } from "@/components/fx/trigger";
 import styles from "@/components/home/data/usage.module.css";
-import { formatAITokens, rankedAIUsage, totalAITokens } from "@/data/ai-usage";
+import { formatAITokens, rankAIUsage } from "@/data/ai-usage";
+import { getAIUsage } from "@/lib/site-data";
 import { cn } from "@/lib/utils";
 
 const RING_R = 92;
@@ -15,11 +16,6 @@ const ARC_GAP = 0.8;
 const tones = ["var(--accent)", "color-mix(in oklab, var(--fg) 55%, transparent)", "color-mix(in oklab, var(--fg) 35%, transparent)"];
 const bars = ["bg-accent", "bg-fg/55", "bg-fg/35"];
 
-const arcs = rankedAIUsage.map((entry, index) => {
-  const start = rankedAIUsage.slice(0, index).reduce((sum, previous) => sum + previous.share, 0) * 100;
-  const length = Math.max(0, entry.share * 100 - ARC_GAP);
-  return { id: entry.id, dash: `${length} ${100 - length}`, offset: -(start + ARC_GAP / 2), tone: tones[Math.min(index, 2)] };
-});
 
 const ticks = Array.from({ length: 60 }, (_, index) => {
   const angle = (index / 60) * Math.PI * 2;
@@ -36,6 +32,12 @@ export async function AIUsagePanel() {
   const t = await getTranslations("Home.aiUsage");
   const percent = new Intl.NumberFormat(locale, { style: "percent", minimumFractionDigits: 1, maximumFractionDigits: 1 });
   const formatTokens = (tokens: number) => formatAITokens(tokens, locale);
+  const { ranked: rankedAIUsage, total: totalAITokens } = rankAIUsage(await getAIUsage());
+  const arcs = rankedAIUsage.map((entry, index) => {
+    const start = rankedAIUsage.slice(0, index).reduce((sum, previous) => sum + previous.share, 0) * 100;
+    const length = Math.max(0, entry.share * 100 - ARC_GAP);
+    return { id: entry.id, dash: `${length} ${100 - length}`, offset: -(start + ARC_GAP / 2), tone: tones[Math.min(index, 2)] };
+  });
 
   return (
     <section id="ai-usage" aria-labelledby="ai-usage-title" className="container-x scroll-mt-28 pb-16 md:pb-24">

@@ -1,15 +1,18 @@
-import { useLocale, useTranslations } from "next-intl";
+import { getLocale, getTranslations } from "next-intl/server";
 import { ProjectShowcase } from "@/components/home/project-showcase";
 import { ButtonLink } from "@/components/ui/button";
 import { Magnetic } from "@/components/ui/magnetic";
 import { SectionHeading } from "@/components/ui/section-heading";
-import { featuredProjects } from "@/data/projects";
 import { pick } from "@/data/types";
+import { getFeaturedProjects } from "@/lib/projects";
 
-export function FeaturedProjects() {
-  const t = useTranslations("Home.featured");
-  const tp = useTranslations("Projects");
-  const locale = useLocale();
+export async function FeaturedProjects() {
+  const [t, tp, locale, featuredProjects] = await Promise.all([
+    getTranslations("Home.featured"),
+    getTranslations("Projects"),
+    getLocale(),
+    getFeaturedProjects(),
+  ]);
 
   return (
     <section id="featured-projects" className="relative section-space overflow-hidden border-y border-line bg-bg-elevated/40">

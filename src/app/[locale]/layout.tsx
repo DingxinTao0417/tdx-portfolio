@@ -1,11 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import {
-  Bricolage_Grotesque,
-  IBM_Plex_Mono,
-  Instrument_Sans,
-  Instrument_Serif,
-  Noto_Sans_SC,
-} from "next/font/google";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations } from "next-intl/server";
@@ -19,46 +12,14 @@ import { Footer } from "@/components/layout/footer";
 import { FooterVisibility } from "@/components/layout/footer-visibility";
 import { Navbar } from "@/components/layout/navbar";
 import { ScrollProgress } from "@/components/layout/scroll-progress";
+import { PageViewTracker } from "@/components/providers/page-view-tracker";
 import { SmoothScroll } from "@/components/providers/smooth-scroll";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { site } from "@/data/site";
 import { languageAlternates, localizedPath } from "@/i18n/paths";
 import { routing } from "@/i18n/routing";
+import { fontVariables } from "../fonts";
 import "../globals.css";
-
-const display = Bricolage_Grotesque({
-  subsets: ["latin"],
-  variable: "--font-display",
-  axes: ["opsz", "wdth"],
-  display: "swap",
-});
-
-const sans = Instrument_Sans({
-  subsets: ["latin"],
-  variable: "--font-sans",
-  display: "swap",
-});
-
-const serif = Instrument_Serif({
-  subsets: ["latin"],
-  weight: "400",
-  style: ["normal", "italic"],
-  variable: "--font-serif",
-  display: "swap",
-});
-
-const mono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-mono",
-  display: "swap",
-});
-
-const zh = Noto_Sans_SC({
-  variable: "--font-zh",
-  display: "swap",
-  preload: false,
-});
 
 type Props = {
   children: ReactNode;
@@ -138,7 +99,7 @@ export default async function LocaleLayout({ children, params }: Props) {
       lang={locale === "zh" ? "zh-CN" : "en"}
       data-scroll-behavior="smooth"
       suppressHydrationWarning
-      className={`${display.variable} ${sans.variable} ${serif.variable} ${mono.variable} ${zh.variable} h-full antialiased`}
+      className={`${fontVariables} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
         <ThemeProvider>
@@ -153,6 +114,7 @@ export default async function LocaleLayout({ children, params }: Props) {
             <SmoothScroll />
             <div className="grain-overlay" aria-hidden />
             <Cursor />
+            <PageViewTracker />
             <Navbar />
             <main className="flex-1">{children}</main>
             <FooterVisibility>

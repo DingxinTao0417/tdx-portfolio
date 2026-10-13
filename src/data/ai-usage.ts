@@ -24,8 +24,15 @@ export function formatAITokens(tokens: number, locale: string): string {
   return `${formattedValue}${isChinese ? " 亿" : "B"}`;
 }
 
-export const rankedAIUsage: readonly (AIUsageEntry & Readonly<{ share: number }>)[] = [
-  ...aiUsageEntries,
-]
-  .sort((left, right) => right.tokens - left.tokens)
-  .map((entry) => ({ ...entry, share: entry.tokens / totalAITokens }));
+export type RankedAIUsage = readonly (AIUsageEntry & Readonly<{ share: number }>)[];
+
+/** Descending by tokens, each with its share of the total. Never mutates `entries`. */
+export function rankAIUsage(entries: readonly AIUsageEntry[]): { total: number; ranked: RankedAIUsage } {
+  const total = entries.reduce((sum, entry) => sum + entry.tokens, 0);
+  const ranked = [...entries]
+    .sort((left, right) => right.tokens - left.tokens)
+    .map((entry) => ({ ...entry, share: total > 0 ? entry.tokens / total : 0 }));
+  return { total, ranked };
+}
+
+export const rankedAIUsage: RankedAIUsage = rankAIUsage(aiUsageEntries).ranked;

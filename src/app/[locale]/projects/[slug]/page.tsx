@@ -14,7 +14,7 @@ import { ProjectHero } from "@/components/projects/project-hero";
 import { ScrollHighlight } from "@/components/projects/scroll-highlight";
 import { Reveal } from "@/components/ui/reveal";
 import { TechIcon } from "@/components/ui/tech-icon";
-import { getAdjacentProject, getProject, projects } from "@/data/projects";
+import { getProject, getProjectContext, getProjects } from "@/lib/projects";
 import { site } from "@/data/site";
 import { pick } from "@/data/types";
 import { absoluteUrl, languageAlternates, localizedPath } from "@/i18n/paths";
@@ -22,15 +22,14 @@ import { routing } from "@/i18n/routing";
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
-export function generateStaticParams() {
-  return routing.locales.flatMap((locale) =>
-    projects.map((p) => ({ locale, slug: p.slug })),
-  );
+export async function generateStaticParams() {
+  const projects = await getProjects();
+  return routing.locales.flatMap((locale) => projects.map((p) => ({ locale, slug: p.slug })));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
-  const project = getProject(slug);
+  const project = await getProject(slug);
   if (!project) return {};
   const title = pick(project.title, locale);
   const description = pick(project.tagline, locale);
@@ -52,15 +51,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ProjectPage({ params }: Props) {
   const { slug } = await params;
   const locale = await getLocale();
-  const project = getProject(slug);
-  if (!project) notFound();
+  const context = await getProjectContext(slug);
+  if (!context) notFound();
+  const { project, next, position, total } = context;
 
   const t = await getTranslations("Projects");
   const tc = await getTranslations("Common");
   const tf = await getTranslations("FX.projects");
   const cursor = await getTranslations("FX.common.cursor");
-  const next = getAdjacentProject(slug);
-  const position = projects.findIndex((p) => p.slug === slug) + 1;
   const title = pick(project.title, locale);
   const images: GalleryImage[] = [...(project.cover ? [project.cover] : []), ...(project.gallery ?? [])].map(
     (image) => ({
@@ -149,7 +147,7 @@ export default async function ProjectPage({ params }: Props) {
         category={t(`filters.${project.category}`)}
         stage={{ label: pick(project.stage.label, locale), tone: project.stage.tone }}
         kind={pick(project.kind, locale)}
-        caseLabel={tf("caseIndex", { index: pad(position), total: pad(projects.length) })}
+        caseLabel={tf("caseIndex", { index: pad(position), total: pad(total) })}
         backLabel={tc("backToProjects")}
         metrics={project.metrics.map((m) => ({ value: m.value, label: pick(m.label, locale) }))}
         images={images}
@@ -197,7 +195,7 @@ export default async function ProjectPage({ params }: Props) {
           title={pick(next.title, locale)}
           tagline={pick(next.tagline, locale)}
           category={t(`filters.${next.category}`)}
-          position={`${next.index} / ${pad(projects.length)}`}
+          position={`${next.index} / ${pad(total)}`}
           cover={
             next.cover && {
               src: next.cover.src,

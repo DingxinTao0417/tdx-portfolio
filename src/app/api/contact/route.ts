@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { site } from "@/data/site";
 import { contactSchema } from "@/lib/contact-schema";
 import { rateLimit } from "@/lib/rate-limit";
+import { serviceSupabase } from "@/lib/supabase/service";
 
 export const runtime = "nodejs";
 
@@ -19,9 +20,9 @@ function escapeHtml(s: string) {
 
 /**
  * POST /api/contact
- * Validates the payload, applies a per-IP rate limit, and delivers the message
- * through Resend when `RESEND_API_KEY` is configured. Without it, the message
- * is logged server-side and the client is told delivery isn't configured.
+ * Validates the payload, applies a per-IP rate limit, stores the message for the admin inbox
+ * (when Supabase is configured) and emails it through Resend when `RESEND_API_KEY` is set.
+ * A message counts as delivered once either of those succeeded.
  */
 export async function POST(req: NextRequest) {
   const ip = clientIp(req);
@@ -55,6 +56,26 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: true, delivered: false });
   }
 
+  // Keep a copy in the admin inbox; the email below is a notification on top of it.
+  const supabase = serviceSupabase();
+  let storedId: string | null = null;
+  if (supabase) {
+    const { data: row, error } = await supabase
+      .from("messages")
+      .insert({
+        name: data.name,
+        email: data.email,
+        company: data.company || null,
+        topic: data.topic,
+        message: data.message,
+        locale: data.locale,
+      })
+      .select("id")
+      .single();
+    if (error) console.error("[contact] could not store message", error.message);
+    else storedId = row.id as string;
+  }
+
   const apiKey = process.env.RESEND_API_KEY;
   const to = process.env.CONTACT_TO_EMAIL ?? site.email;
   const from = process.env.CONTACT_FROM_EMAIL ?? "Portfolio <onboarding@resend.dev>";
@@ -68,7 +89,7 @@ export async function POST(req: NextRequest) {
       locale: data.locale,
       preview: data.message.slice(0, 120),
     });
-    return NextResponse.json({ ok: true, delivered: false });
+    return NextResponse.json({ ok: true, delivered: storedId !== null });
   }
 
   try {
@@ -92,9 +113,12 @@ export async function POST(req: NextRequest) {
         </div>`,
     });
     if (error) throw new Error(error.message);
+    if (supabase && storedId) await supabase.from("messages").update({ delivered: true }).eq("id", storedId);
     return NextResponse.json({ ok: true, delivered: true });
   } catch (err) {
     console.error("[contact] delivery failed", err);
+    // The inbox copy still reached the owner, so the visitor does not need to retry.
+    if (storedId) return NextResponse.json({ ok: true, delivered: true });
     return NextResponse.json({ ok: false, error: "delivery_failed" }, { status: 502 });
   }
 }

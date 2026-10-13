@@ -11,6 +11,8 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "github.com" },
       { protocol: "https", hostname: "images.unsplash.com" },
       { protocol: "https", hostname: "opengraph.githubassets.com" },
+      // Admin uploads (post covers, inline images, project screenshots).
+      { protocol: "https", hostname: "*.supabase.co", pathname: "/storage/v1/object/public/media/**" },
     ],
   },
   async headers() {
