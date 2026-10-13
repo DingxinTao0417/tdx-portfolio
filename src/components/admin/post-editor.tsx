@@ -21,7 +21,18 @@ export type PostDraft = {
   cover_alt: string;
   status: "draft" | "published";
   body: string;
+  /** Editorial notes from front matter (`status` / `verification`); not shown on the site. */
+  contentStatus: string;
+  verification: string;
 };
+
+const CONTENT_STATUSES = ["evergreen", "version-scoped", "in-development"];
+const VERIFICATIONS = [
+  "personal-experience-not-benchmarked",
+  "original-synthesis-not-empirically-validated",
+  "source-reviewed-local-evidence-desktop-validation-pending",
+  "source-reviewed-local-evidence-public-deployment-pending",
+];
 
 const field = "h-11 w-full rounded-[10px] border border-line-strong bg-transparent px-3 text-sm outline-none focus:border-accent";
 const label = "mb-1.5 block text-xs text-muted";
@@ -243,6 +254,24 @@ export function PostEditor({ initial, action }: { initial: PostDraft; action: (s
           <div>
             <label className={label} htmlFor="post-hue">色相（0–360，用于无封面时的配色）</label>
             <input id="post-hue" name="hue" type="number" min={0} max={360} defaultValue={initial.hue} className={`${field} font-mono`} />
+          </div>
+        </div>
+
+        <div className="surface-panel flex flex-col gap-4 bg-bg-elevated p-5">
+          <p className="text-xs leading-5 text-muted">内容备注：只作为记录保存，不显示在网站上。可以留空。</p>
+          <div>
+            <label className={label} htmlFor="post-content-status">内容状态（status）</label>
+            <input id="post-content-status" name="content_status" list="post-content-statuses" defaultValue={initial.contentStatus} className={`${field} font-mono text-xs`} placeholder="evergreen" />
+            <datalist id="post-content-statuses">
+              {CONTENT_STATUSES.map((value) => <option key={value} value={value} />)}
+            </datalist>
+          </div>
+          <div>
+            <label className={label} htmlFor="post-verification">验证情况（verification）</label>
+            <input id="post-verification" name="verification" list="post-verifications" defaultValue={initial.verification} className={`${field} font-mono text-xs`} placeholder="personal-experience-not-benchmarked" />
+            <datalist id="post-verifications">
+              {VERIFICATIONS.map((value) => <option key={value} value={value} />)}
+            </datalist>
           </div>
         </div>
 

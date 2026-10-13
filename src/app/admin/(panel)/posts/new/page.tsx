@@ -28,6 +28,8 @@ export default async function NewPostPage() {
           cover_alt: "",
           status: "draft",
           body: "",
+          contentStatus: "",
+          verification: "",
         }}
       />
     </>

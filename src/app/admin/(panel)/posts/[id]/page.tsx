@@ -18,11 +18,19 @@ export default async function EditPostPage({ params, searchParams }: { params: P
   if (!/^[0-9a-f-]{36}$/i.test(id)) notFound();
   const { data } = await supabase
     .from("posts")
-    .select("id, slug, locale, title, description, date, tags, hue, cover, cover_alt, status, body")
+    .select("id, slug, locale, title, description, date, tags, hue, cover, cover_alt, status, body, meta")
     .eq("id", id)
     .maybeSingle();
   if (!data) notFound();
-  const post = { ...data, cover: data.cover ?? "", cover_alt: data.cover_alt ?? "" } as PostDraft & { id: string };
+  const { meta, ...fields } = data;
+  const notes = (meta ?? {}) as { status?: unknown; verification?: unknown };
+  const post = {
+    ...fields,
+    cover: fields.cover ?? "",
+    cover_alt: fields.cover_alt ?? "",
+    contentStatus: typeof notes.status === "string" ? notes.status : "",
+    verification: typeof notes.verification === "string" ? notes.verification : "",
+  } as PostDraft & { id: string };
   const created = (await searchParams).created;
   const href = `${post.locale === "en" ? "/en" : ""}/blog/${post.slug}`;
 

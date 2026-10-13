@@ -25,7 +25,20 @@ const schema = z.object({
   cover_alt: z.string().trim().max(300),
   status: z.enum(["draft", "published"]),
   body: z.string().max(200_000),
+  // Editorial notes kept in `meta` (front matter `status` / `verification`); not shown on the site.
+  contentStatus: z.string().trim().max(80),
+  verification: z.string().trim().max(160),
 });
+
+/** Sets or clears the two editorial notes while leaving every other `meta` key untouched. */
+function withNotes(meta: unknown, notes: { contentStatus: string; verification: string }) {
+  const next: Record<string, unknown> = meta && typeof meta === "object" && !Array.isArray(meta) ? { ...meta } : {};
+  if (notes.contentStatus) next.status = notes.contentStatus;
+  else delete next.status;
+  if (notes.verification) next.verification = notes.verification;
+  else delete next.verification;
+  return next;
+}
 
 /** MDX that fails to compile would break the public page, so it is rejected before saving. */
 async function mdxProblem(source: string) {
@@ -51,24 +64,28 @@ export async function savePost(_: PostState, formData: FormData): Promise<PostSt
     cover: formData.get("cover") ?? "",
     cover_alt: formData.get("cover_alt") ?? "",
     status: formData.get("status"),
+    contentStatus: formData.get("content_status") ?? "",
+    verification: formData.get("verification") ?? "",
     body: String(formData.get("body") ?? "").replace(/\r\n/g, "\n"),
   });
   if (!parsed.success) return { ok: false, message: parsed.error.issues.map((issue) => issue.message).join("；") };
 
-  const { id, cover, cover_alt, ...rest } = parsed.data;
+  const { id, cover, cover_alt, contentStatus, verification, ...rest } = parsed.data;
+  const notes = { contentStatus, verification };
   const problem = await mdxProblem(rest.body);
   if (problem) return { ok: false, message: `正文无法解析，未保存：${problem}` };
   if (rest.status === "published" && cover === "") return { ok: false, message: "发布前请先设置封面图。" };
 
   const row = { ...rest, cover: cover || null, cover_alt: cover_alt || null };
   if (id) {
-    const { error } = await supabase.from("posts").update(row).eq("id", id);
+    const current = await supabase.from("posts").select("meta").eq("id", id).maybeSingle();
+    const { error } = await supabase.from("posts").update({ ...row, meta: withNotes(current.data?.meta, notes) }).eq("id", id);
     if (error) return { ok: false, message: error.code === "23505" ? "这个语言下已经有同名网址标识的文章。" : `保存失败：${error.message}` };
     revalidatePosts();
     return { ok: true, message: rest.status === "published" ? "已保存并发布，网站会在下次访问时更新。" : "草稿已保存。" };
   }
 
-  const { data, error } = await supabase.from("posts").insert(row).select("id").single();
+  const { data, error } = await supabase.from("posts").insert({ ...row, meta: withNotes(null, notes) }).select("id").single();
   if (error) return { ok: false, message: error.code === "23505" ? "这个语言下已经有同名网址标识的文章。" : `保存失败：${error.message}` };
   revalidatePosts();
   redirect(`/admin/posts/${data.id}?created=1`);
@@ -102,7 +119,7 @@ export async function saveTranslation(input: z.input<typeof translation>): Promi
   if (!parsed.success) return { ok: false, message: "译文内容不完整，未保存。" };
   const { sourceId, cover_alt, ...fields } = parsed.data;
 
-  const { data: source } = await supabase.from("posts").select("slug, locale, date, hue, cover").eq("id", sourceId).maybeSingle();
+  const { data: source } = await supabase.from("posts").select("slug, locale, date, hue, cover, meta").eq("id", sourceId).maybeSingle();
   if (!source) return { ok: false, message: "找不到原文，请先保存原文。" };
   if (source.locale === fields.locale) return { ok: false, message: "译文的语言和原文相同。" };
 
@@ -111,7 +128,7 @@ export async function saveTranslation(input: z.input<typeof translation>): Promi
 
   const { data, error } = await supabase
     .from("posts")
-    .insert({ ...fields, slug: source.slug, date: source.date, hue: source.hue, cover: source.cover, cover_alt: cover_alt || null, status: "draft" })
+    .insert({ ...fields, slug: source.slug, date: source.date, hue: source.hue, cover: source.cover, cover_alt: cover_alt || null, status: "draft", meta: source.meta ?? {} })
     .select("id")
     .single();
   if (error) {
