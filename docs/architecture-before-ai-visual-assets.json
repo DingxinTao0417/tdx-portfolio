@@ -1,0 +1,32 @@
+{
+  "created": "2026-11-24",
+  "generationMode": "Vector art drawn in scripts/build-architecture-art.mjs and rendered with sharp",
+  "style": "Warm paper blueprint: 1536x1024 WebP, ink hairlines, one orange accent. The cover is a boundary with five gates; the inline diagrams list the five constraints with their checks. Regenerate with `node scripts/build-architecture-art.mjs`.",
+  "encoding": "WebP, 1536x1024, no cropping.",
+  "assets": [
+    {
+      "name": "architecture-before-ai-cover",
+      "output": "public/images/blog/architecture-before-ai-cover.webp",
+      "width": 1536,
+      "height": 1024,
+      "usedBy": ["zh/architecture-before-ai.mdx", "en/architecture-before-ai.mdx"],
+      "description": "A walled workspace with five orange gates. One request enters through a gate; a dashed shortcut is stopped outside the wall. No text."
+    },
+    {
+      "name": "architecture-before-ai-constraints-zh",
+      "output": "public/images/blog/architecture-before-ai-constraints-zh.webp",
+      "width": 1536,
+      "height": 1024,
+      "usedBy": ["zh/architecture-before-ai.mdx"],
+      "description": "The five constraints in order, each with one line of explanation and a small glyph for its check."
+    },
+    {
+      "name": "architecture-before-ai-constraints-en",
+      "output": "public/images/blog/architecture-before-ai-constraints-en.webp",
+      "width": 1536,
+      "height": 1024,
+      "usedBy": ["en/architecture-before-ai.mdx"],
+      "description": "English version of the five-constraint diagram."
+    }
+  ]
+}

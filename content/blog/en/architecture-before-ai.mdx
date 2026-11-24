@@ -1,0 +1,107 @@
+---
+title: "Writing code with AI: settle five architecture constraints first"
+description: "How Conuo fixes five constraints before AI writes code: storage authority, storage contract, concurrent versions, long-running task boundaries, and secret key boundaries, plus how to make each one checkable."
+date: "2026-11-24"
+tags: ["AI coding", "Architecture", "Conuo"]
+hue: 145
+cover: "/images/blog/architecture-before-ai-cover.webp"
+coverAlt: "A boundary diagram on warm paper: five orange gate marks on a wall, one request entering through a gate, one shortcut stopped outside it"
+status: version-scoped
+verification: personal-experience-not-benchmarked
+---
+
+With AI writing code, errors are rarely the hard part. Types, tests, and builds catch most low-level mistakes. What they do not catch is code that runs, passes its tests, and still puts a piece of logic where it does not belong. After a few dozen of those decisions, one feature change touches half the project.
+
+[Conuo](/en/projects/conuo) is an AI learning workbench I am building; the source is on [GitHub](https://github.com/DingxinTao0417/conuo). My approach there is to settle the design decisions that cannot bend before the AI starts, then use those constraints to check what it produces. These are the five I settled on.
+
+The conclusions below match the code as of September to November 2026. The project is still in development; the feature scope and validation status are covered in the [Conuo product write-up](/en/blog/conuo).
+
+## Errors get fixed; structure has to be pulled back
+
+The early Conuo web workspace lived in one `workspace.tsx`, and the reader in another large file. Both were split later, in two steps: `10cb8c2` moved the workspace into modules under `workspace/`, and `848fc2e` did the same for the reader. Both commits are marked "no behavior change", meaning the structure moved and nothing else did.
+
+That kind of refactor is awkward because there is no new feature to accept. You confirm with tests and a manual read that nothing broke. Features are the part AI writes fastest; structure is the part it least maintains on its own. It only sees the current local context, while "does this code belong here" depends on conventions that span the project.
+
+So I put more effort into writing those conventions down before work starts. Once they exist, the output has something to be measured against.
+
+## 1. Decide where the data lives
+
+Conuo's web version requires sign-in, and Supabase's database and private Storage are the only official store. The browser keeps session memory for the current page and nothing else: business data does not go into IndexedDB, localStorage, or sessionStorage. A refresh reads from the cloud again.
+
+Without that constraint written down, it is easy to route around with a helpful optimization. When saves feel slow, adding a local cache is the natural reflex, and once two copies exist, conflict handling, cleanup timing, and sign-out behavior scatter across the codebase.
+
+Two checks go with it: a refresh must be able to read the material back from the cloud, and a first read that fails must not overwrite an existing account with an empty workspace. Both can be written as tests, and both are visible in review.
+
+This boundary moved once. An earlier version stored the workspace in browser IndexedDB; after the cloud became authoritative, the old `local-store` implementation remained only for reading existing copies and restoring backups. Changing a storage boundary after it is in the code costs far more than deciding it up front.
+
+## 2. Write the contract, then let AI fill it in
+
+`apps/web/src/lib/workspace-coordinator/types.ts` defines a `WorkspaceIO` interface with every storage action the business layer needs: `loadCloud`, `saveCloud`, `getBlob`, `putBlobIfAbsent`, `uploadBlob`, and others. The web version injects the cloud implementation through `createWebCloudWorkspaceIO()`; a desktop client can swap in another one without touching the coordinator.
+
+The coordinator, `coordinator.ts`, is 1900 lines and never touches storage details directly. The business rules stay there: atomic import admission, duplicate checks, capacity limits. Reading and writing bytes and snapshots goes through the contract. That is what lets "the rules" and "where things are stored" change separately.
+
+Without that layer, AI will usually call the Supabase client or `fetch` wherever a save is needed. Each call looks reasonable on its own. Together they mean tests need a real backend, and changing storage means editing dozens of files.
+
+The check is simple: does a new feature touch storage only through the contract?
+
+## 3. Express concurrency as one number
+
+Saves send `expectedRevision` in the request body. The revision `saveCloudWorkspace` returns must be exactly one more than the submitted one; otherwise the confirmation is treated as invalid, and the code re-reads the authoritative state before deciding what to do next instead of blindly resending.
+
+The rule compresses "whose copy is newer" into a monotonically increasing number, which turns a conflict into a single comparison. Left to itself, AI tends to retry on failure or swallow the error while the interface still reports "saved".
+
+Two details in the docs matter here too: when a response is lost, read the authoritative cloud version first rather than repeating a write with an unknown result; when comparing content, a different key order is not a content difference, but array order still counts. Both belong to the category of things that never fail loudly and slowly accumulate bad data.
+
+## 4. Keep long tasks off the request
+
+Organizing sources and drafting knowledge pages calls a model and takes tens of seconds. Conuo puts that work in the `organization_jobs` table: an `attempt` column capped at 0 to 5, a `lease_token` and `lease_until`, and a `next_attempt_at`, claimed and completed by a protected processor route on a minute-level schedule.
+
+Without that boundary, AI will naturally put the model call inside the HTTP request. It works in development, and the task dies when the user closes the page. Another common version fakes a background job with `setTimeout`, and nothing survives a restart.
+
+The test is direct: does the task survive closing the page, and does a task scheduled twice run twice? The lease and the retry cap are what make those questions answerable.
+
+## 5. Keep secrets where they belong
+
+The client sees only the project URL and the publishable key. `SUPABASE_SECRET_KEY` is read on the Next.js server only and must not carry a `NEXT_PUBLIC_` prefix. The Python processor holds no privileged database key.
+
+I list this as its own constraint because it is where AI most readily compromises "so the code runs". Moving a key to the client or loosening an endpoint's permission clears the error immediately, and the cost shows up months later.
+
+The checks are fixed as well: no privileged key in the build output, and every new server endpoint relies only on user identity and scope checks.
+
+## Why these five
+
+<BlogImage
+  src="/images/blog/architecture-before-ai-constraints-en.webp"
+  alt="Diagram of the five architecture constraints with their checks: storage authority, storage contract, concurrent versions, long task queue, and secret boundary"
+  caption="The five constraints in order, each paired with the code or test that keeps it checkable."
+  width="1536"
+  height="1024"
+/>
+
+All five answer the same question: what may be written where. They also share a property — the code does not tell AI that the arrangement is deliberate. Caching speeds things up, retries raise the success rate, and moving a key to the client removes a server round trip. Each choice looks sensible on its own.
+
+That is why these constraints belong in the request, not in review. Written down, they become a rule to check against rather than a feeling.
+
+## Make each constraint checkable
+
+Constraints that live only in prose decay. Conuo attaches each one to a concrete carrier:
+
+- The data boundary becomes the sign-in gate and the "first read failure does not overwrite" tests.
+- The contract becomes a type definition such as `WorkspaceIO`. A wrong signature does not compile.
+- Concurrency becomes database migrations and revision checks, backed by isolation tests such as `supabase/tests/workspace_isolation.sql`.
+- Capacity limits become numbers, like the 3 MiB workspace snapshot cap. Given a value, AI stops inventing one.
+- Prompt-level conventions, such as naming and directory habits, go into the project rules file; see [CLAUDE.md configuration practice](/en/blog/my-claude-md).
+
+What can be automated goes to tools. What cannot goes into project rules. Skip both and you are down to reviewing everything by hand, which fails at scale.
+
+## What it costs
+
+It is not cheap. The coordinator is 1900 lines, cloud sync 677, the import flow 1944, and `docs/` holds 29 design documents. That is the price of thinking before typing, and it is not the part AI saves you time on.
+
+So I use it selectively: modules that will be edited for a long time, that others will take over, or that hold data that cannot be wrong are worth constraining up front. One-off scripts and small throwaway tools are cheaper to just let AI write. Applying the same standard everywhere spends the time in the wrong place.
+
+I also do not think these constraints make code good. What they do is keep code from going bad somewhere you cannot see, and tell you which layer to look at when something breaks.
+
+## Further reading
+
+The product flow and current validation status are in [Conuo: source reading, AI questions, and study notes in one workspace](/en/blog/conuo). On context preparation, model choice, and usage checks, see [AI coding practice: context, verification, and cost](/en/blog/insights); on pairing implementation with independent review, see [An AI coding workflow: implementation, review, and decisions](/en/blog/my-usage).
